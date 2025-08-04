@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptEvolver Development Docs</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2563eb; margin-bottom: 30px; }
+        h2 { color: #1e40af; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .section { margin-bottom: 40px; }
+        .agent-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; margin: 10px 0; }
+        .agent-name { font-weight: bold; color: #1e40af; font-size: 18px; }
+        .agent-desc { color: #64748b; margin: 5px 0; }
+        .command { background: #1e293b; color: #e2e8f0; padding: 8px 12px; border-radius: 4px; font-family: 'Monaco', 'Consolas', monospace; font-size: 14px; }
+        .avsha-level { background: #ecfdf5; border-left: 4px solid #10b981; padding: 15px; margin: 10px 0; }
+        .nav { display: flex; gap: 20px; margin-bottom: 30px; }
+        .nav a { color: #2563eb; text-decoration: none; padding: 8px 16px; border-radius: 4px; border: 1px solid #e5e7eb; }
+        .nav a:hover { background: #f3f4f6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 PromptEvolver Development Documentation</h1>
+        
+        <div class="nav">
+            <a href="#agents">Sub-Agents</a>
+            <a href="#avsha">AVSHA Architecture</a>
+            <a href="#infisical">Infisical Setup</a>
+            <a href="#workflows">Common Workflows</a>
+        </div>
+
+        <div id="agents" class="section">
+            <h2>🤖 Specialized Sub-Agents</h2>
+            
+            <div class="agent-card">
+                <div class="agent-name">backend-developer</div>
+                <div class="agent-desc">FastAPI development, API design, PromptWizard integration</div>
+                <div class="command">claude /agents backend-developer</div>
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">frontend-developer</div>
+                <div class="agent-desc">React/TypeScript UI, user experience, responsive design</div>
+                <div class="command">claude /agents frontend-developer</div>
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">ai-integration</div>
+                <div class="agent-desc">Ollama setup, model optimization, PromptWizard configuration</div>
+                <div class="command">claude /agents ai-integration</div>
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">security-specialist</div>
+                <div class="agent-desc">Security implementation, vulnerability assessment, data protection</div>
+                <div class="command">claude /agents security-specialist</div>
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">performance-optimizer</div>
+                <div class="agent-desc">Performance optimization, monitoring, resource efficiency</div>
+                <div class="command">claude /agents performance-optimizer</div>
+            </div>
+        </div>
+
+        <div id="avsha" class="section">
+            <h2>🏛️ AVSHA Architecture Levels</h2>
+            
+            <div class="avsha-level">
+                <strong>Atoms</strong> - Basic UI elements (buttons, inputs, icons)<br>
+                <em>Single responsibility, highly reusable, no dependencies</em>
+            </div>
+            
+            <div class="avsha-level">
+                <strong>Molecules</strong> - Simple component groups (form fields, search bars)<br>
+                <em>Combine atoms, serve single purpose, minimal complexity</em>
+            </div>
+            
+            <div class="avsha-level">
+                <strong>Organisms</strong> - Complex components (headers, forms, lists)<br>
+                <em>Combine molecules/atoms, feature-complete sections</em>
+            </div>
+            
+            <div class="avsha-level">
+                <strong>Templates</strong> - Page layouts without content<br>
+                <em>Arrange organisms, define page structure, content-agnostic</em>
+            </div>
+            
+            <div class="avsha-level">
+                <strong>Pages</strong> - Specific instances with real content<br>
+                <em>Templates + data, specific user journeys</em>
+            </div>
+        </div>
+
+        <div id="infisical" class="section">
+            <h2>🔐 Infisical Commands</h2>
+            
+            <div class="command">./infisical-manage.sh start</div>
+            <div class="command">./infisical-manage.sh stop</div>
+            <div class="command">./infisical-manage.sh status</div>
+            <div class="command">./infisical-manage.sh logs</div>
+            <div class="command">./infisical-manage.sh backup</div>
+            
+            <p><strong>Web Interface:</strong> <a href="http://localhost:8080" target="_blank">http://localhost:8080</a></p>
+        </div>
+
+        <div id="workflows" class="section">
+            <h2>⚡ Common Development Workflows</h2>
+            
+            <h3>Starting Development</h3>
+            <div class="command">./infisical-manage.sh start</div>
+            <div class="command">source venv/bin/activate</div>
+            <div class="command">uvicorn app.main:app --reload</div>
+            
+            <h3>Knowledge Graph Updates</h3>
+            <div class="command">python .claude/scripts/update_knowledge_graph.py</div>
+            <div class="command">python .claude/scripts/update_context_vectors.py</div>
+            
+            <h3>Testing</h3>
+            <div class="command">pytest --cov=app --cov-report=html</div>
+            <div class="command">npm test</div>
+            
+            <h3>Code Quality</h3>
+            <div class="command">black app/</div>
+            <div class="command">flake8 app/</div>
+            <div class="command">bandit -r app/</div>
+        </div>
+    </div>
+</body>
+</html>

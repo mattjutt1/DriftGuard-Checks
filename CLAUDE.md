@@ -11,19 +11,18 @@ This framework guides Claude Code through intelligent, hierarchical development 
 
 ## Project Overview
 
-PromptEvolver is an AI-powered prompt optimization application that leverages Microsoft's PromptWizard framework with Qwen2.5-7B-Instruct to create a self-evolving prompt generation system.
+PromptEvolver is an AI-powered prompt optimization application that leverages Microsoft's PromptWizard framework with Qwen3-4B to create a self-evolving prompt generation system.
 
 ## Technology Stack
 
-- **Backend**: FastAPI, SQLAlchemy, Pydantic, Python 3.11
-- **Frontend**: React 18+, TypeScript, Tailwind CSS, Zustand
-- **AI Model**: Qwen2.5-7B-Instruct (Q4 quantization) via Ollama
+- **Backend**: Convex (serverless database with real-time updates)
+- **Frontend**: Next.js 14, React 18+, TypeScript, Tailwind CSS
+- **AI Model**: Qwen3-4B (Q4 quantization) via Ollama
 - **Framework**: Microsoft PromptWizard (MIT license)
-- **Database**: SQLite (development), PostgreSQL (production)
-- **Caching**: Redis
-- **Testing**: Pytest, Jest, Playwright
-- **Containerization**: Docker, Docker Compose
-- **CI/CD**: GitHub Actions / GitLab CI
+- **Database**: Convex (serverless, real-time)
+- **Deployment**: Vercel (frontend), Convex (backend)
+- **Testing**: Jest, Playwright
+- **Local AI**: Ollama for zero-cost AI processing
 
 ---
 
@@ -37,7 +36,7 @@ Human Request → Specialized Agent → Implementation
 **Always consult the appropriate specialist before proceeding.**
 
 ### **Authority Matrix**
-- **backend-developer**: FastAPI development, API design, PromptWizard integration
+- **backend-developer**: Convex development, serverless functions, PromptWizard integration
 - **frontend-developer**: React/TypeScript UI, user experience, responsive design  
 - **ai-integration**: Ollama setup, model optimization, PromptWizard configuration
 - **security-specialist**: Security implementation, vulnerability assessment, data protection
@@ -67,7 +66,7 @@ Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
 
 **IMPORTANT**: This project uses ONLY the following specialized sub-agents located in `.claude/agents/`:
 
-- **backend-developer** - FastAPI development, API design, PromptWizard integration
+- **backend-developer** - Convex development, serverless functions, PromptWizard integration
 - **frontend-developer** - React/TypeScript UI, user experience, responsive design
 - **ai-integration** - Ollama setup, model optimization, PromptWizard configuration
 - **security-specialist** - Security implementation, vulnerability assessment, data protection
@@ -140,49 +139,48 @@ Mandatory workflow for every task:
 
 ## Common Development Commands
 
-### Backend Development
+### Backend Development (Convex)
 ```bash
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Run backend server locally
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-# Run backend tests
-pytest --cov=app --cov-report=html
-
-# Format Python code
-black app/
-
-# Lint Python code
-flake8 app/
-
-# Security scan
-bandit -r app/
-safety check
-```
-
-### Frontend Development
-```bash
-# Install Node dependencies
+# Install dependencies
 npm install
 
-# Run frontend development server
+# Start Convex development server
+npx convex dev
+
+# Deploy Convex functions
+npx convex deploy
+
+# Push schema changes
+npx convex schema push
+
+# View Convex dashboard
+npx convex dashboard
+```
+
+### Frontend Development (Next.js 14)
+```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
 
 # Build for production
 npm run build
 
-# Run frontend tests
+# Start production server
+npm run start
+
+# Run tests
 npm test
 
 # Run E2E tests
 npm run test:e2e
 
-# Format JavaScript/TypeScript code
+# Format code
 npx prettier --write "src/**/*.{js,jsx,ts,tsx}"
 
-# Lint frontend code
+# Lint code
 npx eslint src/ --fix
 ```
 
@@ -201,25 +199,25 @@ docker-compose logs -f [service_name]
 docker-compose build --no-cache
 
 # Install Ollama model
-docker exec ollama ollama pull qwen2.5:7b-instruct-q4_0
+ollama pull qwen3:4b
 ```
 
-### Database Operations
+### Convex Operations
 ```bash
-# Run database migrations
-alembic upgrade head
+# View Convex functions
+npx convex functions list
 
-# Create a new migration
-alembic revision --autogenerate -m "Description"
+# Run Convex function locally
+npx convex run myFunction --args '{"key": "value"}'
 
-# Rollback migration
-alembic downgrade -1
+# Import data to Convex
+npx convex import --table myTable data.jsonl
 
-# Database backup
-docker exec postgres pg_dump -U user promptevolver | gzip > backup.sql.gz
+# Export data from Convex
+npx convex export --table myTable --output data.jsonl
 
-# Restore database
-gunzip -c backup.sql.gz | docker exec -i postgres psql -U user -d promptevolver
+# Clear all data (development only)
+npx convex run _system/clear --table myTable
 ```
 
 ---
@@ -229,26 +227,26 @@ gunzip -c backup.sql.gz | docker exec -i postgres psql -U user -d promptevolver
 ### System Components
 
 ```
-Frontend (React/Next.js)
-├── AI-Enhanced UI Components
-├── Real-time WebSocket communication
-├── State management with Zustand
-└── Responsive Tailwind CSS design
+Frontend (Next.js 14)
+├── Server and Client Components
+├── Real-time updates via Convex
+├── TypeScript with Tailwind CSS
+└── Responsive design patterns
 
-Backend (FastAPI)  
-├── RESTful API endpoints
-├── PromptWizard integration layer
-├── Async request processing
-├── JWT authentication
-└── Redis caching layer
+Backend (Convex)  
+├── Serverless functions
+├── Real-time database
+├── TypeScript-first development
+├── Built-in authentication
+└── Automatic scaling
 
 AI Layer (Ollama)
-├── Qwen2.5-7B-Instruct model
+├── Qwen3-4B model (2.6GB)
 ├── PromptWizard optimization framework
-├── Batch processing capabilities
+├── Local processing capabilities
 └── Learning system with feedback loop
 
-Database (PostgreSQL/SQLite)
+Database (Convex)
 ├── User management
 ├── Prompt storage and history
 ├── Optimization sessions tracking
@@ -256,14 +254,14 @@ Database (PostgreSQL/SQLite)
 └── Feedback collection
 ```
 
-### Key API Endpoints
+### Key Convex Functions
 
-- **POST /api/v1/optimize** - Main prompt optimization endpoint
-- **GET /api/v1/optimize/{task_id}** - Check optimization progress
-- **POST /api/v1/feedback** - Submit user feedback for learning
-- **GET /api/v1/history** - Retrieve user optimization history
-- **GET /api/v1/templates** - Access prompt template library
-- **GET /api/v1/health** - Health check and system status
+- **optimizations.createOptimizationRequest** - Create new optimization session
+- **actions.optimizePromptWithOllama** - Execute prompt optimization with AI
+- **sessions.getRecentSessions** - Retrieve user optimization history
+- **actions.checkOllamaHealth** - Health check for Ollama service
+- **feedback.submitFeedback** - Submit user feedback for learning
+- **templates.getTemplates** - Access prompt template library
 
 ### Database Schema
 
@@ -405,63 +403,61 @@ src/
         └── AppRouter.tsx
 ```
 
-#### **Backend Structure (FastAPI/Python)**
+#### **Backend Structure (Convex/TypeScript)**
 ```
-app/
-├── shared/                        # Cross-feature shared components
+convex/
+├── shared/                        # Cross-feature shared functions
 │   ├── atoms/                     # Base utilities and primitives
-│   │   ├── validators/
-│   │   ├── serializers/
-│   │   └── exceptions/
+│   │   ├── validators.ts
+│   │   ├── serializers.ts
+│   │   └── errors.ts
 │   ├── molecules/                 # Composed utilities
-│   │   ├── middleware/
-│   │   ├── decorators/
-│   │   └── adapters/
+│   │   ├── auth.ts
+│   │   ├── cache.ts
+│   │   └── adapters.ts
 │   └── organisms/                 # Complex reusable systems
-│       ├── database/
-│       ├── cache/
-│       └── monitoring/
+│       ├── database.ts
+│       ├── monitoring.ts
+│       └── integrations.ts
 │
 ├── features/                      # Feature-specific vertical slices
 │   ├── authentication/
 │   │   ├── atoms/
-│   │   │   ├── token_generator.py
-│   │   │   └── password_hasher.py
+│   │   │   ├── tokenGenerator.ts
+│   │   │   └── passwordHasher.ts
 │   │   ├── molecules/
-│   │   │   ├── auth_validator.py
-│   │   │   └── jwt_handler.py
+│   │   │   ├── authValidator.ts
+│   │   │   └── jwtHandler.ts
 │   │   ├── organisms/
-│   │   │   ├── auth_service.py
-│   │   │   └── user_manager.py
-│   │   ├── templates/             # Request/Response patterns
-│   │   │   ├── auth_requests.py
-│   │   │   └── auth_responses.py
-│   │   ├── pages/                 # API endpoints
-│   │   │   └── auth_router.py
-│   │   ├── models/
-│   │   │   └── user.py
-│   │   └── tests/
-│   │       └── test_auth.py
+│   │   │   ├── authService.ts
+│   │   │   └── userManager.ts
+│   │   ├── queries/               # Convex queries
+│   │   │   └── users.ts
+│   │   ├── mutations/             # Convex mutations
+│   │   │   └── auth.ts
+│   │   ├── actions/               # External API actions
+│   │   │   └── authActions.ts
+│   │   └── schema/
+│   │       └── userSchema.ts
 │   │
 │   ├── optimization/
 │   │   ├── atoms/
-│   │   │   ├── prompt_parser.py
-│   │   │   └── quality_scorer.py
+│   │   │   ├── promptParser.ts
+│   │   │   └── qualityScorer.ts
 │   │   ├── molecules/
-│   │   │   ├── promptwizard_adapter.py
-│   │   │   └── result_formatter.py
+│   │   │   ├── promptwizardAdapter.ts
+│   │   │   └── resultFormatter.ts
 │   │   ├── organisms/
-│   │   │   ├── optimization_service.py
-│   │   │   └── history_manager.py
-│   │   ├── templates/
-│   │   │   ├── optimize_requests.py
-│   │   │   └── optimize_responses.py
-│   │   ├── pages/
-│   │   │   └── optimize_router.py
-│   │   ├── models/
-│   │   │   └── prompt.py
-│   │   └── tests/
-│   │       └── test_optimization.py
+│   │   │   ├── optimizationService.ts
+│   │   │   └── historyManager.ts
+│   │   ├── queries/
+│   │   │   └── optimizations.ts
+│   │   ├── mutations/
+│   │   │   └── sessions.ts
+│   │   ├── actions/
+│   │   │   └── ollamaActions.ts
+│   │   └── schema/
+│   │       └── promptSchema.ts
 │   │
 │   └── dashboard/
 │       ├── atoms/
@@ -483,7 +479,9 @@ app/
 │       └── tests/
 │           └── test_dashboard.py
 │
-└── main.py                       # Application entry point
+├── schema.ts                      # Main Convex schema
+├── _generated/                    # Auto-generated Convex files
+└── convex.config.ts              # Convex configuration
 ```
 
 ### **AVSHA Decision Framework**
