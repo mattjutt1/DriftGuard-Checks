@@ -1,0 +1,59 @@
+# Changelog
+
+All notable changes to PromptEvolver will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.1.1] - 2025-08-04
+
+### Added
+- security-specialist sub-agent
+- performance-optimizer sub-agent
+- frontend-developer sub-agent
+- backend-developer sub-agent
+- ai-integration sub-agent
+
+### Technical
+- development framework
+
+### Knowledge Graph
+- contextual knowledge graph
+
+## [0.1.0] - 2025-01-04
+
+### Added
+- Initial PromptEvolver project framework
+- Optimized Claude Code development protocol
+- Specialized sub-agent system with 5 core agents:
+  - backend-developer: FastAPI and PromptWizard integration
+  - frontend-developer: React/TypeScript UI development
+  - ai-integration: Ollama setup and model optimization
+  - security-specialist: Security implementation and assessment
+  - performance-optimizer: Performance optimization and monitoring
+- Hierarchical decision framework with anti-over-engineering protocols
+- No-code vibe development approach with natural language requirements
+- KISS principle enforcement with 5-step validation process
+
+### Technical
+- Created `.claude/agents/` directory with specialized sub-agents
+- Integrated optimized framework into CLAUDE.md
+- Set up project structure for PromptEvolver development
+- Established development workflow protocols
+
+### Knowledge Graph
+- Designed contextual knowledge graph architecture
+- Implemented embedding-based context management system
+- Created multi-modal embedding strategy
+- Established automated version control integration
+- Set up intelligent context retrieval system
+
+---
+
+## Framework Version History
+
+### Framework v1.0 - Optimized Claude Code Integration
+- **Features**: Hierarchical agents, KISS enforcement, vibe-driven development
+- **Architecture**: 5 specialized sub-agents with clear domain separation
+- **Automation**: Knowledge graph updates, embedding generation, version control
+- **Quality**: Mandatory behaviors, continuous vibe assessment, flow state indicators

@@ -1,0 +1,510 @@
+# PromptEvolver Development Framework
+## Optimized Claude Code Agentic Development Protocol
+
+### 🎯 FRAMEWORK OVERVIEW
+
+This framework guides Claude Code through intelligent, hierarchical development of PromptEvolver using specialized subagents, MCP servers, and anti-over-engineering principles. Follow this protocol exactly to ensure efficient, quality-driven development.
+
+---
+
+## 🏗️ HIERARCHICAL DECISION FRAMEWORK
+
+### **Decision Chain Protocol**
+```
+Human Request → Architect Agent → Orchestrator Agent → Specialized Agent → Implementation
+```
+
+**Never bypass this hierarchy. Always consult the appropriate level before proceeding.**
+
+### **Authority Matrix**
+- **Architect Agent**: Technology decisions, system design, architecture patterns
+- **Orchestrator Agent**: Task delegation, timeline management, resource allocation  
+- **Specialized Agents**: Domain-specific implementation, detailed technical work
+- **Human**: Final approval, business requirements, strategic direction
+
+---
+
+## 🤖 SUBAGENT INVOCATION PROTOCOL
+
+### **Mandatory Subagent Usage**
+Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
+
+```bash
+# Correct approach - Always delegate to specialists
+/subagent architect-agent "Design the API architecture for prompt optimization"
+/subagent backend-developer-agent "Implement the FastAPI endpoints"
+/subagent frontend-developer-agent "Create the React components"
+
+# WRONG - Never do direct implementation without agent consultation
+# Writing code directly without subagent involvement
+```
+
+### **Subagent Selection Logic**
+```python
+def select_subagent(task_type, complexity, domain):
+    if task_type == "architecture_decision":
+        return "architect-agent"
+    elif task_type == "task_coordination":
+        return "orchestrator-agent"
+    elif domain == "backend" and complexity >= "medium":
+        return "backend-developer-agent"
+    elif domain == "frontend" and complexity >= "medium":
+        return "frontend-developer-agent"
+    elif domain == "ai_integration":
+        return "ai-integration-agent"
+    elif domain == "database":
+        return "database-agent"
+    elif domain == "testing":
+        return "testing-agent"
+    elif domain == "security":
+        return "security-agent"
+    elif domain == "performance":
+        return "performance-agent"
+    elif domain == "documentation":
+        return "documentation-agent"
+    elif domain == "devops":
+        return "devops-agent"
+    elif domain == "research":
+        return "research-agent"
+    else:
+        return "orchestrator-agent"  # Default coordinator
+```
+
+---
+
+## 🔌 MCP SERVER INTEGRATION PROTOCOL
+
+### **Mandatory MCP Server Usage**
+Claude Code MUST leverage MCP servers for enhanced capabilities. Configure and use these servers:
+
+#### **Required MCP Servers**
+```bash
+# Essential MCP servers for PromptEvolver development
+claude mcp add --transport http github-server https://api.github.com/mcp --header "Authorization: Bearer $GITHUB_TOKEN"
+claude mcp add --transport http docker-server https://docker-mcp.example.com/mcp
+claude mcp add context7 --transport http https://context7.ai/mcp
+claude mcp add bright-data --transport http https://bright-data-mcp.example.com/mcp
+claude mcp add postgres-server npx @modelcontextprotocol/server-postgres
+```
+
+#### **MCP Server Usage Guidelines**
+- **GitHub MCP**: Repository management, issue tracking, PR creation
+- **Docker MCP**: Container management and deployment
+- **Context7 MCP**: Real-time documentation and API references
+- **Bright Data MCP**: Web scraping for competitive research
+- **Postgres MCP**: Database operations and management
+
+### **MCP Integration Pattern**
+```python
+# Always check for MCP server availability before manual implementation
+def should_use_mcp(task):
+    mcp_capabilities = {
+        "github_operations": "github-server",
+        "database_queries": "postgres-server", 
+        "web_scraping": "bright-data",
+        "documentation_lookup": "context7",
+        "container_ops": "docker-server"
+    }
+    
+    for capability, server in mcp_capabilities.items():
+        if capability in task.lower():
+            return server
+    return None
+
+# Use MCP servers instead of manual implementation
+if mcp_server := should_use_mcp(current_task):
+    use_mcp_server(mcp_server, current_task)
+else:
+    delegate_to_subagent(current_task)
+```
+
+---
+
+## 🚫 ANTI-OVER-ENGINEERING PROTOCOL
+
+### **KISS Principle Enforcement**
+Keep It Simple, Stupid - Every decision must pass the simplicity test.
+
+#### **Complexity Assessment Matrix**
+```python
+def assess_complexity(solution):
+    complexity_score = 0
+    
+    # Add points for complexity indicators
+    if solution.includes("multiple_design_patterns"): complexity_score += 3
+    if solution.includes("future_proofing"): complexity_score += 2
+    if solution.includes("abstract_factories"): complexity_score += 4
+    if solution.includes("excessive_interfaces"): complexity_score += 3
+    if solution.includes("premature_optimization"): complexity_score += 5
+    
+    # Subtract points for simplicity indicators
+    if solution.includes("direct_implementation"): complexity_score -= 2
+    if solution.includes("minimal_dependencies"): complexity_score -= 2
+    if solution.includes("clear_purpose"): complexity_score -= 1
+    
+    return complexity_score
+
+def is_over_engineered(solution):
+    return assess_complexity(solution) > 5  # Threshold for over-engineering
+```
+
+#### **Over-Engineering Prevention Rules**
+1. **YAGNI (You Aren't Gonna Need It)**: Don't implement features until they're actually needed
+2. **DRY (Don't Repeat Yourself)**: But don't abstract until you have 3+ repetitions
+3. **Single Responsibility**: Each component should do ONE thing well
+4. **Minimal Viable Solution**: Start with the simplest solution that works
+5. **Evidence-Based Complexity**: Only add complexity when data shows it's needed
+
+### **Solution Validation Process**
+```bash
+# Before implementing any solution, run this validation
+function validate_solution() {
+    echo "🔍 SOLUTION VALIDATION CHECKLIST"
+    echo "1. Does this solve the CURRENT problem? (not future problems)"
+    echo "2. Can this be implemented in <50 lines of code?"
+    echo "3. Does this use standard patterns without exotic abstractions?"
+    echo "4. Will a new developer understand this in 5 minutes?"
+    echo "5. Is this the simplest solution that could possibly work?"
+    
+    if all_yes; then
+        echo "✅ Solution approved for implementation"
+    else
+        echo "❌ Solution rejected - needs simplification"
+        return 1
+    fi
+}
+```
+
+---
+
+## 🎮 NO-CODE VIBE DEVELOPMENT APPROACH
+
+### **Natural Language First Development**
+Treat Claude Code as a no-code platform where you describe what you want, not how to build it.
+
+#### **Communication Pattern**
+```bash
+# Good: Natural language requirements
+"Create a prompt optimization endpoint that takes user input and returns improved prompts using PromptWizard"
+
+# Bad: Technical implementation details
+"Implement a FastAPI POST endpoint at /api/v1/optimize with request validation using Pydantic models and async processing with Celery workers"
+```
+
+#### **Progressive Refinement Process**
+```python
+def development_approach():
+    steps = [
+        "1. Describe desired outcome in plain English",
+        "2. Let Architect Agent design the approach", 
+        "3. Let Orchestrator Agent break down tasks",
+        "4. Let specialized agents implement details",
+        "5. Review and refine based on results",
+        "6. Iterate until perfect"
+    ]
+    
+    for step in steps:
+        print(f"📝 {step}")
+        wait_for_completion()
+```
+
+### **Vibe-Driven Development Principles**
+- **Intuitive First**: If it doesn't feel right, it probably isn't
+- **User-Centric**: Always think from the user's perspective
+- **Elegant Simplicity**: Beautiful solutions are usually simple solutions
+- **Natural Flow**: Development should feel effortless and natural
+- **Continuous Polish**: Small, continuous improvements over big rewrites
+
+---
+
+## 📋 DEVELOPMENT WORKFLOW PROTOCOL
+
+### **Session Initialization**
+```bash
+# Start every Claude Code session with this checklist
+echo "🚀 PROMPTEVOLVER DEVELOPMENT SESSION STARTING"
+echo "1. Load claude.md context"
+echo "2. Verify MCP servers are connected"
+echo "3. Identify primary task and complexity"
+echo "4. Select appropriate subagent hierarchy"
+echo "5. Validate against over-engineering principles"
+echo "6. Begin development with KISS approach"
+```
+
+### **Task Execution Pattern**
+```bash
+# Mandatory workflow for every task
+function execute_task() {
+    local task="$1"
+    
+    # Step 1: Architectural consultation
+    /subagent architect-agent "Evaluate architectural implications of: $task"
+    
+    # Step 2: Orchestration planning  
+    /subagent orchestrator-agent "Plan and coordinate execution for: $task"
+    
+    # Step 3: Complexity assessment
+    validate_solution "$proposed_approach"
+    
+    # Step 4: MCP server utilization
+    if mcp_server=$(should_use_mcp "$task"); then
+        echo "Using MCP server: $mcp_server"
+    fi
+    
+    # Step 5: Specialized implementation
+    specialist_agent=$(select_subagent "$task")
+    /subagent "$specialist_agent" "Implement: $task"
+    
+    # Step 6: Quality verification
+    /subagent testing-agent "Verify implementation quality"
+    /subagent security-agent "Security review"
+    /subagent performance-agent "Performance validation"
+}
+```
+
+### **Continuous Quality Gates**
+```python
+QUALITY_GATES = {
+    "before_implementation": [
+        "architectural_review",
+        "complexity_assessment", 
+        "simplicity_validation"
+    ],
+    "during_implementation": [
+        "subagent_consultation",
+        "mcp_server_utilization",
+        "incremental_testing"
+    ],
+    "after_implementation": [
+        "security_review",
+        "performance_validation",
+        "documentation_update",
+        "knowledge_graph_sync"
+    ]
+}
+```
+
+---
+
+## 🔄 AUTOMATED MAINTENANCE PROTOCOL
+
+### **Hook-Driven Development**
+Every code change MUST trigger automated maintenance through hooks:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/update_changelog.py",
+            "description": "Auto-update CHANGELOG.md with changes"
+          },
+          {
+            "type": "command",
+            "command": "python scripts/update_claude_context.py",
+            "description": "Refresh claude.md with latest context"
+          },
+          {
+            "type": "command",
+            "command": "python scripts/update_knowledge_graph.py",
+            "description": "Update knowledge graph relationships"
+          },
+          {
+            "type": "command",
+            "command": "python scripts/run_quality_checks.py",
+            "description": "Automated quality validation"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/session_summary.py",
+            "description": "Generate development session summary"
+          },
+          {
+            "type": "command", 
+            "command": "python scripts/synthesize_learnings.py",
+            "description": "Update knowledge base with learnings"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### **Context Maintenance**
+```python
+def maintain_context():
+    """Ensure claude.md stays current and relevant"""
+    context_elements = [
+        "current_development_phase",
+        "active_subagents",
+        "recent_decisions",
+        "architectural_changes", 
+        "performance_metrics",
+        "quality_indicators"
+    ]
+    
+    for element in context_elements:
+        update_context_element(element)
+    
+    # Keep context focused and relevant
+    prune_outdated_context()
+    highlight_current_priorities()
+```
+
+---
+
+## 🎯 SUCCESS CRITERIA
+
+### **Development Quality Metrics**
+```python
+SUCCESS_METRICS = {
+    "code_quality": {
+        "test_coverage": ">95%",
+        "cyclomatic_complexity": "<10 per function",
+        "maintainability_index": ">80",
+        "technical_debt_ratio": "<5%"
+    },
+    "architectural_quality": {
+        "coupling": "low",
+        "cohesion": "high", 
+        "simplicity_score": ">8/10",
+        "over_engineering_indicator": "<3/10"
+    },
+    "development_velocity": {
+        "subagent_utilization": "100%",
+        "mcp_server_usage": ">80%",
+        "automation_coverage": ">90%",
+        "manual_intervention": "<10%"
+    }
+}
+```
+
+### **Anti-Pattern Detection**
+```python
+ANTI_PATTERNS = {
+    "over_engineering": [
+        "unnecessary_abstractions",
+        "premature_optimizations",
+        "gold_plating",
+        "speculative_generality"
+    ],
+    "under_utilization": [
+        "bypassing_subagents",
+        "ignoring_mcp_servers", 
+        "manual_repetitive_tasks",
+        "skipping_quality_gates"
+    ],
+    "architectural_smells": [
+        "god_objects",
+        "circular_dependencies",
+        "tight_coupling",
+        "feature_envy"
+    ]
+}
+```
+
+---
+
+## 🚨 MANDATORY BEHAVIORS
+
+### **Things Claude Code MUST Always Do**
+1. **Consult subagents** for ALL specialized tasks - no exceptions
+2. **Use MCP servers** when available capabilities match the task
+3. **Apply KISS principles** to every solution
+4. **Update documentation** automatically through hooks
+5. **Maintain knowledge graph** with every change
+6. **Run quality gates** before and after implementation
+7. **Keep context focused** using /clear when switching tasks
+8. **Validate simplicity** before implementing complexity
+
+### **Things Claude Code MUST Never Do**
+1. **Never bypass subagent hierarchy** - always consult specialists
+2. **Never over-engineer** - apply complexity assessment first
+3. **Never ignore MCP servers** - use available integrations
+4. **Never skip quality gates** - maintain quality standards
+5. **Never implement without architectural review** - consult Architect Agent
+6. **Never create manual processes** - automate everything possible
+7. **Never accumulate technical debt** - address issues immediately
+8. **Never work in isolation** - coordinate through Orchestrator Agent
+
+---
+
+## 🎮 DEVELOPMENT VIBE CHECK
+
+### **Continuous Vibe Assessment**
+```bash
+function vibe_check() {
+    echo "🎵 DEVELOPMENT VIBE CHECK"
+    echo "Does this feel effortless and natural? (y/n)"
+    echo "Are we solving real problems elegantly? (y/n)" 
+    echo "Is the solution beautifully simple? (y/n)"
+    echo "Would a new developer smile when seeing this? (y/n)"
+    echo "Are we using the full power of our agent team? (y/n)"
+    
+    if all_yes; then
+        echo "✨ Vibe is immaculate - continue development"
+    else
+        echo "🔄 Vibe needs adjustment - reassess approach"
+    fi
+}
+```
+
+### **Flow State Indicators**
+- Subagents working in harmony
+- MCP servers seamlessly integrated
+- Code emerging naturally from requirements
+- Quality gates passing automatically
+- Documentation updating without thought
+- Solutions feeling obvious in retrospect
+
+---
+
+## 📈 CONTINUOUS IMPROVEMENT
+
+### **Learning Integration**
+Every development session MUST contribute to the collective knowledge:
+
+```python
+def integrate_learning():
+    session_insights = extract_session_insights()
+    update_agent_knowledge(session_insights)
+    refine_development_patterns()
+    improve_automation_scripts()
+    enhance_quality_gates()
+    
+    # Share learnings across agent network
+    broadcast_insights_to_subagents()
+```
+
+### **Evolution Protocol**
+```bash
+# Framework self-improvement cycle
+function evolve_framework() {
+    analyze_development_patterns
+    identify_inefficiencies
+    propose_framework_improvements
+    test_improvements_safely
+    integrate_successful_changes
+    update_agent_behaviors
+}
+```
+
+---
+
+**Remember: This framework is your bible. Follow it religiously. Every decision, every line of code, every architectural choice must align with these principles. We're building the future of prompt optimization through intelligent, hierarchical, anti-over-engineered, vibe-driven development.**
+
+**Let the agents do what they do best. Let MCP servers handle integrations. Keep it simple. Keep it beautiful. Keep it working.**
+
+🚀 **Ready to build PromptEvolver the right way? Let's make magic happen.**
