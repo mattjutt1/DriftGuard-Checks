@@ -31,34 +31,39 @@ Your optimization process follows these steps:
 async function retryWithBackoff<T>(
   fn: () => Promise<T>,
   maxRetries: number = OLLAMA_CONFIG.maxRetries,
-  baseDelay: number = OLLAMA_CONFIG.retryDelay
+  baseDelay: number = OLLAMA_CONFIG.retryDelay,
 ): Promise<T> {
   let lastError: Error;
-  
+
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
       return await fn();
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
-      
+
       if (attempt === maxRetries) {
-        throw new Error(`Failed after ${maxRetries + 1} attempts: ${lastError.message}`);
+        throw new Error(
+          `Failed after ${maxRetries + 1} attempts: ${lastError.message}`,
+        );
       }
-      
+
       // Exponential backoff with jitter
       const delay = baseDelay * Math.pow(2, attempt) + Math.random() * 1000;
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  
+
   throw lastError!;
 }
 
 // Enhanced Ollama API client with timeout and error handling
-async function callOllamaAPI(prompt: string, contextDomain?: string): Promise<any> {
+async function callOllamaAPI(
+  prompt: string,
+  contextDomain?: string,
+): Promise<any> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), OLLAMA_CONFIG.timeout);
-  
+
   try {
     const optimizationPrompt = `${PROMPTWIZARD_SYSTEM_PROMPT}
 
@@ -101,7 +106,9 @@ Apply PromptWizard methodology to optimize this prompt. Provide your response in
     });
 
     if (!response.ok) {
-      throw new Error(`Ollama API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Ollama API error: ${response.status} ${response.statusText}`,
+      );
     }
 
     return await response.json();
@@ -118,7 +125,7 @@ function parseOptimizationResponse(responseText: string): any {
   } catch (e) {
     // Continue to next strategy
   }
-  
+
   // Strategy 2: Extract JSON from markdown code blocks
   const codeBlockMatch = responseText.match(/```(?:json\s*)?([\s\S]*?)```/);
   if (codeBlockMatch) {
@@ -128,7 +135,7 @@ function parseOptimizationResponse(responseText: string): any {
       // Continue to next strategy
     }
   }
-  
+
   // Strategy 3: Extract JSON object from text
   const jsonMatch = responseText.match(/\{[\s\S]*\}/);
   if (jsonMatch) {
@@ -138,10 +145,13 @@ function parseOptimizationResponse(responseText: string): any {
       // Continue to next strategy
     }
   }
-  
+
   // Strategy 4: Fallback - parse the response text for key information
   return {
-    optimized_prompt: responseText.length > 100 ? responseText.substring(0, 500) + "..." : responseText,
+    optimized_prompt:
+      responseText.length > 100
+        ? responseText.substring(0, 500) + "..."
+        : responseText,
     expert_identity: "General AI Assistant",
     improvements: ["Enhanced structure", "Improved clarity", "Added context"],
     quality_score: 7.0,
@@ -152,7 +162,11 @@ function parseOptimizationResponse(responseText: string): any {
       effectiveness: 7.0,
     },
     reasoning: "Fallback parsing applied due to JSON parsing issues",
-    promptwizard_mutations: ["structural_enhancement", "clarity_injection", "context_enrichment"],
+    promptwizard_mutations: [
+      "structural_enhancement",
+      "clarity_injection",
+      "context_enrichment",
+    ],
   };
 }
 
@@ -164,11 +178,15 @@ export const optimizePromptWithOllama = action({
   handler: async (ctx, { sessionId }) => {
     try {
       // Get session details
-      const session = await ctx.runQuery(api.optimizations.getSession, { sessionId });
+      const session = await ctx.runQuery(api.optimizations.getSession, {
+        sessionId,
+      });
       if (!session) throw new Error("Session not found");
 
       // Get prompt details
-      const prompt = await ctx.runQuery(api.sessions.getPrompt, { promptId: session.promptId });
+      const prompt = await ctx.runQuery(api.sessions.getPrompt, {
+        promptId: session.promptId,
+      });
       if (!prompt) throw new Error("Prompt not found");
 
       // Update status to processing
@@ -191,24 +209,34 @@ export const optimizePromptWithOllama = action({
 
       // Validate required fields and provide defaults
       const validatedResult = {
-        optimized_prompt: optimizationResult.optimized_prompt || prompt.originalPrompt,
+        optimized_prompt:
+          optimizationResult.optimized_prompt || prompt.originalPrompt,
         expert_identity: optimizationResult.expert_identity || "AI Assistant",
-        improvements: Array.isArray(optimizationResult.improvements) 
-          ? optimizationResult.improvements 
+        improvements: Array.isArray(optimizationResult.improvements)
+          ? optimizationResult.improvements
           : ["Enhanced structure", "Improved clarity", "Added specificity"],
-        quality_score: typeof optimizationResult.quality_score === 'number' 
-          ? Math.max(1, Math.min(10, optimizationResult.quality_score))
-          : 7.5,
+        quality_score:
+          typeof optimizationResult.quality_score === "number"
+            ? Math.max(1, Math.min(10, optimizationResult.quality_score))
+            : 7.5,
         metrics: {
           clarity: optimizationResult.metrics?.clarity ?? 7.5,
           specificity: optimizationResult.metrics?.specificity ?? 7.5,
           engagement: optimizationResult.metrics?.engagement ?? 7.5,
           effectiveness: optimizationResult.metrics?.effectiveness ?? 7.5,
         },
-        reasoning: optimizationResult.reasoning || "Applied PromptWizard optimization methodology",
-        promptwizard_mutations: Array.isArray(optimizationResult.promptwizard_mutations)
+        reasoning:
+          optimizationResult.reasoning ||
+          "Applied PromptWizard optimization methodology",
+        promptwizard_mutations: Array.isArray(
+          optimizationResult.promptwizard_mutations,
+        )
           ? optimizationResult.promptwizard_mutations
-          : ["clarity_enhancement", "specificity_injection", "context_enrichment"],
+          : [
+              "clarity_enhancement",
+              "specificity_injection",
+              "context_enrichment",
+            ],
       };
 
       // Update the optimization session with results
@@ -232,16 +260,22 @@ export const optimizePromptWithOllama = action({
       };
     } catch (error) {
       // Enhanced error handling and logging
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      const isNetworkError = errorMessage.includes("fetch") || errorMessage.includes("connection");
-      const isTimeoutError = errorMessage.includes("timeout") || errorMessage.includes("aborted");
-      const isModelError = errorMessage.includes("model") || errorMessage.includes("404");
-      
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      const isNetworkError =
+        errorMessage.includes("fetch") || errorMessage.includes("connection");
+      const isTimeoutError =
+        errorMessage.includes("timeout") || errorMessage.includes("aborted");
+      const isModelError =
+        errorMessage.includes("model") || errorMessage.includes("404");
+
       let userFriendlyMessage = errorMessage;
       if (isNetworkError) {
-        userFriendlyMessage = "Failed to connect to Ollama. Please ensure it's running on localhost:11434";
+        userFriendlyMessage =
+          "Failed to connect to Ollama. Please ensure it's running on localhost:11434";
       } else if (isTimeoutError) {
-        userFriendlyMessage = "Request timed out. The model may be processing a complex prompt or the system is under load";
+        userFriendlyMessage =
+          "Request timed out. The model may be processing a complex prompt or the system is under load";
       } else if (isModelError) {
         userFriendlyMessage = `Model '${OLLAMA_CONFIG.model}' not found. Please run: ollama pull ${OLLAMA_CONFIG.model}`;
       }
@@ -293,114 +327,148 @@ export const checkOllamaHealth = action({
           method: "GET",
           signal: controller.signal,
         });
-        
+
         clearTimeout(timeoutId);
         healthCheck.service.responseTime = Date.now() - startTime;
 
         if (!response.ok) {
           healthCheck.error = `Ollama service returned ${response.status}: ${response.statusText}`;
-          healthCheck.recommendations.push("Check if Ollama is running: ollama serve");
+          healthCheck.recommendations.push(
+            "Check if Ollama is running: ollama serve",
+          );
           healthCheck.recommendations.push("Verify port 11434 is available");
           return healthCheck;
         }
 
         healthCheck.service.running = true;
         const data = await response.json();
-        
+
         // Check for the specific model
-        const targetModel = data.models?.find((model: any) => 
-          model.name === OLLAMA_CONFIG.model || 
-          model.name.includes("qwen3:4b") ||
-          model.name.includes("qwen3") && model.name.includes("4b")
+        const targetModel = data.models?.find(
+          (model: any) =>
+            model.name === OLLAMA_CONFIG.model ||
+            model.name.includes("qwen3:4b") ||
+            (model.name.includes("qwen3") && model.name.includes("4b")),
         );
 
         if (targetModel) {
           healthCheck.model.available = true;
           healthCheck.model.size = targetModel.size || "Unknown";
-          
+
           // Extract quantization info if available
-          if (targetModel.name.includes("q4") || targetModel.name.includes("4b")) {
+          if (
+            targetModel.name.includes("q4") ||
+            targetModel.name.includes("4b")
+          ) {
             healthCheck.model.quantization = "Q4";
           }
         } else {
-          healthCheck.recommendations.push(`Install the required model: ollama pull ${OLLAMA_CONFIG.model}`);
-          
-          // Suggest alternatives if available
-          const alternatives = data.models?.filter((model: any) => 
-            model.name.includes("qwen") || model.name.includes("llama")
+          healthCheck.recommendations.push(
+            `Install the required model: ollama pull ${OLLAMA_CONFIG.model}`,
           );
-          
+
+          // Suggest alternatives if available
+          const alternatives = data.models?.filter(
+            (model: any) =>
+              model.name.includes("qwen") || model.name.includes("llama"),
+          );
+
           if (alternatives?.length > 0) {
-            healthCheck.recommendations.push(`Available alternatives: ${alternatives.map((m: any) => m.name).join(", ")}`);
+            healthCheck.recommendations.push(
+              `Available alternatives: ${alternatives.map((m: any) => m.name).join(", ")}`,
+            );
           }
         }
 
         // Test generation capability if model is available
         if (targetModel) {
           try {
-            const testResponse = await fetch(`${OLLAMA_CONFIG.baseUrl}/api/generate`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                model: OLLAMA_CONFIG.model,
-                prompt: "Test",
-                stream: false,
-                options: { num_predict: 1 },
-              }),
-              signal: AbortSignal.timeout(10000),
-            });
+            const testResponse = await fetch(
+              `${OLLAMA_CONFIG.baseUrl}/api/generate`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  model: OLLAMA_CONFIG.model,
+                  prompt: "Test",
+                  stream: false,
+                  options: { num_predict: 1 },
+                }),
+                signal: AbortSignal.timeout(10000),
+              },
+            );
 
             if (testResponse.ok) {
               healthCheck.capabilities.generation = true;
               healthCheck.capabilities.streaming = true; // Assume streaming works if generation works
             }
           } catch (testError) {
-            healthCheck.recommendations.push("Model generation test failed - model may be corrupted");
-            healthCheck.recommendations.push(`Consider reinstalling: ollama rm ${OLLAMA_CONFIG.model} && ollama pull ${OLLAMA_CONFIG.model}`);
+            healthCheck.recommendations.push(
+              "Model generation test failed - model may be corrupted",
+            );
+            healthCheck.recommendations.push(
+              `Consider reinstalling: ollama rm ${OLLAMA_CONFIG.model} && ollama pull ${OLLAMA_CONFIG.model}`,
+            );
           }
         }
 
         // Overall health determination
-        healthCheck.healthy = healthCheck.service.running && 
-                             healthCheck.model.available && 
-                             healthCheck.capabilities.generation;
+        healthCheck.healthy =
+          healthCheck.service.running &&
+          healthCheck.model.available &&
+          healthCheck.capabilities.generation;
 
         // Performance recommendations
         if (healthCheck.service.responseTime > 2000) {
-          healthCheck.recommendations.push("Service response time is slow - consider restarting Ollama");
+          healthCheck.recommendations.push(
+            "Service response time is slow - consider restarting Ollama",
+          );
         }
 
         return {
           ...healthCheck,
-          models: data.models?.map((m: any) => ({
-            name: m.name,
-            size: m.size,
-            modified: m.modified_at,
-          })) || [],
-          message: healthCheck.healthy 
+          models:
+            data.models?.map((m: any) => ({
+              name: m.name,
+              size: m.size,
+              modified: m.modified_at,
+            })) || [],
+          message: healthCheck.healthy
             ? `✅ Ollama is healthy with ${OLLAMA_CONFIG.model} model ready`
             : `❌ Ollama health check failed - see recommendations`,
         };
-
       } catch (fetchError) {
         clearTimeout(timeoutId);
         throw fetchError;
       }
-
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      
-      if (errorMessage.includes("aborted") || errorMessage.includes("timeout")) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+
+      if (
+        errorMessage.includes("aborted") ||
+        errorMessage.includes("timeout")
+      ) {
         healthCheck.error = "Connection timeout - Ollama may not be running";
         healthCheck.recommendations.push("Start Ollama service: ollama serve");
-        healthCheck.recommendations.push("Check if port 11434 is blocked by firewall");
-      } else if (errorMessage.includes("ECONNREFUSED") || errorMessage.includes("fetch")) {
-        healthCheck.error = "Connection refused - Ollama service is not running";
+        healthCheck.recommendations.push(
+          "Check if port 11434 is blocked by firewall",
+        );
+      } else if (
+        errorMessage.includes("ECONNREFUSED") ||
+        errorMessage.includes("fetch")
+      ) {
+        healthCheck.error =
+          "Connection refused - Ollama service is not running";
         healthCheck.recommendations.push("Start Ollama service: ollama serve");
-        healthCheck.recommendations.push("Verify Ollama is installed: ollama --version");
+        healthCheck.recommendations.push(
+          "Verify Ollama is installed: ollama --version",
+        );
       } else {
         healthCheck.error = errorMessage;
-        healthCheck.recommendations.push("Check Ollama installation and configuration");
+        healthCheck.recommendations.push(
+          "Check Ollama installation and configuration",
+        );
       }
 
       return healthCheck;
@@ -414,11 +482,17 @@ export const testOptimizationPipeline = action({
     testPrompt: v.optional(v.string()),
     contextDomain: v.optional(v.string()),
   },
-  handler: async (ctx, { testPrompt = "Write a blog post about AI", contextDomain = "content creation" }) => {
+  handler: async (
+    ctx,
+    {
+      testPrompt = "Write a blog post about AI",
+      contextDomain = "content creation",
+    },
+  ) => {
     try {
       // First check health
       const health = await ctx.runAction(api.actions.checkOllamaHealth, {});
-      
+
       if (!health.healthy) {
         return {
           success: false,
@@ -429,10 +503,13 @@ export const testOptimizationPipeline = action({
       }
 
       // Create a test optimization request
-      const sessionId = await ctx.runMutation(api.optimizations.createOptimizationRequest, {
-        originalPrompt: testPrompt,
-        contextDomain,
-      });
+      const sessionId = await ctx.runMutation(
+        api.optimizations.createOptimizationRequest,
+        {
+          originalPrompt: testPrompt,
+          contextDomain,
+        },
+      );
 
       // Run the optimization
       const result = await ctx.runAction(api.actions.optimizePromptWithOllama, {
@@ -440,9 +517,12 @@ export const testOptimizationPipeline = action({
       });
 
       // Get the completed session details
-      const completedSession = await ctx.runQuery(api.sessions.getSessionWithPrompt, {
-        sessionId,
-      });
+      const completedSession = await ctx.runQuery(
+        api.sessions.getSessionWithPrompt,
+        {
+          sessionId,
+        },
+      );
 
       return {
         success: true,
@@ -458,7 +538,6 @@ export const testOptimizationPipeline = action({
         health,
         sessionId,
       };
-
     } catch (error) {
       return {
         success: false,

@@ -24,16 +24,17 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "PromptEvolver - Advanced AI Prompt Optimization",
-  description: "Transform your prompts with Microsoft PromptWizard methodology powered by Qwen3-8B. Get systematic improvements in clarity, specificity, and engagement through AI-driven optimization.",
+  description:
+    "Transform your prompts with Microsoft PromptWizard methodology powered by Qwen3-8B. Get systematic improvements in clarity, specificity, and engagement through AI-driven optimization.",
   keywords: [
-    "AI prompt optimization", 
-    "Microsoft PromptWizard", 
-    "Qwen3", 
-    "prompt engineering", 
-    "AI assistant", 
+    "AI prompt optimization",
+    "Microsoft PromptWizard",
+    "Qwen3",
+    "prompt engineering",
+    "AI assistant",
     "prompt enhancement",
     "machine learning",
-    "natural language processing"
+    "natural language processing",
   ],
   authors: [{ name: "PromptEvolver Team" }],
   creator: "PromptEvolver",
@@ -42,13 +43,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     title: "PromptEvolver - Advanced AI Prompt Optimization",
-    description: "Transform your prompts with Microsoft PromptWizard methodology powered by Qwen3-8B",
+    description:
+      "Transform your prompts with Microsoft PromptWizard methodology powered by Qwen3-8B",
     siteName: "PromptEvolver",
   },
   twitter: {
     card: "summary_large_image",
     title: "PromptEvolver - Advanced AI Prompt Optimization",
-    description: "Transform your prompts with Microsoft PromptWizard methodology powered by Qwen3-8B",
+    description:
+      "Transform your prompts with Microsoft PromptWizard methodology powered by Qwen3-8B",
   },
   robots: {
     index: true,
@@ -72,14 +75,16 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={`${inter.variable} ${geistMono.variable} antialiased font-sans text-gray-900 bg-gray-50`}
       >
-        <ConvexClientProvider>
-          {children}
-        </ConvexClientProvider>
+        <ConvexClientProvider>{children}</ConvexClientProvider>
       </body>
     </html>
   );

@@ -26,7 +26,7 @@ export default defineSchema({
       v.literal("pending"),
       v.literal("processing"),
       v.literal("completed"),
-      v.literal("failed")
+      v.literal("failed"),
     ),
     createdAt: v.number(),
     updatedAt: v.number(),
@@ -57,7 +57,7 @@ export default defineSchema({
           specificity: v.number(),
           engagement: v.number(),
         }),
-      })
+      }),
     ),
     createdAt: v.number(),
   })

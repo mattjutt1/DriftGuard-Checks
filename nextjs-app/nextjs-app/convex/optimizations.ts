@@ -3,22 +3,24 @@ import { v } from "convex/values";
 
 // Query to get optimization history for a user
 export const getHistory = query({
-  args: { 
+  args: {
     userId: v.optional(v.id("users")),
-    limit: v.optional(v.number()) 
+    limit: v.optional(v.number()),
   },
   handler: async (ctx, { userId, limit = 20 }) => {
     if (!userId) {
       // If no userId provided, get from authenticated user
       const identity = await ctx.auth.getUserIdentity();
       if (!identity) throw new Error("Unauthenticated");
-      
+
       // Find user by token identifier
       const user = await ctx.db
         .query("users")
-        .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
+        .withIndex("by_token", (q) =>
+          q.eq("tokenIdentifier", identity.tokenIdentifier),
+        )
         .first();
-      
+
       if (!user) throw new Error("User not found");
       userId = user._id;
     }
@@ -52,7 +54,9 @@ export const createOptimizationRequest = mutation({
     // Find or create user
     let user = await ctx.db
       .query("users")
-      .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
       .first();
 
     if (!user) {
@@ -111,8 +115,15 @@ export const updateOptimizationResults = mutation({
     }),
   },
   handler: async (ctx, args) => {
-    const { sessionId, optimizedPrompt, qualityScore, processingTimeMs, improvements, metrics } = args;
-    
+    const {
+      sessionId,
+      optimizedPrompt,
+      qualityScore,
+      processingTimeMs,
+      improvements,
+      metrics,
+    } = args;
+
     // Update session with results
     await ctx.db.patch(sessionId, {
       qualityScore,
@@ -145,7 +156,7 @@ export const updateProcessingStatus = mutation({
       v.literal("pending"),
       v.literal("processing"),
       v.literal("completed"),
-      v.literal("failed")
+      v.literal("failed"),
     ),
   },
   handler: async (ctx, { sessionId, status }) => {
