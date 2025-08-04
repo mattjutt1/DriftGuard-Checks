@@ -11,18 +11,20 @@ This framework guides Claude Code through intelligent, hierarchical development 
 
 ## Project Overview
 
-PromptEvolver is an AI-powered prompt optimization application that leverages Microsoft's PromptWizard framework with Qwen3-4B to create a self-evolving prompt generation system.
+PromptEvolver is an AI-powered prompt optimization application that leverages Microsoft's PromptWizard framework with Qwen3:4b to create a self-evolving prompt generation system. The project focuses on proven technology choices and intelligent simplification over complexity for complexity's sake.
 
-## Technology Stack
+## Technology Stack (Optimized)
 
 - **Backend**: Convex (serverless database with real-time updates)
-- **Frontend**: Next.js 14, React 18+, TypeScript, Tailwind CSS
-- **AI Model**: Qwen3-4B (Q4 quantization) via Ollama
+- **Frontend**: Next.js 15.4.5 with React 19.1.0, TypeScript, Tailwind CSS
+- **Build System**: Turbopack for ultra-fast development builds
+- **AI Model**: Qwen3:4b (proven working model, 2.6GB efficient)
 - **Framework**: Microsoft PromptWizard (MIT license)
 - **Database**: Convex (serverless, real-time)
 - **Deployment**: Vercel (frontend), Convex (backend)
 - **Testing**: Jest, Playwright
 - **Local AI**: Ollama for zero-cost AI processing
+- **Performance**: React 19 concurrent features, optimized rendering
 
 ---
 
@@ -35,12 +37,12 @@ Human Request → Specialized Agent → Implementation
 
 **Always consult the appropriate specialist before proceeding.**
 
-### **Authority Matrix**
-- **backend-developer**: Convex development, serverless functions, PromptWizard integration
-- **frontend-developer**: React/TypeScript UI, user experience, responsive design  
-- **ai-integration**: Ollama setup, model optimization, PromptWizard configuration
-- **security-specialist**: Security implementation, vulnerability assessment, data protection
-- **performance-optimizer**: Performance optimization, monitoring, resource efficiency
+### **Authority Matrix (Streamlined 5-Agent System)**
+- **backend-developer**: Convex development, serverless functions, PromptWizard integration, architectural decisions
+- **frontend-developer**: Next.js 15/React 19 UI, user experience, responsive design, performance optimization
+- **ai-integration**: Ollama setup, Qwen3:4b optimization, PromptWizard configuration, AI response handling
+- **security-specialist**: Security implementation, vulnerability assessment, data protection, compliance
+- **performance-optimizer**: Performance monitoring, optimization strategies, resource efficiency, build optimization
 - **Human**: Final approval, business requirements, strategic direction
 
 ---
@@ -64,13 +66,13 @@ Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
 
 ### **Available Specialized Sub-Agents**
 
-**IMPORTANT**: This project uses ONLY the following specialized sub-agents located in `.claude/agents/`:
+**IMPORTANT**: This project uses ONLY the following streamlined specialized sub-agents located in `.claude/agents/`:
 
-- **backend-developer** - Convex development, serverless functions, PromptWizard integration
-- **frontend-developer** - React/TypeScript UI, user experience, responsive design
-- **ai-integration** - Ollama setup, model optimization, PromptWizard configuration
-- **security-specialist** - Security implementation, vulnerability assessment, data protection
-- **performance-optimizer** - Performance optimization, monitoring, resource efficiency
+- **backend-developer** - Enhanced with architectural decision-making, Convex development, serverless functions, PromptWizard integration
+- **frontend-developer** - Next.js 15/React 19 specialist with UI/UX focus, responsive design, modern performance patterns
+- **ai-integration** - Ollama + PromptWizard specialist, advanced error handling, retry logic, health checking
+- **security-specialist** - Security + compliance expert, input validation, authentication, data protection
+- **performance-optimizer** - Performance + monitoring specialist, build optimization, resource efficiency
 
 ---
 
@@ -79,20 +81,20 @@ Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
 ### **KISS Principle Enforcement**
 Keep It Simple, Stupid - Every decision must pass the simplicity test.
 
-#### **Over-Engineering Prevention Rules**
-1. **YAGNI (You Aren't Gonna Need It)**: Don't implement features until they're actually needed
-2. **DRY (Don't Repeat Yourself)**: But don't abstract until you have 3+ repetitions
-3. **Single Responsibility**: Each component should do ONE thing well
-4. **Minimal Viable Solution**: Start with the simplest solution that works
-5. **Evidence-Based Complexity**: Only add complexity when data shows it's needed
+#### **Intelligent Simplification Rules**
+1. **Value-Based Complexity**: Keep advanced features when they provide clear user benefits
+2. **KISS with Intelligence**: Apply simplicity where it improves, not where it limits
+3. **Evidence-Based Decisions**: Use data and user feedback to guide complexity decisions
+4. **Technology Stack Optimization**: Choose superior current tech over forced downgrades
+5. **Quality Over Compliance**: Focus on working quality measures over rigid tool requirements
 
-### **Solution Validation Process**
+### **Enhanced Solution Validation Process**
 Before implementing any solution, validate:
-1. Does this solve the CURRENT problem? (not future problems)
-2. Can this be implemented in <50 lines of code?
-3. Does this use standard patterns without exotic abstractions?
-4. Will a new developer understand this in 5 minutes?
-5. Is this the simplest solution that could possibly work?
+1. Does this solve the CURRENT problem with clear user value?
+2. Does this use proven technology patterns and best practices?
+3. Will this solution scale appropriately for the expected usage?
+4. Does this maintain or improve system reliability and performance?
+5. Is this the most effective solution considering development time and quality?
 
 ---
 
@@ -157,13 +159,13 @@ npx convex schema push
 npx convex dashboard
 ```
 
-### Frontend Development (Next.js 14)
+### Frontend Development (Next.js 15.4.5 + React 19)
 ```bash
 # Install dependencies
 npm install
 
-# Run development server
-npm run dev
+# Run development server (with Turbopack)
+npm run dev --turbo
 
 # Build for production
 npm run build
@@ -177,11 +179,9 @@ npm test
 # Run E2E tests
 npm run test:e2e
 
-# Format code
-npx prettier --write "src/**/*.{js,jsx,ts,tsx}"
-
-# Lint code
-npx eslint src/ --fix
+# Quality tools (pragmatic approach)
+npx eslint src/ --fix  # ESLint + TypeScript sufficient
+# Note: Prettier optional - focus on working quality over rigid formatting
 ```
 
 ### Docker Operations
@@ -227,10 +227,12 @@ npx convex run _system/clear --table myTable
 ### System Components
 
 ```
-Frontend (Next.js 14)
-├── Server and Client Components
+Frontend (Next.js 15.4.5 + React 19)
+├── Server and Client Components with React 19 optimizations
 ├── Real-time updates via Convex
 ├── TypeScript with Tailwind CSS
+├── Turbopack for ultra-fast development builds
+├── React 19 concurrent features
 └── Responsive design patterns
 
 Backend (Convex)  
@@ -274,58 +276,57 @@ Primary tables:
 
 ---
 
-## 🏛️ ATOMIC VERTICAL SLICE HYBRID ARCHITECTURE (AVSHA)
+## 🏗️ INTELLIGENT CODE STRUCTURE APPROACH
 
 ### **Architecture Philosophy**
-AVSHA combines the component hierarchy of Atomic Design with the feature-focused organization of Vertical Slice Architecture, creating a two-dimensional matrix that optimizes both reusability and maintainability.
+Use standard Next.js App Router structure enhanced with intelligent organization principles. Apply advanced patterns only when they provide clear user value, following KISS principles selectively rather than blindly.
 
 ### **Core Principles**
-1. **Atomic Hierarchy**: Components organized by complexity (Atoms → Molecules → Organisms → Templates → Pages)
-2. **Feature Cohesion**: Related functionality grouped into cohesive vertical slices
-3. **Hybrid Organization**: Two-dimensional structure balancing reusability and feature focus
-4. **Scalable Growth**: Architecture that scales with team size and feature complexity
+1. **Standard Patterns First**: Use proven Next.js App Router conventions
+2. **Value-Based Complexity**: Preserve advanced features when they provide clear user benefits
+3. **Intelligent Simplification**: Apply KISS principles where they improve, not where they limit
+4. **Quality Over Compliance**: Focus on working quality measures over rigid tool compliance
 
-### **AVSHA Matrix Structure**
+### **Enhanced Next.js Structure**
 ```
-                 Features →
-Component Level ↓
-┌─────────────┬──────────────┬──────────────┬──────────────┐
-│             │ Authentication│ Optimization │ Dashboard    │
-├─────────────┼──────────────┼──────────────┼──────────────┤
-│ Atoms       │ LoginButton  │ PromptInput  │ MetricCard   │
-│             │ InputField   │ LoadSpinner  │ StatusIcon   │
-├─────────────┼──────────────┼──────────────┼──────────────┤
-│ Molecules   │ LoginForm    │ PromptEditor │ MetricPanel  │
-│             │ AuthStatus   │ ResultView   │ ChartWidget  │
-├─────────────┼──────────────┼──────────────┼──────────────┤
-│ Organisms   │ AuthLayout   │ OptimizeFlow │ DashboardGrid│
-│             │ UserMenu     │ HistoryList  │ ReportView   │
-├─────────────┼──────────────┼──────────────┼──────────────┤
-│ Templates   │ AuthTemplate │ OptimizeTemplate│ DashTemplate│
-├─────────────┼──────────────┼──────────────┼──────────────┤
-│ Pages       │ LoginPage    │ OptimizePage │ DashboardPage│
-│             │ RegisterPage │ HistoryPage  │ AnalyticsPage│
-└─────────────┴──────────────┴──────────────┴──────────────┘
+app/                           # Next.js 15 App Router
+├── (auth)/                    # Route groups for organization
+│   ├── login/
+│   └── register/
+├── optimize/                  # Main optimization feature
+│   ├── page.tsx
+│   ├── components/            # Feature-specific components
+│   └── actions.ts             # Server actions
+├── dashboard/                 # Analytics and history
+│   ├── page.tsx
+│   └── components/
+├── api/                       # API routes when needed
+├── globals.css
+└── layout.tsx
+
+components/                    # Shared components
+├── ui/                        # Reusable UI components
+├── forms/                     # Form components
+└── layout/                    # Layout components
+
+lib/                          # Utilities and configurations
+├── convex.ts                 # Convex client setup
+├── utils.ts                  # Utility functions
+└── types.ts                  # TypeScript types
 ```
 
-### **Folder Organization Strategy**
+### **Proven Implementation Patterns**
 
-#### **Frontend Structure (React/TypeScript)**
-```
-src/
-├── shared/                         # Cross-feature shared components
-│   ├── atoms/                      # Base UI building blocks
-│   │   ├── Button/
-│   │   ├── Input/
-│   │   └── Icon/
-│   ├── molecules/                  # Simple composed components
-│   │   ├── SearchBox/
-│   │   ├── Modal/
-│   │   └── Tooltip/
-│   └── organisms/                  # Complex reusable components
-│       ├── Header/
-│       ├── Sidebar/
-│       └── Footer/
+#### **Keep High-Value Features**
+- **Dual-mode optimization**: Both single and batch processing (clear user value)
+- **Quality metrics tracking**: Success rates, improvement scores (measurable benefits)
+- **Advanced error handling**: Retry logic, graceful degradation (reliability improvement)
+- **Real-time progress tracking**: WebSocket updates, status indicators (user experience)
+
+#### **Intelligent Technology Choices**
+- **Next.js 15 + React 19**: Latest stable versions with performance benefits
+- **Turbopack**: Faster development builds (measurable improvement)
+- **Standard App Router**: Proven patterns over forced complexity
 │
 ├── features/                       # Feature-specific vertical slices
 │   ├── authentication/
@@ -638,17 +639,18 @@ AVSHA_ENTITIES = {
 
 ---
 
-## 🔐 INFISICAL SECRET MANAGEMENT DEVELOPMENT ENVIRONMENT
+## 🔐 SECURITY AND SECRET MANAGEMENT
 
-### **Current Development Setup**
+### **Pragmatic Security Approach**
 
-PromptEvolver uses **Infisical** as the development environment for secure secret management while we research and design our simplified PromptVault clone.
+Implement security best practices without over-engineering. Focus on protecting actual sensitive data rather than theoretical threats.
 
-### **Why Infisical for Development?**
-1. **Learn from Production Tool**: Experience real-world secret management to design PromptVault better
-2. **Immediate Security**: Secure our development secrets right now
-3. **AVSHA Integration**: Organize secrets according to our architectural framework
-4. **Requirements Gathering**: Document what our simplified clone needs to replicate
+### **Security Best Practices**
+1. **Environment-Based Secrets**: Proper separation of dev/staging/production secrets
+2. **Input Validation**: Comprehensive validation of all user inputs
+3. **Authentication Security**: JWT with proper refresh token handling
+4. **Rate Limiting**: Prevent abuse with intelligent rate limiting
+5. **Audit Logging**: Track security events and access patterns
 
 ### **Infisical Services**
 - **Web UI**: http://localhost:8080 - Infisical dashboard for secret management
@@ -877,13 +879,15 @@ infisical secrets update JWT_SECRET_KEY "$(openssl rand -base64 32)" --env=devel
 
 ---
 
-## Quality Standards
+## Enhanced Quality Standards
 
-- **Code Coverage**: Minimum 90% test coverage
-- **Performance**: API responses <200ms, AI processing <5 seconds
-- **Security**: All inputs validated, JWT authentication, rate limiting
-- **Documentation**: All APIs documented with examples
-- **Code Quality**: Passes linting, formatting, and security scans
+- **Code Coverage**: Minimum 85% test coverage with focus on critical paths
+- **Performance**: API responses <200ms, AI processing <5 seconds, React 19 optimizations
+- **Security**: All inputs validated, JWT authentication, intelligent rate limiting
+- **User Experience**: Dual-mode optimization, real-time progress, error recovery
+- **Code Quality**: ESLint + TypeScript compliance, working quality over rigid formatting
+- **Integration Quality**: Advanced error handling, retry logic, health checking
+- **Technology Standards**: Next.js 15 + React 19 patterns, Turbopack optimization
 
 ## PromptWizard Configuration
 
@@ -900,13 +904,157 @@ PROMPTWIZARD_CONFIG = {
 }
 ```
 
-## Performance Targets
+## Enhanced Performance Targets
 
 - **API Response Time**: <200ms (excluding AI processing)
 - **AI Processing Time**: <5 seconds for prompt optimization
-- **Memory Usage**: <8GB VRAM for AI model, <2GB RAM for application
+- **Memory Usage**: <4GB VRAM for Qwen3:4b model, <2GB RAM for application
+- **Build Performance**: <5s development builds with Turbopack
 - **Concurrent Users**: Support 100+ simultaneous optimizations
 - **Database Queries**: <10ms for simple, <100ms for complex
+- **React 19 Benefits**: Improved concurrent rendering, better hydration
+- **Real-time Updates**: <100ms WebSocket response times
+
+---
+
+## 🎯 LEARNED BEST PRACTICES FRAMEWORK
+
+### **Technology Stack Decision Criteria**
+
+#### **When to Upgrade Technology**
+- **Clear Performance Benefits**: Measurable improvements (Turbopack builds, React 19 rendering)
+- **Stability and Support**: Mature release cycles with active maintenance
+- **Developer Experience**: Improved development workflow and debugging
+- **Ecosystem Compatibility**: Works well with existing tool chains
+- **Future Proofing**: Aligns with technology direction trends
+
+#### **When to Preserve Advanced Features**
+- **User Value Test**: Features that directly improve user experience or outcomes
+- **Measurable Benefits**: Can demonstrate clear improvements through metrics
+- **Maintenance Cost**: Advanced features that don't significantly increase complexity
+- **Competitive Advantage**: Features that differentiate from simpler alternatives
+
+### **Integration Quality Standards**
+
+#### **Superior Integration Patterns We've Established**
+```typescript
+// Advanced Error Handling with Retry Logic
+export const optimizeWithRetry = async (prompt: string, maxRetries = 3) => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await optimizePrompt(prompt);
+    } catch (error) {
+      if (attempt === maxRetries) throw error;
+      await delay(Math.pow(2, attempt) * 1000); // Exponential backoff
+    }
+  }
+};
+
+// Health Checking Systems
+export const checkOllamaHealth = async (): Promise<HealthStatus> => {
+  try {
+    const response = await fetch(`${OLLAMA_BASE_URL}/api/tags`);
+    return { status: 'healthy', models: await response.json() };
+  } catch (error) {
+    return { status: 'unhealthy', error: error.message };
+  }
+};
+
+// Multiple Parsing Strategies for AI Responses
+export const parseAIResponse = (response: string): ParsedResponse => {
+  // Try JSON parsing first
+  try {
+    return JSON.parse(response);
+  } catch {
+    // Fallback to regex extraction
+    return extractWithRegex(response);
+  }
+};
+```
+
+#### **Real-time Progress Tracking Implementation**
+```typescript
+// WebSocket-based progress updates
+export const trackOptimizationProgress = (sessionId: string) => {
+  const progress = useConvexSubscription(api.sessions.watchProgress, { sessionId });
+  
+  return {
+    stage: progress?.stage || 'queued',
+    percentage: progress?.percentage || 0,
+    estimatedTimeRemaining: progress?.estimatedTime || null,
+    currentStep: progress?.currentStep || 'Initializing...'
+  };
+};
+```
+
+### **Intelligent Simplification Guidelines**
+
+#### **Apply KISS Principles Intelligently (Not Blindly)**
+
+**Keep Advanced When:**
+- Dual-mode optimization provides clear user choice and value
+- Quality metrics tracking enables data-driven improvements
+- Error recovery systems improve reliability without adding complexity
+- Real-time progress reduces user anxiety and improves perception
+
+**Simplify When:**
+- Complex abstractions don't provide proportional benefits
+- Multiple similar components can be consolidated
+- Configuration options overwhelm users without clear use cases
+- Development tools create more friction than they solve
+
+#### **Framework Compliance vs. Practical Benefits**
+
+**Prioritize:**
+1. **Working Quality**: Code that works reliably over code that passes arbitrary style checks
+2. **User Experience**: Features that improve actual user outcomes
+3. **Developer Productivity**: Tools and patterns that enable faster, better development
+4. **Maintainability**: Code organization that facilitates future changes
+5. **Performance**: Measurable improvements in speed, reliability, or resource usage
+
+**De-prioritize:**
+1. **Rigid Tool Compliance**: Perfect Prettier formatting over working features
+2. **Architectural Purity**: Complex patterns that don't solve real problems
+3. **Premature Optimization**: Performance work without measured bottlenecks
+4. **Over-Abstraction**: Generic solutions for specific, simple problems
+
+### **Agent Utilization Best Practices**
+
+#### **Streamlined 5-Agent System Benefits**
+- **Reduced Communication Overhead**: Fewer handoffs, clearer responsibilities
+- **Enhanced Domain Expertise**: Each agent covers broader, more cohesive domain
+- **Faster Decision Making**: Less bureaucratic processes, more action
+- **Better Context Retention**: Agents maintain deeper understanding of their domains
+
+#### **When to Delegate vs. Direct Implementation**
+
+**Delegate to Agents When:**
+- Domain-specific expertise required (security, performance, AI integration)
+- Complex architectural decisions needed
+- Best practices consultation required
+- Quality assurance and validation needed
+
+**Direct Implementation When:**
+- Simple, straightforward changes within established patterns
+- Minor bug fixes with clear solutions
+- Documentation updates and maintenance tasks
+- Configuration changes following established procedures
+
+### **Technology Selection Philosophy**
+
+#### **Superior Current Technology Over Forced Downgrades**
+
+**Evidence-Based Choices:**
+- **Next.js 15.4.5**: Latest stable with proven benefits (Turbopack, React 19 support)
+- **React 19.1.0**: Concurrent features, improved hydration, better performance
+- **Qwen3:4b**: Proven working model with optimal size/performance balance
+- **Convex**: Serverless database with real-time features, excellent DX
+
+**Avoid Forced Downgrades:**
+- Don't downgrade to older Next.js versions without technical justification
+- Don't use outdated React patterns when modern equivalents are superior
+- Don't choose inferior AI models for theoretical simplicity
+- Don't sacrifice developer experience for arbitrary constraints
 
 ## Security Considerations
 
@@ -1125,16 +1273,16 @@ def predict_needed_context(current_task):
 10. **Validate simplicity** before implementing complexity
 
 ### **Things Claude Code MUST Never Do**
-1. **Never bypass subagent hierarchy** - always consult specialists
-2. **Never over-engineer** - apply complexity assessment first
-3. **Never skip quality gates** - maintain quality standards
-4. **Never implement without specialist review** - consult appropriate agent
-5. **Never create manual processes** - automate everything possible
-6. **Never accumulate technical debt** - address issues immediately
-7. **Never skip version control** - every change must be committed
-8. **Never ignore knowledge graph updates** - context must stay current
-9. **Never skip changelog updates** - maintain complete change history
-10. **Never commit without embeddings** - ensure context vectors are updated
+1. **Never bypass streamlined agent hierarchy** - consult appropriate specialist agents
+2. **Never apply rigid simplification blindly** - preserve valuable advanced features
+3. **Never skip quality gates** - maintain enhanced quality standards
+4. **Never downgrade technology without justification** - use superior current versions
+5. **Never sacrifice user experience for theoretical purity** - prioritize working quality
+6. **Never accumulate technical debt** - address issues with intelligent solutions
+7. **Never skip version control** - every change must be committed with context
+8. **Never ignore integration quality** - maintain error handling and health checking
+9. **Never skip performance considerations** - leverage React 19 and Turbopack benefits
+10. **Never compromise security** - implement pragmatic security without over-engineering
 
 ---
 
@@ -1155,8 +1303,8 @@ Are we using the full power of our agent team?
 
 ---
 
-**Remember: This framework is your bible. Follow it religiously. Every decision, every line of code, every architectural choice must align with these principles. We're building the future of prompt optimization through intelligent, hierarchical, anti-over-engineered, vibe-driven development.**
+**Remember: This enhanced framework reflects our learned best practices. Follow these principles to build superior software that balances simplicity with advanced features where they provide clear value. We're building the future of prompt optimization through intelligent, streamlined, pragmatic development.**
 
-**Let the agents do what they do best. Keep it simple. Keep it beautiful. Keep it working.**
+**Let the specialized agents provide domain expertise. Use superior current technology. Focus on user value. Maintain working quality.**
 
-🚀 **Ready to build PromptEvolver the right way? Let's make magic happen.**
+🚀 **Ready to build PromptEvolver with proven best practices? Let's create something exceptional.**
