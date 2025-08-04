@@ -5,6 +5,29 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.6] - 2025-08-04
+
+### Added
+- testing-agent sub-agent
+- ai-integration-agent sub-agent
+- architect-agent sub-agent
+- frontend-developer-agent sub-agent
+- research-agent sub-agent
+- database-agent sub-agent
+- devops-agent sub-agent
+- security-agent sub-agent
+- orchestrator-agent sub-agent
+- documentation-agent sub-agent
+- backend-developer-agent sub-agent
+- README sub-agent
+- performance-agent sub-agent
+
+### Technical
+- development framework
+
+### Knowledge Graph
+- contextual knowledge graph
+
 ## [0.1.5] - 2025-08-04
 
 ### Added

@@ -1,21 +1,16 @@
 {
-  "hooks": [
-    {
-      "name": "auto-prettier",
-      "event": "PostToolUse",
-      "matchTools": ["Write", "Edit", "MultiEdit"],
-      "script": "cd \"$CLAUDE_PROJECT_DIR/nextjs-app/nextjs-app\" && npx prettier --write \"src/**/*.{js,jsx,ts,tsx}\" \"convex/**/*.{js,ts}\" --ignore-path .gitignore 2>/dev/null || true"
-    },
-    {
-      "name": "auto-lint-fix",
-      "event": "PostToolUse", 
-      "matchTools": ["Write", "Edit", "MultiEdit"],
-      "script": "cd \"$CLAUDE_PROJECT_DIR/nextjs-app/nextjs-app\" && npx eslint src/ convex/ --fix --quiet 2>/dev/null || true"
-    }
-  ],
-  "allowedTools": ["Bash", "Write", "Edit", "MultiEdit", "Read", "Glob", "Grep", "TodoWrite", "Task"],
-  "environment": {
-    "OLLAMA_BASE_URL": "http://localhost:11434",
-    "QWEN_MODEL_NAME": "qwen3:4b"
-  }
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🔧 TEST HOOK WORKING - Write tool used!' >&2"
+          }
+        ]
+      }
+    ]
+  },
+  "allowedTools": ["Bash", "Write", "Edit", "MultiEdit", "Read", "Glob", "Grep", "TodoWrite", "Task"]
 }

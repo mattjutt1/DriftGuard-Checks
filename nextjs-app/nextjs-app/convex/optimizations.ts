@@ -137,6 +137,31 @@ export const updateOptimizationResults = mutation({
   },
 });
 
+// Mutation to update processing status
+export const updateProcessingStatus = mutation({
+  args: {
+    sessionId: v.id("optimizationSessions"),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("processing"),
+      v.literal("completed"),
+      v.literal("failed")
+    ),
+  },
+  handler: async (ctx, { sessionId, status }) => {
+    // Update related prompt status
+    const session = await ctx.db.get(sessionId);
+    if (session) {
+      await ctx.db.patch(session.promptId, {
+        optimizationStatus: status,
+        updatedAt: Date.now(),
+      });
+    }
+
+    return sessionId;
+  },
+});
+
 // Mutation to mark optimization as failed
 export const markOptimizationFailed = mutation({
   args: {

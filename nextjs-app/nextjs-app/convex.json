@@ -1,0 +1,10 @@
+{
+  "name": "resilient-guanaco-29",
+  "team": "matt",
+  "prodUrl": "https://resilient-guanaco-29.convex.cloud",
+  "functions": "convex/",
+  "generateCommonJSApi": false,
+  "node": {
+    "version": "18"
+  }
+}
