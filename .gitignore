@@ -80,3 +80,9 @@ yarn-error.log*
 .claude/embeddings.json
 .claude/context_vectors.json
 .claude/version.json
+
+# Infisical Secret Management
+.env.infisical
+infisical-data/
+backups/
+# End Infisical
