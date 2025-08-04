@@ -170,12 +170,8 @@ function parseOptimizationResponse(responseText: string): any {
   };
 }
 
-// Enhanced action to optimize prompt using Ollama API with PromptWizard methodology
-export const optimizePromptWithOllama = action({
-  args: {
-    sessionId: v.id("optimizationSessions"),
-  },
-  handler: async (ctx, { sessionId }) => {
+// Shared handler for optimization logic
+async function optimizePromptWithOllamaHandler(ctx: any, { sessionId }: { sessionId: any }) {
     try {
       // Get session details
       const session = await ctx.runQuery(api.optimizations.getSession, {
@@ -288,6 +284,22 @@ export const optimizePromptWithOllama = action({
 
       throw new Error(userFriendlyMessage);
     }
+}
+
+// Enhanced action to optimize prompt using Ollama API with PromptWizard methodology
+export const optimizePromptWithOllama: any = action({
+  args: {
+    sessionId: v.id("optimizationSessions"),
+  },
+  returns: v.object({
+    success: v.boolean(),
+    optimizedPrompt: v.optional(v.string()),
+    qualityScore: v.optional(v.number()),
+    processingTime: v.optional(v.number()),
+    error: v.optional(v.string()),
+  }),
+  handler: async (ctx, { sessionId }) => {
+    return await optimizePromptWithOllamaHandler(ctx, { sessionId });
   },
 });
 
@@ -477,7 +489,7 @@ export const checkOllamaHealth = action({
 });
 
 // New action to test the optimization pipeline
-export const testOptimizationPipeline = action({
+export const testOptimizationPipeline: any = action({
   args: {
     testPrompt: v.optional(v.string()),
     contextDomain: v.optional(v.string()),
@@ -511,10 +523,8 @@ export const testOptimizationPipeline = action({
         },
       );
 
-      // Run the optimization
-      const result = await ctx.runAction(api.actions.optimizePromptWithOllama, {
-        sessionId,
-      });
+      // Run the optimization directly (avoid circular reference)
+      const result = await optimizePromptWithOllamaHandler(ctx, { sessionId });
 
       // Get the completed session details
       const completedSession = await ctx.runQuery(
