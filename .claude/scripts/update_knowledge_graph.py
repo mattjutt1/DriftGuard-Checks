@@ -30,14 +30,18 @@ class KnowledgeGraphUpdater:
             "metadata": {
                 "created": datetime.now().isoformat(),
                 "version": "1.0",
-                "last_updated": datetime.now().isoformat()
+                "last_updated": datetime.now().isoformat(),
+                "architecture": "AVSHA"  # Atomic Vertical Slice Hybrid Architecture
             },
             "entities": {
                 "files": {},
                 "functions": {},
                 "classes": {},
                 "agents": {},
-                "decisions": {}
+                "decisions": {},
+                "atomic_components": {},
+                "feature_slices": {},
+                "architectural_violations": {}
             },
             "relationships": {},
             "context_vectors": {
@@ -45,6 +49,13 @@ class KnowledgeGraphUpdater:
                 "recent_changes": [],
                 "architectural_patterns": [],
                 "quality_metrics": []
+            },
+            "avsha_metrics": {
+                "reusability_score": 0.0,
+                "feature_cohesion": 0.0,
+                "component_distribution": {},
+                "architectural_compliance": 0.0,
+                "last_assessment": datetime.now().isoformat()
             }
         }
     
@@ -78,6 +89,158 @@ class KnowledgeGraphUpdater:
                 }
         
         return entities
+    
+    def analyze_avsha_structure(self, entities):
+        """Analyze AVSHA architectural structure"""
+        atomic_components = {}
+        feature_slices = {}
+        violations = {}
+        
+        # Define AVSHA patterns
+        atomic_levels = ["atoms", "molecules", "organisms", "templates", "pages"]
+        expected_features = ["authentication", "optimization", "dashboard"]
+        
+        # Analyze file structure for AVSHA compliance
+        for file_path, file_data in entities["files"].items():
+            path_parts = Path(file_path).parts
+            
+            # Check if file follows AVSHA structure
+            if "src" in path_parts or "app" in path_parts:
+                # Frontend (React) or Backend (FastAPI) structure
+                avsha_analysis = self.analyze_file_avsha_compliance(file_path, path_parts)
+                
+                if avsha_analysis["is_atomic_component"]:
+                    component_id = f"{avsha_analysis['level']}:{avsha_analysis['component_name']}"
+                    atomic_components[component_id] = {
+                        "level": avsha_analysis["level"],
+                        "feature": avsha_analysis["feature"],
+                        "component_name": avsha_analysis["component_name"],
+                        "file_path": file_path,
+                        "is_shared": avsha_analysis["is_shared"],
+                        "last_modified": file_data["last_modified"]
+                    }
+                
+                if avsha_analysis["feature"] and avsha_analysis["feature"] != "shared":
+                    if avsha_analysis["feature"] not in feature_slices:
+                        feature_slices[avsha_analysis["feature"]] = {
+                            "components": [],
+                            "cohesion_score": 0.0,
+                            "last_updated": file_data["last_modified"]
+                        }
+                    feature_slices[avsha_analysis["feature"]]["components"].append(file_path)
+                
+                # Check for violations
+                if avsha_analysis["violations"]:
+                    violations[file_path] = avsha_analysis["violations"]
+        
+        return atomic_components, feature_slices, violations
+    
+    def analyze_file_avsha_compliance(self, file_path, path_parts):
+        """Analyze individual file for AVSHA compliance"""
+        analysis = {
+            "is_atomic_component": False,
+            "level": None,
+            "feature": None,
+            "component_name": None,
+            "is_shared": False,
+            "violations": []
+        }
+        
+        atomic_levels = ["atoms", "molecules", "organisms", "templates", "pages"]
+        
+        # Check for atomic level in path
+        for level in atomic_levels:
+            if level in path_parts:
+                analysis["is_atomic_component"] = True
+                analysis["level"] = level
+                break
+        
+        # Determine feature
+        if "shared" in path_parts:
+            analysis["is_shared"] = True
+            analysis["feature"] = "shared"
+        elif "features" in path_parts:
+            # Find feature name after 'features'
+            try:
+                features_index = path_parts.index("features")
+                if features_index + 1 < len(path_parts):
+                    analysis["feature"] = path_parts[features_index + 1]
+            except ValueError:
+                pass
+        
+        # Extract component name
+        if analysis["is_atomic_component"]:
+            file_stem = Path(file_path).stem
+            analysis["component_name"] = file_stem
+        
+        # Check for violations
+        if analysis["is_atomic_component"]:
+            # Violation: Atomic component not in proper level directory
+            if not analysis["level"]:
+                analysis["violations"].append("atomic_component_no_level")
+            
+            # Violation: Feature component in wrong location
+            if analysis["feature"] and not (analysis["is_shared"] or "features" in path_parts):
+                analysis["violations"].append("feature_component_wrong_location")
+        
+        return analysis
+    
+    def calculate_avsha_metrics(self, atomic_components, feature_slices, entities):
+        """Calculate AVSHA architecture metrics"""
+        metrics = {
+            "reusability_score": 0.0,
+            "feature_cohesion": 0.0,
+            "component_distribution": {},
+            "architectural_compliance": 0.0
+        }
+        
+        total_files = len(entities["files"])
+        if total_files == 0:
+            return metrics
+        
+        # Calculate component distribution
+        for level in ["atoms", "molecules", "organisms", "templates", "pages"]:
+            count = len([c for c in atomic_components.values() if c["level"] == level])
+            metrics["component_distribution"][level] = count
+        
+        # Calculate reusability score (shared components / total components)
+        shared_components = len([c for c in atomic_components.values() if c["is_shared"]])
+        total_components = len(atomic_components)
+        if total_components > 0:
+            metrics["reusability_score"] = shared_components / total_components
+        
+        # Calculate feature cohesion (average cohesion across features)
+        if feature_slices:
+            cohesion_scores = []
+            for feature, data in feature_slices.items():
+                # Simple cohesion metric: components per feature
+                component_count = len(data["components"])
+                # Higher component count in feature indicates better cohesion
+                cohesion_score = min(component_count / 10.0, 1.0)  # Normalize to 1.0
+                cohesion_scores.append(cohesion_score)
+            metrics["feature_cohesion"] = sum(cohesion_scores) / len(cohesion_scores)
+        
+        # Calculate architectural compliance
+        compliant_files = len([f for f in entities["files"] if self.is_file_avsha_compliant(f)])
+        metrics["architectural_compliance"] = compliant_files / total_files
+        
+        return metrics
+    
+    def is_file_avsha_compliant(self, file_path):
+        """Check if file follows AVSHA naming and structure conventions"""
+        path_parts = Path(file_path).parts
+        
+        # Basic compliance checks
+        if "src" in path_parts or "app" in path_parts:
+            # Check for proper structure (shared/ or features/)
+            if "shared" in path_parts or "features" in path_parts:
+                return True
+        
+        # Configuration and root files are considered compliant
+        if Path(file_path).name in ["main.py", "app.py", "__init__.py"]:
+            return True
+            
+        return False
     
     def get_file_hash(self, file_path):
         """Generate hash for file content"""
@@ -151,7 +314,7 @@ class KnowledgeGraphUpdater:
     
     def update(self):
         """Main update method"""
-        print("🧠 Updating knowledge graph...")
+        print("🧠 Updating knowledge graph with AVSHA analysis...")
         
         # Load existing graph
         graph = self.load_graph()
@@ -163,19 +326,46 @@ class KnowledgeGraphUpdater:
         changes = self.detect_changes(current_entities, graph["entities"])
         
         # Update entities
-        graph["entities"] = current_entities
+        graph["entities"].update(current_entities)
+        
+        # Perform AVSHA architectural analysis
+        print("🏛️ Analyzing AVSHA architecture...")
+        atomic_components, feature_slices, violations = self.analyze_avsha_structure(current_entities)
+        
+        # Update AVSHA entities
+        graph["entities"]["atomic_components"] = atomic_components
+        graph["entities"]["feature_slices"] = feature_slices
+        graph["entities"]["architectural_violations"] = violations
+        
+        # Calculate AVSHA metrics
+        avsha_metrics = self.calculate_avsha_metrics(atomic_components, feature_slices, current_entities)
+        avsha_metrics["last_assessment"] = datetime.now().isoformat()
+        graph["avsha_metrics"] = avsha_metrics
         
         # Update relationships
         graph = self.update_relationships(graph, changes)
         
-        # Update context vectors
+        # Update context vectors with architectural patterns
         graph["context_vectors"]["recent_changes"] = changes
         graph["context_vectors"]["last_scan"] = datetime.now().isoformat()
+        graph["context_vectors"]["architectural_patterns"] = list(atomic_components.keys())
         
         # Save graph
         self.save_graph(graph)
         
-        print(f"✅ Knowledge graph updated - {len(changes['added'])} added, {len(changes['modified'])} modified, {len(changes['deleted'])} deleted")
+        # Print results
+        print(f"✅ Knowledge graph updated:")
+        print(f"   📁 Files: {len(changes['added'])} added, {len(changes['modified'])} modified, {len(changes['deleted'])} deleted")
+        print(f"   🧩 Atomic Components: {len(atomic_components)}")
+        print(f"   🎯 Feature Slices: {len(feature_slices)}")
+        print(f"   ⚠️  Violations: {len(violations)}")
+        print(f"   📊 Compliance Score: {avsha_metrics['architectural_compliance']:.2f}")
+        print(f"   🔄 Reusability Score: {avsha_metrics['reusability_score']:.2f}")
+        
+        if violations:
+            print("⚠️  AVSHA Violations detected:")
+            for file_path, violation_list in violations.items():
+                print(f"   - {file_path}: {', '.join(violation_list)}")
         
         return changes
 
