@@ -1,127 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useOptimization, useOptimizationHistory, OptimizationMetrics } from "../hooks/useOptimization";
-// Note: FeedbackModal component may not exist
-// import { FeedbackModal } from "../components/FeedbackModal";
-
-// UI Component Types
-interface ProgressBarProps {
-  label: string;
-  value: number;
-  maxValue?: number;
-  className?: string;
-  showValue?: boolean;
-}
-
-interface QualityMetricsProps {
-  metrics: OptimizationMetrics;
-  overallScore?: number;
-}
+import { useOptimization, useOptimizationHistory } from "../hooks/useOptimization";
+import { OptimizationForm } from "../components/OptimizationForm";
+import { ProgressDisplay } from "../components/ProgressDisplay";
+import { QualityMetrics } from "../components/QualityMetrics";
+import { ErrorHandling } from "../components/ErrorHandling";
 
 interface OptimizationResultsProps {
   isVisible: boolean;
   onClose: () => void;
-}
-
-// Progress Bar Component
-function ProgressBar({ label, value, maxValue = 10, className = "", showValue = true }: ProgressBarProps) {
-  const percentage = Math.min((value / maxValue) * 100, 100);
-  
-  const getColorClass = (percentage: number) => {
-    if (percentage >= 80) return "bg-emerald-500";
-    if (percentage >= 60) return "bg-blue-500";
-    if (percentage >= 40) return "bg-yellow-500";
-    return "bg-red-500";
-  };
-
-  return (
-    <div className={`space-y-1 ${className}`}>
-      <div className="flex justify-between items-center text-sm">
-        <span className="font-medium text-gray-700">{label}</span>
-        {showValue && (
-          <span className="text-gray-600">{value.toFixed(1)}/{maxValue}</span>
-        )}
-      </div>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <div 
-          className={`h-2.5 rounded-full transition-all duration-500 ease-out ${getColorClass(percentage)}`}
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
-    </div>
-  );
-}
-
-// Quality Metrics Dashboard Component
-function QualityMetrics({ metrics, overallScore }: QualityMetricsProps) {
-  return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Quality Metrics</h3>
-        {overallScore && (
-          <div className="flex items-center space-x-2">
-            <span className="text-sm font-medium text-gray-600">Overall Score:</span>
-            <span className="text-xl font-bold text-blue-600">{overallScore.toFixed(1)}</span>
-          </div>
-        )}
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ProgressBar label="Clarity" value={metrics.clarity} />
-        <ProgressBar label="Specificity" value={metrics.specificity} />
-        <ProgressBar label="Engagement" value={metrics.engagement} />
-        {metrics.structure && (
-          <ProgressBar label="Structure" value={metrics.structure} />
-        )}
-        {metrics.completeness && (
-          <ProgressBar label="Completeness" value={metrics.completeness} />
-        )}
-        {metrics.error_prevention && (
-          <ProgressBar label="Error Prevention" value={metrics.error_prevention} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-// Advanced Progress Indicator Component
-function OptimizationProgress({ isOptimizing, currentStep, totalSteps, message }: {
-  isOptimizing: boolean;
-  currentStep: number;
-  totalSteps: number;
-  message: string;
-}) {
-  if (!isOptimizing) return null;
-
-  const progress = totalSteps > 0 ? (currentStep / totalSteps) * 100 : 0;
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <h3 className="text-lg font-semibold mb-2">Optimizing Prompt</h3>
-          <p className="text-gray-600 mb-4">{message}</p>
-          
-          {totalSteps > 0 && (
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>Step {currentStep} of {totalSteps}</span>
-                <span>{Math.round(progress)}%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 // Optimization Results Modal Component
@@ -250,10 +138,6 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
 }
 
 export default function Home() {
-  const [prompt, setPrompt] = useState("");
-  const [contextDomain, setContextDomain] = useState("");
-  const [useAdvancedMode, setUseAdvancedMode] = useState(false);
-  const [iterations, setIterations] = useState(2);
   const [showResults, setShowResults] = useState(false);
 
   // Use our custom optimization hook
@@ -274,18 +158,12 @@ export default function Home() {
   // Use history hook
   const { sessions: recentSessions, isLoading: historyLoading } = useOptimizationHistory(5);
 
-  const handleOptimize = async (advancedMode?: boolean) => {
+  const handleOptimize = async (prompt: string, contextDomain: string, useAdvancedMode: boolean, iterations: number) => {
     if (!prompt.trim()) return;
-
-    const isAdvanced = advancedMode ?? useAdvancedMode;
     
     try {
-      await startOptimization(prompt, contextDomain, isAdvanced, iterations);
+      await startOptimization(prompt, contextDomain, useAdvancedMode, iterations);
       setShowResults(true);
-      
-      // Clear form on successful start
-      setPrompt("");
-      setContextDomain("");
     } catch (error) {
       console.error("Failed to start optimization:", error);
     }
@@ -303,7 +181,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Optimization Progress Modal */}
-      <OptimizationProgress 
+      <ProgressDisplay 
         isOptimizing={isOptimizing}
         currentStep={currentStep}
         totalSteps={totalSteps}
@@ -317,26 +195,10 @@ export default function Home() {
       />
 
       {/* Error Alert */}
-      {error && (
-        <div className="fixed top-4 right-4 z-50 max-w-md">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-                <span className="text-sm">{error}</span>
-              </div>
-              <button
-                onClick={resetOptimization}
-                className="ml-2 text-red-500 hover:text-red-700"
-              >
-                ×
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ErrorHandling 
+        error={error}
+        onDismiss={resetOptimization}
+      />
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Enhanced Header */}
@@ -374,164 +236,20 @@ export default function Home() {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           {/* Left Column - Optimization Form */}
-          <div className="xl:col-span-2 space-y-6">
-            {/* Optimization Mode Toggle */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-semibold text-gray-900">Optimization Mode</h2>
-                <div className="flex bg-gray-100 rounded-lg p-1">
-                  <button
-                    onClick={() => setUseAdvancedMode(false)}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                      !useAdvancedMode
-                        ? "bg-blue-600 text-white shadow-md"
-                        : "text-gray-600 hover:text-gray-900"
-                    }`}
-                  >
-                    Quick Mode
-                  </button>
-                  <button
-                    onClick={() => setUseAdvancedMode(true)}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                      useAdvancedMode
-                        ? "bg-purple-600 text-white shadow-md"
-                        : "text-gray-600 hover:text-gray-900"
-                    }`}
-                  >
-                    Advanced Mode
-                  </button>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className={`p-4 rounded-lg border-2 transition-all ${
-                  !useAdvancedMode ? "border-blue-200 bg-blue-50" : "border-gray-200 bg-gray-50"
-                }`}>
-                  <h3 className="font-semibold text-blue-900 mb-2">Quick Optimize</h3>
-                  <p className="text-sm text-gray-600">Single-pass optimization with basic system prompts</p>
-                  <div className="mt-2 text-xs text-red-600">⏱️ 60-90 seconds • 🏠 Local only • 🔧 Development demo</div>
-                </div>
-                <div className={`p-4 rounded-lg border-2 transition-all ${
-                  useAdvancedMode ? "border-purple-200 bg-purple-50" : "border-gray-200 bg-gray-50"
-                }`}>
-                  <h3 className="font-semibold text-purple-900 mb-2">Advanced Mode</h3>
-                  <p className="text-sm text-gray-600">Multi-iteration refinement with multiple system prompts</p>
-                  <div className="mt-2 text-xs text-red-600">⏱️ 90-120 seconds • 🏠 Local only • 🔧 Development demo</div>
-                </div>
-              </div>
-              
-              {/* Advanced Mode Controls */}
-              {useAdvancedMode && (
-                <div className="mt-6 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                  <label className="block text-sm font-medium text-purple-900 mb-2">
-                    Optimization Iterations: {iterations}
-                  </label>
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    value={iterations}
-                    onChange={(e) => setIterations(parseInt(e.target.value))}
-                    className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer slider"
-                    disabled={isOptimizing}
-                  />
-                  <div className="flex justify-between text-xs text-purple-600 mt-1">
-                    <span>1 (Fast)</span>
-                    <span>3 (Balanced)</span>
-                    <span>5 (Thorough)</span>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Main Input Form */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Your Prompt</h2>
-              
-              <div className="space-y-6">
-                <div>
-                  <label htmlFor="prompt" className="block text-sm font-medium text-gray-700 mb-2">
-                    Original Prompt *
-                  </label>
-                  <div className="relative">
-                    <textarea
-                      id="prompt"
-                      value={prompt}
-                      onChange={(e) => setPrompt(e.target.value)}
-                      placeholder="Enter the prompt you'd like to optimize using Microsoft PromptWizard techniques..."
-                      className="w-full h-40 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm leading-relaxed"
-                      disabled={isOptimizing}
-                    />
-                    <div className="absolute bottom-3 right-3 text-xs text-gray-400">
-                      {prompt.length} characters
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="context" className="block text-sm font-medium text-gray-700 mb-2">
-                    Context Domain (Optional)
-                  </label>
-                  <input
-                    id="context"
-                    type="text"
-                    value={contextDomain}
-                    onChange={(e) => setContextDomain(e.target.value)}
-                    placeholder="e.g., marketing, technical documentation, creative writing, data analysis..."
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    disabled={isOptimizing}
-                  />
-                </div>
-
-                {/* Action Buttons */}
-                <div className="space-y-3">
-                  <button
-                    onClick={() => handleOptimize()}
-                    disabled={!prompt.trim() || isOptimizing}
-                    className={`w-full py-4 px-6 font-semibold rounded-lg transition-all duration-200 ${
-                      useAdvancedMode
-                        ? "bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg"
-                        : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg"
-                    } disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none`}
-                  >
-                    {isOptimizing ? (
-                      <div className="flex items-center justify-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        {useAdvancedMode ? "Processing Advanced Optimization..." : "Optimizing..."}
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        {useAdvancedMode ? "Start Advanced Optimization" : "Quick Optimize"}
-                      </div>
-                    )}
-                  </button>
-                  
-                  <div className="bg-amber-50 border border-amber-200 rounded p-3 mt-2">
-                    <p className="text-xs text-amber-800 text-center px-4">
-                      ⚠️ {useAdvancedMode 
-                        ? `Processing will take 90-120 seconds. This is a development demo using basic system prompts.`
-                        : "Processing will take 60-90 seconds. This is a development demo using basic system prompts."
-                      }
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Quality Metrics Dashboard */}
-            {qualityMetrics && (
+          <OptimizationForm 
+            onOptimize={handleOptimize}
+            isOptimizing={isOptimizing}
+          />
+          
+          {/* Quality Metrics Dashboard */}
+          {qualityMetrics && (
+            <div className="xl:col-span-2">
               <QualityMetrics 
                 metrics={qualityMetrics} 
                 overallScore={results?.qualityMetrics.overall}
               />
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Right Column - Recent Sessions & Stats */}
           <div className="xl:col-span-1 space-y-6">

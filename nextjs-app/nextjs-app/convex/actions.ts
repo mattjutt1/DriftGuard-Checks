@@ -558,3 +558,52 @@ export const testOptimizationPipeline: any = action({
     }
   },
 });
+
+/**
+ * Test PromptWizard optimization with custom configuration
+ */
+export const testPromptWizardOptimization = action({
+  args: {
+    prompt: v.string(),
+    domain: v.optional(v.string()),
+    config: v.optional(
+      v.object({
+        task_description: v.optional(v.string()),
+        base_instruction: v.optional(v.string()),
+        answer_format: v.optional(v.string()),
+        seen_set_size: v.optional(v.number()),
+        few_shot_count: v.optional(v.number()),
+        generate_reasoning: v.optional(v.boolean()),
+        generate_expert_identity: v.optional(v.boolean()),
+        mutate_refine_iterations: v.optional(v.number()),
+        mutation_rounds: v.optional(v.number()),
+      }),
+    ),
+  },
+  handler: async (ctx, args) => {
+    try {
+      // Use the same optimization logic but return in simplified format
+      const ollamaData = await retryWithBackoff(async () => {
+        return await callOllamaAPI(args.prompt, args.domain);
+      });
+
+      const optimizationData = parseOptimizationResponse(ollamaData.response);
+
+      return { 
+        success: true, 
+        result: {
+          best_prompt: optimizationData.optimized_prompt,
+          improvements: optimizationData.improvements || [],
+          quality_score: optimizationData.quality_score || 7.0,
+          expert_profile: optimizationData.expert_identity,
+          iterations_completed: 1
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  },
+});
