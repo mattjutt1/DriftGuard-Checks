@@ -371,3 +371,327 @@ export const advancedOptimize = action({
     }
   },
 });
+
+
+/**
+ * Test Logging Actions
+ * Handle test execution data, API metrics, and error logs
+ */
+
+/**
+ * Log test execution data from CLI
+ */
+export const logTestExecution = action({
+  args: {
+    executionId: v.string(),
+    testType: v.union(
+      v.literal("unit"),
+      v.literal("integration"),
+      v.literal("e2e"),
+      v.literal("api"),
+      v.literal("cli"),
+    ),
+    testSuite: v.string(),
+    environment: v.string(),
+    testResults: v.array(
+      v.object({
+        testId: v.string(),
+        testName: v.string(),
+        testClass: v.optional(v.string()),
+        testModule: v.string(),
+        status: v.union(
+          v.literal("passed"),
+          v.literal("failed"),
+          v.literal("skipped"),
+          v.literal("timeout"),
+        ),
+        duration: v.number(),
+        errorMessage: v.optional(v.string()),
+        errorTrace: v.optional(v.string()),
+        assertions: v.optional(v.number()),
+        apiCallCount: v.optional(v.number()),
+        responseTime: v.optional(v.number()),
+        memoryUsage: v.optional(v.number()),
+        tags: v.optional(v.array(v.string())),
+        metadata: v.optional(
+          v.object({
+            promptText: v.optional(v.string()),
+            promptLength: v.optional(v.number()),
+            responseLength: v.optional(v.number()),
+            modelUsed: v.optional(v.string()),
+            temperature: v.optional(v.number()),
+            maxTokens: v.optional(v.number()),
+          }),
+        ),
+      }),
+    ),
+    apiCalls: v.array(
+      v.object({
+        callId: v.string(),
+        endpoint: v.string(),
+        method: v.string(),
+        requestSize: v.optional(v.number()),
+        responseSize: v.optional(v.number()),
+        statusCode: v.number(),
+        responseTime: v.number(),
+        success: v.boolean(),
+        errorMessage: v.optional(v.string()),
+        retryCount: v.optional(v.number()),
+        requestBody: v.optional(v.string()),
+        responseBody: v.optional(v.string()),
+        metadata: v.optional(
+          v.object({
+            modelUsed: v.optional(v.string()),
+            promptTokens: v.optional(v.number()),
+            completionTokens: v.optional(v.number()),
+            totalTokens: v.optional(v.number()),
+            cacheHit: v.optional(v.boolean()),
+          }),
+        ),
+      }),
+    ),
+    errors: v.array(
+      v.object({
+        errorId: v.string(),
+        errorType: v.string(),
+        errorMessage: v.string(),
+        errorTrace: v.optional(v.string()),
+        severity: v.union(
+          v.literal("low"),
+          v.literal("medium"),
+          v.literal("high"),
+          v.literal("critical"),
+        ),
+        context: v.optional(
+          v.object({
+            function: v.optional(v.string()),
+            file: v.optional(v.string()),
+            line: v.optional(v.number()),
+            variables: v.optional(v.string()),
+          }),
+        ),
+        tags: v.optional(v.array(v.string())),
+      }),
+    ),
+    metadata: v.object({
+      pythonVersion: v.optional(v.string()),
+      pytestVersion: v.optional(v.string()),
+      nodeVersion: v.optional(v.string()),
+      platform: v.optional(v.string()),
+      branch: v.optional(v.string()),
+      commit: v.optional(v.string()),
+    }),
+  },
+  handler: async (ctx, args) => {
+    const timestamp = Date.now();
+
+    try {
+      // Store test execution summary
+      const testExecutionId = await ctx.runMutation(
+        api.testLogs.createTestExecution,
+        {
+          executionId: args.executionId,
+          testType: args.testType,
+          testSuite: args.testSuite,
+          environment: args.environment,
+          startTime: timestamp,
+          status: "running",
+          totalTests: args.testResults.length,
+          passedTests: args.testResults.filter((t) => t.status === "passed")
+            .length,
+          failedTests: args.testResults.filter((t) => t.status === "failed")
+            .length,
+          skippedTests: args.testResults.filter((t) => t.status === "skipped")
+            .length,
+          metadata: args.metadata,
+        },
+      );
+
+      // Store individual test results
+      const testResultIds = [];
+      for (const testResult of args.testResults) {
+        const resultId = await ctx.runMutation(api.testLogs.createTestResult, {
+          executionId: args.executionId,
+          testId: testResult.testId,
+          testName: testResult.testName,
+          testClass: testResult.testClass,
+          testModule: testResult.testModule,
+          status: testResult.status,
+          duration: testResult.duration,
+          errorMessage: testResult.errorMessage,
+          errorTrace: testResult.errorTrace,
+          assertions: testResult.assertions,
+          apiCallCount: testResult.apiCallCount,
+          responseTime: testResult.responseTime,
+          memoryUsage: testResult.memoryUsage,
+          tags: testResult.tags,
+          metadata: testResult.metadata,
+        });
+        testResultIds.push(resultId);
+      }
+
+      // Store API call logs
+      const apiCallIds = [];
+      for (const apiCall of args.apiCalls) {
+        const callId = await ctx.runMutation(api.testLogs.createApiCall, {
+          executionId: args.executionId,
+          callId: apiCall.callId,
+          endpoint: apiCall.endpoint,
+          method: apiCall.method,
+          requestSize: apiCall.requestSize,
+          responseSize: apiCall.responseSize,
+          statusCode: apiCall.statusCode,
+          responseTime: apiCall.responseTime,
+          success: apiCall.success,
+          errorMessage: apiCall.errorMessage,
+          retryCount: apiCall.retryCount,
+          requestBody: apiCall.requestBody,
+          responseBody: apiCall.responseBody,
+          metadata: apiCall.metadata,
+        });
+        apiCallIds.push(callId);
+      }
+
+      // Store error logs
+      const errorLogIds = [];
+      for (const error of args.errors) {
+        const errorId = await ctx.runMutation(api.testLogs.createErrorLog, {
+          executionId: args.executionId,
+          errorId: error.errorId,
+          errorType: error.errorType,
+          errorMessage: error.errorMessage,
+          errorTrace: error.errorTrace,
+          severity: error.severity,
+          context: error.context,
+          tags: error.tags,
+        });
+        errorLogIds.push(errorId);
+      }
+
+      return {
+        success: true,
+        testExecutionId,
+        testResultIds,
+        apiCallIds,
+        errorLogIds,
+        timestamp,
+      };
+    } catch (error) {
+      console.error("Failed to log test execution:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  },
+});
+
+/**
+ * Get test execution results with filtering options
+ */
+export const getTestResults = action({
+  args: {
+    executionId: v.optional(v.string()),
+    limit: v.optional(v.number()),
+    testType: v.optional(v.string()),
+    environment: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    try {
+      const results = await ctx.runQuery(api.testLogs.getTestExecutions, {
+        executionId: args.executionId,
+        limit: args.limit || 50,
+        testType: args.testType,
+        environment: args.environment,
+      });
+
+      return {
+        success: true,
+        data: results,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  },
+});
+
+/**
+ * Get API performance metrics
+ */
+export const getApiMetrics = action({
+  args: {
+    endpoint: v.optional(v.string()),
+    limit: v.optional(v.number()),
+    hours: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    try {
+      const results = await ctx.runQuery(api.testLogs.getApiMetrics, {
+        endpoint: args.endpoint,
+        limit: args.limit || 100,
+        hours: args.hours || 24,
+      });
+
+      return {
+        success: true,
+        data: results,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  },
+});
+
+/**
+ * Update test execution status
+ */
+export const updateTestStatus = action({
+  args: {
+    executionId: v.string(),
+    status: v.union(
+      v.literal("running"),
+      v.literal("passed"),
+      v.literal("failed"),
+      v.literal("skipped"),
+      v.literal("timeout"),
+    ),
+    endTime: v.optional(v.number()),
+    duration: v.optional(v.number()),
+    results: v.optional(
+      v.object({
+        totalTests: v.optional(v.number()),
+        passedTests: v.optional(v.number()),
+        failedTests: v.optional(v.number()),
+        skippedTests: v.optional(v.number()),
+        coverage: v.optional(v.number()),
+      }),
+    ),
+  },
+  handler: async (ctx, args) => {
+    try {
+      const result = await ctx.runMutation(api.testLogs.updateTestExecution, {
+        executionId: args.executionId,
+        status: args.status,
+        endTime: args.endTime,
+        duration: args.duration,
+        results: args.results,
+      });
+
+      return {
+        success: true,
+        data: result,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  },
+});

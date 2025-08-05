@@ -14,10 +14,10 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as actions from "../actions.js";
-import type * as http from "../http.js";
 import type * as optimizations from "../optimizations.js";
-import type * as public_ from "../public.js";
+import type * as seedData from "../seedData.js";
 import type * as sessions from "../sessions.js";
+import type * as testLogs from "../testLogs.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,10 +29,10 @@ import type * as sessions from "../sessions.js";
  */
 declare const fullApi: ApiFromModules<{
   actions: typeof actions;
-  http: typeof http;
   optimizations: typeof optimizations;
-  public: typeof public_;
+  seedData: typeof seedData;
   sessions: typeof sessions;
+  testLogs: typeof testLogs;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

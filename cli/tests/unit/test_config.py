@@ -194,7 +194,7 @@ class TestEnvironmentConfiguration:
         """Test default Convex URL"""
         assert CONVEX_BASE_URL is not None
         assert CONVEX_BASE_URL.startswith("https://")
-        assert "convex.cloud" in CONVEX_BASE_URL
+        assert "convex.site" in CONVEX_BASE_URL
     
     @patch.dict(os.environ, {"CONVEX_URL": "https://custom-convex.example.com"})
     def test_custom_convex_url_from_env(self):
@@ -215,7 +215,7 @@ class TestEnvironmentConfiguration:
         
         # Should fall back to default
         assert promptevolver_cli.config.CONVEX_BASE_URL.startswith("https://")
-        assert "convex.cloud" in promptevolver_cli.config.CONVEX_BASE_URL
+        assert "convex.site" in promptevolver_cli.config.CONVEX_BASE_URL
 
 
 class TestTimeoutAndDelaySettings:

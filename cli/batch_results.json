@@ -1,108 +1,38 @@
 {
   "metadata": {
-    "total_results": 10,
-    "successful": 10,
+    "total_results": 3,
+    "successful": 3,
     "failed": 0,
-    "timestamp": 1754401322.0583644,
+    "timestamp": 1754415075.322817,
     "version": "0.1.0"
   },
   "results": [
     {
       "index": 1,
-      "original_prompt": "Generate example 1 for testing batch processing",
-      "timestamp": 1754401311.5745327,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
+      "original_prompt": "JSON test prompt 1",
+      "timestamp": 1754415072.320066,
+      "optimized_prompt": "JSON batch result",
+      "quality_score": 90,
       "expert_profile": null,
       "improvements": [],
       "success": true
     },
     {
       "index": 2,
-      "original_prompt": "Generate example 2 for testing batch processing",
-      "timestamp": 1754401312.628473,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
+      "original_prompt": "JSON test prompt 2",
+      "timestamp": 1754415073.3203123,
+      "optimized_prompt": "JSON batch result",
+      "quality_score": 90,
       "expert_profile": null,
       "improvements": [],
       "success": true
     },
     {
       "index": 3,
-      "original_prompt": "Generate example 3 for testing batch processing",
-      "timestamp": 1754401313.6802733,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
-      "expert_profile": null,
-      "improvements": [],
-      "success": true
-    },
-    {
-      "index": 4,
-      "original_prompt": "Generate example 4 for testing batch processing",
-      "timestamp": 1754401314.7349386,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
-      "expert_profile": null,
-      "improvements": [],
-      "success": true
-    },
-    {
-      "index": 5,
-      "original_prompt": "Generate example 5 for testing batch processing",
-      "timestamp": 1754401315.78741,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
-      "expert_profile": null,
-      "improvements": [],
-      "success": true
-    },
-    {
-      "index": 6,
-      "original_prompt": "Generate example 6 for testing batch processing",
-      "timestamp": 1754401316.8422518,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
-      "expert_profile": null,
-      "improvements": [],
-      "success": true
-    },
-    {
-      "index": 7,
-      "original_prompt": "Generate example 7 for testing batch processing",
-      "timestamp": 1754401317.8972688,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
-      "expert_profile": null,
-      "improvements": [],
-      "success": true
-    },
-    {
-      "index": 8,
-      "original_prompt": "Generate example 8 for testing batch processing",
-      "timestamp": 1754401318.9505916,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
-      "expert_profile": null,
-      "improvements": [],
-      "success": true
-    },
-    {
-      "index": 9,
-      "original_prompt": "Generate example 9 for testing batch processing",
-      "timestamp": 1754401320.0024602,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
-      "expert_profile": null,
-      "improvements": [],
-      "success": true
-    },
-    {
-      "index": 10,
-      "original_prompt": "Generate example 10 for testing batch processing",
-      "timestamp": 1754401321.0542364,
-      "optimized_prompt": "Batch processed efficiently",
-      "quality_score": 82.0,
+      "original_prompt": "JSON test prompt 3",
+      "timestamp": 1754415074.3205545,
+      "optimized_prompt": "JSON batch result",
+      "quality_score": 90,
       "expert_profile": null,
       "improvements": [],
       "success": true

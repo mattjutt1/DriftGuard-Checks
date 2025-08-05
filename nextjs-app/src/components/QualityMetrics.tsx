@@ -69,8 +69,8 @@ export function QualityMetrics({ metrics, overallScore }: QualityMetricsProps) {
         {metrics.completeness && (
           <ProgressBar label="Completeness" value={metrics.completeness} />
         )}
-        {metrics.error_prevention && (
-          <ProgressBar label="Error Prevention" value={metrics.error_prevention} />
+        {metrics.errorPrevention && (
+          <ProgressBar label="Error Prevention" value={metrics.errorPrevention} />
         )}
       </div>
     </div>

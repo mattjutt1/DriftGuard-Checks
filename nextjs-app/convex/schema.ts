@@ -158,4 +158,154 @@ export default defineSchema({
     .index("by_public", ["isPublic"])
     .index("by_usage", ["usageCount"])
     .index("by_rating", ["averageRating"]),
+
+  // Test Logging System
+  testExecutions: defineTable({
+    executionId: v.string(),
+    testType: v.union(
+      v.literal("unit"),
+      v.literal("integration"),
+      v.literal("e2e"),
+      v.literal("api"),
+      v.literal("cli"),
+    ),
+    testSuite: v.string(),
+    environment: v.string(), // development, staging, production
+    startTime: v.number(),
+    endTime: v.optional(v.number()),
+    duration: v.optional(v.number()),
+    status: v.union(
+      v.literal("running"),
+      v.literal("passed"),
+      v.literal("failed"),
+      v.literal("skipped"),
+      v.literal("timeout"),
+    ),
+    totalTests: v.number(),
+    passedTests: v.number(),
+    failedTests: v.number(),
+    skippedTests: v.number(),
+    coverage: v.optional(v.number()),
+    metadata: v.optional(v.object({
+      pythonVersion: v.optional(v.string()),
+      pytestVersion: v.optional(v.string()),
+      nodeVersion: v.optional(v.string()),
+      platform: v.optional(v.string()),
+      branch: v.optional(v.string()),
+      commit: v.optional(v.string()),
+    })),
+    createdAt: v.number(),
+  })
+    .index("by_execution_id", ["executionId"])
+    .index("by_test_type", ["testType"])
+    .index("by_status", ["status"])
+    .index("by_created_at", ["createdAt"])
+    .index("by_environment", ["environment"]),
+
+  testResults: defineTable({
+    executionId: v.string(),
+    testId: v.string(),
+    testName: v.string(),
+    testClass: v.optional(v.string()),
+    testModule: v.string(),
+    status: v.union(
+      v.literal("passed"),
+      v.literal("failed"),
+      v.literal("skipped"),
+      v.literal("timeout"),
+    ),
+    duration: v.number(),
+    errorMessage: v.optional(v.string()),
+    errorTrace: v.optional(v.string()),
+    assertions: v.optional(v.number()),
+    apiCallCount: v.optional(v.number()),
+    responseTime: v.optional(v.number()),
+    memoryUsage: v.optional(v.number()),
+    tags: v.optional(v.array(v.string())),
+    metadata: v.optional(v.object({
+      promptText: v.optional(v.string()),
+      promptLength: v.optional(v.number()),
+      responseLength: v.optional(v.number()),
+      modelUsed: v.optional(v.string()),
+      temperature: v.optional(v.number()),
+      maxTokens: v.optional(v.number()),
+    })),
+    createdAt: v.number(),
+  })
+    .index("by_execution_id", ["executionId"])
+    .index("by_test_id", ["testId"])
+    .index("by_status", ["status"])
+    .index("by_duration", ["duration"])
+    .index("by_test_name", ["testName"]),
+
+  apiCalls: defineTable({
+    executionId: v.optional(v.string()),
+    testId: v.optional(v.string()),
+    callId: v.string(),
+    endpoint: v.string(),
+    method: v.string(),
+    requestSize: v.optional(v.number()),
+    responseSize: v.optional(v.number()),
+    statusCode: v.number(),
+    responseTime: v.number(),
+    success: v.boolean(),
+    errorMessage: v.optional(v.string()),
+    retryCount: v.optional(v.number()),
+    requestHeaders: v.optional(v.object({
+      contentType: v.optional(v.string()),
+      userAgent: v.optional(v.string()),
+      authorization: v.optional(v.string()),
+    })),
+    requestBody: v.optional(v.string()),
+    responseBody: v.optional(v.string()),
+    metadata: v.optional(v.object({
+      modelUsed: v.optional(v.string()),
+      promptTokens: v.optional(v.number()),
+      completionTokens: v.optional(v.number()),
+      totalTokens: v.optional(v.number()),
+      cacheHit: v.optional(v.boolean()),
+    })),
+    timestamp: v.number(),
+  })
+    .index("by_execution_id", ["executionId"])
+    .index("by_endpoint", ["endpoint"])
+    .index("by_status_code", ["statusCode"])
+    .index("by_response_time", ["responseTime"])
+    .index("by_success", ["success"])
+    .index("by_timestamp", ["timestamp"]),
+
+  errorLogs: defineTable({
+    executionId: v.optional(v.string()),
+    testId: v.optional(v.string()),
+    errorId: v.string(),
+    errorType: v.string(),
+    errorMessage: v.string(),
+    errorTrace: v.optional(v.string()),
+    severity: v.union(
+      v.literal("low"),
+      v.literal("medium"),
+      v.literal("high"),
+      v.literal("critical"),
+    ),
+    context: v.optional(v.object({
+      function: v.optional(v.string()),
+      file: v.optional(v.string()),
+      line: v.optional(v.number()),
+      variables: v.optional(v.string()),
+    })),
+    resolved: v.boolean(),
+    resolvedAt: v.optional(v.number()),
+    resolvedBy: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
+    occurrenceCount: v.number(),
+    firstOccurrence: v.number(),
+    lastOccurrence: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_execution_id", ["executionId"])
+    .index("by_error_type", ["errorType"])
+    .index("by_severity", ["severity"])
+    .index("by_resolved", ["resolved"])
+    .index("by_occurrence_count", ["occurrenceCount"])
+    .index("by_created_at", ["createdAt"]),
 });
