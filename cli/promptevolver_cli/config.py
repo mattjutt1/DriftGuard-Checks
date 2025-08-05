@@ -16,21 +16,15 @@ DEFAULT_CONFIG = {
     "seen_set_size": 25,
     "few_shot_count": 3,
     "temperature": 0.7,
-    "max_tokens": 1024
+    "max_tokens": 1024,
 }
 
 # Quick mode settings (1 iteration)
-QUICK_MODE_CONFIG = {
-    **DEFAULT_CONFIG,
-    "mutate_refine_iterations": 1
-}
+QUICK_MODE_CONFIG = {**DEFAULT_CONFIG, "mutate_refine_iterations": 1}
 
 # Advanced mode settings (3 iterations)
-ADVANCED_MODE_CONFIG = {
-    **DEFAULT_CONFIG,
-    "mutate_refine_iterations": 3
-}
+ADVANCED_MODE_CONFIG = {**DEFAULT_CONFIG, "mutate_refine_iterations": 3}
 
 # API timeout settings
 API_TIMEOUT = 30  # seconds
-BATCH_DELAY = 1   # seconds between batch requests
+BATCH_DELAY = 1  # seconds between batch requests
