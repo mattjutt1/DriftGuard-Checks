@@ -44,22 +44,65 @@ export default defineSchema({
       rounds: v.number(),
       temperature: v.number(),
       maxTokens: v.number(),
+      generateReasoning: v.boolean(),
+      generateExpertIdentity: v.boolean(),
+      seenSetSize: v.number(),
+      fewShotCount: v.number(),
     }),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("processing"),
+      v.literal("completed"),
+      v.literal("failed")
+    ),
     processingTimeMs: v.optional(v.number()),
     qualityScore: v.optional(v.number()),
     iterationsCompleted: v.optional(v.number()),
+    currentIteration: v.optional(v.number()),
     errorMessage: v.optional(v.string()),
-    results: v.optional(
+    expertIdentity: v.optional(v.string()),
+    progressSteps: v.optional(v.array(v.object({
+      step: v.string(),
+      status: v.union(v.literal("pending"), v.literal("processing"), v.literal("completed"), v.literal("failed")),
+      timestamp: v.number(),
+      details: v.optional(v.string()),
+    }))),
+    mutationHistory: v.optional(v.array(v.object({
+      iteration: v.number(),
+      round: v.number(),
+      mutationType: v.union(v.literal("specific"), v.literal("engaging"), v.literal("structured")),
+      originalPrompt: v.string(),
+      mutatedPrompt: v.string(),
+      qualityScores: v.object({
+        clarity: v.number(),
+        specificity: v.number(),
+        engagement: v.number(),
+        structure: v.number(),
+        completeness: v.number(),
+        errorPrevention: v.number(),
+        overall: v.number(),
+      }),
+      timestamp: v.number(),
+    }))),
+    finalResults: v.optional(
       v.object({
+        bestPrompt: v.string(),
         improvements: v.array(v.string()),
-        metrics: v.object({
+        qualityMetrics: v.object({
           clarity: v.number(),
           specificity: v.number(),
           engagement: v.number(),
+          structure: v.number(),
+          completeness: v.number(),
+          errorPrevention: v.number(),
+          overall: v.number(),
         }),
+        reasoning: v.optional(v.string()),
+        expertInsights: v.optional(v.array(v.string())),
       })
     ),
     createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
   })
     .index("by_prompt", ["promptId"])
     .index("by_user", ["userId"])

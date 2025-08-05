@@ -1,40 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-
-// Enhanced TypeScript interfaces
-interface OptimizationMetrics {
-  clarity: number;
-  specificity: number;
-  engagement: number;
-  structure?: number;
-  completeness?: number;
-  error_prevention?: number;
-}
-
-interface IterationResult {
-  iteration: number;
-  result: {
-    optimized_prompt: string;
-    improvements: string[];
-    quality_score: number;
-    iteration_focus?: string;
-    confidence?: number;
-  };
-  processingTime: number;
-}
-
-interface OptimizationResponse {
-  success: boolean;
-  sessionId: string;
-  iterations?: number;
-  finalPrompt?: string;
-  finalQualityScore?: number;
-  totalProcessingTime?: number;
-  iterationDetails?: IterationResult[];
-}
+import { useState } from "react";
+import { useOptimization, useOptimizationHistory, OptimizationMetrics } from "../hooks/useOptimization";
+// Note: FeedbackModal component may not exist
+// import { FeedbackModal } from "../components/FeedbackModal";
 
 // UI Component Types
 interface ProgressBarProps {
@@ -51,7 +20,6 @@ interface QualityMetricsProps {
 }
 
 interface OptimizationResultsProps {
-  result: OptimizationResponse | null;
   isVisible: boolean;
   onClose: () => void;
 }
@@ -157,165 +125,175 @@ function OptimizationProgress({ isOptimizing, currentStep, totalSteps, message }
 }
 
 // Optimization Results Modal Component
-function OptimizationResults({ result, isVisible, onClose }: OptimizationResultsProps) {
-  if (!isVisible || !result) return null;
+function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
+  const { results, currentSession, qualityMetrics } = useOptimization();
+  const [showFeedback, setShowFeedback] = useState(false);
+  
+  if (!isVisible || !results) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
-          <h2 className="text-xl font-semibold">Optimization Results</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
-          >
-            ×
-          </button>
-        </div>
-        
-        <div className="p-6 space-y-6">
+    <>
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
+            <h2 className="text-xl font-semibold">Optimization Results</h2>
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+            >
+              ×
+            </button>
+          </div>
+          
+          <div className="p-6 space-y-6">
           {/* Results Summary */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-blue-50 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-blue-600">
-                {result.finalQualityScore?.toFixed(1) || "N/A"}
+                {results.qualityMetrics.overall?.toFixed(1) || "N/A"}
               </div>
               <div className="text-sm text-gray-600">Quality Score</div>
             </div>
             <div className="bg-green-50 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-green-600">
-                {result.iterations || 1}
+                {currentSession?.iterationsCompleted || 1}
               </div>
               <div className="text-sm text-gray-600">Iterations</div>
             </div>
             <div className="bg-purple-50 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-purple-600">
-                {Math.round((result.totalProcessingTime || 0) / 1000)}s
+                {Math.round((currentSession?.processingTimeMs || 0) / 1000)}s
               </div>
               <div className="text-sm text-gray-600">Processing Time</div>
             </div>
           </div>
 
           {/* Final Optimized Prompt */}
-          {result.finalPrompt && (
+          {results.bestPrompt && (
             <div className="bg-gray-50 rounded-lg p-4">
               <h3 className="font-semibold mb-2">Optimized Prompt:</h3>
               <div className="bg-white rounded border p-3 text-sm">
-                {result.finalPrompt}
+                {results.bestPrompt}
               </div>
             </div>
           )}
 
-          {/* Iteration Details */}
-          {result.iterationDetails && result.iterationDetails.length > 0 && (
+          {/* Improvements List */}
+          {results.improvements && results.improvements.length > 0 && (
             <div className="space-y-4">
-              <h3 className="font-semibold">Iteration Details:</h3>
-              {result.iterationDetails.map((iteration, index) => (
-                <div key={index} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Iteration {iteration.iteration}</span>
-                    <span className="text-sm text-gray-500">
-                      {Math.round(iteration.processingTime / 1000)}s
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-600 mb-2">
-                    Focus: {iteration.result.iteration_focus || "General optimization"}
-                  </div>
-                  <div className="space-y-1">
-                    {iteration.result.improvements.map((improvement, idx) => (
-                      <div key={idx} className="text-sm flex items-start">
-                        <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                        {improvement}
-                      </div>
-                    ))}
-                  </div>
+              <h3 className="font-semibold">Key Improvements:</h3>
+              <div className="bg-white rounded-lg border p-4">
+                <div className="space-y-2">
+                  {results.improvements.map((improvement, idx) => (
+                    <div key={idx} className="text-sm flex items-start">
+                      <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                      {improvement}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           )}
+
+          {/* Expert Insights */}
+          {results.expertInsights && results.expertInsights.length > 0 && (
+            <div className="space-y-4">
+              <h3 className="font-semibold">Expert Insights:</h3>
+              <div className="bg-indigo-50 rounded-lg p-4">
+                <div className="space-y-2">
+                  {results.expertInsights.map((insight, idx) => (
+                    <div key={idx} className="text-sm flex items-start">
+                      <span className="inline-block w-2 h-2 bg-indigo-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                      {insight}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+            {/* Feedback Button */}
+            <div className="mt-6 pt-6 border-t">
+              <button
+                onClick={() => setShowFeedback(true)}
+                className="w-full px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors font-medium"
+              >
+                💬 Share Feedback on This Optimization
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Feedback Modal - Component not implemented */}
+      {/* <FeedbackModal
+        isVisible={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        sessionId={currentSession?._id || null}
+      /> */}
+      {showFeedback && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold mb-4">Feedback Not Available</h3>
+            <p className="text-gray-600 mb-4">Feedback component is not yet implemented in this development demo.</p>
+            <button
+              onClick={() => setShowFeedback(false)}
+              className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [contextDomain, setContextDomain] = useState("");
-  const [isOptimizing, setIsOptimizing] = useState(false);
   const [useAdvancedMode, setUseAdvancedMode] = useState(false);
   const [iterations, setIterations] = useState(2);
-  const [currentIteration, setCurrentIteration] = useState(0);
-  const [optimizationProgress, setOptimizationProgress] = useState<string>("");
-  const [lastOptimizationResult, setLastOptimizationResult] = useState<OptimizationResponse | null>(null);
   const [showResults, setShowResults] = useState(false);
-  const [qualityMetrics, setQualityMetrics] = useState<OptimizationMetrics | null>(null);
 
-  const createOptimization = useMutation(api.optimizations.createOptimizationRequest);
-  const optimizeWithOllama = useMutation(api.actions.optimizePromptWithOllama);
-  const advancedOptimization = useMutation(api.actions.advancedPromptOptimization);
-  const recentSessions = useQuery(api.sessions.getRecentSessions, { limit: 5 });
-  const ollamaHealth = useMutation(api.actions.checkOllamaHealth);
+  // Use our custom optimization hook
+  const {
+    isOptimizing,
+    currentStep,
+    totalSteps,
+    progressMessage,
+    currentIteration,
+    results,
+    qualityMetrics,
+    error,
+    startOptimization,
+    resetOptimization,
+    checkOllamaHealth,
+  } = useOptimization();
+
+  // Use history hook
+  const { sessions: recentSessions, isLoading: historyLoading } = useOptimizationHistory(5);
 
   const handleOptimize = async (advancedMode?: boolean) => {
     if (!prompt.trim()) return;
 
     const isAdvanced = advancedMode ?? useAdvancedMode;
-    setIsOptimizing(true);
-    setCurrentIteration(0);
-    setOptimizationProgress("Starting optimization...");
-    setLastOptimizationResult(null);
-    setQualityMetrics(null);
     
     try {
-      // Create optimization request
-      const sessionId = await createOptimization({
-        originalPrompt: prompt,
-        contextDomain: contextDomain || undefined,
-      });
-
-      setOptimizationProgress(isAdvanced ? "Running advanced PromptWizard optimization..." : "Running quick optimization...");
-
-      // Trigger optimization (basic or advanced)
-      let result: OptimizationResponse;
-      if (isAdvanced) {
-        setCurrentIteration(1);
-        result = await advancedOptimization({ sessionId, iterations });
-        setLastOptimizationResult(result);
-        
-        // Extract quality metrics from the final result
-        if (result.finalQualityScore) {
-          setQualityMetrics({
-            clarity: result.finalQualityScore * 0.9,
-            specificity: result.finalQualityScore * 0.95,
-            engagement: result.finalQualityScore * 0.85,
-            structure: result.finalQualityScore * 0.9,
-            completeness: result.finalQualityScore * 0.88,
-            error_prevention: result.finalQualityScore * 0.92,
-          });
-        }
-      } else {
-        result = await optimizeWithOllama({ sessionId }) as OptimizationResponse;
-      }
-      
-      setOptimizationProgress("Optimization completed successfully!");
+      await startOptimization(prompt, contextDomain, isAdvanced, iterations);
       setShowResults(true);
       
-      // Clear form
+      // Clear form on successful start
       setPrompt("");
       setContextDomain("");
     } catch (error) {
-      console.error("Optimization failed:", error);
-      setOptimizationProgress("Optimization failed. Please check your connection and try again.");
-    } finally {
-      setIsOptimizing(false);
-      setCurrentIteration(0);
+      console.error("Failed to start optimization:", error);
     }
   };
 
   const checkHealth = async () => {
     try {
-      const health = await ollamaHealth({});
+      const health = await checkOllamaHealth();
       alert(JSON.stringify(health, null, 2));
     } catch (error) {
       alert("Health check failed: " + error);
@@ -327,17 +305,38 @@ export default function Home() {
       {/* Optimization Progress Modal */}
       <OptimizationProgress 
         isOptimizing={isOptimizing}
-        currentStep={currentIteration}
-        totalSteps={useAdvancedMode ? iterations : 1}
-        message={optimizationProgress}
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        message={progressMessage}
       />
       
       {/* Results Modal */}
       <OptimizationResults 
-        result={lastOptimizationResult}
         isVisible={showResults}
         onClose={() => setShowResults(false)}
       />
+
+      {/* Error Alert */}
+      {error && (
+        <div className="fixed top-4 right-4 z-50 max-w-md">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm">{error}</span>
+              </div>
+              <button
+                onClick={resetOptimization}
+                className="ml-2 text-red-500 hover:text-red-700"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Enhanced Header */}
@@ -350,8 +349,14 @@ export default function Home() {
           <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-4">
             PromptEvolver
           </h1>
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
+            <p className="text-lg font-semibold text-yellow-800 mb-2">⚠️ Development Demo - Not Production Ready</p>
+            <p className="text-sm text-yellow-700">
+              Processing takes 60-120 seconds • Local development only • System prompts (not actual PromptWizard)
+            </p>
+          </div>
           <p className="text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
-            Advanced AI-Powered Prompt Optimization with Microsoft PromptWizard & Qwen3-8B
+            Basic Prompt Optimization Demo using Ollama & Qwen3:4b
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
@@ -403,15 +408,15 @@ export default function Home() {
                   !useAdvancedMode ? "border-blue-200 bg-blue-50" : "border-gray-200 bg-gray-50"
                 }`}>
                   <h3 className="font-semibold text-blue-900 mb-2">Quick Optimize</h3>
-                  <p className="text-sm text-gray-600">Single-pass optimization with core PromptWizard techniques</p>
-                  <div className="mt-2 text-xs text-gray-500">⚡ Fast • ✅ Reliable • 🎯 Focused</div>
+                  <p className="text-sm text-gray-600">Single-pass optimization with basic system prompts</p>
+                  <div className="mt-2 text-xs text-red-600">⏱️ 60-90 seconds • 🏠 Local only • 🔧 Development demo</div>
                 </div>
                 <div className={`p-4 rounded-lg border-2 transition-all ${
                   useAdvancedMode ? "border-purple-200 bg-purple-50" : "border-gray-200 bg-gray-50"
                 }`}>
-                  <h3 className="font-semibold text-purple-900 mb-2">Advanced PromptWizard</h3>
-                  <p className="text-sm text-gray-600">Multi-iteration refinement with comprehensive analysis</p>
-                  <div className="mt-2 text-xs text-gray-500">🔬 Thorough • 📊 Detailed • 🚀 Powerful</div>
+                  <h3 className="font-semibold text-purple-900 mb-2">Advanced Mode</h3>
+                  <p className="text-sm text-gray-600">Multi-iteration refinement with multiple system prompts</p>
+                  <div className="mt-2 text-xs text-red-600">⏱️ 90-120 seconds • 🏠 Local only • 🔧 Development demo</div>
                 </div>
               </div>
               
@@ -507,12 +512,14 @@ export default function Home() {
                     )}
                   </button>
                   
-                  <p className="text-xs text-gray-500 text-center px-4">
-                    {useAdvancedMode 
-                      ? `Advanced mode applies ${iterations} iterations of PromptWizard techniques for maximum quality`
-                      : "Quick mode applies core PromptWizard optimization in a single pass"
-                    }
-                  </p>
+                  <div className="bg-amber-50 border border-amber-200 rounded p-3 mt-2">
+                    <p className="text-xs text-amber-800 text-center px-4">
+                      ⚠️ {useAdvancedMode 
+                        ? `Processing will take 90-120 seconds. This is a development demo using basic system prompts.`
+                        : "Processing will take 60-90 seconds. This is a development demo using basic system prompts."
+                      }
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -521,7 +528,7 @@ export default function Home() {
             {qualityMetrics && (
               <QualityMetrics 
                 metrics={qualityMetrics} 
-                overallScore={lastOptimizationResult?.finalQualityScore}
+                overallScore={results?.qualityMetrics.overall}
               />
             )}
           </div>
@@ -540,7 +547,7 @@ export default function Home() {
                 </div>
                 <div className="text-center p-3 bg-green-50 rounded-lg">
                   <div className="text-2xl font-bold text-green-600">
-                    {recentSessions?.filter(s => s.prompt?.optimizationStatus === "completed").length || 0}
+                    {recentSessions?.filter(s => s.status === "completed").length || 0}
                   </div>
                   <div className="text-xs text-gray-600">Completed</div>
                 </div>
@@ -556,7 +563,7 @@ export default function Home() {
                 </svg>
               </div>
               
-              {recentSessions === undefined ? (
+              {historyLoading ? (
                 <div className="text-center py-12">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
                   <p className="mt-3 text-gray-600">Loading sessions...</p>
@@ -577,20 +584,20 @@ export default function Home() {
                     <div key={session._id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
                       <div className="flex justify-between items-start mb-3">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          session.prompt?.optimizationStatus === "completed"
+                          session.status === "completed"
                             ? "bg-green-100 text-green-800"
-                            : session.prompt?.optimizationStatus === "processing"
+                            : session.status === "processing"
                             ? "bg-yellow-100 text-yellow-800"
-                            : session.prompt?.optimizationStatus === "failed"
+                            : session.status === "failed"
                             ? "bg-red-100 text-red-800"
                             : "bg-gray-100 text-gray-800"
                         }`}>
-                          {session.prompt?.optimizationStatus === "completed" && (
+                          {session.status === "completed" && (
                             <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           )}
-                          {session.prompt?.optimizationStatus || "pending"}
+                          {session.status || "pending"}
                         </span>
                         {session.qualityScore && (
                           <div className="flex items-center">
@@ -613,12 +620,12 @@ export default function Home() {
                           </p>
                         </div>
                         
-                        {session.prompt?.optimizedPrompt && (
+                        {session.finalResults?.bestPrompt && (
                           <div>
                             <div className="text-xs font-medium text-gray-500 mb-1">Optimized:</div>
                             <p className="text-sm text-gray-900 line-clamp-2">
-                              {session.prompt.optimizedPrompt.substring(0, 80)}
-                              {session.prompt.optimizedPrompt.length > 80 && "..."}
+                              {session.finalResults.bestPrompt.substring(0, 80)}
+                              {session.finalResults.bestPrompt.length > 80 && "..."}
                             </p>
                           </div>
                         )}
@@ -650,19 +657,19 @@ export default function Home() {
               <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-600">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                  <span>Powered by Qwen3-8B</span>
+                  <span>Qwen3:4b (Local)</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                  <span>Microsoft PromptWizard</span>
+                  <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                  <span>System Prompts (Not PromptWizard)</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                   <span>Next.js 15 & Convex</span>
                 </div>
               </div>
-              <div className="mt-4 text-xs text-gray-500">
-                Advanced AI-powered prompt optimization with enterprise-grade performance
+              <div className="mt-4 text-xs text-red-600 font-medium">
+                ⚠️ Development demo only - Not production ready • localhost:11434 required
               </div>
             </div>
           </div>

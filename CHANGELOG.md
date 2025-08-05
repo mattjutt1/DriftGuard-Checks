@@ -5,6 +5,35 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.9] - 2025-08-04
+
+⚠️ **HONEST DEVELOPMENT UPDATE** ⚠️
+
+### Added
+- **Development Demo**: Basic prompt optimization using system prompts (NOT actual PromptWizard framework)
+- **Ollama Integration**: Direct HTTP client for qwen3:4b model with basic error handling
+- **UI Components**: Mock components showing intended functionality (many imports commented out)
+- **Backend Structure**: Convex actions and mutations (partial implementation)
+
+### Technical Reality
+- convex/ollama.ts: Basic HTTP client for localhost:11434 
+- convex/promptwizard.ts: System prompt templates (NOT Microsoft PromptWizard implementation)
+- convex/actions.ts: Action handlers (limited error handling)
+- src/hooks/useOptimization.ts: Hook imports commented out - not implemented
+- src/components/: UI components exist but many dependencies missing
+
+### Performance Warnings
+- **Processing Time**: 60-120 seconds per optimization (10-40x slower than acceptable)
+- **Quality Scores**: Hardcoded 87% scores in many places (NOT real optimization results)
+- **Architecture**: localhost:11434 dependency prevents production deployment
+- **Error Handling**: Basic try/catch blocks, limited retry logic
+
+### Limitations Documented
+- Development demo only - not production ready
+- Many claimed features not actually implemented
+- Quality improvements not validated through testing
+- Local-only architecture with significant deployment barriers
+
 ## [0.1.8] - 2025-08-04
 
 ### Knowledge Graph
