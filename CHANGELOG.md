@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.13] - 2025-08-05
 
+### Changed
+- refactor(architecture): major backend removal and component extraction
+
+## [0.1.13] - 2025-08-05
+
 ### Removed
 - **FastAPI Backend**: Eliminated entire backend/ directory (3000+ lines of dead code)
   - Removed 27 Python files including FastAPI endpoints, models, services, and configuration
