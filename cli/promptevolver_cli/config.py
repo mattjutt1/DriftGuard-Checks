@@ -6,7 +6,7 @@ import os
 from typing import Optional
 
 # Convex deployment URL - can be overridden with environment variable
-CONVEX_BASE_URL = os.getenv("CONVEX_URL", "https://resilient-guanaco-29.convex.cloud")
+CONVEX_BASE_URL = os.getenv("CONVEX_URL", "https://enchanted-rooster-257.convex.site")
 
 # Default optimization settings
 DEFAULT_CONFIG = {

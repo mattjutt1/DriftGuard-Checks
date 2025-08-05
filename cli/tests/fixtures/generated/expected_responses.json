@@ -1,0 +1,191 @@
+[
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "As a specialist with relevant expertise, please write a story about business. Provide specific examples and practical guidance where appropriate.",
+      "quality_score": 81.3,
+      "expert_profile": "Creative Director with storytelling expertise",
+      "improvements": [
+        "Enhanced domain-specific language",
+        "Improved task structure and organization",
+        "Added expert context and authority"
+      ],
+      "metadata": {
+        "processing_time": 2.25,
+        "iterations": 2,
+        "original_length": 28,
+        "optimized_length": 145,
+        "domain": "creative"
+      }
+    }
+  },
+  {
+    "success": false,
+    "error": "Service temporarily unavailable"
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "You are an expert professional in this domain. Please summarize user feedback in key findings. Structure your response logically and include relevant details.",
+      "quality_score": 90.6,
+      "expert_profile": "Knowledgeable Advisor with comprehensive understanding",
+      "improvements": [
+        "Strengthened outcome specifications",
+        "Enhanced domain-specific language",
+        "Strengthened guidance and direction"
+      ],
+      "metadata": {
+        "processing_time": 2.77,
+        "iterations": 2,
+        "original_length": 39,
+        "optimized_length": 158,
+        "domain": "general"
+      }
+    }
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "You are an expert professional in this domain. Please write a guide about business. Structure your response logically and include relevant details.",
+      "quality_score": 90.5,
+      "expert_profile": "Communications Expert in audience engagement",
+      "improvements": [
+        "Enhanced technical precision",
+        "Strengthened outcome specifications",
+        "Added step-by-step methodology",
+        "Improved user engagement factors"
+      ],
+      "metadata": {
+        "processing_time": 2.62,
+        "iterations": 2,
+        "original_length": 28,
+        "optimized_length": 147,
+        "domain": "creative"
+      }
+    }
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "You are an expert professional in this domain. Please debug this c++ performance problem. Provide specific examples and practical guidance where appropriate.",
+      "quality_score": 96.5,
+      "expert_profile": "DevOps Engineer focused on performance optimization",
+      "improvements": [
+        "Enhanced domain-specific language",
+        "Enhanced technical precision",
+        "Improved user engagement factors",
+        "Added step-by-step methodology",
+        "Enhanced clarity and specificity"
+      ],
+      "metadata": {
+        "processing_time": 2.8,
+        "iterations": 2,
+        "original_length": 34,
+        "optimized_length": 157,
+        "domain": "technical"
+      }
+    }
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "You are an expert professional in this domain. Please analyze performance metrics and provide visualization. Ensure your response is clear, well-structured, and actionable.",
+      "quality_score": 80.0,
+      "expert_profile": "Experienced Analyst with problem-solving focus",
+      "improvements": [
+        "Added step-by-step methodology",
+        "Strengthened outcome specifications",
+        "Added relevant examples and context"
+      ],
+      "metadata": {
+        "processing_time": 5.6,
+        "iterations": 3,
+        "original_length": 53,
+        "optimized_length": 172,
+        "domain": "general"
+      }
+    }
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "As a specialist with relevant expertise, please debug this python logic bug. Ensure your response is clear, well-structured, and actionable.",
+      "quality_score": 81.2,
+      "expert_profile": "Data Scientist with machine learning expertise",
+      "improvements": [
+        "Enhanced technical precision",
+        "Enhanced domain-specific language",
+        "Enhanced clarity and specificity"
+      ],
+      "metadata": {
+        "processing_time": 4.57,
+        "iterations": 1,
+        "original_length": 27,
+        "optimized_length": 140,
+        "domain": "technical"
+      }
+    }
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "You are an expert professional in this domain. Please create a proposal for marketing. Provide specific examples and practical guidance where appropriate.",
+      "quality_score": 78.2,
+      "expert_profile": "Management Professional with operational excellence focus",
+      "improvements": [
+        "Added expert context and authority",
+        "Enhanced domain-specific language",
+        "Improved user engagement factors"
+      ],
+      "metadata": {
+        "processing_time": 2.95,
+        "iterations": 2,
+        "original_length": 31,
+        "optimized_length": 154,
+        "domain": "business"
+      }
+    }
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "As a specialist with relevant expertise, please translate legal contract to sql. Ensure your response is clear, well-structured, and actionable.",
+      "quality_score": 100,
+      "expert_profile": "Knowledgeable Advisor with comprehensive understanding",
+      "improvements": [
+        "Added step-by-step methodology",
+        "Enhanced technical precision",
+        "Added relevant examples and context",
+        "Improved task structure and organization"
+      ],
+      "metadata": {
+        "processing_time": 6.87,
+        "iterations": 1,
+        "original_length": 31,
+        "optimized_length": 144,
+        "domain": "general"
+      }
+    }
+  },
+  {
+    "success": true,
+    "result": {
+      "best_prompt": "You are a knowledgeable assistant. Please provide a comprehensive response that create a strategy for training. Structure your response logically and include relevant details.",
+      "quality_score": 87.8,
+      "expert_profile": "Business Analyst specializing in process optimization",
+      "improvements": [
+        "Enhanced clarity and specificity",
+        "Added expert context and authority",
+        "Strengthened guidance and direction",
+        "Enhanced technical precision"
+      ],
+      "metadata": {
+        "processing_time": 1.55,
+        "iterations": 2,
+        "original_length": 30,
+        "optimized_length": 175,
+        "domain": "business"
+      }
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "timestamp": 1754401648.269008,
+  "backend_url": "https://enchanted-rooster-257.convex.site",
+  "tests_performed": [],
+  "performance_data": {
+    "health_endpoint": {
+      "response_time_ms": 141,
+      "status_code": 200,
+      "response_size_bytes": 382,
+      "success": true
+    },
+    "optimize_endpoint": {
+      "response_time_ms": 9322,
+      "status_code": 200,
+      "response_size_bytes": 137,
+      "success": true
+    }
+  },
+  "api_validation": {
+    "health_endpoint": "OPERATIONAL",
+    "optimize_endpoint": "OPERATIONAL"
+  }
+}
