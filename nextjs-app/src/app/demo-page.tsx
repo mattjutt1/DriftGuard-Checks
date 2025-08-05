@@ -6,33 +6,106 @@ import { ProgressDisplay } from "../components/ProgressDisplay";
 import { QualityMetrics } from "../components/QualityMetrics";
 import { ErrorHandling } from "../components/ErrorHandling";
 
-// Mock data for demo mode
-const mockMetrics = {
-  clarity: 8.5,
-  specificity: 7.8,
-  engagement: 9.2,
-  structure: 8.0,
-  completeness: 8.7,
-  errorPrevention: 7.5,
-  overall: 8.3
-};
+// Demo optimization engine for contextually relevant responses
+function generateDemoOptimization(originalPrompt: string, contextDomain: string, useAdvancedMode: boolean): any {
+  // Generate realistic quality metrics with some variation
+  const baseMetrics = {
+    clarity: 7.5 + Math.random() * 2,
+    specificity: 7.0 + Math.random() * 2.5,
+    engagement: 8.0 + Math.random() * 2,
+    structure: 7.5 + Math.random() * 2,
+    completeness: 7.0 + Math.random() * 2.5,
+    errorPrevention: 7.0 + Math.random() * 2,
+    overall: 0
+  };
+  baseMetrics.overall = (baseMetrics.clarity + baseMetrics.specificity + baseMetrics.engagement + 
+                        baseMetrics.structure + baseMetrics.completeness + baseMetrics.errorPrevention) / 6;
 
-const mockResults = {
-  bestPrompt: "Create a comprehensive guide for implementing responsive web design using CSS Grid and Flexbox, including practical examples and best practices for modern browsers.",
-  improvements: [
-    "Enhanced specificity with technical details",
-    "Added practical examples requirement",
-    "Included modern browser compatibility focus",
-    "Structured for comprehensive coverage"
-  ],
-  qualityMetrics: mockMetrics,
-  reasoning: "The prompt was optimized for clarity and actionable outcomes.",
-  expertInsights: [
-    "Technical specificity improves response quality",
-    "Practical examples make content more valuable",
-    "Modern browser focus ensures relevance"
-  ]
-};
+  // Enhancement patterns based on common prompt optimization techniques
+  const enhancementPatterns = {
+    structure: ["Add clear step-by-step structure", "Break into logical sections", "Include numbered steps"],
+    specificity: ["Add specific examples", "Include technical details", "Define key terms"],
+    context: ["Provide background context", "Explain the problem scope", "Add relevant constraints"],
+    output: ["Specify desired output format", "Define success criteria", "Include quality standards"],
+    audience: ["Clarify target audience", "Adjust technical level", "Consider user expertise"],
+    examples: ["Add practical examples", "Include use cases", "Provide templates"]
+  };
+
+  // Analyze the original prompt to determine what enhancements to apply
+  const prompt = originalPrompt.toLowerCase();
+  const improvements = [];
+  const expertInsights = [];
+  
+  // Generate contextually relevant enhanced prompt
+  let enhancedPrompt = originalPrompt;
+  
+  // Add structure if missing
+  if (!prompt.includes("step") && !prompt.includes("list")) {
+    enhancedPrompt = `Create a comprehensive, step-by-step ${enhancedPrompt.toLowerCase()}`;
+    improvements.push("Added structured approach with clear steps");
+    expertInsights.push("Step-by-step structure improves comprehension and actionability");
+  }
+  
+  // Add specificity if too general
+  if (prompt.length < 50 || (!prompt.includes("example") && !prompt.includes("specific"))) {
+    enhancedPrompt += ", including specific examples and practical implementations";
+    improvements.push("Enhanced specificity with concrete examples");
+    expertInsights.push("Specific examples make responses more actionable and valuable");
+  }
+  
+  // Add context domain if provided
+  if (contextDomain && contextDomain !== "general") {
+    enhancedPrompt += ` tailored for ${contextDomain} applications`;
+    improvements.push(`Customized for ${contextDomain} domain`);
+    expertInsights.push(`Domain-specific context improves relevance and accuracy`);
+  }
+  
+  // Add advanced requirements if advanced mode is enabled
+  if (useAdvancedMode) {
+    enhancedPrompt += ". Include best practices, potential pitfalls to avoid, and advanced optimization techniques";
+    improvements.push("Added advanced techniques and best practices");
+    improvements.push("Included potential pitfalls and error prevention");
+    expertInsights.push("Advanced mode provides deeper insights and professional-level guidance");
+  }
+  
+  // Add quality requirements
+  if (!prompt.includes("quality") && !prompt.includes("best practice")) {
+    enhancedPrompt += ". Ensure high quality, accuracy, and adherence to current industry standards";
+    improvements.push("Added quality standards and industry compliance");
+    expertInsights.push("Quality standards ensure reliable and professional outcomes");
+  }
+  
+  // Ensure we have enough improvements and insights
+  while (improvements.length < 3) {
+    const randomPattern = enhancementPatterns[Object.keys(enhancementPatterns)[Math.floor(Math.random() * Object.keys(enhancementPatterns).length)]];
+    const randomImprovement = randomPattern[Math.floor(Math.random() * randomPattern.length)];
+    if (!improvements.includes(randomImprovement)) {
+      improvements.push(randomImprovement);
+    }
+  }
+  
+  while (expertInsights.length < 3) {
+    const insights = [
+      "Clear requirements lead to better AI responses",
+      "Context-specific prompts produce more relevant results",
+      "Examples and constraints improve output quality",
+      "Structured prompts enable systematic responses",
+      "Domain expertise context enhances accuracy"
+    ];
+    const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+    if (!expertInsights.includes(randomInsight)) {
+      expertInsights.push(randomInsight);
+    }
+  }
+
+  return {
+    bestPrompt: enhancedPrompt,
+    improvements: improvements.slice(0, 4), // Limit to 4 improvements
+    qualityMetrics: baseMetrics,
+    reasoning: `The prompt was optimized for ${useAdvancedMode ? 'advanced' : 'standard'} use with enhanced clarity, specificity, and structure.`,
+    expertInsights: expertInsights.slice(0, 3) // Limit to 3 insights
+  };
+}
 
 const mockSessions = [
   {
@@ -64,13 +137,14 @@ const mockSessions = [
 interface OptimizationResultsProps {
   isVisible: boolean;
   onClose: () => void;
+  results: any;
 }
 
 // Optimization Results Modal Component
-function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
+function OptimizationResults({ isVisible, onClose, results }: OptimizationResultsProps) {
   const [showFeedback, setShowFeedback] = useState(false);
   
-  if (!isVisible) return null;
+  if (!isVisible || !results) return null;
 
   return (
     <>
@@ -91,7 +165,7 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-blue-50 rounded-lg p-4 text-center">
               <div className="text-2xl font-bold text-blue-600">
-                {mockResults.qualityMetrics.overall.toFixed(1)}
+                {results.qualityMetrics.overall.toFixed(1)}
               </div>
               <div className="text-sm text-gray-600">Quality Score</div>
             </div>
@@ -109,7 +183,7 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
           <div className="bg-gray-50 rounded-lg p-4">
             <h3 className="font-semibold mb-2">Optimized Prompt:</h3>
             <div className="bg-white rounded border p-3 text-sm">
-              {mockResults.bestPrompt}
+              {results.bestPrompt}
             </div>
           </div>
 
@@ -118,7 +192,7 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
             <h3 className="font-semibold">Key Improvements:</h3>
             <div className="bg-white rounded-lg border p-4">
               <div className="space-y-2">
-                {mockResults.improvements.map((improvement, idx) => (
+                {results.improvements.map((improvement, idx) => (
                   <div key={idx} className="text-sm flex items-start">
                     <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                     {improvement}
@@ -133,7 +207,7 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
             <h3 className="font-semibold">Expert Insights:</h3>
             <div className="bg-indigo-50 rounded-lg p-4">
               <div className="space-y-2">
-                {mockResults.expertInsights?.map((insight, idx) => (
+                {results.expertInsights?.map((insight, idx) => (
                   <div key={idx} className="text-sm flex items-start">
                     <span className="inline-block w-2 h-2 bg-indigo-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                     {insight}
@@ -182,6 +256,7 @@ export default function DemoPage() {
   const [totalSteps, setTotalSteps] = useState(4);
   const [progressMessage, setProgressMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [optimizationResults, setOptimizationResults] = useState<any>(null);
 
   const handleOptimize = async (prompt: string, contextDomain: string, useAdvancedMode: boolean, iterations: number) => {
     if (!prompt.trim()) return;
@@ -205,6 +280,10 @@ export default function DemoPage() {
       setProgressMessage(steps[i]);
       await new Promise(resolve => setTimeout(resolve, 1500));
     }
+
+    // Generate contextually relevant results based on user input
+    const demoResults = generateDemoOptimization(prompt, contextDomain, useAdvancedMode);
+    setOptimizationResults(demoResults);
 
     setIsOptimizing(false);
     setProgressMessage("Optimization completed!");
@@ -241,6 +320,7 @@ export default function DemoPage() {
       <OptimizationResults 
         isVisible={showResults}
         onClose={() => setShowResults(false)}
+        results={optimizationResults}
       />
 
       {/* Error Alert */}
@@ -293,8 +373,16 @@ export default function DemoPage() {
           {/* Quality Metrics Dashboard */}
           <div className="xl:col-span-2">
             <QualityMetrics 
-              metrics={mockMetrics} 
-              overallScore={mockResults.qualityMetrics.overall}
+              metrics={optimizationResults?.qualityMetrics || {
+                clarity: 8.5,
+                specificity: 7.8,
+                engagement: 9.2,
+                structure: 8.0,
+                completeness: 8.7,
+                errorPrevention: 7.5,
+                overall: 8.3
+              }} 
+              overallScore={optimizationResults?.qualityMetrics?.overall || 8.3}
             />
           </div>
 
