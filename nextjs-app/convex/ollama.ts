@@ -38,7 +38,7 @@ export class OllamaClient {
   constructor(
     baseUrl: string = "http://localhost:11434",
     defaultModel: string = "qwen3:4b",
-    timeout: number = 30000 // 30 seconds default timeout
+    timeout: number = 30000, // 30 seconds default timeout
   ) {
     this.baseUrl = baseUrl;
     this.defaultModel = defaultModel;
@@ -55,14 +55,16 @@ export class OllamaClient {
       system?: string;
       temperature?: number;
       max_tokens?: number;
-    } = {}
+    } = {},
   ): Promise<OllamaResponse> {
     const requestBody: OllamaRequest = {
       model: options.model || this.defaultModel,
       prompt,
       stream: false, // We want the complete response
       ...(options.system && { system: options.system }),
-      ...(options.temperature !== undefined && { temperature: options.temperature }),
+      ...(options.temperature !== undefined && {
+        temperature: options.temperature,
+      }),
       ...(options.max_tokens && { max_tokens: options.max_tokens }),
     };
 
@@ -84,10 +86,12 @@ export class OllamaClient {
       if (!response.ok) {
         const errorText = await response.text();
         let errorMessage: string;
-        
+
         try {
           const errorJson: OllamaError = JSON.parse(errorText);
-          errorMessage = errorJson.error || `HTTP ${response.status}: ${response.statusText}`;
+          errorMessage =
+            errorJson.error ||
+            `HTTP ${response.status}: ${response.statusText}`;
         } catch {
           errorMessage = `HTTP ${response.status}: ${response.statusText}`;
         }
@@ -96,7 +100,7 @@ export class OllamaClient {
       }
 
       const result: OllamaResponse = await response.json();
-      
+
       if (!result.response) {
         throw new Error("Empty response from Ollama");
       }
@@ -116,13 +120,17 @@ export class OllamaClient {
   /**
    * Check if Ollama server is available and the model is loaded
    */
-  async healthCheck(): Promise<{ available: boolean; model: string; error?: string }> {
+  async healthCheck(): Promise<{
+    available: boolean;
+    model: string;
+    error?: string;
+  }> {
     try {
       const response = await this.generate("Hello", {
         temperature: 0.1,
         max_tokens: 10,
       });
-      
+
       return {
         available: true,
         model: response.model,
@@ -139,7 +147,9 @@ export class OllamaClient {
   /**
    * Get available models from Ollama
    */
-  async listModels(): Promise<{ models: Array<{ name: string; model: string; size: number }> }> {
+  async listModels(): Promise<{
+    models: Array<{ name: string; model: string; size: number }>;
+  }> {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout for listing
@@ -158,7 +168,7 @@ export class OllamaClient {
       return await response.json();
     } catch (error) {
       throw new Error(
-        `Failed to list models: ${error instanceof Error ? error.message : "Unknown error"}`
+        `Failed to list models: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     }
   }
@@ -190,7 +200,7 @@ export class OllamaClient {
       await response.text();
     } catch (error) {
       throw new Error(
-        `Failed to pull model ${modelName}: ${error instanceof Error ? error.message : "Unknown error"}`
+        `Failed to pull model ${modelName}: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     }
   }

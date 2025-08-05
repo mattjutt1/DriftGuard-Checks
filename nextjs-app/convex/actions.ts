@@ -5,7 +5,11 @@
 
 import { action } from "./_generated/server";
 import { v } from "convex/values";
-import { promptWizard, PromptWizardConfig, OptimizationResult } from "./promptwizard";
+import {
+  promptWizard,
+  PromptWizardConfig,
+  OptimizationResult,
+} from "./promptwizard";
 import { api } from "./_generated/api";
 
 /**
@@ -38,24 +42,26 @@ export const testPromptWizardOptimization = action({
   args: {
     prompt: v.string(),
     domain: v.optional(v.string()),
-    config: v.optional(v.object({
-      task_description: v.optional(v.string()),
-      base_instruction: v.optional(v.string()),
-      answer_format: v.optional(v.string()),
-      seen_set_size: v.optional(v.number()),
-      few_shot_count: v.optional(v.number()),
-      generate_reasoning: v.optional(v.boolean()),
-      generate_expert_identity: v.optional(v.boolean()),
-      mutate_refine_iterations: v.optional(v.number()),
-      mutation_rounds: v.optional(v.number()),
-    })),
+    config: v.optional(
+      v.object({
+        task_description: v.optional(v.string()),
+        base_instruction: v.optional(v.string()),
+        answer_format: v.optional(v.string()),
+        seen_set_size: v.optional(v.number()),
+        few_shot_count: v.optional(v.number()),
+        generate_reasoning: v.optional(v.boolean()),
+        generate_expert_identity: v.optional(v.boolean()),
+        mutate_refine_iterations: v.optional(v.number()),
+        mutation_rounds: v.optional(v.number()),
+      }),
+    ),
   },
   handler: async (ctx, args) => {
     try {
       const result = await promptWizard.optimizePrompt(
         args.prompt,
         args.config || {},
-        args.domain || "general"
+        args.domain || "general",
       );
       return { success: true, result };
     } catch (error) {
@@ -101,9 +107,21 @@ export const quickOptimize = action({
         status: "processing",
         currentIteration: 1,
         progressSteps: [
-          { step: "Initializing PromptWizard", status: "processing", timestamp: Date.now() },
-          { step: "Running optimization", status: "pending", timestamp: Date.now() },
-          { step: "Analyzing results", status: "pending", timestamp: Date.now() },
+          {
+            step: "Initializing PromptWizard",
+            status: "processing",
+            timestamp: Date.now(),
+          },
+          {
+            step: "Running optimization",
+            status: "pending",
+            timestamp: Date.now(),
+          },
+          {
+            step: "Analyzing results",
+            status: "pending",
+            timestamp: Date.now(),
+          },
         ],
       });
 
@@ -125,7 +143,8 @@ export const quickOptimize = action({
       const config: Partial<PromptWizardConfig> = {
         task_description: `Optimize this prompt: ${prompt.originalPrompt}`,
         generate_reasoning: session.optimizationConfig.generateReasoning,
-        generate_expert_identity: session.optimizationConfig.generateExpertIdentity,
+        generate_expert_identity:
+          session.optimizationConfig.generateExpertIdentity,
         mutate_refine_iterations: 1, // Quick mode uses single iteration
         mutation_rounds: session.optimizationConfig.rounds || 3,
       };
@@ -134,7 +153,7 @@ export const quickOptimize = action({
       const optimizationResult = await promptWizard.optimizePrompt(
         prompt.originalPrompt,
         config,
-        "general"
+        "general",
       );
 
       // Step 3: Analyze results
@@ -186,7 +205,6 @@ export const quickOptimize = action({
         processingTimeMs,
         finalResults,
       };
-
     } catch (error) {
       // Mark session as failed
       await ctx.runMutation(api.optimizations.markOptimizationFailed, {
@@ -239,9 +257,21 @@ export const advancedOptimize = action({
         status: "processing",
         currentIteration: 1,
         progressSteps: [
-          { step: "Initializing PromptWizard", status: "processing", timestamp: Date.now() },
-          { step: "Running advanced optimization", status: "pending", timestamp: Date.now() },
-          { step: "Finalizing results", status: "pending", timestamp: Date.now() },
+          {
+            step: "Initializing PromptWizard",
+            status: "processing",
+            timestamp: Date.now(),
+          },
+          {
+            step: "Running advanced optimization",
+            status: "pending",
+            timestamp: Date.now(),
+          },
+          {
+            step: "Finalizing results",
+            status: "pending",
+            timestamp: Date.now(),
+          },
         ],
       });
 
@@ -263,7 +293,8 @@ export const advancedOptimize = action({
       const config: Partial<PromptWizardConfig> = {
         task_description: `Optimize this prompt for maximum effectiveness: ${prompt.originalPrompt}`,
         generate_reasoning: session.optimizationConfig.generateReasoning,
-        generate_expert_identity: session.optimizationConfig.generateExpertIdentity,
+        generate_expert_identity:
+          session.optimizationConfig.generateExpertIdentity,
         mutate_refine_iterations: maxIterations, // Advanced mode uses multiple iterations
         mutation_rounds: session.optimizationConfig.rounds || 3,
       };
@@ -272,7 +303,7 @@ export const advancedOptimize = action({
       const optimizationResult = await promptWizard.optimizePrompt(
         prompt.originalPrompt,
         config,
-        "general"
+        "general",
       );
 
       // Step 3: Finalize results
@@ -325,7 +356,6 @@ export const advancedOptimize = action({
         finalResults,
         iterationsCompleted: optimizationResult.iterations_completed,
       };
-
     } catch (error) {
       // Mark session as failed
       await ctx.runMutation(api.optimizations.markOptimizationFailed, {

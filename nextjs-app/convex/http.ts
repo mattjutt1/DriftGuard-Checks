@@ -20,30 +20,36 @@ http.route({
     try {
       // Call the internal action
       const result = await ctx.runAction(api.actions.checkOllamaHealth, {});
-      
-      return new Response(JSON.stringify({
-        status: "success",
-        data: result
-      }), {
-        status: 200,
-        headers: { 
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        }
-      });
+
+      return new Response(
+        JSON.stringify({
+          status: "success",
+          data: result,
+        }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        },
+      );
     } catch (error) {
-      return new Response(JSON.stringify({
-        status: "error",
-        error: error instanceof Error ? error.message : "Unknown error"
-      }), {
-        status: 500,
-        headers: { 
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        }
-      });
+      return new Response(
+        JSON.stringify({
+          status: "error",
+          error: error instanceof Error ? error.message : "Unknown error",
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        },
+      );
     }
-  })
+  }),
 });
 
 /**
@@ -57,50 +63,62 @@ http.route({
     try {
       const body = await request.json();
       const { prompt, domain, config } = body;
-      
+
       if (!prompt) {
-        return new Response(JSON.stringify({
-          status: "error",
-          error: "Prompt is required"
-        }), {
-          status: 400,
-          headers: { 
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-          }
-        });
+        return new Response(
+          JSON.stringify({
+            status: "error",
+            error: "Prompt is required",
+          }),
+          {
+            status: 400,
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          },
+        );
       }
-      
+
       // Call the internal action
-      const result = await ctx.runAction(api.actions.testPromptWizardOptimization, {
-        prompt,
-        domain: domain || "general",
-        config: config || {}
-      });
-      
-      return new Response(JSON.stringify({
-        status: "success",
-        data: result
-      }), {
-        status: 200,
-        headers: { 
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        }
-      });
+      const result = await ctx.runAction(
+        api.actions.testPromptWizardOptimization,
+        {
+          prompt,
+          domain: domain || "general",
+          config: config || {},
+        },
+      );
+
+      return new Response(
+        JSON.stringify({
+          status: "success",
+          data: result,
+        }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        },
+      );
     } catch (error) {
-      return new Response(JSON.stringify({
-        status: "error",
-        error: error instanceof Error ? error.message : "Unknown error"
-      }), {
-        status: 500,
-        headers: { 
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        }
-      });
+      return new Response(
+        JSON.stringify({
+          status: "error",
+          error: error instanceof Error ? error.message : "Unknown error",
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        },
+      );
     }
-  })
+  }),
 });
 
 /**
@@ -115,14 +133,14 @@ http.route({
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
-      }
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
     });
-  })
+  }),
 });
 
 http.route({
-  path: "/optimize", 
+  path: "/optimize",
   method: "OPTIONS",
   handler: httpAction(async (ctx, request) => {
     return new Response(null, {
@@ -130,10 +148,10 @@ http.route({
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
-      }
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
     });
-  })
+  }),
 });
 
 export default http;

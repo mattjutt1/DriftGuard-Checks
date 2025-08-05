@@ -36,7 +36,9 @@ export const getRecentSessions = query({
     // Find user
     const user = await ctx.db
       .query("users")
-      .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
       .first();
 
     if (!user) return [];
@@ -55,7 +57,7 @@ export const getRecentSessions = query({
           ...session,
           prompt,
         };
-      })
+      }),
     );
 
     return sessionsWithPrompts;
@@ -78,7 +80,9 @@ export const submitFeedback = mutation({
     // Find user
     const user = await ctx.db
       .query("users")
-      .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
+      )
       .first();
 
     if (!user) throw new Error("User not found");
