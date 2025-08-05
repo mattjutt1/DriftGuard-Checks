@@ -1,0 +1,5 @@
+Write a Python function to calculate fibonacci numbers
+Explain quantum computing to a 10-year-old
+Create a marketing email for a new product
+Write SQL query to find top customers
+Summarize this meeting in bullet points
