@@ -1,5 +1,5 @@
-Write a Python function to calculate fibonacci numbers
-Explain quantum computing to a 10-year-old
-Create a marketing email for a new product
-Write SQL query to find top customers
-Summarize this meeting in bullet points
+Write a brief email to a client
+Explain machine learning to a 5-year-old
+Create a marketing slogan for an eco-friendly product
+Summarize the key points of a business meeting
+Generate ideas for a blog post about remote work

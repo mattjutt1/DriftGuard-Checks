@@ -26,7 +26,10 @@ http.route({
         data: result
       }), {
         status: 200,
-        headers: { "Content-Type": "application/json" }
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
       });
     } catch (error) {
       return new Response(JSON.stringify({
@@ -34,7 +37,10 @@ http.route({
         error: error instanceof Error ? error.message : "Unknown error"
       }), {
         status: 500,
-        headers: { "Content-Type": "application/json" }
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
       });
     }
   })
@@ -58,7 +64,10 @@ http.route({
           error: "Prompt is required"
         }), {
           status: 400,
-          headers: { "Content-Type": "application/json" }
+          headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
         });
       }
       
@@ -74,7 +83,10 @@ http.route({
         data: result
       }), {
         status: 200,
-        headers: { "Content-Type": "application/json" }
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
       });
     } catch (error) {
       return new Response(JSON.stringify({
@@ -82,10 +94,46 @@ http.route({
         error: error instanceof Error ? error.message : "Unknown error"
       }), {
         status: 500,
-        headers: { "Content-Type": "application/json" }
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
       });
     }
   })
+});
+
+/**
+ * Handle CORS preflight requests
+ */
+http.route({
+  path: "/health",
+  method: "OPTIONS",
+  handler: httpAction(async (ctx, request) => {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }),
+});
+
+http.route({
+  path: "/optimize",
+  method: "OPTIONS",
+  handler: httpAction(async (ctx, request) => {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }),
 });
 
 export default http;
