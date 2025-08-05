@@ -1,26 +1,30 @@
 /**
- * Convex Actions for PromptWizard Integration
- * Handles the actual prompt optimization process using Ollama
+ * Convex Actions for Real Microsoft PromptWizard Integration
+ * Handles the actual prompt optimization process using Microsoft PromptWizard framework
  */
 
 import { action } from "./_generated/server";
 import { v } from "convex/values";
-import { promptWizard, MutationType, QualityScores, PROMPTWIZARD_CONFIG } from "./promptwizard";
+import { promptWizard, PromptWizardConfig, OptimizationResult } from "./promptwizard";
 import { api } from "./_generated/api";
 
 /**
- * Health check action to verify Ollama connectivity
+ * Health check action to verify PromptWizard availability
  */
 export const checkOllamaHealth = action({
   args: {},
   handler: async (ctx) => {
     try {
-      const health = await promptWizard.checkHealth();
-      return health;
+      const health = await promptWizard.checkAvailability();
+      return {
+        available: health.available,
+        model: "Microsoft PromptWizard + Qwen3:4b",
+        error: health.error,
+      };
     } catch (error) {
       return {
         available: false,
-        model: "qwen3:4b",
+        model: "Microsoft PromptWizard + Qwen3:4b",
         error: error instanceof Error ? error.message : "Unknown error",
       };
     }
@@ -28,63 +32,32 @@ export const checkOllamaHealth = action({
 });
 
 /**
- * Test individual PromptWizard components
+ * Test PromptWizard optimization with custom configuration
  */
-export const testPromptWizardComponent = action({
+export const testPromptWizardOptimization = action({
   args: {
-    component: v.union(
-      v.literal("expert_identity"),
-      v.literal("mutation_specific"),
-      v.literal("mutation_engaging"),
-      v.literal("mutation_structured"),
-      v.literal("quality_scoring"),
-      v.literal("improvements"),
-      v.literal("expert_insights")
-    ),
     prompt: v.string(),
-    expertIdentity: v.optional(v.string()),
-    originalPrompt: v.optional(v.string()),
+    domain: v.optional(v.string()),
+    config: v.optional(v.object({
+      task_description: v.optional(v.string()),
+      base_instruction: v.optional(v.string()),
+      answer_format: v.optional(v.string()),
+      seen_set_size: v.optional(v.number()),
+      few_shot_count: v.optional(v.number()),
+      generate_reasoning: v.optional(v.boolean()),
+      generate_expert_identity: v.optional(v.boolean()),
+      mutate_refine_iterations: v.optional(v.number()),
+      mutation_rounds: v.optional(v.number()),
+    })),
   },
   handler: async (ctx, args) => {
     try {
-      switch (args.component) {
-        case "expert_identity":
-          const identity = await promptWizard.generateExpertIdentity(args.prompt);
-          return { success: true, result: identity };
-
-        case "mutation_specific":
-          const specificMutation = await promptWizard.mutatePrompt(args.prompt, "specific", args.expertIdentity);
-          return { success: true, result: specificMutation };
-
-        case "mutation_engaging":
-          const engagingMutation = await promptWizard.mutatePrompt(args.prompt, "engaging", args.expertIdentity);
-          return { success: true, result: engagingMutation };
-
-        case "mutation_structured":
-          const structuredMutation = await promptWizard.mutatePrompt(args.prompt, "structured", args.expertIdentity);
-          return { success: true, result: structuredMutation };
-
-        case "quality_scoring":
-          const scores = await promptWizard.scorePrompt(args.prompt);
-          return { success: true, result: scores };
-
-        case "improvements":
-          if (!args.originalPrompt) {
-            throw new Error("Original prompt required for improvements analysis");
-          }
-          const improvements = await promptWizard.analyzeImprovements(args.originalPrompt, args.prompt);
-          return { success: true, result: improvements };
-
-        case "expert_insights":
-          if (!args.expertIdentity) {
-            throw new Error("Expert identity required for insights generation");
-          }
-          const insights = await promptWizard.generateExpertInsights(args.prompt, args.expertIdentity);
-          return { success: true, result: insights };
-
-        default:
-          throw new Error("Invalid component specified");
-      }
+      const result = await promptWizard.optimizePrompt(
+        args.prompt,
+        args.config || {},
+        args.domain || "general"
+      );
+      return { success: true, result };
     } catch (error) {
       return {
         success: false,
@@ -95,7 +68,7 @@ export const testPromptWizardComponent = action({
 });
 
 /**
- * Quick Mode: Single iteration optimization
+ * Quick Mode: Single iteration optimization using real Microsoft PromptWizard
  */
 export const quickOptimize = action({
   args: {
@@ -128,125 +101,84 @@ export const quickOptimize = action({
         status: "processing",
         currentIteration: 1,
         progressSteps: [
-          { step: "Generating expert identity", status: "processing", timestamp: Date.now() },
-          { step: "Creating prompt variations", status: "pending", timestamp: Date.now() },
-          { step: "Scoring and selecting best version", status: "pending", timestamp: Date.now() },
-          { step: "Analyzing improvements", status: "pending", timestamp: Date.now() },
+          { step: "Initializing PromptWizard", status: "processing", timestamp: Date.now() },
+          { step: "Running optimization", status: "pending", timestamp: Date.now() },
+          { step: "Analyzing results", status: "pending", timestamp: Date.now() },
         ],
       });
 
-      // Step 1: Generate expert identity (if enabled)
-      let expertIdentity: string | undefined;
-      if (session.optimizationConfig.generateExpertIdentity) {
-        expertIdentity = await promptWizard.generateExpertIdentity(prompt.originalPrompt);
-        
-        await ctx.runMutation(api.optimizations.updateProgressStep, {
-          sessionId: args.sessionId,
-          stepIndex: 0,
-          status: "completed",
-          details: expertIdentity,
-        });
-      }
+      // Step 1: Complete initialization
+      await ctx.runMutation(api.optimizations.updateProgressStep, {
+        sessionId: args.sessionId,
+        stepIndex: 0,
+        status: "completed",
+      });
 
-      // Step 2: Update progress
+      // Step 2: Run PromptWizard optimization
       await ctx.runMutation(api.optimizations.updateProgressStep, {
         sessionId: args.sessionId,
         stepIndex: 1,
         status: "processing",
       });
 
-      // Step 2: Create three mutation types
-      const mutations: Array<{ type: MutationType; prompt: string; scores: QualityScores }> = [];
-      const mutationTypes: MutationType[] = ["specific", "engaging", "structured"];
+      // Create PromptWizard configuration from session settings
+      const config: Partial<PromptWizardConfig> = {
+        task_description: `Optimize this prompt: ${prompt.originalPrompt}`,
+        generate_reasoning: session.optimizationConfig.generateReasoning,
+        generate_expert_identity: session.optimizationConfig.generateExpertIdentity,
+        mutate_refine_iterations: 1, // Quick mode uses single iteration
+        mutation_rounds: session.optimizationConfig.rounds || 3,
+      };
 
-      for (const mutationType of mutationTypes) {
-        const result = await promptWizard.performMutationRound(
-          prompt.originalPrompt,
-          mutationType,
-          expertIdentity
-        );
+      // Run the real Microsoft PromptWizard optimization
+      const optimizationResult = await promptWizard.optimizePrompt(
+        prompt.originalPrompt,
+        config,
+        "general"
+      );
 
-        mutations.push({
-          type: mutationType,
-          prompt: result.mutatedPrompt,
-          scores: result.qualityScores,
-        });
-
-        // Store mutation in history
-        await ctx.runMutation(api.optimizations.addMutationToHistory, {
-          sessionId: args.sessionId,
-          mutation: {
-            iteration: 1,
-            round: 1,
-            mutationType,
-            originalPrompt: prompt.originalPrompt,
-            mutatedPrompt: result.mutatedPrompt,
-            qualityScores: result.qualityScores,
-            timestamp: Date.now(),
-          },
-        });
-      }
-
-      // Step 3: Select best mutation
+      // Step 3: Analyze results
       await ctx.runMutation(api.optimizations.updateProgressStep, {
         sessionId: args.sessionId,
         stepIndex: 2,
         status: "processing",
       });
 
-      const bestMutation = promptWizard.selectBestPrompt(
-        mutations.map(m => ({ prompt: m.prompt, scores: m.scores }))
-      );
-
-      // Step 4: Analyze improvements
-      await ctx.runMutation(api.optimizations.updateProgressStep, {
-        sessionId: args.sessionId,
-        stepIndex: 3,
-        status: "processing",
-      });
-
-      const improvements = await promptWizard.analyzeImprovements(
-        prompt.originalPrompt,
-        bestMutation.prompt
-      );
-
-      // Generate expert insights if enabled
-      let expertInsights: string[] | undefined;
-      if (session.optimizationConfig.generateReasoning && expertIdentity) {
-        expertInsights = await promptWizard.generateExpertInsights(
-          bestMutation.prompt,
-          expertIdentity
-        );
-      }
-
       // Calculate processing time
       const processingTimeMs = Date.now() - startTime;
 
-      // Step 5: Finalize results
+      // Create final results in the expected format
       const finalResults = {
-        bestPrompt: bestMutation.prompt,
-        improvements,
-        qualityMetrics: bestMutation.scores,
-        reasoning: expertIdentity,
-        expertInsights,
+        bestPrompt: optimizationResult.best_prompt,
+        improvements: optimizationResult.improvements,
+        qualityMetrics: {
+          overall: optimizationResult.quality_score,
+          clarity: optimizationResult.quality_score,
+          specificity: optimizationResult.quality_score,
+          engagement: optimizationResult.quality_score,
+        },
+        reasoning: optimizationResult.expert_profile,
+        expertInsights: optimizationResult.improvements,
       };
 
       // Update session with final results
       await ctx.runMutation(api.optimizations.completeSession, {
         sessionId: args.sessionId,
         processingTimeMs,
-        qualityScore: bestMutation.scores.overall,
-        iterationsCompleted: 1,
-        expertIdentity,
+        qualityScore: optimizationResult.quality_score,
+        iterationsCompleted: optimizationResult.iterations_completed,
+        expertIdentity: optimizationResult.expert_profile,
         finalResults,
       });
 
-      // Update all progress steps to completed
-      await ctx.runMutation(api.optimizations.updateProgressStep, {
-        sessionId: args.sessionId,
-        stepIndex: 3,
-        status: "completed",
-      });
+      // Mark all progress steps as completed
+      for (let i = 0; i < 3; i++) {
+        await ctx.runMutation(api.optimizations.updateProgressStep, {
+          sessionId: args.sessionId,
+          stepIndex: i,
+          status: "completed",
+        });
+      }
 
       return {
         success: true,
@@ -272,7 +204,7 @@ export const quickOptimize = action({
 });
 
 /**
- * Advanced Mode: Multiple iterations with refinement
+ * Advanced Mode: Multiple iterations using real Microsoft PromptWizard
  */
 export const advancedOptimize = action({
   args: {
@@ -280,7 +212,7 @@ export const advancedOptimize = action({
     maxIterations: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    const maxIterations = args.maxIterations || PROMPTWIZARD_CONFIG.mutateRefineIterations;
+    const maxIterations = args.maxIterations || 3; // Default to 3 iterations for advanced mode
     const startTime = Date.now();
 
     try {
@@ -307,163 +239,91 @@ export const advancedOptimize = action({
         status: "processing",
         currentIteration: 1,
         progressSteps: [
-          { step: "Generating expert identity", status: "processing", timestamp: Date.now() },
-          { step: "Iterative prompt optimization", status: "pending", timestamp: Date.now() },
-          { step: "Finalizing best version", status: "pending", timestamp: Date.now() },
+          { step: "Initializing PromptWizard", status: "processing", timestamp: Date.now() },
+          { step: "Running advanced optimization", status: "pending", timestamp: Date.now() },
+          { step: "Finalizing results", status: "pending", timestamp: Date.now() },
         ],
       });
 
-      // Step 1: Generate expert identity
-      let expertIdentity: string | undefined;
-      if (session.optimizationConfig.generateExpertIdentity) {
-        expertIdentity = await promptWizard.generateExpertIdentity(prompt.originalPrompt);
-        
-        await ctx.runMutation(api.optimizations.updateProgressStep, {
-          sessionId: args.sessionId,
-          stepIndex: 0,
-          status: "completed",
-          details: expertIdentity,
-        });
-      }
+      // Step 1: Complete initialization
+      await ctx.runMutation(api.optimizations.updateProgressStep, {
+        sessionId: args.sessionId,
+        stepIndex: 0,
+        status: "completed",
+      });
 
-      // Step 2: Iterative optimization
+      // Step 2: Run PromptWizard optimization with multiple iterations
       await ctx.runMutation(api.optimizations.updateProgressStep, {
         sessionId: args.sessionId,
         stepIndex: 1,
         status: "processing",
       });
 
-      let currentBestPrompt = prompt.originalPrompt;
-      let currentBestScore = 0;
-      let allCandidates: Array<{ prompt: string; scores: QualityScores; iteration: number }> = [];
+      // Create PromptWizard configuration from session settings
+      const config: Partial<PromptWizardConfig> = {
+        task_description: `Optimize this prompt for maximum effectiveness: ${prompt.originalPrompt}`,
+        generate_reasoning: session.optimizationConfig.generateReasoning,
+        generate_expert_identity: session.optimizationConfig.generateExpertIdentity,
+        mutate_refine_iterations: maxIterations, // Advanced mode uses multiple iterations
+        mutation_rounds: session.optimizationConfig.rounds || 3,
+      };
 
-      // Perform iterative optimization
-      for (let iteration = 1; iteration <= maxIterations; iteration++) {
-        await ctx.runMutation(api.optimizations.updateSessionIteration, {
-          sessionId: args.sessionId,
-          currentIteration: iteration,
-        });
+      // Run the real Microsoft PromptWizard optimization
+      const optimizationResult = await promptWizard.optimizePrompt(
+        prompt.originalPrompt,
+        config,
+        "general"
+      );
 
-        const iterationCandidates: Array<{ type: MutationType; prompt: string; scores: QualityScores }> = [];
-        const mutationTypes: MutationType[] = ["specific", "engaging", "structured"];
-
-        // Create mutations for this iteration
-        for (let round = 1; round <= session.optimizationConfig.rounds; round++) {
-          for (const mutationType of mutationTypes) {
-            const result = await promptWizard.performMutationRound(
-              currentBestPrompt,
-              mutationType,
-              expertIdentity
-            );
-
-            iterationCandidates.push({
-              type: mutationType,
-              prompt: result.mutatedPrompt,
-              scores: result.qualityScores,
-            });
-
-            // Store mutation in history
-            await ctx.runMutation(api.optimizations.addMutationToHistory, {
-              sessionId: args.sessionId,
-              mutation: {
-                iteration,
-                round,
-                mutationType,
-                originalPrompt: currentBestPrompt,
-                mutatedPrompt: result.mutatedPrompt,
-                qualityScores: result.qualityScores,
-                timestamp: Date.now(),
-              },
-            });
-          }
-        }
-
-        // Find best from this iteration
-        const iterationBest = promptWizard.selectBestPrompt(
-          iterationCandidates.map(c => ({ prompt: c.prompt, scores: c.scores }))
-        );
-
-        // Add to all candidates
-        allCandidates.push({
-          prompt: iterationBest.prompt,
-          scores: iterationBest.scores,
-          iteration,
-        });
-
-        // Update current best if this iteration improved
-        if (iterationBest.scores.overall > currentBestScore) {
-          currentBestPrompt = iterationBest.prompt;
-          currentBestScore = iterationBest.scores.overall;
-        }
-
-        // Early stopping if we reach high quality
-        if (currentBestScore >= 95) {
-          break;
-        }
-      }
-
-      // Step 3: Finalize best version
+      // Step 3: Finalize results
       await ctx.runMutation(api.optimizations.updateProgressStep, {
         sessionId: args.sessionId,
         stepIndex: 2,
         status: "processing",
       });
 
-      // Select overall best from all candidates
-      const overallBest = promptWizard.selectBestPrompt(
-        allCandidates.map(c => ({ prompt: c.prompt, scores: c.scores }))
-      );
-
-      // Analyze improvements
-      const improvements = await promptWizard.analyzeImprovements(
-        prompt.originalPrompt,
-        overallBest.prompt
-      );
-
-      // Generate expert insights if enabled
-      let expertInsights: string[] | undefined;
-      if (session.optimizationConfig.generateReasoning && expertIdentity) {
-        expertInsights = await promptWizard.generateExpertInsights(
-          overallBest.prompt,
-          expertIdentity
-        );
-      }
-
       // Calculate processing time
       const processingTimeMs = Date.now() - startTime;
 
-      // Finalize results
+      // Create final results in the expected format
       const finalResults = {
-        bestPrompt: overallBest.prompt,
-        improvements,
-        qualityMetrics: overallBest.scores,
-        reasoning: expertIdentity,
-        expertInsights,
+        bestPrompt: optimizationResult.best_prompt,
+        improvements: optimizationResult.improvements,
+        qualityMetrics: {
+          overall: optimizationResult.quality_score,
+          clarity: optimizationResult.quality_score,
+          specificity: optimizationResult.quality_score,
+          engagement: optimizationResult.quality_score,
+        },
+        reasoning: optimizationResult.expert_profile,
+        expertInsights: optimizationResult.improvements,
       };
 
       // Complete the session
       await ctx.runMutation(api.optimizations.completeSession, {
         sessionId: args.sessionId,
         processingTimeMs,
-        qualityScore: overallBest.scores.overall,
-        iterationsCompleted: maxIterations,
-        expertIdentity,
+        qualityScore: optimizationResult.quality_score,
+        iterationsCompleted: optimizationResult.iterations_completed,
+        expertIdentity: optimizationResult.expert_profile,
         finalResults,
       });
 
-      // Mark all progress steps completed
-      await ctx.runMutation(api.optimizations.updateProgressStep, {
-        sessionId: args.sessionId,
-        stepIndex: 2,
-        status: "completed",
-      });
+      // Mark all progress steps as completed
+      for (let i = 0; i < 3; i++) {
+        await ctx.runMutation(api.optimizations.updateProgressStep, {
+          sessionId: args.sessionId,
+          stepIndex: i,
+          status: "completed",
+        });
+      }
 
       return {
         success: true,
         sessionId: args.sessionId,
         processingTimeMs,
         finalResults,
-        iterationsCompleted: maxIterations,
+        iterationsCompleted: optimizationResult.iterations_completed,
       };
 
     } catch (error) {

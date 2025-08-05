@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "files": {
+      "type": "code_file",
+      "metadata": {
+        "last_updated": "2025-01-08T12:00:00Z",
+        "session_id": "audit_documentation_cleanup"
+      },
+      "embeddings": [],
+      "items": [
+        {
+          "path": "/home/matt/prompt-wizard/README.md",
+          "type": "documentation",
+          "status": "honest_updated",
+          "changes": ["added_development_demo_disclaimers", "performance_warnings", "architecture_limitations"]
+        },
+        {
+          "path": "/home/matt/prompt-wizard/CHANGELOG.md", 
+          "type": "documentation",
+          "status": "corrected",
+          "changes": ["removed_fabricated_claims", "honest_version_history"]
+        },
+        {
+          "path": "/home/matt/prompt-wizard/nextjs-app/src/app/page.tsx",
+          "type": "component",
+          "status": "updated_with_disclaimers",
+          "changes": ["added_development_warnings", "commented_mock_imports"]
+        }
+      ]
+    },
+    "functions": {
+      "type": "function",
+      "metadata": {},
+      "embeddings": [],
+      "items": [
+        {
+          "name": "optimizePromptWithOllama",
+          "file": "/home/matt/prompt-wizard/nextjs-app/convex/actions.ts",
+          "status": "documented_as_system_prompt_only",
+          "reality": "Uses system prompt, not actual PromptWizard framework"
+        }
+      ]
+    },
+    "audit_findings": {
+      "type": "architectural",
+      "metadata": {
+        "audit_date": "2025-01-08",
+        "severity": "high",
+        "transparency": "complete"
+      },
+      "findings": [
+        {
+          "issue": "fabricated_promptwizard_implementation",
+          "status": "documented",
+          "reality": "Just system prompts, not actual Microsoft PromptWizard"
+        },
+        {
+          "issue": "performance_claims",
+          "status": "corrected", 
+          "reality": "55-120+ seconds processing (10-40x slower than claimed)"
+        },
+        {
+          "issue": "architecture_limitations",
+          "status": "documented",
+          "reality": "localhost:11434 only, fails in production"
+        },
+        {
+          "issue": "quality_scores",
+          "status": "disclosed",
+          "reality": "Hardcoded 87% scores, not real optimization metrics"
+        }
+      ]
+    }
+  },
+  "relationships": {
+    "depends_on": {"weight": 1.0, "context": "dependency"},
+    "implements": {"weight": 0.8, "context": "implementation"},
+    "fabricates": {"weight": 0.9, "context": "false_claim"},
+    "corrects": {"weight": 1.0, "context": "honest_update"}
+  },
+  "context_vectors": {
+    "current_session": ["audit_cleanup", "honest_documentation", "transparency_improvement"],
+    "recent_changes": ["removed_fabrications", "added_disclaimers", "performance_warnings"],
+    "architectural_patterns": ["development_demo_only", "localhost_dependency", "system_prompt_ai"],
+    "quality_metrics": ["honest_assessment", "complete_transparency", "user_ocd_considerations"]
+  }
+}
