@@ -6,6 +6,11 @@ import { OptimizationForm } from "../components/OptimizationForm";
 import { ProgressDisplay } from "../components/ProgressDisplay";
 import { QualityMetrics } from "../components/QualityMetrics";
 import { ErrorHandling } from "../components/ErrorHandling";
+import DemoPage from "./demo-page";
+
+// Check if Convex is available
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+const isConvexAvailable = convexUrl && convexUrl.trim() !== "";
 
 interface OptimizationResultsProps {
   isVisible: boolean;
@@ -133,6 +138,11 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
 }
 
 export default function Home() {
+  // If no Convex, show demo page
+  if (!isConvexAvailable) {
+    return <DemoPage />;
+  }
+
   const [showResults, setShowResults] = useState(false);
 
   // Use our custom optimization hook

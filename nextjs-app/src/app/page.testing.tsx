@@ -380,7 +380,7 @@ export default function TestingPage() {
             <div>
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Automated Testing</h4>
               <ol className="list-decimal list-inside space-y-2 text-gray-600">
-                <li>Click "Execute All Tests" to run systematic validation</li>
+                <li>Click &quot;Execute All Tests&quot; to run systematic validation</li>
                 <li>Watch as each test phase completes</li>
                 <li>Review results for any failed tests</li>
                 <li>Check the generated test report</li>
