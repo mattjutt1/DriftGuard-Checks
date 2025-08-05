@@ -8,6 +8,11 @@ import { ErrorHandling } from "../components/ErrorHandling";
 
 // Demo optimization engine for contextually relevant responses
 function generateDemoOptimization(originalPrompt: string, contextDomain: string, useAdvancedMode: boolean): any {
+  // Debug logging to trace execution
+  console.log("🔧 DEMO: Optimizing prompt:", originalPrompt.substring(0, 50) + "...");
+  console.log("🔧 DEMO: Context domain:", contextDomain);
+  console.log("🔧 DEMO: Advanced mode:", useAdvancedMode);
+
   // Generate realistic quality metrics with some variation
   const baseMetrics = {
     clarity: 7.5 + Math.random() * 2,
@@ -98,13 +103,16 @@ function generateDemoOptimization(originalPrompt: string, contextDomain: string,
     }
   }
 
-  return {
+  const result = {
     bestPrompt: enhancedPrompt,
     improvements: improvements.slice(0, 4), // Limit to 4 improvements
     qualityMetrics: baseMetrics,
     reasoning: `The prompt was optimized for ${useAdvancedMode ? 'advanced' : 'standard'} use with enhanced clarity, specificity, and structure.`,
     expertInsights: expertInsights.slice(0, 3) // Limit to 3 insights
   };
+
+  console.log("🔧 DEMO: Generated result:", enhancedPrompt.substring(0, 100) + "...");
+  return result;
 }
 
 const mockSessions = [
@@ -113,10 +121,10 @@ const mockSessions = [
     status: "completed" as const,
     qualityScore: 8.3,
     prompt: {
-      originalPrompt: "How to make a website responsive?"
+      originalPrompt: "Write an effective marketing email"
     },
     finalResults: {
-      bestPrompt: "Create a comprehensive guide for implementing responsive web design..."
+      bestPrompt: "Create a compelling, personalized marketing email with clear value proposition, engaging subject line, and specific call-to-action for digital marketing campaigns"
     },
     createdAt: Date.now() - 86400000
   },
@@ -125,10 +133,10 @@ const mockSessions = [
     status: "completed" as const,
     qualityScore: 7.9,
     prompt: {
-      originalPrompt: "Write about JavaScript functions"
+      originalPrompt: "Explain machine learning concepts"
     },
     finalResults: {
-      bestPrompt: "Explain JavaScript functions with practical examples..."
+      bestPrompt: "Create a comprehensive, step-by-step explanation of core machine learning concepts including specific examples, practical implementations, and real-world applications for technical education"
     },
     createdAt: Date.now() - 172800000
   }
