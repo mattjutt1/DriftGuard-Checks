@@ -1,9 +1,7 @@
 {
-  "project": "promptevolver-demo",
-  "prodUrl": "",
-  "functions": "convex/",
-  "generateCommonJSApi": false,
   "node": {
-    "externalPackages": ["@huggingface/inference"]
+    "externalPackages": [
+      "@huggingface/inference"
+    ]
   }
 }

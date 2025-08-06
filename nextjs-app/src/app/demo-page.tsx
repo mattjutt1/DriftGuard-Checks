@@ -47,8 +47,8 @@ function analyzePromptStructure(prompt: string) {
     domain: identifyDomain(prompt),
     tone: identifyTone(prompt),
     complexity: calculateComplexity(prompt),
-    weaknesses: [],
-    strengths: []
+    weaknesses: [] as string[],
+    strengths: [] as string[]
   };
 
   const lowerPrompt = prompt.toLowerCase();
@@ -185,7 +185,7 @@ function calculateQualityMetrics(prompt: string, analysis: any) {
   // Ensure metrics stay within bounds
   Object.keys(metrics).forEach(key => {
     if (key !== 'overall') {
-      metrics[key] = Math.max(3.0, Math.min(10.0, metrics[key]));
+      (metrics as any)[key] = Math.max(3.0, Math.min(10.0, (metrics as any)[key]));
     }
   });
 
@@ -389,7 +389,7 @@ function OptimizationResults({ isVisible, onClose, results }: OptimizationResult
             <h3 className="font-semibold">Key Improvements:</h3>
             <div className="bg-white rounded-lg border p-4">
               <div className="space-y-2">
-                {results.improvements.map((improvement, idx) => (
+                {results.improvements.map((improvement: string, idx: number) => (
                   <div key={idx} className="text-sm flex items-start">
                     <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                     {improvement}
@@ -404,7 +404,7 @@ function OptimizationResults({ isVisible, onClose, results }: OptimizationResult
             <h3 className="font-semibold">Expert Insights:</h3>
             <div className="bg-indigo-50 rounded-lg p-4">
               <div className="space-y-2">
-                {results.expertInsights?.map((insight, idx) => (
+                {results.expertInsights?.map((insight: string, idx: number) => (
                   <div key={idx} className="text-sm flex items-start">
                     <span className="inline-block w-2 h-2 bg-indigo-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                     {insight}
@@ -565,6 +565,8 @@ export default function DemoPage() {
           <OptimizationForm 
             onOptimize={handleOptimize}
             isOptimizing={isOptimizing}
+            useAdvancedMode={false}
+            setUseAdvancedMode={() => {}}
           />
           
           {/* Quality Metrics Dashboard */}

@@ -4,7 +4,7 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
-import { useMutation, useQuery } from 'convex/react';
+import { useMutation, useQuery, useAction } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { Id } from '../../convex/_generated/dataModel';
 
@@ -108,11 +108,11 @@ export function useOptimization(): OptimizationHookState {
     iterations?: number;
   } | null>(null);
 
-  // Convex mutations
+  // Convex mutations and actions
   const createOptimization = useMutation(api.optimizations.createOptimizationRequest);
-  const quickOptimize = useMutation(api.actions.quickOptimize);
-  const advancedOptimize = useMutation(api.actions.advancedOptimize);
-  const ollamaHealth = useMutation(api.actions.checkOllamaHealth);
+  const quickOptimize = useAction(api.actions.quickOptimize);
+  const advancedOptimize = useAction(api.actions.advancedOptimize);
+  const ollamaHealth = useAction(api.actions.checkOllamaHealth);
 
   // Convex queries - get current session data
   const currentSession = useQuery(

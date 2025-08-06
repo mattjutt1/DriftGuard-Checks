@@ -138,11 +138,7 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
 }
 
 export default function Home() {
-  // If no Convex, show demo page
-  if (!isConvexAvailable) {
-    return <DemoPage />;
-  }
-
+  // Hooks must be called unconditionally
   const [showResults, setShowResults] = useState(false);
   const [useAdvancedMode, setUseAdvancedMode] = useState(false);
 
@@ -163,6 +159,11 @@ export default function Home() {
 
   // Use history hook
   const { sessions: recentSessions, isLoading: historyLoading } = useOptimizationHistory(5);
+
+  // If no Convex, show demo page after hooks
+  if (!isConvexAvailable) {
+    return <DemoPage />;
+  }
 
   const handleOptimize = async (prompt: string, contextDomain: string, useAdvancedMode: boolean, iterations: number) => {
     if (!prompt.trim()) return;
