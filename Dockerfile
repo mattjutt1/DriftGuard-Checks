@@ -1,25 +1,22 @@
-# External Ollama Server for PromptEvolver
-# Optimized for cloud deployment with Qwen3:4b model
+# Ultra-simple Ollama for Railway
+FROM ollama/ollama:latest
 
-FROM ollama/ollama:0.1.26
-
-# Set environment variables
+# Set required environment
 ENV OLLAMA_HOST=0.0.0.0:11434
-ENV OLLAMA_MODELS=/root/.ollama/models
 
-# Create models directory
-RUN mkdir -p /root/.ollama/models
-
-# Expose the default Ollama port
+# Expose port for Railway
 EXPOSE 11434
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:11434/api/tags || exit 1
+# Create a simple entrypoint script inline
+RUN echo '#!/bin/bash\n\
+echo "Starting Ollama..."\n\
+ollama serve &\n\
+sleep 5\n\
+echo "Ollama started, pulling model in background..."\n\
+(ollama pull qwen3:4b &)\n\
+echo "Health endpoint should be ready"\n\
+wait\n\
+' > /entrypoint.sh && chmod +x /entrypoint.sh
 
-# Start Ollama and pull model
-COPY start-ollama.sh /start-ollama.sh
-RUN chmod +x /start-ollama.sh
-
-# Use bash to run the script instead of ollama command
-CMD ["/bin/bash", "/start-ollama.sh"]
+# Use the entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
