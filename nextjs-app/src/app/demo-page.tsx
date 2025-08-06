@@ -6,113 +6,302 @@ import { ProgressDisplay } from "../components/ProgressDisplay";
 import { QualityMetrics } from "../components/QualityMetrics";
 import { ErrorHandling } from "../components/ErrorHandling";
 
-// Demo optimization engine for contextually relevant responses
+// Real prompt optimization engine that analyzes and improves prompts for better AI responses
 function generateDemoOptimization(originalPrompt: string, contextDomain: string, useAdvancedMode: boolean): any {
-  // Debug logging to trace execution
-  console.log("🔧 DEMO: Optimizing prompt:", originalPrompt.substring(0, 50) + "...");
-  console.log("🔧 DEMO: Context domain:", contextDomain);
-  console.log("🔧 DEMO: Advanced mode:", useAdvancedMode);
+  console.log("🔧 REAL OPTIMIZER: Analyzing prompt:", originalPrompt.substring(0, 50) + "...");
+  console.log("🔧 REAL OPTIMIZER: Context domain:", contextDomain);
+  console.log("🔧 REAL OPTIMIZER: Advanced mode:", useAdvancedMode);
 
-  // Generate realistic quality metrics with some variation
-  const baseMetrics = {
-    clarity: 7.5 + Math.random() * 2,
-    specificity: 7.0 + Math.random() * 2.5,
-    engagement: 8.0 + Math.random() * 2,
-    structure: 7.5 + Math.random() * 2,
-    completeness: 7.0 + Math.random() * 2.5,
-    errorPrevention: 7.0 + Math.random() * 2,
+  // Analyze the prompt structure and content
+  const promptAnalysis = analyzePromptStructure(originalPrompt);
+  
+  // Generate quality metrics based on actual analysis
+  const qualityMetrics = calculateQualityMetrics(originalPrompt, promptAnalysis);
+  
+  // Create intelligent optimization based on prompt analysis
+  const optimization = createIntelligentOptimization(originalPrompt, promptAnalysis, contextDomain, useAdvancedMode);
+  
+  const result = {
+    bestPrompt: optimization.optimizedPrompt,
+    improvements: optimization.improvements,
+    qualityMetrics: qualityMetrics,
+    reasoning: optimization.reasoning,
+    expertInsights: optimization.expertInsights
+  };
+
+  console.log("🔧 REAL OPTIMIZER: Generated optimization:", optimization.optimizedPrompt.substring(0, 100) + "...");
+  return result;
+}
+
+// Analyze prompt structure to identify strengths and weaknesses
+function analyzePromptStructure(prompt: string) {
+  const analysis = {
+    length: prompt.length,
+    hasSpecificGoal: false,
+    hasContext: false,
+    hasConstraints: false,
+    hasExamples: false,
+    hasOutputFormat: false,
+    hasRole: false,
+    hasSteps: false,
+    domain: identifyDomain(prompt),
+    tone: identifyTone(prompt),
+    complexity: calculateComplexity(prompt),
+    weaknesses: [],
+    strengths: []
+  };
+
+  const lowerPrompt = prompt.toLowerCase();
+  
+  // Check for specific elements
+  analysis.hasSpecificGoal = /\b(create|generate|write|develop|build|design|analyze|explain|compare|evaluate)\b/.test(lowerPrompt);
+  analysis.hasContext = /\b(for|about|regarding|in the context of|background|situation)\b/.test(lowerPrompt);
+  analysis.hasConstraints = /\b(must|should|within|limit|requirement|criteria|rule)\b/.test(lowerPrompt);
+  analysis.hasExamples = /\b(example|instance|such as|like|including)\b/.test(lowerPrompt);
+  analysis.hasOutputFormat = /\b(format|structure|organize|list|table|json|markdown)\b/.test(lowerPrompt);
+  analysis.hasRole = /\b(as a|act as|you are|assume the role|expert|professional)\b/.test(lowerPrompt);
+  analysis.hasSteps = /\b(step|process|procedure|method|approach|workflow)\b/.test(lowerPrompt);
+
+  // Identify weaknesses
+  if (analysis.length < 20) analysis.weaknesses.push("Too brief - lacks necessary detail");
+  if (!analysis.hasSpecificGoal) analysis.weaknesses.push("Goal/objective not clearly defined");
+  if (!analysis.hasContext) analysis.weaknesses.push("Missing context and background information");
+  if (!analysis.hasOutputFormat) analysis.weaknesses.push("Desired output format not specified");
+  if (analysis.length > 300) analysis.weaknesses.push("May be too verbose - could be more focused");
+
+  // Identify strengths
+  if (analysis.hasSpecificGoal) analysis.strengths.push("Clear goal/objective defined");
+  if (analysis.hasContext) analysis.strengths.push("Good contextual information provided");
+  if (analysis.hasConstraints) analysis.strengths.push("Includes helpful constraints and requirements");
+  if (analysis.hasExamples) analysis.strengths.push("Contains examples to clarify intent");
+  if (analysis.hasRole) analysis.strengths.push("Specifies desired perspective/expertise level");
+
+  return analysis;
+}
+
+// Identify the domain/topic of the prompt
+function identifyDomain(prompt: string): string {
+  const lowerPrompt = prompt.toLowerCase();
+  
+  if (/\b(marketing|campaign|advertisement|ad|brand|customer|conversion|sales|lead|a\/b test|ab test)\b/.test(lowerPrompt)) {
+    return "marketing";
+  } else if (/\b(code|programming|software|development|function|algorithm|debug|api|database)\b/.test(lowerPrompt)) {
+    return "programming";
+  } else if (/\b(business|strategy|management|leadership|finance|revenue|profit|company)\b/.test(lowerPrompt)) {
+    return "business";
+  } else if (/\b(design|ui|ux|interface|user experience|visual|layout|creative)\b/.test(lowerPrompt)) {
+    return "design";
+  } else if (/\b(content|writing|blog|article|copy|text|documentation)\b/.test(lowerPrompt)) {
+    return "content";
+  } else if (/\b(education|learn|teach|training|course|tutorial|academic)\b/.test(lowerPrompt)) {
+    return "education";
+  }
+  
+  return "general";
+}
+
+// Identify the tone/style of the prompt
+function identifyTone(prompt: string): string {
+  const lowerPrompt = prompt.toLowerCase();
+  
+  if (/\b(professional|formal|business|corporate|official)\b/.test(lowerPrompt)) {
+    return "professional";
+  } else if (/\b(casual|friendly|conversational|informal|relaxed)\b/.test(lowerPrompt)) {
+    return "casual";
+  } else if (/\b(technical|detailed|precise|specific|expert|advanced)\b/.test(lowerPrompt)) {
+    return "technical";
+  } else if (/\b(creative|innovative|original|imaginative|unique)\b/.test(lowerPrompt)) {
+    return "creative";
+  }
+  
+  return "neutral";
+}
+
+// Calculate complexity score based on prompt characteristics
+function calculateComplexity(prompt: string): number {
+  let complexity = 0;
+  
+  // Length factor
+  if (prompt.length > 200) complexity += 0.3;
+  else if (prompt.length > 100) complexity += 0.2;
+  else complexity += 0.1;
+  
+  // Multiple requirements
+  const requirements = (prompt.match(/\band\b/g) || []).length;
+  complexity += Math.min(requirements * 0.1, 0.3);
+  
+  // Technical terms
+  const technicalTerms = /\b(implement|analyze|optimize|evaluate|integrate|configure|customize)\b/g;
+  const technicalMatches = (prompt.match(technicalTerms) || []).length;
+  complexity += Math.min(technicalMatches * 0.1, 0.4);
+  
+  return Math.min(complexity, 1.0);
+}
+
+// Calculate quality metrics based on actual prompt analysis
+function calculateQualityMetrics(prompt: string, analysis: any) {
+  const metrics = {
+    clarity: 5.0, // Start with baseline
+    specificity: 5.0,
+    engagement: 5.0,
+    structure: 5.0,
+    completeness: 5.0,
+    errorPrevention: 5.0,
     overall: 0
   };
-  baseMetrics.overall = (baseMetrics.clarity + baseMetrics.specificity + baseMetrics.engagement + 
-                        baseMetrics.structure + baseMetrics.completeness + baseMetrics.errorPrevention) / 6;
 
-  // Enhancement patterns based on common prompt optimization techniques
-  const enhancementPatterns = {
-    structure: ["Add clear step-by-step structure", "Break into logical sections", "Include numbered steps"],
-    specificity: ["Add specific examples", "Include technical details", "Define key terms"],
-    context: ["Provide background context", "Explain the problem scope", "Add relevant constraints"],
-    output: ["Specify desired output format", "Define success criteria", "Include quality standards"],
-    audience: ["Clarify target audience", "Adjust technical level", "Consider user expertise"],
-    examples: ["Add practical examples", "Include use cases", "Provide templates"]
-  };
+  // Clarity scoring
+  if (analysis.hasSpecificGoal) metrics.clarity += 1.5;
+  if (analysis.hasContext) metrics.clarity += 1.0;
+  if (analysis.length < 20) metrics.clarity -= 2.0;
+  if (analysis.length > 300) metrics.clarity -= 0.5;
 
-  // Analyze the original prompt to determine what enhancements to apply
-  const prompt = originalPrompt.toLowerCase();
+  // Specificity scoring
+  if (analysis.hasConstraints) metrics.specificity += 1.5;
+  if (analysis.hasExamples) metrics.specificity += 1.0;
+  if (analysis.hasOutputFormat) metrics.specificity += 1.0;
+  if (analysis.domain !== "general") metrics.specificity += 0.5;
+
+  // Engagement scoring
+  if (analysis.hasRole) metrics.engagement += 1.0;
+  if (analysis.tone !== "neutral") metrics.engagement += 0.5;
+  if (analysis.hasExamples) metrics.engagement += 1.0;
+  if (analysis.complexity > 0.5) metrics.engagement += 0.5;
+
+  // Structure scoring
+  if (analysis.hasSteps) metrics.structure += 1.5;
+  if (analysis.hasOutputFormat) metrics.structure += 1.0;
+  if (prompt.includes('\n') || prompt.includes('•') || prompt.includes('-')) metrics.structure += 0.5;
+
+  // Completeness scoring
+  metrics.completeness += analysis.strengths.length * 0.5;
+  metrics.completeness -= analysis.weaknesses.length * 0.3;
+
+  // Error prevention scoring
+  if (analysis.hasConstraints) metrics.errorPrevention += 1.0;
+  if (analysis.hasExamples) metrics.errorPrevention += 0.5;
+  if (analysis.hasOutputFormat) metrics.errorPrevention += 1.0;
+
+  // Ensure metrics stay within bounds
+  Object.keys(metrics).forEach(key => {
+    if (key !== 'overall') {
+      metrics[key] = Math.max(3.0, Math.min(10.0, metrics[key]));
+    }
+  });
+
+  // Calculate overall score
+  metrics.overall = (metrics.clarity + metrics.specificity + metrics.engagement + 
+                    metrics.structure + metrics.completeness + metrics.errorPrevention) / 6;
+
+  return metrics;
+}
+
+// Create intelligent optimization based on analysis
+function createIntelligentOptimization(originalPrompt: string, analysis: any, contextDomain: string, useAdvancedMode: boolean) {
+  let optimizedPrompt = originalPrompt;
   const improvements = [];
   const expertInsights = [];
   
-  // Generate contextually relevant enhanced prompt
-  let enhancedPrompt = originalPrompt;
+  // Domain-specific optimizations
+  if (analysis.domain === "marketing") {
+    optimizedPrompt = optimizeForMarketing(originalPrompt, analysis, useAdvancedMode);
+    improvements.push("Enhanced for marketing effectiveness and conversion focus");
+    improvements.push("Added specific metrics and success criteria for campaigns");
+    expertInsights.push("Marketing prompts benefit from clear target audience definition");
+    expertInsights.push("A/B testing requires specific variables and measurement criteria");
+  } else if (analysis.domain === "programming") {
+    optimizedPrompt = optimizeForProgramming(originalPrompt, analysis, useAdvancedMode);
+    improvements.push("Added technical requirements and implementation details");
+    improvements.push("Specified programming languages and frameworks");
+    expertInsights.push("Code-related prompts need clear input/output specifications");
+    expertInsights.push("Including error handling and edge cases improves code quality");
+  } else {
+    // General optimization
+    optimizedPrompt = optimizeGeneral(originalPrompt, analysis, useAdvancedMode);
+    improvements.push("Improved clarity and structure");
+    improvements.push("Added context and specific requirements");
+    expertInsights.push("Clear prompts lead to more accurate AI responses");
+    expertInsights.push("Specific examples help AI understand the desired output");
+  }
+  
+  // Add context domain if it differs from detected domain
+  if (contextDomain && contextDomain !== "general" && contextDomain !== analysis.domain) {
+    optimizedPrompt += `\n\nContext: This should be tailored specifically for ${contextDomain} applications and best practices.`;
+    improvements.push(`Customized for ${contextDomain} domain requirements`);
+    expertInsights.push("Domain-specific context ensures relevant and accurate responses");
+  }
+
+  return {
+    optimizedPrompt,
+    improvements: improvements.slice(0, 4),
+    expertInsights: expertInsights.slice(0, 3),
+    reasoning: `Optimized based on ${analysis.domain} domain analysis with ${analysis.weaknesses.length} identified improvements and ${analysis.strengths.length} preserved strengths.`
+  };
+}
+
+// Marketing-specific optimization
+function optimizeForMarketing(prompt: string, analysis: any, useAdvanced: boolean): string {
+  let optimized = prompt;
+  
+  // Add role if missing
+  if (!analysis.hasRole) {
+    optimized = "As an experienced marketing strategist, " + optimized.toLowerCase();
+  }
+  
+  // Add specific marketing context
+  if (!prompt.includes("target audience")) {
+    optimized += "\n\nSpecify the target audience demographics, psychographics, and pain points.";
+  }
+  
+  if (!prompt.includes("metric") && !prompt.includes("measure")) {
+    optimized += " Include specific KPIs and success metrics to measure campaign effectiveness.";
+  }
+  
+  if (useAdvanced) {
+    optimized += "\n\nAdvanced requirements:\n• Provide statistical significance calculations for A/B tests\n• Include conversion funnel analysis\n• Consider budget allocation and ROI projections\n• Account for seasonal trends and market conditions";
+  }
+  
+  return optimized;
+}
+
+// Programming-specific optimization
+function optimizeForProgramming(prompt: string, analysis: any, useAdvanced: boolean): string {
+  let optimized = prompt;
+  
+  if (!analysis.hasRole) {
+    optimized = "As a senior software engineer, " + optimized.toLowerCase();
+  }
+  
+  if (!prompt.includes("language") && !prompt.includes("framework")) {
+    optimized += " Specify the programming language, framework, and version requirements.";
+  }
+  
+  if (useAdvanced) {
+    optimized += "\n\nTechnical requirements:\n• Include error handling and edge cases\n• Provide unit tests and documentation\n• Consider performance optimization and scalability\n• Follow industry best practices and design patterns";
+  }
+  
+  return optimized;
+}
+
+// General optimization for other domains
+function optimizeGeneral(prompt: string, analysis: any, useAdvanced: boolean): string {
+  let optimized = prompt;
   
   // Add structure if missing
-  if (!prompt.includes("step") && !prompt.includes("list")) {
-    enhancedPrompt = `Create a comprehensive, step-by-step ${enhancedPrompt.toLowerCase()}`;
-    improvements.push("Added structured approach with clear steps");
-    expertInsights.push("Step-by-step structure improves comprehension and actionability");
+  if (!analysis.hasOutputFormat) {
+    optimized += " Please provide a well-structured response with clear sections and actionable insights.";
   }
   
-  // Add specificity if too general
-  if (prompt.length < 50 || (!prompt.includes("example") && !prompt.includes("specific"))) {
-    enhancedPrompt += ", including specific examples and practical implementations";
-    improvements.push("Enhanced specificity with concrete examples");
-    expertInsights.push("Specific examples make responses more actionable and valuable");
+  // Add context if missing
+  if (!analysis.hasContext && analysis.weaknesses.includes("Missing context and background information")) {
+    optimized += " Include relevant background context and explain your reasoning.";
   }
   
-  // Add context domain if provided
-  if (contextDomain && contextDomain !== "general") {
-    enhancedPrompt += ` tailored for ${contextDomain} applications`;
-    improvements.push(`Customized for ${contextDomain} domain`);
-    expertInsights.push(`Domain-specific context improves relevance and accuracy`);
+  if (useAdvanced) {
+    optimized += "\n\nAdvanced requirements:\n• Provide multiple perspectives or approaches\n• Include potential challenges and mitigation strategies\n• Reference current best practices and industry standards";
   }
   
-  // Add advanced requirements if advanced mode is enabled
-  if (useAdvancedMode) {
-    enhancedPrompt += ". Include best practices, potential pitfalls to avoid, and advanced optimization techniques";
-    improvements.push("Added advanced techniques and best practices");
-    improvements.push("Included potential pitfalls and error prevention");
-    expertInsights.push("Advanced mode provides deeper insights and professional-level guidance");
-  }
-  
-  // Add quality requirements
-  if (!prompt.includes("quality") && !prompt.includes("best practice")) {
-    enhancedPrompt += ". Ensure high quality, accuracy, and adherence to current industry standards";
-    improvements.push("Added quality standards and industry compliance");
-    expertInsights.push("Quality standards ensure reliable and professional outcomes");
-  }
-  
-  // Ensure we have enough improvements and insights
-  while (improvements.length < 3) {
-    const randomPattern = enhancementPatterns[Object.keys(enhancementPatterns)[Math.floor(Math.random() * Object.keys(enhancementPatterns).length)]];
-    const randomImprovement = randomPattern[Math.floor(Math.random() * randomPattern.length)];
-    if (!improvements.includes(randomImprovement)) {
-      improvements.push(randomImprovement);
-    }
-  }
-  
-  while (expertInsights.length < 3) {
-    const insights = [
-      "Clear requirements lead to better AI responses",
-      "Context-specific prompts produce more relevant results",
-      "Examples and constraints improve output quality",
-      "Structured prompts enable systematic responses",
-      "Domain expertise context enhances accuracy"
-    ];
-    const randomInsight = insights[Math.floor(Math.random() * insights.length)];
-    if (!expertInsights.includes(randomInsight)) {
-      expertInsights.push(randomInsight);
-    }
-  }
-
-  const result = {
-    bestPrompt: enhancedPrompt,
-    improvements: improvements.slice(0, 4), // Limit to 4 improvements
-    qualityMetrics: baseMetrics,
-    reasoning: `The prompt was optimized for ${useAdvancedMode ? 'advanced' : 'standard'} use with enhanced clarity, specificity, and structure.`,
-    expertInsights: expertInsights.slice(0, 3) // Limit to 3 insights
-  };
-
-  console.log("🔧 DEMO: Generated result:", enhancedPrompt.substring(0, 100) + "...");
-  return result;
+  return optimized;
 }
 
 const mockSessions = [
