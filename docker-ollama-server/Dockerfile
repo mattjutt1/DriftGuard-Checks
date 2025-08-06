@@ -21,4 +21,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 COPY start-ollama.sh /start-ollama.sh
 RUN chmod +x /start-ollama.sh
 
-CMD ["/start-ollama.sh"]
+# Use bash to run the script instead of ollama command
+CMD ["/bin/bash", "/start-ollama.sh"]
