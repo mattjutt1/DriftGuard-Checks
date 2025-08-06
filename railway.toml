@@ -1,12 +1,12 @@
 [build]
 builder = "dockerfile"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 healthcheckPath = "/api/tags"
-healthcheckTimeout = 600
-startCommand = ""
+healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
 
-[variables]
-OLLAMA_HOST = "0.0.0.0:11434"
-PORT = "11434"
+# Railway will auto-inject PORT
+# We don't override it here

@@ -17,10 +17,8 @@ import type * as actions from "../actions.js";
 import type * as http from "../http.js";
 import type * as ollama from "../ollama.js";
 import type * as optimizations from "../optimizations.js";
-import type * as promptwizard from "../promptwizard.js";
 import type * as seedData from "../seedData.js";
 import type * as sessions from "../sessions.js";
-import type * as test_promptwizard from "../test-promptwizard.js";
 import type * as testLogs from "../testLogs.js";
 
 /**
@@ -36,10 +34,8 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   ollama: typeof ollama;
   optimizations: typeof optimizations;
-  promptwizard: typeof promptwizard;
   seedData: typeof seedData;
   sessions: typeof sessions;
-  "test-promptwizard": typeof test_promptwizard;
   testLogs: typeof testLogs;
 }>;
 export declare const api: FilterApi<

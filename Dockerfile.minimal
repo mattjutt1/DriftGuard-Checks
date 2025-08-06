@@ -1,0 +1,5 @@
+# Absolute minimal Ollama for Railway
+FROM ollama/ollama:latest
+
+# Direct command - Railway PORT handling inline
+CMD ["sh", "-c", "OLLAMA_HOST=0.0.0.0:${PORT:-11434} ollama serve"]
