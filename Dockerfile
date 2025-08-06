@@ -1,55 +1,37 @@
-# Railway-compatible Ollama server
-FROM ollama/ollama:latest
+# Simple test server for Railway to verify it works
+FROM node:18-slim
 
-# Install curl for health checks
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN echo 'const express = require("express");\n\
+const app = express();\n\
+const PORT = process.env.PORT || 3000;\n\
+\n\
+console.log("Starting test server on port", PORT);\n\
+\n\
+app.get("/api/tags", (req, res) => {\n\
+  console.log("Health check hit!");\n\
+  res.json({\n\
+    models: [{\n\
+      name: "qwen3:4b",\n\
+      size: 2600000000,\n\
+      modified_at: new Date().toISOString()\n\
+    }]\n\
+  });\n\
+});\n\
+\n\
+app.get("/api/generate", (req, res) => {\n\
+  console.log("Generate request:", req.body?.prompt?.substring(0, 50));\n\
+  res.json({\n\
+    model: "qwen3:4b",\n\
+    response: "This is a mock response from the Railway test server. The real Ollama deployment will replace this.",\n\
+    done: true\n\
+  });\n\
+});\n\
+\n\
+app.listen(PORT, "0.0.0.0", () => {\n\
+  console.log(`Railway test server running on port ${PORT}`);\n\
+});\n\
+' > server.js
 
-# Create Railway-compatible startup script
-RUN echo '#!/bin/bash\n\
-set -e\n\
-\n\
-# Use Railway PORT or default to 11434\n\
-RAILWAY_PORT=${PORT:-11434}\n\
-export OLLAMA_HOST="0.0.0.0:$RAILWAY_PORT"\n\
-\n\
-echo "🚂 Railway Ollama startup..."\n\
-echo "Railway PORT: $RAILWAY_PORT"\n\
-echo "OLLAMA_HOST: $OLLAMA_HOST"\n\
-\n\
-# Start ollama server\n\
-echo "🚀 Starting Ollama server..."\n\
-ollama serve > /tmp/ollama.log 2>&1 &\n\
-OLLAMA_PID=$!\n\
-\n\
-# Wait for server to be ready\n\
-echo "⏳ Waiting for server to respond..."\n\
-for i in $(seq 1 60); do\n\
-    if curl -s "http://localhost:$RAILWAY_PORT/api/tags" > /dev/null 2>&1; then\n\
-        echo "✅ Server responding on port $RAILWAY_PORT"\n\
-        break\n\
-    fi\n\
-    if [ $i -eq 60 ]; then\n\
-        echo "❌ Server failed to start after 60 attempts"\n\
-        echo "Ollama logs:"\n\
-        cat /tmp/ollama.log || echo "No logs available"\n\
-        exit 1\n\
-    fi\n\
-    echo "Attempt $i/60... (port $RAILWAY_PORT)"\n\
-    sleep 2\n\
-done\n\
-\n\
-# Download model in background after health check passes\n\
-echo "📥 Downloading qwen3:4b model in background..."\n\
-(ollama pull qwen3:4b > /tmp/model.log 2>&1 &)\n\
-\n\
-echo "🎉 Railway deployment ready!"\n\
-echo "Health endpoint: http://0.0.0.0:$RAILWAY_PORT/api/tags"\n\
-\n\
-# Keep container alive\n\
-wait $OLLAMA_PID\n\
-' > /railway-start.sh && chmod +x /railway-start.sh
+RUN npm init -y && npm install express
 
-# Railway will set PORT - we don't hardcode it
-# EXPOSE is for documentation but Railway uses PORT env var
-
-CMD ["/bin/bash", "/railway-start.sh"]
+CMD ["node", "server.js"]
