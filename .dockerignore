@@ -1,0 +1,16 @@
+# Ignore unnecessary files for Ollama container
+nextjs-app/
+cli/
+microsoft-promptwizard/
+.git/
+.next/
+node_modules/
+*.md
+*.txt
+*.log
+vercel-ollama-test/
+test-external-integration.js
+deploy-*.sh
+DEPLOYMENT-GUIDE.md
+CORRECT-DEPLOYMENT-GUIDE.md
+RAILWAY-DEPLOYMENT-STEPS.md
