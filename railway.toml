@@ -4,9 +4,7 @@ builder = "dockerfile"
 [deploy]
 healthcheckPath = "/api/tags"
 healthcheckTimeout = 600
-startCommand = ""
 restartPolicyType = "ON_FAILURE"
 
-[variables]
-OLLAMA_HOST = "0.0.0.0:11434"
-PORT = "11434"
+# Don't set PORT - Railway will provide it
+# Don't set OLLAMA_HOST - we'll use Railway's PORT
