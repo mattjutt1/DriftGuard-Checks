@@ -5,6 +5,46 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-08-07
+
+### Added
+
+- **Training System Foundation** (Tasks 4.1-4.2)
+  - Task 4.1: prepare_qwen_model.py - QLoRA model preparation with 2025 best practices
+  - Task 4.2: training_config.yaml - Comprehensive training configuration
+
+- **QLoRA Model Preparation** (`scripts/prepare_qwen_model.py`)
+  - Support for latest Qwen 2.5 models (3B recommended)
+  - 4-bit quantization with NF4 and double quantization
+  - Targets all linear transformer blocks for optimal performance
+  - Memory optimization with gradient checkpointing
+  - Flash Attention 2 support for compatible hardware
+  - Automatic batch size calculation based on GPU memory
+  - Paged AdamW optimizer for memory efficiency
+  - Configuration export for reproducibility
+
+- **Training Configuration** (`configs/training_config.yaml`)
+  - Complete QLoRA hyperparameters with documentation
+  - Early stopping and best model selection
+  - Multi-platform monitoring support (TensorBoard, W&B, MLflow)
+  - Hardware configuration with device mapping
+  - Inference configuration for testing
+  - Hyperparameter search configuration (Optuna/Ray)
+  - Comprehensive best practices documentation
+
+### Technical
+
+- **Progress Tracking**: 22 of 102 tasks completed (21.6%)
+- **Training Infrastructure**: Modern QLoRA implementation for consumer GPUs
+- **Memory Optimization**: Supports 3B models on 16GB VRAM
+- **Latest Standards**: Incorporates 2025 HuggingFace best practices
+
+### Knowledge Graph
+
+- Added training system entities and configurations
+- Updated with QLoRA optimization techniques
+- Framework compliance status: Excellent
+
 ## [0.3.3] - 2025-08-07
 
 ### Added
