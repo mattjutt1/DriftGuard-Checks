@@ -1,0 +1,28 @@
+{
+  "processing_summary": {
+    "total_processed": 4,
+    "successful_normalizations": 4,
+    "failed_normalizations": 0,
+    "success_rate": 100.0,
+    "processing_time_seconds": 0.061136484146118164,
+    "records_per_second": 40.0
+  },
+  "domain_distribution": {
+    "Cross-Domain": 1,
+    "Coding": 1,
+    "Content": 1,
+    "Analytics": 1
+  },
+  "quality_metrics": {
+    "average_quality_score": 0.75
+  },
+  "error_analysis": {
+    "error_count": 0,
+    "error_details": []
+  },
+  "generation_metadata": {
+    "timestamp": 1754586655,
+    "normalizer_version": "1.0",
+    "schema_version": "1.0"
+  }
+}
