@@ -1,0 +1,95 @@
+# PromptWizard – Datasets, Training Techniques, and Evaluation
+
+## 1. Dataset Structure in PromptWizard
+
+PromptWizard expects training data in a **JSONL** format. Each line is a JSON object with two fields:
+
+```json
+{"question": "<full input query>", "answer": "<ground‑truth response>"}
+```
+
+Example (from GSM8K):
+
+```
+{"question": "Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?", "answer": "Natalia sold 48/2 = 24 clips in May. Natalia sold 48+24 = 72 clips altogether in April and May. #### 72"}
+```
+
+The repository places `train.jsonl` and `test.jsonl` files in each task folder (e.g., `data/train.jsonl`). The **answer** can include a chain‑of‑thought explanation; PromptWizard optionally strips out the final answer using an `answer_format` pattern.
+
+---
+
+## 2. Training Data Sources for Prompt Enhancement
+
+Below is a curated list of open‑source datasets (with links, formats, sizes, and licenses) suitable for training a model to convert vague prompts into well‑engineered ones.
+
+### 2.1 Instruction‑Following Datasets
+
+| Dataset                       | Size       | Format                            | License                         | Notes                                      |
+| ----------------------------- | ---------- | --------------------------------- | ------------------------------- | ------------------------------------------ |
+| **Stanford Alpaca**           | 52 K pairs | JSON (instruction, input, output) | CC‑BY‑NC 4.0 *(non‑commercial)* | Diverse synthetic instructions             |
+| **Databricks Dolly 15K**      | 15 K       | JSONL                             | CC‑BY‑SA 3.0                    | Human‑written; commercial OK (share‑alike) |
+| **OpenAssistant OASST1**      | 161 K      | Parquet / JSON                    | Apache 2.0                      | Multi‑turn chat data                       |
+| **WizardLM Evol‑Instruct V2** | 196 K\*    | JSONL                             | MIT†                            | “Evolved” complex instructions             |
+| **ShareGPT**                  | 90 K+      | JSON dialogs                      | Unclear                         | Community ChatGPT logs (use with caution)  |
+
+\*143 K examples are MIT‑licensed; 53 K inherit ShareGPT’s uncertain license.
+
+### 2.2 Prompt‑Engineering (Before/After) Datasets
+
+| Dataset                             | Size  | Format   | License                     | Example Improvement                                                                        |
+| ----------------------------------- | ----- | -------- | --------------------------- | ------------------------------------------------------------------------------------------ |
+| **Bad‑Improved Prompt Pairs**       | 1.2 K | CSV/JSON | Apache 2.0                  | "Help me with C++ libraries" → "Provide the most popular C++ libraries and their purpose." |
+| **Prompt Optimization (Taron)**     | 102   | JSONL    | Unknown (assume permissive) | “Optimize: Describe the role of AI in healthcare.” → Detailed rephrasing                   |
+| **Prompt‑Enhancement Mini (Image)** | 1.1 K | JSON     | CreativeML OpenRAIL‑M       | Adds rich descriptive detail for T2I prompts                                               |
+
+### 2.3 Chain‑of‑Thought Reasoning Datasets
+
+| Dataset                  | Size         | Format | License    | Purpose                                     |
+| ------------------------ | ------------ | ------ | ---------- | ------------------------------------------- |
+| **GSM8K**                | 8.5 K        | JSONL  | MIT        | Grade‑school math word problems + solutions |
+| **MATH**                 | 12.5 K       | JSON   | MIT        | Competition‑level math with proofs          |
+| **Big‑Bench Hard (BBH)** | 23 tasks     | JSON   | Apache 2.0 | Difficult multi‑step reasoning tasks        |
+| **HumanEval**            | 164 problems | JSON   | MIT        | Code generation with unit tests             |
+
+### 2.4 Task‑Specific Prompt Optimization Data
+
+- **BIG‑Bench Instruction‑Induction** – 19 meta‑tasks where the model must infer an instruction; useful for prompt generation.
+- **Domain corpora** – e.g., PubMedQA (medical), MBPP (Python), Toxic Comments (classification) where you can craft vague → detailed prompt pairs.
+
+---
+
+## 3. Key Training Techniques in PromptWizard
+
+*PromptWizard does ****not**** fine‑tune model weights.* Instead, it performs an **iterative self‑refinement** algorithm:
+
+1. **Mutate** the current prompt (LLM rewrites instructions, persona, examples).
+2. **Score** each candidate by running it on training questions and computing accuracy.
+3. **Critique** failures (LLM explains why wrong answers occurred).
+4. **Refine** using the critique to yield a better prompt.
+
+This loop (3–5 iterations) converges on a high‑performing prompt with **tens of API calls**, avoiding costly gradient updates. No LoRA, RLHF, or full fine‑tuning is used inside PromptWizard itself.
+
+For your goal—making Qwen‑30B an autonomous prompt‑refiner—you would **supervise fine‑tune or LoRA** Qwen on the before/after datasets above so it learns the transformation in a single forward pass.
+
+---
+
+## 4. Evaluation Metrics for Prompt Quality
+
+| Metric                          | Description                                                              | PromptWizard Usage                           |
+| ------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------- |
+| **Task Accuracy / Exact Match** | % of test questions answered correctly (numeric or string match).        | Used on GSM8K, SVAMP, AQUA‑RAT.              |
+| **LLM‑Judged Match**            | When outputs are free‑form, a separate LLM grades answer vs. reference.  | Suggested when string match is insufficient. |
+| **Cross‑Task Success**          | Fraction of tasks where prompt hits ≥ X % of best accuracy (robustness). | Evaluated across 45 tasks, Big‑Bench, MMLU.  |
+| **Cost / Efficiency**           | # API calls, tokens consumed to reach final prompt.                      | PW used ≈100× fewer tokens than baselines.   |
+| **Few‑Shot Generalization**     | Performance drop when training examples reduced (e.g., 25 → 5).          | Small drop (\~5 %) shows prompt robustness.  |
+| **Human Preference (optional)** | Experts assess clarity & completeness of enhanced prompts.               | Not in PW paper but useful in SaaS setting.  |
+
+A practical pipeline for your SaaS product could be:
+
+1. **Collect** vague → refined prompt pairs (start with public sets, gradually add in‑domain examples).
+2. **Fine‑tune** Qwen‑30B with LoRA on this data.
+3. **Evaluate** on held‑out tasks (e.g., GSM8K, HumanEval) comparing outputs using original vs. enhanced prompts.
+4. **Iterate** by adding failure cases back into training and monitoring token costs vs. accuracy.
+
+With a strong foundation from instruction‑following + prompt‑engineering datasets, Qwen‑30B can learn to transform user inputs into robust, context‑rich prompts suitable for commercial deployment.
+

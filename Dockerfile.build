@@ -1,2 +1,0 @@
-# This file tells Railway to use Docker
-# Even if it's not used, its presence helps Railway detect Docker usage

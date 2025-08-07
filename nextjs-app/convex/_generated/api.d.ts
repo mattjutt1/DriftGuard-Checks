@@ -14,6 +14,9 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as actions from "../actions.js";
+import type * as hfIntegration from "../hfIntegration.js";
+import type * as hfOptimize from "../hfOptimize.js";
+import type * as hfspace from "../hfspace.js";
 import type * as http from "../http.js";
 import type * as ollama from "../ollama.js";
 import type * as optimizations from "../optimizations.js";
@@ -31,6 +34,9 @@ import type * as testLogs from "../testLogs.js";
  */
 declare const fullApi: ApiFromModules<{
   actions: typeof actions;
+  hfIntegration: typeof hfIntegration;
+  hfOptimize: typeof hfOptimize;
+  hfspace: typeof hfspace;
   http: typeof http;
   ollama: typeof ollama;
   optimizations: typeof optimizations;

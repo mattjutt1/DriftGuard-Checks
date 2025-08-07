@@ -5,6 +5,18 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-08-07
+
+### Changed
+- **Workspace Cleanup**: Major cleanup to prepare for PRD implementation
+  - Deleted Windows Zone.Identifier artifacts  
+  - Removed redundant deployment documentation (kept DEPLOYMENT_GUIDE.md)
+  - Deleted extra Dockerfiles (kept main Dockerfile)
+  - Cleaned test artifacts and Python cache files
+  - Removed redundant virtual environments (kept root venv/)
+  - Deleted duplicate/backup files
+  - Freed ~1GB of disk space
+
 ## [0.1.16] - 2025-08-05
 
 ### 🎯 COMPREHENSIVE TEST SUITE COMPLETION & VALIDATION
