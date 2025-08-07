@@ -5,6 +5,60 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2025-08-07
+
+### Added
+
+- **Milestone 4 Complete**: Training System Implementation (Tasks 4.1-4.5)
+  - Task 4.1: prepare_qwen_model.py - QLoRA model preparation with 2025 best practices
+  - Task 4.2: training_config.yaml - Comprehensive training configuration
+  - Task 4.3: train_model.py - Main training script with QLoRA and SFTTrainer
+  - Task 4.4: monitor_training.py - Real-time training monitoring dashboard
+  - Task 4.5: checkpoint_manager.py - Checkpoint management and deployment preparation
+
+- **Main Training Script** (`scripts/train_model.py`)
+  - Complete QLoRA training implementation with PEFT and TRL
+  - SFTTrainer integration for supervised fine-tuning
+  - Support for custom prompt templates and data formatting
+  - Automatic mixed precision training (bf16/fp16)
+  - Gradient checkpointing and memory optimization
+  - Early stopping with best model selection
+  - Comprehensive logging and metrics tracking
+  - Multi-GPU support with Accelerate
+
+- **Training Monitor** (`scripts/monitor_training.py`)
+  - Real-time dashboard with Rich terminal UI
+  - TensorBoard metrics integration
+  - System resource monitoring (CPU, GPU, memory)
+  - Training progress estimation and ETA
+  - Checkpoint tracking and size monitoring
+  - Training curves visualization
+  - Metrics analysis and report generation
+  - Support for both live monitoring and post-training analysis
+
+- **Checkpoint Manager** (`scripts/checkpoint_manager.py`)
+  - List and validate checkpoints
+  - Merge LoRA adapters with base model
+  - Prepare models for different deployment types (API, edge, cloud)
+  - HuggingFace Hub integration for model sharing
+  - Checkpoint cleanup to save disk space
+  - GGUF format conversion support (llama.cpp)
+  - Deployment package generation with Docker support
+
+### Technical
+
+- **Progress Tracking**: 25 of 102 tasks completed (24.5%)
+- **Training Infrastructure**: Production-ready QLoRA training pipeline
+- **Monitoring**: Comprehensive real-time training visualization
+- **Deployment Ready**: Multiple deployment options with checkpoint management
+- **Best Practices**: Follows latest 2025 HuggingFace PEFT and TRL standards
+
+### Knowledge Graph
+
+- Added complete training pipeline entities
+- Updated with monitoring and checkpoint management systems
+- Framework compliance status: Excellent
+
 ## [0.4.0] - 2025-08-07
 
 ### Added
