@@ -8,7 +8,7 @@ ignore = E203, W503
 extend-ignore = E501, C901
 
 # Exclude third-party and generated code
-exclude = 
+exclude =
     .git,
     __pycache__,
     venv,
@@ -25,12 +25,12 @@ exclude =
     .mypy_cache
 
 # Per-file ignores for specific patterns
-per-file-ignores = 
+per-file-ignores =
     # Ignore import errors in __init__ files
     */__init__.py: F401
     # Ignore f-string without placeholders (common in logging)
     */test*.py: F541
-    # Ignore complexity in test files  
+    # Ignore complexity in test files
     test_*.py: C901
     # Ignore unused imports in config files
     */config.py: F401
