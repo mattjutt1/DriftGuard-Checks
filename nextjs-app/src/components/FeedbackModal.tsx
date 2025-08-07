@@ -18,16 +18,16 @@ export function FeedbackModal({ isVisible, onClose, sessionId }: FeedbackModalPr
   const [feedbackText, setFeedbackText] = useState('');
   const [improvementSuggestions, setImprovementSuggestions] = useState<string[]>(['']);
   const [isHelpful, setIsHelpful] = useState<boolean | undefined>(undefined);
-  
+
   const { submitOptimizationFeedback, isSubmitting, error } = useFeedback();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!sessionId || rating === 0) return;
 
     const suggestions = improvementSuggestions.filter(s => s.trim() !== '');
-    
+
     const success = await submitOptimizationFeedback(
       sessionId,
       rating,
@@ -74,7 +74,7 @@ export function FeedbackModal({ isVisible, onClose, sessionId }: FeedbackModalPr
             ×
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Rating */}
           <div>

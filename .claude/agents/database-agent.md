@@ -173,13 +173,13 @@ export const getOptimizationHistory = query({
       .query("optimizationSessions")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .order("desc");
-    
+
     if (cursor) {
       query = query.paginate({ cursor, numItems: limit });
     } else {
       query = query.take(limit);
     }
-    
+
     return await query;
   },
 });
@@ -196,7 +196,7 @@ export const getOptimizationSummary = query({
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .order("desc")
       .take(10);
-    
+
     // Return only summary fields, not full results
     return sessions.map(session => ({
       id: session._id,
@@ -223,14 +223,14 @@ export const createOptimizationWithFeedback = mutation({
       userId: args.userId,
       ...args.promptData,
     });
-    
+
     // Create session
     const sessionId = await ctx.db.insert("optimizationSessions", {
       promptId,
       userId: args.userId,
       /* ... */
     });
-    
+
     // Add initial feedback if provided
     if (args.initialFeedback) {
       await ctx.db.insert("feedback", {
@@ -239,7 +239,7 @@ export const createOptimizationWithFeedback = mutation({
         ...args.initialFeedback,
       });
     }
-    
+
     return { promptId, sessionId };
   },
 });
@@ -264,11 +264,11 @@ export const updateOptimizationStatus = mutation({
   },
   handler: async (ctx, { sessionId, status, results }) => {
     // Update session
-    await ctx.db.patch(sessionId, { 
+    await ctx.db.patch(sessionId, {
       optimizationStatus: status,
-      results: results 
+      results: results
     });
-    
+
     // Update related prompt status
     const session = await ctx.db.get(sessionId);
     if (session) {
@@ -291,11 +291,11 @@ export const users = defineTable({
   // Existing fields...
   tokenIdentifier: v.string(),
   email: v.string(),
-  
+
   // New optional fields (safe to add)
   displayName: v.optional(v.string()),
   lastLoginAt: v.optional(v.number()),
-  
+
   // Existing fields...
   createdAt: v.number(),
 });
@@ -308,7 +308,7 @@ export const migrateUserData = internalMutation({
   args: {},
   handler: async (ctx) => {
     const users = await ctx.db.query("users").collect();
-    
+
     for (const user of users) {
       // Transform old data format to new format
       if (!user.displayName && user.username) {
@@ -357,7 +357,7 @@ export const getUserData = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Unauthenticated");
-    
+
     // User can only access their own data
     return await ctx.db
       .query("prompts")
@@ -381,10 +381,10 @@ export const createPrompt = mutation({
     if (args.originalPrompt.length > 10000) {
       throw new Error("Prompt too long");
     }
-    
+
     // Sanitize input
     const sanitizedPrompt = args.originalPrompt.trim();
-    
+
     return await ctx.db.insert("prompts", {
       userId: identity.subject,
       originalPrompt: sanitizedPrompt,
@@ -403,7 +403,7 @@ export const getMyOptimizations = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Unauthenticated");
-    
+
     // Query automatically filtered by userId
     return await ctx.db
       .query("optimizationSessions")

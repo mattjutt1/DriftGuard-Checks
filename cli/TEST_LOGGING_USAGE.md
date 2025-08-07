@@ -116,7 +116,7 @@ Set these environment variables for enhanced metadata:
 ```python
 {
     "testId": "module::test_name",
-    "testName": "test_name", 
+    "testName": "test_name",
     "testModule": "module",
     "status": "passed|failed|skipped|timeout",
     "duration": 150.5,  # milliseconds

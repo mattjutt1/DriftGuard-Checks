@@ -66,7 +66,7 @@ const createOptimization = useMutation(api.optimizations.create);
 const handleOptimize = async (prompt: string) => {
   // Optimistic update - immediately show pending state
   setOptimisticState({ status: "pending", prompt });
-  
+
   try {
     const sessionId = await createOptimization({ prompt, context });
     // Convex query will automatically update UI when backend responds

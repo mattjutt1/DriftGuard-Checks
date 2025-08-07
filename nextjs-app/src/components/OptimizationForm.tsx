@@ -18,10 +18,10 @@ export function OptimizationForm({ onOptimize, isOptimizing, useAdvancedMode, se
     if (!prompt.trim()) return;
 
     const isAdvanced = advancedMode ?? useAdvancedMode;
-    
+
     try {
       await onOptimize(prompt, contextDomain, isAdvanced, iterations);
-      
+
       // Clear form on successful start
       setPrompt("");
       setContextDomain("");
@@ -49,7 +49,7 @@ export function OptimizationForm({ onOptimize, isOptimizing, useAdvancedMode, se
           <div className="mt-2 text-xs text-gray-500">⏱️ 90-120 seconds • 🔧 Development demo</div>
         </div>
       </div>
-      
+
       {/* Advanced Mode Controls */}
       {useAdvancedMode && (
         <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
@@ -137,10 +137,10 @@ export function OptimizationForm({ onOptimize, isOptimizing, useAdvancedMode, se
               </div>
             )}
           </button>
-          
+
           <div className="bg-amber-50 border border-amber-200 rounded p-3 mt-2">
             <p className="text-xs text-amber-800 text-center px-4">
-              ⚠️ {useAdvancedMode 
+              ⚠️ {useAdvancedMode
                 ? `Processing will take 90-120 seconds. This is a development demo using basic system prompts.`
                 : "Processing will take 60-90 seconds. This is a development demo using basic system prompts."
               }

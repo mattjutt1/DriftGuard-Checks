@@ -19,7 +19,7 @@ export const createOptimizationRequest = mutation({
     // For demo purposes, create a mock user if none exists
     // In production, you'd get this from authentication
     let userId: Id<"users">;
-    
+
     const existingUser = await ctx.db
       .query("users")
       .filter((q) => q.eq(q.field("email"), "demo@promptevolver.com"))
@@ -93,7 +93,7 @@ export const getSession = query({
 
     // Also get the associated prompt data
     const prompt = await ctx.db.get(session.promptId);
-    
+
     return {
       ...session,
       prompt,
@@ -290,7 +290,7 @@ export const getOptimizationHistory = query({
   },
   handler: async (ctx, args) => {
     const limit = args.limit || 10;
-    
+
     // For demo purposes, get demo user if no userId provided
     let userId = args.userId;
     if (!userId) {

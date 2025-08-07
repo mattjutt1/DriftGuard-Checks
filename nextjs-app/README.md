@@ -37,7 +37,7 @@ A modern web application that uses AI to optimize your prompts for better result
    ```bash
    # Start Ollama service
    ollama serve
-   
+
    # Pull Qwen3-8B model (in another terminal)
    ollama pull qwen3:8b
    ```
@@ -46,7 +46,7 @@ A modern web application that uses AI to optimize your prompts for better result
    ```bash
    # Login and configure Convex (interactive)
    npx convex dev --configure new
-   
+
    # This will:
    # - Create a new Convex project
    # - Generate your deployment URL
@@ -57,7 +57,7 @@ A modern web application that uses AI to optimize your prompts for better result
    ```bash
    # Copy example file
    cp .env.local.example .env.local
-   
+
    # Edit .env.local with your Convex deployment URL
    # (Generated from the previous step)
    ```
@@ -66,7 +66,7 @@ A modern web application that uses AI to optimize your prompts for better result
    ```bash
    # Start Next.js dev server
    npm run dev
-   
+
    # In another terminal, keep Convex running
    npx convex dev
    ```
@@ -136,7 +136,7 @@ The app uses the following main collections:
    ```bash
    # Connect to Vercel and deploy
    vercel --prod
-   
+
    # Set environment variables in Vercel dashboard:
    # CONVEX_DEPLOYMENT=your-prod-url
    # NEXT_PUBLIC_CONVEX_URL=your-prod-url

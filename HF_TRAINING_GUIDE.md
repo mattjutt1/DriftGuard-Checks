@@ -7,7 +7,7 @@ We've created a complete training setup to fine-tune Qwen models on HuggingFace'
 
 ### 1. Training Data (✅ Complete)
 - **Location**: `nextjs-app/data/gsm8k/`
-- **Files**: 
+- **Files**:
   - `train.jsonl` - 100 training examples
   - `test.jsonl` - 50 test examples
 - **Format**: PromptWizard-compatible JSON with questions, answers, and full solutions
@@ -89,7 +89,7 @@ LORA_RANK = 16                     # More parameters
 
 After training completes:
 
-1. **Model Location**: 
+1. **Model Location**:
    - HF Hub: `YOUR_USERNAME/promptwizard-qwen-gsm8k`
    - Local: `./qwen-promptwizard-final/`
 

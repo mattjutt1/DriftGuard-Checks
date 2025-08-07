@@ -39,7 +39,7 @@ echo "🌐 Your PromptEvolver app is now live on Vercel"
 echo
 echo "📋 Complete Architecture:"
 echo "   Frontend: Vercel (deployed)"
-echo "   Backend:  Convex (deployed)"  
+echo "   Backend:  Convex (deployed)"
 echo "   AI:       External Ollama (pending)"
 echo
 echo "⚠️ Next step: Deploy external Ollama server"

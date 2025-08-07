@@ -19,7 +19,7 @@ async function testAvailabilityCheck() {
         const pythonPath = `${promptWizardPath}/venv/bin/python`;
         const command = `cd ${promptWizardPath} && ${pythonPath} -c "import promptwizard; print('PromptWizard available')"`;
         const { stdout } = await execAsync(command, { timeout: 10000 });
-        
+
         const available = stdout.includes('PromptWizard available');
         if (available) {
             console.log('✅ PromptWizard availability check passed');
@@ -39,7 +39,7 @@ async function testConfigGeneration() {
     try {
         const tempDir = `/tmp/promptwizard-test-${Date.now()}`;
         fs.mkdirSync(tempDir, { recursive: true });
-        
+
         // Create configuration files (simulating our TypeScript integration)
         const promptoptConfig = {
             prompt_technique_name: "critique_n_refine",
@@ -86,7 +86,7 @@ description: "Test PromptWizard optimization session"`;
 
         console.log('✅ Configuration files generated successfully');
         console.log(`   Session directory: ${tempDir}`);
-        
+
         return { success: true, tempDir };
     } catch (error) {
         console.log(`❌ Configuration generation failed: ${error.message}`);
@@ -117,11 +117,11 @@ try:
         dataset_jsonl=None,  # No training data for scenario 1
         data_processor=None
     )
-    
+
     print("INSTANTIATION_SUCCESS")
     print(f"Object type: {type(gp)}")
     print("Ready for get_best_prompt() call")
-    
+
 except Exception as e:
     print(f"INSTANTIATION_FAILED: {e}")
     import traceback
@@ -133,9 +133,9 @@ except Exception as e:
 
         const pythonPath = `${promptWizardPath}/venv/bin/python`;
         const command = `cd ${promptWizardPath} && ${pythonPath} ${scriptPath}`;
-        
+
         const { stdout, stderr } = await execAsync(command, { timeout: 30000 });
-        
+
         if (stdout.includes('INSTANTIATION_SUCCESS')) {
             console.log('✅ PromptWizard instantiation successful');
             console.log('   GluePromptOpt object created');
@@ -160,12 +160,12 @@ async function testIntegrationFiles() {
             '/home/matt/prompt-wizard/nextjs-app/convex/promptwizard.ts',
             '/home/matt/prompt-wizard/nextjs-app/convex/actions.ts'
         ];
-        
+
         for (const filePath of integrationFiles) {
             if (!fs.existsSync(filePath)) {
                 throw new Error(`Integration file missing: ${filePath}`);
             }
-            
+
             const content = fs.readFileSync(filePath, 'utf8');
             if (content.includes('promptWizard.optimizePrompt') || content.includes('class PromptWizard')) {
                 // File contains real integration code
@@ -173,7 +173,7 @@ async function testIntegrationFiles() {
                 throw new Error(`Integration file doesn't contain expected code: ${filePath}`);
             }
         }
-        
+
         console.log('✅ Integration files validated');
         console.log('   promptwizard.ts: Contains real PromptWizard class');
         console.log('   actions.ts: Contains real optimization actions');
@@ -186,29 +186,29 @@ async function testIntegrationFiles() {
 
 async function testCompleteWorkflow() {
     console.log('\n🧪 Test 5: Complete Workflow Structure');
-    
+
     // This test verifies the workflow structure without calling Ollama
     const workflowSteps = [
         'Configuration file creation',
-        'PromptWizard instantiation', 
+        'PromptWizard instantiation',
         'get_best_prompt() method availability',
         'Result extraction and formatting',
         'Error handling and fallback'
     ];
-    
+
     console.log('✅ Complete workflow structure validated');
     workflowSteps.forEach((step, index) => {
         console.log(`   ${index + 1}. ${step}`);
     });
     console.log('   Note: Full workflow requires Ollama server for AI processing');
-    
+
     return true;
 }
 
 async function main() {
     console.log('🚀 Real Microsoft PromptWizard Integration Test Suite');
     console.log('=' * 70);
-    
+
     const tests = [
         { name: 'Availability Check', func: testAvailabilityCheck },
         { name: 'Config Generation', func: testConfigGeneration },
@@ -216,14 +216,14 @@ async function main() {
         { name: 'Integration Files', func: testIntegrationFiles },
         { name: 'Complete Workflow', func: testCompleteWorkflow }
     ];
-    
+
     const results = [];
     let tempDir = null;
-    
+
     for (let i = 0; i < tests.length; i++) {
         const test = tests[i];
         let result;
-        
+
         if (test.name === 'Config Generation') {
             const configResult = await test.func();
             result = configResult.success;
@@ -233,24 +233,24 @@ async function main() {
         } else {
             result = await test.func();
         }
-        
+
         results.push(result);
     }
-    
+
     console.log('\n' + '=' * 70);
     console.log('📊 Test Results Summary');
     console.log('=' * 70);
-    
+
     const passed = results.filter(r => r).length;
     const total = results.length;
-    
+
     results.forEach((result, index) => {
         const status = result ? '✅ PASS' : '❌ FAIL';
         console.log(`Test ${index + 1}: ${tests[index].name.padEnd(25)} ${status}`);
     });
-    
+
     console.log(`\nOverall: ${passed}/${total} tests passed`);
-    
+
     if (passed === total) {
         console.log('🎉 All tests passed! Real Microsoft PromptWizard integration is working!');
         console.log('✨ Key achievements:');

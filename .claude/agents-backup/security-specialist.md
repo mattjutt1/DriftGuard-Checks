@@ -31,12 +31,12 @@ class SecurityConfig:
     JWT_ALGORITHM = 'HS256'
     JWT_ACCESS_TOKEN_EXPIRE = 15  # minutes
     JWT_REFRESH_TOKEN_EXPIRE = 7  # days
-    
+
     # Password security
     PASSWORD_MIN_LENGTH = 12
     PASSWORD_REQUIRE_COMPLEXITY = True
     BCRYPT_ROUNDS = 12
-    
+
     # Rate limiting
     LOGIN_RATE_LIMIT = "5/minute"
     API_RATE_LIMIT = "100/minute"
@@ -49,14 +49,14 @@ def validate_prompt_input(prompt: str) -> str:
     # Length validation
     if len(prompt) > 10000:
         raise ValidationError("Prompt too long")
-    
+
     # XSS prevention
     prompt = html.escape(prompt)
-    
+
     # Command injection prevention
     if re.search(r'[;&|`$()]', prompt):
         raise ValidationError("Invalid characters detected")
-    
+
     return prompt.strip()
 ```
 

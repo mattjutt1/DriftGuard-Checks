@@ -72,12 +72,12 @@ class ModelPerformanceOptimizer:
     def __init__(self):
         self.response_cache = TTLCache(maxsize=1000, ttl=3600)
         self.batch_processor = BatchProcessor(max_batch_size=5)
-    
+
     async def optimize_prompt(self, prompt: str) -> str:
         # Check cache first
         if cached_result := self.response_cache.get(hash(prompt)):
             return cached_result
-        
+
         # Batch processing for efficiency
         result = await self.batch_processor.process(prompt)
         self.response_cache[hash(prompt)] = result
@@ -87,17 +87,17 @@ class ModelPerformanceOptimizer:
 ### 3. Database Performance
 ```sql
 -- Query optimization strategies
-EXPLAIN ANALYZE SELECT 
+EXPLAIN ANALYZE SELECT
     p.id, p.original_prompt, p.optimized_prompt,
     os.quality_score, os.processing_time_ms
 FROM prompts p
 JOIN optimization_sessions os ON p.id = os.prompt_id
-WHERE p.user_id = $1 
+WHERE p.user_id = $1
 ORDER BY p.created_at DESC
 LIMIT 20;
 
 -- Index optimization
-CREATE INDEX CONCURRENTLY idx_prompts_user_created 
+CREATE INDEX CONCURRENTLY idx_prompts_user_created
 ON prompts(user_id, created_at DESC);
 
 -- Partitioning for large tables
@@ -119,7 +119,7 @@ const PromptInput = memo(({ value, onChange }) => {
     debounce(onChange, 300),
     [onChange]
   );
-  
+
   return <textarea onChange={debouncedOnChange} />;
 });
 
@@ -145,29 +145,29 @@ class CacheManager:
     def __init__(self):
         # L1: In-memory cache (fastest)
         self.memory_cache = TTLCache(maxsize=100, ttl=300)
-        
+
         # L2: Redis cache (shared)
         self.redis_cache = redis.Redis(host='localhost', port=6379)
-        
+
         # L3: Database cache (persistent)
         self.db_cache_ttl = 3600
-    
+
     async def get_optimization_result(self, prompt_hash: str):
         # Check L1 cache
         if result := self.memory_cache.get(prompt_hash):
             return result
-        
+
         # Check L2 cache
         if result := await self.redis_cache.get(f"opt:{prompt_hash}"):
             self.memory_cache[prompt_hash] = result
             return result
-        
+
         # Check L3 cache (database)
         if result := await self.get_from_database(prompt_hash):
             await self.redis_cache.setex(f"opt:{prompt_hash}", 3600, result)
             self.memory_cache[prompt_hash] = result
             return result
-        
+
         return None
 ```
 
@@ -189,7 +189,7 @@ class PerformanceMonitor:
             "gpu_usage": GPUtil.getGPUs()[0].load * 100,
             "gpu_memory": GPUtil.getGPUs()[0].memoryUtil * 100,
         }
-    
+
     def check_performance_thresholds(self, metrics):
         alerts = []
         if metrics["cpu_percent"] > 80:
@@ -225,18 +225,18 @@ from locust import HttpUser, task, between
 
 class PromptEvolutionUser(HttpUser):
     wait_time = between(1, 3)
-    
+
     @task(3)
     def optimize_prompt(self):
         self.client.post("/api/v1/optimize", json={
             "prompt": "Create a marketing email for a new product",
             "context": "marketing"
         })
-    
+
     @task(1)
     def get_history(self):
         self.client.get("/api/v1/history")
-    
+
     @task(1)
     def get_templates(self):
         self.client.get("/api/v1/templates")

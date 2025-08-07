@@ -46,7 +46,7 @@ async def optimize_prompt(request: OptimizeRequest):
             prompt=request.prompt,
             config=PROMPTWIZARD_CONFIG
         )
-        
+
         return OptimizeResponse(
             original_prompt=request.prompt,
             optimized_prompt=optimized.prompt,
@@ -90,20 +90,20 @@ class HFSpaceOptimizer:
     def __init__(self):
         self.optimizer = PromptOptimizer(config=PROMPTWIZARD_CONFIG)
         self.model = self._load_qwen_model()
-    
+
     def _load_qwen_model(self):
         """Load Qwen3:4b model optimized for HF Spaces"""
         # Implementation for HF Spaces model loading
         pass
-    
+
     async def optimize(self, prompt: str) -> OptimizationResult:
         """Optimize prompt with performance monitoring"""
         start_time = time.time()
-        
+
         result = await self.optimizer.optimize(prompt)
-        
+
         processing_time = time.time() - start_time
-        
+
         return OptimizationResult(
             prompt=result.optimized_prompt,
             improvements=result.improvements,
@@ -124,7 +124,7 @@ def optimize_prompt_interface(prompt):
     """Gradio interface for prompt optimization"""
     if not prompt.strip():
         return "Please enter a prompt to optimize.", "", 0.0, 0.0
-    
+
     try:
         result = await optimizer.optimize(prompt)
         return (
@@ -141,7 +141,7 @@ interface = gr.Interface(
     fn=optimize_prompt_interface,
     inputs=[
         gr.Textbox(
-            label="Original Prompt", 
+            label="Original Prompt",
             placeholder="Enter your prompt here...",
             lines=5
         )
@@ -193,7 +193,7 @@ CONVEX_WEBHOOK_URL=https://your-convex.convex.cloud/api/webhook
 ```typescript
 // convex/actions.ts - Updated for HF Spaces
 export const optimizePromptWithHFSpace = action({
-  args: { 
+  args: {
     prompt: v.string(),
     sessionId: v.id("optimization_sessions")
   },
@@ -264,7 +264,7 @@ class HFSpaceMonitor:
     @staticmethod
     def log_optimization(prompt_length: int, processing_time: float, quality_score: float):
         logging.info(f"Optimization completed - Length: {prompt_length}, Time: {processing_time:.2f}s, Quality: {quality_score:.2f}")
-    
+
     @staticmethod
     def log_error(error: Exception, prompt_hash: str):
         logging.error(f"Optimization failed - Hash: {prompt_hash}, Error: {str(error)}")

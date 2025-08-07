@@ -4,7 +4,7 @@ PromptEvolver CLI Setup
 Simple setup script for the CLI tool
 """
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="promptevolver-cli",

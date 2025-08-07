@@ -31,12 +31,12 @@ class SecurityConfig:
     JWT_ALGORITHM = 'HS256'
     JWT_ACCESS_TOKEN_EXPIRE = 15  # minutes
     JWT_REFRESH_TOKEN_EXPIRE = 7  # days
-    
+
     # Password security
     PASSWORD_MIN_LENGTH = 12
     PASSWORD_REQUIRE_COMPLEXITY = True
     BCRYPT_ROUNDS = 12
-    
+
     # Rate limiting
     LOGIN_RATE_LIMIT = "5/minute"
     API_RATE_LIMIT = "100/minute"
@@ -49,15 +49,15 @@ def validate_prompt_input(prompt: str) -> str:
     # Length validation
     if len(prompt) > 10000:
         raise ValidationError("Prompt too long")
-    
+
     # XSS prevention
     prompt = html.escape(prompt)
-    
+
     # SQL injection prevention (already handled by ORM)
     # Command injection prevention
     if re.search(r'[;&|`$()]', prompt):
         raise ValidationError("Invalid characters detected")
-    
+
     return prompt.strip()
 ```
 
@@ -165,15 +165,15 @@ SECURITY_EVENTS = {
 def test_sql_injection_protection():
     # Test parameterized queries
     # Validate ORM protection
-    
+
 def test_xss_prevention():
     # Test input sanitization
     # Validate output encoding
-    
+
 def test_authentication_security():
     # Test JWT token security
     # Validate session management
-    
+
 def test_authorization_controls():
     # Test role-based access
     # Validate permission enforcement

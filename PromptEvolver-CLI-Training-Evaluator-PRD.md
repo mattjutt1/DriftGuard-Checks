@@ -10,7 +10,7 @@ This PRD defines a **practical CLI-based training evaluator** that leverages Mic
 **Mission:** Deliver practical, terminal-accessible prompt evaluation and training data generation for individual developers using local AI models and free cloud infrastructure.
 
 ### Document Metadata
-- **Product Name**: PromptEvolver CLI Training Evaluator  
+- **Product Name**: PromptEvolver CLI Training Evaluator
 - **Version**: 1.0 (Individual Developer Edition)
 - **Created**: August 5, 2025
 - **Target Integration**: PromptWizard 0.2.2 + Qwen3 4B (Ollama)
@@ -47,7 +47,7 @@ The system implements a **streamlined three-layer architecture** optimized for i
                               │ Processed Data + Training Sets
         ┌─────────────────────▼─────────────────────────────────────────┐
         │    Free Cloud Storage & Training Data Layer                  │
-        │ ───────────────────────────────────────────────────────────── │ 
+        │ ───────────────────────────────────────────────────────────── │
         │ • AWS S3 Free Tier: 5GB storage, 20,000 GET requests/month   │
         │ • Google Cloud Free: 5GB storage, 5,000 operations/month     │
         │ • GitHub LFS: Version control for training datasets          │
@@ -391,21 +391,21 @@ def train():
 @click.option('--quality-threshold', default=0.6, help='Minimum quality for training inclusion')
 def optimize(prompt, task_type, iterations, save_training_pair, quality_threshold):
     """Optimize a prompt and optionally save as training data"""
-    
+
     training_integrator = PromptWizardTrainingIntegration()
-    
+
     result = training_integrator.optimize_for_training(
         prompt=prompt,
         task_type=task_type,
         iterations=iterations,
         quality_threshold=quality_threshold
     )
-    
+
     if save_training_pair and result.suitable_for_training:
         training_dataset = TrainingDatasetGenerator()
         training_dataset.add_training_pair(result)
         click.echo(f"Training pair saved with quality score: {result.quality_score}")
-    
+
     click.echo(f"Optimization completed in {result.processing_time:.2f}s")
     click.echo(f"Improvement score: {result.improvement_score:.3f}")
 
@@ -416,17 +416,17 @@ def optimize(prompt, task_type, iterations, save_training_pair, quality_threshol
 @click.option('--output', required=True, help='Output JSONL file for training data')
 def batch(input_file, max_concurrent, generate_training_data, output):
     """Batch optimize prompts for training data generation"""
-    
+
     training_integrator = PromptWizardTrainingIntegration()
     training_dataset = TrainingDatasetGenerator()
-    
+
     # Process batch with training data generation
     results = training_integrator.batch_optimize_for_training(
         input_file=input_file,
         max_concurrent=max_concurrent,
         generate_training_data=generate_training_data
     )
-    
+
     if generate_training_data:
         training_dataset.save_batch_results(results, output)
         click.echo(f"Training dataset saved to {output}")
@@ -469,18 +469,18 @@ class PromptWizardTrainingIntegration:
             max_tokens=1024
         )
         self.quality_evaluator = TrainingQualityEvaluator()
-    
+
     async def optimize_for_training(
-        self, 
-        prompt: str, 
+        self,
+        prompt: str,
         task_type: str = "general",
         iterations: int = 3,
         quality_threshold: float = 0.6
     ) -> TrainingOptimizationResult:
         """Optimize prompt specifically for training data generation"""
-        
+
         start_time = time.time()
-        
+
         try:
             # Run PromptWizard optimization
             optimization_result = await self.optimizer.optimize(
@@ -489,14 +489,14 @@ class PromptWizardTrainingIntegration:
                 client=self.ollama_client,
                 iterations=iterations
             )
-            
+
             # Evaluate quality for training suitability
             quality_metrics = await self.quality_evaluator.evaluate_for_training(
                 original=prompt,
                 optimized=optimization_result.optimized_prompt,
                 task_type=task_type
             )
-            
+
             # Determine training suitability
             improvement_score = quality_metrics.get('improvement_score', 0.0)
             suitable_for_training = (
@@ -504,12 +504,12 @@ class PromptWizardTrainingIntegration:
                 quality_metrics.get('semantic_similarity', 0.0) > 0.7 and
                 quality_metrics.get('instruction_clarity', 0.0) > 0.6
             )
-            
+
             # Calculate training weight based on quality
             training_weight = min(1.0, improvement_score * 1.2) if suitable_for_training else 0.0
-            
+
             processing_time = time.time() - start_time
-            
+
             return TrainingOptimizationResult(
                 original_prompt=prompt,
                 optimized_prompt=optimization_result.optimized_prompt,
@@ -526,7 +526,7 @@ class PromptWizardTrainingIntegration:
                     "reasoning_included": True
                 }
             )
-            
+
         except Exception as e:
             return TrainingOptimizationResult(
                 original_prompt=prompt,
@@ -539,7 +539,7 @@ class PromptWizardTrainingIntegration:
                 training_weight=0.0,
                 metadata={"error": str(e)}
             )
-    
+
     async def batch_optimize_for_training(
         self,
         input_file: str,
@@ -547,25 +547,25 @@ class PromptWizardTrainingIntegration:
         generate_training_data: bool = True
     ) -> List[TrainingOptimizationResult]:
         """Batch process prompts for training data generation"""
-        
+
         # Read prompts from file
         with open(input_file, 'r') as f:
             prompts = [line.strip() for line in f if line.strip()]
-        
+
         # Process in batches to avoid overwhelming the system
         semaphore = asyncio.Semaphore(max_concurrent)
-        
+
         async def process_single_prompt(prompt: str) -> TrainingOptimizationResult:
             async with semaphore:
                 return await self.optimize_for_training(prompt)
-        
+
         # Execute batch processing
         tasks = [process_single_prompt(prompt) for prompt in prompts]
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        
+
         # Filter out exceptions and return valid results
         valid_results = [r for r in results if isinstance(r, TrainingOptimizationResult)]
-        
+
         return valid_results
 ```
 
@@ -586,33 +586,33 @@ class TrainingDatasetGenerator:
             'instruction-tuning': self._format_instruction_tuning,
             'alpaca': self._format_alpaca
         }
-    
+
     def save_batch_results(
-        self, 
-        results: List[TrainingOptimizationResult], 
+        self,
+        results: List[TrainingOptimizationResult],
         output_file: str,
         format_type: str = 'instruction-tuning'
     ):
         """Save batch optimization results as training dataset"""
-        
+
         # Filter for training-suitable results
         training_results = [r for r in results if r.suitable_for_training]
-        
+
         # Format according to specified type
         formatter = self.dataset_format_templates.get(format_type, self._format_instruction_tuning)
         formatted_data = [formatter(result) for result in training_results]
-        
+
         # Save as JSONL
         with open(output_file, 'w') as f:
             for item in formatted_data:
                 f.write(json.dumps(item) + '\n')
-        
+
         # Generate dataset statistics
         stats = self._generate_dataset_stats(training_results)
         stats_file = output_file.replace('.jsonl', '_stats.json')
         with open(stats_file, 'w') as f:
             json.dump(stats, f, indent=2)
-    
+
     def _format_instruction_tuning(self, result: TrainingOptimizationResult) -> Dict[str, Any]:
         """Format for instruction tuning (Unsloth/LoRA compatible)"""
         return {
@@ -630,7 +630,7 @@ class TrainingDatasetGenerator:
                 "processing_time_seconds": result.processing_time
             }
         }
-    
+
     def _format_huggingface(self, result: TrainingOptimizationResult) -> Dict[str, Any]:
         """Format for HuggingFace datasets library"""
         return {
@@ -641,16 +641,16 @@ class TrainingDatasetGenerator:
             "task_type": result.task_type,
             "quality_metrics": result.quality_metrics
         }
-    
+
     def _generate_dataset_stats(self, results: List[TrainingOptimizationResult]) -> Dict[str, Any]:
         """Generate comprehensive dataset statistics"""
         if not results:
             return {"error": "No training-suitable results"}
-        
+
         improvement_scores = [r.improvement_score for r in results]
         processing_times = [r.processing_time for r in results]
         task_types = [r.task_type for r in results]
-        
+
         return {
             "total_training_pairs": len(results),
             "average_improvement_score": sum(improvement_scores) / len(improvement_scores),
@@ -661,7 +661,7 @@ class TrainingDatasetGenerator:
             "high_quality_pairs": len([r for r in results if r.improvement_score > 0.7]),
             "dataset_created_at": datetime.now().isoformat(),
             "total_dataset_size_mb": sum(
-                len(r.original_prompt) + len(r.optimized_prompt) 
+                len(r.original_prompt) + len(r.optimized_prompt)
                 for r in results
             ) / (1024 * 1024)
         }
@@ -678,7 +678,7 @@ class TrainingDatasetGenerator:
 - [ ] Training quality evaluation metrics implementation
 - [ ] Basic JSONL output for training datasets
 
-### Sprint 2: Batch Processing & Quality Control (Week 2)  
+### Sprint 2: Batch Processing & Quality Control (Week 2)
 - [ ] Batch optimization pipeline with concurrent processing
 - [ ] Training data quality filtering and validation
 - [ ] HuggingFace-compatible dataset formatting
@@ -712,7 +712,7 @@ class TrainingDatasetGenerator:
 
 ### Free Tier Cloud Storage Utilization
 - **AWS S3 Free Tier**: 5GB storage, 20,000 GET requests/month
-- **Google Cloud Storage**: 5GB storage, 5,000 operations/month  
+- **Google Cloud Storage**: 5GB storage, 5,000 operations/month
 - **HuggingFace Hub**: Unlimited public datasets, 3GB private storage
 - **Typical Training Dataset Size**: 10-100MB per batch session
 - **Storage Duration**: 20-50 training sessions within free limits
@@ -748,13 +748,13 @@ class TrainingDataMonitor:
             'instruction_clarity': 0.6,
             'task_completion': 0.65
         }
-    
+
     def generate_quality_report(self, dataset_path: str) -> Dict[str, Any]:
         """Generate comprehensive quality report for training dataset"""
-        
+
         # Load and analyze dataset
         training_data = self.load_training_dataset(dataset_path)
-        
+
         quality_analysis = {
             'total_samples': len(training_data),
             'high_quality_samples': self.count_high_quality(training_data),
@@ -763,15 +763,15 @@ class TrainingDataMonitor:
             'dataset_diversity_score': self.calculate_diversity_score(training_data),
             'recommended_training_config': self.suggest_training_config(training_data)
         }
-        
+
         return quality_analysis
-    
+
     def suggest_training_config(self, training_data: List[Dict]) -> Dict[str, Any]:
         """Suggest optimal training configuration based on dataset analysis"""
-        
+
         dataset_size = len(training_data)
         avg_quality = self.calculate_average_quality(training_data)
-        
+
         if dataset_size < 100:
             return {
                 'recommended_epochs': 3-5,
@@ -825,7 +825,7 @@ This PRD establishes a **practical, terminal-driven solution** for individual de
 - **Terminal-Native Workflow**: Complete functionality through CLI commands
 - **Training-Focused**: Optimized specifically for generating training datasets
 - **Local AI Processing**: No API costs, full control over PromptWizard + Qwen3 4B
-- **Free Cloud Storage**: Sustainable within AWS/GCS/HuggingFace free tiers  
+- **Free Cloud Storage**: Sustainable within AWS/GCS/HuggingFace free tiers
 - **Realistic Performance**: Achievable targets for individual developer hardware
 - **Training Quality**: Datasets suitable for actual model fine-tuning projects
 

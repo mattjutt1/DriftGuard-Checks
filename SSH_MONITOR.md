@@ -1,7 +1,7 @@
 # 🔧 HuggingFace Space SSH Access Guide
 
-**Space**: https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training  
-**Developer Mode**: ✅ ENABLED  
+**Space**: https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training
+**Developer Mode**: ✅ ENABLED
 **Hardware**: Zero GPU (A10G)
 
 ## SSH Connection (Once Available)
@@ -133,5 +133,5 @@ print(f'Loaded {len(data)} examples')
 
 ---
 
-**Status**: Waiting for Space to finish building...  
+**Status**: Waiting for Space to finish building...
 **Next**: SSH in and verify Zero GPU works with real GSM8K data!

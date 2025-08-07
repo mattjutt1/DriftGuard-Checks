@@ -16,7 +16,7 @@ interface OptimizationResultsProps {
 function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
   const { results, currentSession, qualityMetrics } = useOptimization();
   const [showFeedback, setShowFeedback] = useState(false);
-  
+
   if (!isVisible || !results) return null;
 
   return (
@@ -32,7 +32,7 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
               ×
             </button>
           </div>
-          
+
           <div className="p-6 space-y-6">
           {/* Results Summary */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -155,7 +155,7 @@ export default function AdvancedUIPreview() {
 
   const handleOptimize = async (prompt: string, contextDomain: string, useAdvancedMode: boolean, iterations: number) => {
     if (!prompt.trim()) return;
-    
+
     try {
       await startOptimization(prompt, contextDomain, useAdvancedMode, iterations);
       setShowResults(true);
@@ -176,21 +176,21 @@ export default function AdvancedUIPreview() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Optimization Progress Modal */}
-      <ProgressDisplay 
+      <ProgressDisplay
         isOptimizing={isOptimizing}
         currentStep={currentStep}
         totalSteps={totalSteps}
         message={progressMessage}
       />
-      
+
       {/* Results Modal */}
-      <OptimizationResults 
+      <OptimizationResults
         isVisible={showResults}
         onClose={() => setShowResults(false)}
       />
 
       {/* Error Alert */}
-      <ErrorHandling 
+      <ErrorHandling
         error={error}
         onDismiss={resetOptimization}
       />
@@ -231,16 +231,16 @@ export default function AdvancedUIPreview() {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           {/* Left Column - Optimization Form */}
-          <OptimizationForm 
+          <OptimizationForm
             onOptimize={handleOptimize}
             isOptimizing={isOptimizing}
           />
-          
+
           {/* Quality Metrics Dashboard */}
           {qualityMetrics && (
             <div className="xl:col-span-2">
-              <QualityMetrics 
-                metrics={qualityMetrics} 
+              <QualityMetrics
+                metrics={qualityMetrics}
                 overallScore={results?.qualityMetrics.overall}
               />
             </div>
@@ -275,7 +275,7 @@ export default function AdvancedUIPreview() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              
+
               {historyLoading ? (
                 <div className="text-center py-12">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
@@ -323,7 +323,7 @@ export default function AdvancedUIPreview() {
                           </div>
                         )}
                       </div>
-                      
+
                       <div className="space-y-2">
                         <div>
                           <div className="text-xs font-medium text-gray-500 mb-1">Demo Session:</div>
@@ -332,7 +332,7 @@ export default function AdvancedUIPreview() {
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
                         <div className="flex items-center">
                           <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -19,11 +19,11 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     const startTime = Date.now();
     const callId = `health_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     try {
       // Call the internal action
       const result = await ctx.runAction(api.actions.checkOllamaHealth, {});
-      
+
       const responseTime = Date.now() - startTime;
       const responseBody = JSON.stringify({ status: "success", data: result });
 
@@ -93,7 +93,7 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     const startTime = Date.now();
     const callId = `optimize_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     try {
       const body = await request.json();
       const { prompt, domain, config } = body;
@@ -251,15 +251,15 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     try {
       const body = await request.json();
-      const { 
-        executionId, 
-        testType, 
-        testSuite, 
-        environment, 
-        testResults, 
-        apiCalls, 
+      const {
+        executionId,
+        testType,
+        testSuite,
+        environment,
+        testResults,
+        apiCalls,
         errors,
-        metadata 
+        metadata
       } = body;
 
       if (!executionId || !testType || !testSuite) {

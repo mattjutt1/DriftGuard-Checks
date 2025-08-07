@@ -84,7 +84,7 @@ function TestingDashboard({ results, onRunTests, isRunning }: TestingDashboardPr
         {Object.entries(phaseGroups).map(([phase, tests]) => {
           const phaseStatus = getPhaseStatus(tests);
           const passedTests = tests.filter(t => t.status === 'passed').length;
-          
+
           return (
             <div key={phase} className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center justify-between mb-4">
@@ -96,7 +96,7 @@ function TestingDashboard({ results, onRunTests, isRunning }: TestingDashboardPr
                   {passedTests}/{tests.length} passed
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {tests.map((test, idx) => (
                   <div
@@ -165,43 +165,43 @@ export default function TestingPage() {
       { phase: 'Phase 1: Basic Connectivity', name: 'Convex config exists', status: 'pending' },
       { phase: 'Phase 1: Basic Connectivity', name: 'Environment variables', status: 'pending' },
       { phase: 'Phase 1: Basic Connectivity', name: 'Generated API types', status: 'pending' },
-      
+
       // Phase 2: UI Components
       { phase: 'Phase 2: UI Components', name: 'OptimizationForm renders', status: 'pending' },
       { phase: 'Phase 2: UI Components', name: 'ProgressDisplay works', status: 'pending' },
       { phase: 'Phase 2: UI Components', name: 'QualityMetrics displays', status: 'pending' },
       { phase: 'Phase 2: UI Components', name: 'ErrorHandling functions', status: 'pending' },
-      
+
       // Phase 3: Core Functionality
       { phase: 'Phase 3: Core Functionality', name: 'Quick optimization flow', status: 'pending' },
       { phase: 'Phase 3: Core Functionality', name: 'Advanced optimization flow', status: 'pending' },
       { phase: 'Phase 3: Core Functionality', name: 'Real-time progress tracking', status: 'pending' },
       { phase: 'Phase 3: Core Functionality', name: 'Results modal display', status: 'pending' },
-      
+
       // Phase 4: Integration
       { phase: 'Phase 4: Integration', name: 'Convex client connection', status: 'pending' },
       { phase: 'Phase 4: Integration', name: 'Session history loading', status: 'pending' },
       { phase: 'Phase 4: Integration', name: 'Health check function', status: 'pending' },
       { phase: 'Phase 4: Integration', name: 'Error boundary handling', status: 'pending' },
     ];
-    
+
     setTestResults(initialTests);
   }, []);
 
   const runSystematicTests = async () => {
     setIsRunningTests(true);
-    
+
     // Simulate running tests with realistic timing
     const updatedResults = [...testResults];
-    
+
     for (let i = 0; i < updatedResults.length; i++) {
       // Mark as running
       updatedResults[i] = { ...updatedResults[i], status: 'running' };
       setTestResults([...updatedResults]);
-      
+
       // Simulate test execution time
       await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
-      
+
       // Determine test result (90% pass rate for demo)
       const passed = Math.random() > 0.1;
       updatedResults[i] = {
@@ -210,16 +210,16 @@ export default function TestingPage() {
         duration: Math.floor(50 + Math.random() * 200),
         details: passed ? 'Test completed successfully' : 'Test failed - check configuration'
       };
-      
+
       setTestResults([...updatedResults]);
     }
-    
+
     setIsRunningTests(false);
   };
 
   const handleOptimize = async (prompt: string, contextDomain: string, useAdvancedMode: boolean, iterations: number) => {
     if (!prompt.trim()) return;
-    
+
     try {
       await startOptimization(prompt, contextDomain, useAdvancedMode, iterations);
       setShowResults(true);
@@ -240,7 +240,7 @@ export default function TestingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
       {/* Progress Display */}
-      <ProgressDisplay 
+      <ProgressDisplay
         isOptimizing={isOptimizing}
         currentStep={currentStep}
         totalSteps={totalSteps}
@@ -248,7 +248,7 @@ export default function TestingPage() {
       />
 
       {/* Error Handling */}
-      <ErrorHandling 
+      <ErrorHandling
         error={error}
         onDismiss={resetOptimization}
       />
@@ -288,7 +288,7 @@ export default function TestingPage() {
 
         {/* Testing Dashboard */}
         <div className="mb-8">
-          <TestingDashboard 
+          <TestingDashboard
             results={testResults}
             onRunTests={runSystematicTests}
             isRunning={isRunningTests}
@@ -305,8 +305,8 @@ export default function TestingPage() {
                 Test the actual optimization functionality to validate the complete integration.
               </p>
             </div>
-            
-            <OptimizationForm 
+
+            <OptimizationForm
               onOptimize={handleOptimize}
               isOptimizing={isOptimizing}
             />
@@ -316,8 +316,8 @@ export default function TestingPage() {
           <div className="xl:col-span-1 space-y-6">
             {/* Quality Metrics */}
             {qualityMetrics && (
-              <QualityMetrics 
-                metrics={qualityMetrics} 
+              <QualityMetrics
+                metrics={qualityMetrics}
                 overallScore={results?.qualityMetrics.overall}
               />
             )}
@@ -325,7 +325,7 @@ export default function TestingPage() {
             {/* Session History */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Session History Test</h3>
-              
+
               {historyLoading ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
@@ -375,7 +375,7 @@ export default function TestingPage() {
         {/* Testing Instructions */}
         <div className="mt-12 bg-white rounded-xl shadow-lg p-8">
           <h3 className="text-2xl font-semibold text-gray-900 mb-6">Testing Instructions</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Automated Testing</h4>
@@ -386,7 +386,7 @@ export default function TestingPage() {
                 <li>Check the generated test report</li>
               </ol>
             </div>
-            
+
             <div>
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Manual Testing</h4>
               <ol className="list-decimal list-inside space-y-2 text-gray-600">
@@ -397,7 +397,7 @@ export default function TestingPage() {
               </ol>
             </div>
           </div>
-          
+
           <div className="mt-8 p-4 bg-blue-50 rounded-lg">
             <h5 className="font-semibold text-blue-900 mb-2">Next Steps After Testing:</h5>
             <ul className="list-disc list-inside text-blue-800 space-y-1">

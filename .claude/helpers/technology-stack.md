@@ -97,7 +97,7 @@ export const parseAIResponse = (response: string): ParsedResponse => {
 // WebSocket-based progress updates
 export const trackOptimizationProgress = (sessionId: string) => {
   const progress = useConvexSubscription(api.sessions.watchProgress, { sessionId });
-  
+
   return {
     stage: progress?.stage || 'queued',
     percentage: progress?.percentage || 0,

@@ -3,18 +3,18 @@ Shared test fixtures and configuration for PromptEvolver CLI tests
 """
 
 import json
-import pytest
 import tempfile
 import time
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 from unittest.mock import Mock, patch
-from click.testing import CliRunner
-import responses
 
-from promptevolver_cli.main import cli
+import pytest
+import responses
+from click.testing import CliRunner
 from promptevolver_cli.client import ConvexClient
 from promptevolver_cli.config import CONVEX_BASE_URL, DEFAULT_CONFIG
+from promptevolver_cli.main import cli
 
 
 @pytest.fixture
@@ -27,14 +27,10 @@ def cli_runner():
 def mock_convex_client():
     """Mock Convex client for testing without real API calls"""
     client = Mock(spec=ConvexClient)
-    
+
     # Setup default successful responses
-    client.check_health.return_value = {
-        "available": True,
-        "model": "qwen3:4b",
-        "status": "healthy"
-    }
-    
+    client.check_health.return_value = {"available": True, "model": "qwen3:4b", "status": "healthy"}
+
     client.optimize_prompt.return_value = {
         "success": True,
         "result": {
@@ -44,11 +40,11 @@ def mock_convex_client():
             "improvements": [
                 "Enhanced clarity and specificity",
                 "Added structured approach",
-                "Improved task guidance"
-            ]
-        }
+                "Improved task guidance",
+            ],
+        },
     }
-    
+
     return client
 
 
@@ -60,31 +56,27 @@ def sample_prompts():
         "Explain quantum computing to a beginner",
         "Create a marketing plan for a new app",
         "Debug this Python code issue",
-        "Write a professional email"
+        "Write a professional email",
     ]
 
 
 @pytest.fixture
 def sample_config():
     """Sample configuration for testing"""
-    return {
-        **DEFAULT_CONFIG,
-        "domain": "general",
-        "mode": "quick"
-    }
+    return {**DEFAULT_CONFIG, "domain": "general", "mode": "quick"}
 
 
 @pytest.fixture
 def temp_prompt_file():
     """Temporary file with test prompts"""
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
         f.write("Test prompt line 1\n")
         f.write("Test prompt line 2\n")
         f.write("Test prompt line 3\n")
         temp_path = Path(f.name)
-    
+
     yield temp_path
-    
+
     # Cleanup
     if temp_path.exists():
         temp_path.unlink()
@@ -96,15 +88,15 @@ def temp_json_file():
     test_data = [
         {"prompt": "JSON test prompt 1"},
         {"prompt": "JSON test prompt 2"},
-        {"text": "JSON test prompt 3"}
+        {"text": "JSON test prompt 3"},
     ]
-    
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
         json.dump(test_data, f)
         temp_path = Path(f.name)
-    
+
     yield temp_path
-    
+
     # Cleanup
     if temp_path.exists():
         temp_path.unlink()
@@ -127,45 +119,38 @@ def mock_api_responses():
             f"{CONVEX_BASE_URL}/health",
             json={
                 "status": "success",
-                "data": {
-                    "available": True,
-                    "model": "qwen3:4b",
-                    "version": "1.0.0"
-                }
+                "data": {"available": True, "model": "qwen3:4b", "version": "1.0.0"},
             },
-            status=200
+            status=200,
         )
-        
+
         # Optimize endpoint
         rsps.add(
             responses.POST,
             f"{CONVEX_BASE_URL}/optimize",
             json={
-                "status": "success", 
+                "status": "success",
                 "data": {
                     "success": True,
                     "result": {
                         "best_prompt": "Optimized prompt response",
                         "quality_score": 88.0,
                         "expert_profile": "Test expert profile",
-                        "improvements": ["Test improvement 1", "Test improvement 2"]
-                    }
-                }
+                        "improvements": ["Test improvement 1", "Test improvement 2"],
+                    },
+                },
             },
-            status=200
+            status=200,
         )
-        
+
         # Error response for testing
         rsps.add(
             responses.POST,
             f"{CONVEX_BASE_URL}/error-test",
-            json={
-                "status": "error",
-                "error": "Test error message"
-            },
-            status=400
+            json={"status": "error", "error": "Test error message"},
+            status=400,
         )
-        
+
         yield rsps
 
 
@@ -177,24 +162,24 @@ def performance_metrics():
         "end_time": None,
         "duration": None,
         "memory_usage": None,
-        "api_calls": 0
+        "api_calls": 0,
     }
-    
+
     def start_timing():
         metrics["start_time"] = time.time()
-    
+
     def end_timing():
         metrics["end_time"] = time.time()
         if metrics["start_time"]:
             metrics["duration"] = metrics["end_time"] - metrics["start_time"]
-    
+
     def increment_api_calls():
         metrics["api_calls"] += 1
-    
+
     metrics["start_timing"] = start_timing
     metrics["end_timing"] = end_timing
     metrics["increment_api_calls"] = increment_api_calls
-    
+
     return metrics
 
 
@@ -206,40 +191,36 @@ def test_evidence_collector():
         "coverage_data": {},
         "performance_metrics": {},
         "quality_metrics": {},
-        "errors": []
+        "errors": [],
     }
-    
+
     def add_result(test_name: str, result: Dict[str, Any]):
-        evidence["test_results"].append({
-            "test": test_name,
-            "timestamp": time.time(),
-            "result": result
-        })
-    
+        evidence["test_results"].append(
+            {"test": test_name, "timestamp": time.time(), "result": result}
+        )
+
     def add_error(test_name: str, error: str):
-        evidence["errors"].append({
-            "test": test_name,
-            "timestamp": time.time(),
-            "error": error
-        })
-    
+        evidence["errors"].append({"test": test_name, "timestamp": time.time(), "error": error})
+
     def generate_summary() -> Dict[str, Any]:
         total_tests = len(evidence["test_results"])
-        passed_tests = len([r for r in evidence["test_results"] if r["result"].get("passed", False)])
-        
+        passed_tests = len(
+            [r for r in evidence["test_results"] if r["result"].get("passed", False)]
+        )
+
         return {
             "total_tests": total_tests,
             "passed_tests": passed_tests,
             "failed_tests": total_tests - passed_tests,
             "success_rate": (passed_tests / total_tests * 100) if total_tests > 0 else 0,
             "total_errors": len(evidence["errors"]),
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
-    
+
     evidence["add_result"] = add_result
     evidence["add_error"] = add_error
     evidence["generate_summary"] = generate_summary
-    
+
     return evidence
 
 
@@ -257,25 +238,21 @@ def optimization_response_success():
                 "Added expert identity for better context",
                 "Included step-by-step thinking instruction",
                 "Enhanced clarity and structure requirements",
-                "Improved specificity and guidance"
+                "Improved specificity and guidance",
             ],
-            "metadata": {
-                "processing_time": 2.3,
-                "iterations": 3,
-                "domain": "general"
-            }
-        }
+            "metadata": {"processing_time": 2.3, "iterations": 3, "domain": "general"},
+        },
     }
 
 
-@pytest.fixture  
+@pytest.fixture
 def optimization_response_error():
     """Error optimization response"""
     return {
         "success": False,
         "error": "API rate limit exceeded. Please try again in 60 seconds.",
         "error_code": "RATE_LIMIT_EXCEEDED",
-        "retry_after": 60
+        "retry_after": 60,
     }
 
 
@@ -288,7 +265,7 @@ def health_response_healthy():
         "status": "healthy",
         "version": "1.0.0",
         "uptime": 86400,
-        "last_check": time.time()
+        "last_check": time.time(),
     }
 
 
@@ -300,7 +277,7 @@ def health_response_unhealthy():
         "status": "unhealthy",
         "error": "Ollama service not responding",
         "last_error": "Connection timeout after 30 seconds",
-        "last_check": time.time()
+        "last_check": time.time(),
     }
 
 
@@ -309,16 +286,18 @@ def health_response_unhealthy():
 def capture_cli_output():
     """Capture CLI output for testing"""
     outputs = []
-    
+
     def capture(result):
-        outputs.append({
-            "exit_code": result.exit_code,
-            "output": result.output,
-            "exception": result.exception,
-            "timestamp": time.time()
-        })
+        outputs.append(
+            {
+                "exit_code": result.exit_code,
+                "output": result.output,
+                "exception": result.exception,
+                "timestamp": time.time(),
+            }
+        )
         return outputs[-1]
-    
+
     return capture
 
 
@@ -328,7 +307,7 @@ def test_environment_setup(monkeypatch):
     # Set test-specific environment variables
     monkeypatch.setenv("CONVEX_URL", "https://test-convex-deployment.convex.cloud")
     monkeypatch.setenv("TEST_MODE", "true")
-    
+
     # Ensure we don't accidentally use production endpoints
     monkeypatch.setenv("PYTEST_RUNNING", "true")
 

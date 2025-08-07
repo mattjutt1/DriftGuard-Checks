@@ -3,10 +3,12 @@ Convex HTTP Client for PromptEvolver CLI
 Simple client to interact with existing Convex actions via HTTP
 """
 
-import requests
 import time
-from typing import Dict, Any, Optional
-from .config import CONVEX_BASE_URL, API_TIMEOUT
+from typing import Any, Dict, Optional
+
+import requests
+
+from .config import API_TIMEOUT, CONVEX_BASE_URL
 
 
 class ConvexClient:
@@ -57,9 +59,7 @@ class ConvexClient:
             if result.get("status") == "success":
                 return result.get("data", result)
             elif result.get("status") == "error":
-                raise ConvexError(
-                    f"Convex error: {result.get('error', 'Unknown error')}"
-                )
+                raise ConvexError(f"Convex error: {result.get('error', 'Unknown error')}")
             else:
                 # Fallback for other response formats
                 return result

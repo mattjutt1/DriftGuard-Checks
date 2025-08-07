@@ -104,7 +104,7 @@ Parameter
 	Integer
 	Any positive integer (e.g., 2-5)
 	1
-	
+
 
 The Role of Chain-of-Thought (CoT) Reasoning
 
@@ -158,7 +158,7 @@ Technique
 	Small set of engineered prompts for initial SFT; access to a reward function.
 	High (requires training a policy model with RL, which is computationally intensive).
 	Building an adaptive, real-time prompt optimization system, especially for non-text modalities.
-	
+
 
 Evaluation Protocols and Performance Benchmarks
 
@@ -262,7 +262,7 @@ Dataset Name
 	Varies
 	Unspecified (High Risk)
 	Provides datasets (e.g., WikiQA) and methods (RAFT) for creating long-context training data with distractor documents. 30
-	
+
 
 In-Depth Analysis of High-Priority Datasets
 

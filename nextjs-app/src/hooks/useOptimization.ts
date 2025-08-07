@@ -67,22 +67,22 @@ export interface OptimizationHookState {
   isOptimizing: boolean;
   currentSession: OptimizationSession | null;
   error: string | null;
-  
+
   // Progress tracking
   currentStep: number;
   totalSteps: number;
   progressMessage: string;
   currentIteration: number;
-  
+
   // Results
   results: OptimizationResults | null;
   qualityMetrics: OptimizationMetrics | null;
-  
+
   // Actions
   startOptimization: (prompt: string, contextDomain?: string, advanced?: boolean, iterations?: number) => Promise<void>;
   resetOptimization: () => void;
   retryOptimization: () => Promise<void>;
-  
+
   // Health check
   checkOllamaHealth: () => Promise<{ available: boolean; model: string; error?: string }>;
 }
@@ -127,10 +127,10 @@ export function useOptimization(): OptimizationHookState {
       if (currentSession.progressSteps) {
         const completedSteps = currentSession.progressSteps.filter(step => step.status === 'completed').length;
         const processingSteps = currentSession.progressSteps.filter(step => step.status === 'processing').length;
-        
+
         setCurrentStep(completedSteps + processingSteps);
         setTotalSteps(currentSession.progressSteps.length);
-        
+
         // Find current processing step for message
         const processingStep = currentSession.progressSteps.find(step => step.status === 'processing');
         if (processingStep) {
@@ -184,7 +184,7 @@ export function useOptimization(): OptimizationHookState {
       setCurrentIteration(0);
       setResults(null);
       setQualityMetrics(null);
-      
+
       // Store params for retry
       setLastOptimizationParams({ prompt, contextDomain, advanced, iterations });
 
@@ -201,9 +201,9 @@ export function useOptimization(): OptimizationHookState {
       let result;
       if (advanced) {
         setTotalSteps(3); // expert identity, iterations, finalization
-        result = await advancedOptimize({ 
-          sessionId, 
-          maxIterations: iterations 
+        result = await advancedOptimize({
+          sessionId,
+          maxIterations: iterations
         });
       } else {
         setTotalSteps(4); // expert identity, mutations, selection, improvements
@@ -267,17 +267,17 @@ export function useOptimization(): OptimizationHookState {
     isOptimizing,
     currentSession,
     error,
-    
+
     // Progress tracking
     currentStep,
     totalSteps,
     progressMessage,
     currentIteration,
-    
+
     // Results
     results,
     qualityMetrics,
-    
+
     // Actions
     startOptimization,
     resetOptimization,
@@ -291,7 +291,7 @@ export function useOptimization(): OptimizationHookState {
  */
 export function useOptimizationHistory(limit = 10) {
   const recentSessions = useQuery(api.sessions.getRecentSessions, { limit });
-  
+
   return {
     sessions: recentSessions || [],
     isLoading: recentSessions === undefined,
@@ -303,7 +303,7 @@ export function useOptimizationHistory(limit = 10) {
  */
 export function useFeedback() {
   const submitFeedback = useMutation(api.sessions.submitFeedback);
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -317,7 +317,7 @@ export function useFeedback() {
     try {
       setIsSubmitting(true);
       setError(null);
-      
+
       await submitFeedback({
         sessionId,
         rating,
@@ -325,7 +325,7 @@ export function useFeedback() {
         improvementSuggestions,
         isHelpful,
       });
-      
+
       return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit feedback');
@@ -348,20 +348,20 @@ export function useFeedback() {
 export function useOptimizationErrorHandler() {
   const [retryCount, setRetryCount] = useState(0);
   const [isRetrying, setIsRetrying] = useState(false);
-  
+
   const handleError = useCallback((error: string, retryFunction?: () => Promise<void>) => {
     console.error('Optimization error:', error);
-    
+
     // Auto-retry logic for transient errors
-    const isTransientError = error.includes('connection') || 
-                           error.includes('timeout') || 
+    const isTransientError = error.includes('connection') ||
+                           error.includes('timeout') ||
                            error.includes('network');
-    
+
     if (isTransientError && retryCount < 3 && retryFunction) {
       setTimeout(async () => {
         setIsRetrying(true);
         setRetryCount(prev => prev + 1);
-        
+
         try {
           await retryFunction();
           setRetryCount(0);

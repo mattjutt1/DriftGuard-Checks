@@ -14,13 +14,13 @@ function generateDemoOptimization(originalPrompt: string, contextDomain: string,
 
   // Analyze the prompt structure and content
   const promptAnalysis = analyzePromptStructure(originalPrompt);
-  
+
   // Generate quality metrics based on actual analysis
   const qualityMetrics = calculateQualityMetrics(originalPrompt, promptAnalysis);
-  
+
   // Create intelligent optimization based on prompt analysis
   const optimization = createIntelligentOptimization(originalPrompt, promptAnalysis, contextDomain, useAdvancedMode);
-  
+
   const result = {
     bestPrompt: optimization.optimizedPrompt,
     improvements: optimization.improvements,
@@ -52,7 +52,7 @@ function analyzePromptStructure(prompt: string) {
   };
 
   const lowerPrompt = prompt.toLowerCase();
-  
+
   // Check for specific elements
   analysis.hasSpecificGoal = /\b(create|generate|write|develop|build|design|analyze|explain|compare|evaluate)\b/.test(lowerPrompt);
   analysis.hasContext = /\b(for|about|regarding|in the context of|background|situation)\b/.test(lowerPrompt);
@@ -82,7 +82,7 @@ function analyzePromptStructure(prompt: string) {
 // Identify the domain/topic of the prompt
 function identifyDomain(prompt: string): string {
   const lowerPrompt = prompt.toLowerCase();
-  
+
   if (/\b(marketing|campaign|advertisement|ad|brand|customer|conversion|sales|lead|a\/b test|ab test)\b/.test(lowerPrompt)) {
     return "marketing";
   } else if (/\b(code|programming|software|development|function|algorithm|debug|api|database)\b/.test(lowerPrompt)) {
@@ -96,14 +96,14 @@ function identifyDomain(prompt: string): string {
   } else if (/\b(education|learn|teach|training|course|tutorial|academic)\b/.test(lowerPrompt)) {
     return "education";
   }
-  
+
   return "general";
 }
 
 // Identify the tone/style of the prompt
 function identifyTone(prompt: string): string {
   const lowerPrompt = prompt.toLowerCase();
-  
+
   if (/\b(professional|formal|business|corporate|official)\b/.test(lowerPrompt)) {
     return "professional";
   } else if (/\b(casual|friendly|conversational|informal|relaxed)\b/.test(lowerPrompt)) {
@@ -113,28 +113,28 @@ function identifyTone(prompt: string): string {
   } else if (/\b(creative|innovative|original|imaginative|unique)\b/.test(lowerPrompt)) {
     return "creative";
   }
-  
+
   return "neutral";
 }
 
 // Calculate complexity score based on prompt characteristics
 function calculateComplexity(prompt: string): number {
   let complexity = 0;
-  
+
   // Length factor
   if (prompt.length > 200) complexity += 0.3;
   else if (prompt.length > 100) complexity += 0.2;
   else complexity += 0.1;
-  
+
   // Multiple requirements
   const requirements = (prompt.match(/\band\b/g) || []).length;
   complexity += Math.min(requirements * 0.1, 0.3);
-  
+
   // Technical terms
   const technicalTerms = /\b(implement|analyze|optimize|evaluate|integrate|configure|customize)\b/g;
   const technicalMatches = (prompt.match(technicalTerms) || []).length;
   complexity += Math.min(technicalMatches * 0.1, 0.4);
-  
+
   return Math.min(complexity, 1.0);
 }
 
@@ -190,7 +190,7 @@ function calculateQualityMetrics(prompt: string, analysis: any) {
   });
 
   // Calculate overall score
-  metrics.overall = (metrics.clarity + metrics.specificity + metrics.engagement + 
+  metrics.overall = (metrics.clarity + metrics.specificity + metrics.engagement +
                     metrics.structure + metrics.completeness + metrics.errorPrevention) / 6;
 
   return metrics;
@@ -201,7 +201,7 @@ function createIntelligentOptimization(originalPrompt: string, analysis: any, co
   let optimizedPrompt = originalPrompt;
   const improvements = [];
   const expertInsights = [];
-  
+
   // Domain-specific optimizations
   if (analysis.domain === "marketing") {
     optimizedPrompt = optimizeForMarketing(originalPrompt, analysis, useAdvancedMode);
@@ -223,7 +223,7 @@ function createIntelligentOptimization(originalPrompt: string, analysis: any, co
     expertInsights.push("Clear prompts lead to more accurate AI responses");
     expertInsights.push("Specific examples help AI understand the desired output");
   }
-  
+
   // Add context domain if it differs from detected domain
   if (contextDomain && contextDomain !== "general" && contextDomain !== analysis.domain) {
     optimizedPrompt += `\n\nContext: This should be tailored specifically for ${contextDomain} applications and best practices.`;
@@ -242,65 +242,65 @@ function createIntelligentOptimization(originalPrompt: string, analysis: any, co
 // Marketing-specific optimization
 function optimizeForMarketing(prompt: string, analysis: any, useAdvanced: boolean): string {
   let optimized = prompt;
-  
+
   // Add role if missing
   if (!analysis.hasRole) {
     optimized = "As an experienced marketing strategist, " + optimized.toLowerCase();
   }
-  
+
   // Add specific marketing context
   if (!prompt.includes("target audience")) {
     optimized += "\n\nSpecify the target audience demographics, psychographics, and pain points.";
   }
-  
+
   if (!prompt.includes("metric") && !prompt.includes("measure")) {
     optimized += " Include specific KPIs and success metrics to measure campaign effectiveness.";
   }
-  
+
   if (useAdvanced) {
     optimized += "\n\nAdvanced requirements:\n• Provide statistical significance calculations for A/B tests\n• Include conversion funnel analysis\n• Consider budget allocation and ROI projections\n• Account for seasonal trends and market conditions";
   }
-  
+
   return optimized;
 }
 
 // Programming-specific optimization
 function optimizeForProgramming(prompt: string, analysis: any, useAdvanced: boolean): string {
   let optimized = prompt;
-  
+
   if (!analysis.hasRole) {
     optimized = "As a senior software engineer, " + optimized.toLowerCase();
   }
-  
+
   if (!prompt.includes("language") && !prompt.includes("framework")) {
     optimized += " Specify the programming language, framework, and version requirements.";
   }
-  
+
   if (useAdvanced) {
     optimized += "\n\nTechnical requirements:\n• Include error handling and edge cases\n• Provide unit tests and documentation\n• Consider performance optimization and scalability\n• Follow industry best practices and design patterns";
   }
-  
+
   return optimized;
 }
 
 // General optimization for other domains
 function optimizeGeneral(prompt: string, analysis: any, useAdvanced: boolean): string {
   let optimized = prompt;
-  
+
   // Add structure if missing
   if (!analysis.hasOutputFormat) {
     optimized += " Please provide a well-structured response with clear sections and actionable insights.";
   }
-  
+
   // Add context if missing
   if (!analysis.hasContext && analysis.weaknesses.includes("Missing context and background information")) {
     optimized += " Include relevant background context and explain your reasoning.";
   }
-  
+
   if (useAdvanced) {
     optimized += "\n\nAdvanced requirements:\n• Provide multiple perspectives or approaches\n• Include potential challenges and mitigation strategies\n• Reference current best practices and industry standards";
   }
-  
+
   return optimized;
 }
 
@@ -340,7 +340,7 @@ interface OptimizationResultsProps {
 // Optimization Results Modal Component
 function OptimizationResults({ isVisible, onClose, results }: OptimizationResultsProps) {
   const [showFeedback, setShowFeedback] = useState(false);
-  
+
   if (!isVisible || !results) return null;
 
   return (
@@ -356,7 +356,7 @@ function OptimizationResults({ isVisible, onClose, results }: OptimizationResult
               ×
             </button>
           </div>
-          
+
           <div className="p-6 space-y-6">
           {/* Results Summary */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -457,7 +457,7 @@ export default function DemoPage() {
 
   const handleOptimize = async (prompt: string, contextDomain: string, useAdvancedMode: boolean, iterations: number) => {
     if (!prompt.trim()) return;
-    
+
     setIsOptimizing(true);
     setError(null);
     setCurrentStep(0);
@@ -506,22 +506,22 @@ export default function DemoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Optimization Progress Modal */}
-      <ProgressDisplay 
+      <ProgressDisplay
         isOptimizing={isOptimizing}
         currentStep={currentStep}
         totalSteps={totalSteps}
         message={progressMessage}
       />
-      
+
       {/* Results Modal */}
-      <OptimizationResults 
+      <OptimizationResults
         isVisible={showResults}
         onClose={() => setShowResults(false)}
         results={optimizationResults}
       />
 
       {/* Error Alert */}
-      <ErrorHandling 
+      <ErrorHandling
         error={error}
         onDismiss={resetOptimization}
       />
@@ -562,16 +562,16 @@ export default function DemoPage() {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           {/* Left Column - Optimization Form */}
-          <OptimizationForm 
+          <OptimizationForm
             onOptimize={handleOptimize}
             isOptimizing={isOptimizing}
             useAdvancedMode={false}
             setUseAdvancedMode={() => {}}
           />
-          
+
           {/* Quality Metrics Dashboard */}
           <div className="xl:col-span-2">
-            <QualityMetrics 
+            <QualityMetrics
               metrics={optimizationResults?.qualityMetrics || {
                 clarity: 8.5,
                 specificity: 7.8,
@@ -580,7 +580,7 @@ export default function DemoPage() {
                 completeness: 8.7,
                 errorPrevention: 7.5,
                 overall: 8.3
-              }} 
+              }}
               overallScore={optimizationResults?.qualityMetrics?.overall || 8.3}
             />
           </div>
@@ -614,7 +614,7 @@ export default function DemoPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              
+
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {mockSessions.map((session) => (
                   <div key={session._id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
@@ -634,7 +634,7 @@ export default function DemoPage() {
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <div>
                         <div className="text-xs font-medium text-gray-500 mb-1">Original:</div>
@@ -643,7 +643,7 @@ export default function DemoPage() {
                           {(session.prompt?.originalPrompt.length || 0) > 80 && "..."}
                         </p>
                       </div>
-                      
+
                       <div>
                         <div className="text-xs font-medium text-gray-500 mb-1">Optimized:</div>
                         <p className="text-sm text-gray-900 line-clamp-2">
@@ -652,7 +652,7 @@ export default function DemoPage() {
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
                       <div className="flex items-center">
                         <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

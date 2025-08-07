@@ -28,7 +28,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
     }
@@ -49,15 +49,15 @@ export class ErrorBoundary extends Component<Props, State> {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
               </div>
-              
+
               <h2 className="text-xl font-semibold text-gray-900 mb-2">
                 Something went wrong
               </h2>
-              
+
               <p className="text-gray-600 mb-6">
                 An unexpected error occurred while running the optimization. Please try refreshing the page or contact support if the problem persists.
               </p>
-              
+
               {this.state.error && process.env.NODE_ENV === 'development' && (
                 <div className="bg-gray-100 rounded-lg p-4 mb-6 text-left">
                   <h3 className="text-sm font-medium text-gray-900 mb-2">Error Details:</h3>
@@ -66,7 +66,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   </pre>
                 </div>
               )}
-              
+
               <div className="space-y-3">
                 <button
                   onClick={() => window.location.reload()}
@@ -74,7 +74,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 >
                   Refresh Page
                 </button>
-                
+
                 <button
                   onClick={() => this.setState({ hasError: false, error: undefined })}
                   className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
@@ -114,7 +114,7 @@ export function ErrorDisplay({ error, onRetry, onDismiss, className = "" }: Erro
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
           </svg>
         </div>
-        
+
         <div className="ml-3 flex-1">
           <h3 className="text-sm font-medium text-red-800">
             Optimization Error
@@ -122,7 +122,7 @@ export function ErrorDisplay({ error, onRetry, onDismiss, className = "" }: Erro
           <div className="mt-1 text-sm text-red-700">
             {errorMessage}
           </div>
-          
+
           {(onRetry || onDismiss) && (
             <div className="mt-3 flex space-x-3">
               {onRetry && (
@@ -144,7 +144,7 @@ export function ErrorDisplay({ error, onRetry, onDismiss, className = "" }: Erro
             </div>
           )}
         </div>
-        
+
         {onDismiss && (
           <div className="ml-auto pl-3">
             <button
@@ -180,15 +180,15 @@ export function LoadingError({ message, onRetry }: LoadingErrorProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 6h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </div>
-      
+
       <h3 className="text-lg font-medium text-gray-900 mb-2">
         Connection Error
       </h3>
-      
+
       <p className="text-gray-600 mb-6 max-w-sm mx-auto">
         {message}
       </p>
-      
+
       {onRetry && (
         <button
           onClick={onRetry}

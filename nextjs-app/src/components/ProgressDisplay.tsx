@@ -19,7 +19,7 @@ export function ProgressDisplay({ isOptimizing, currentStep, totalSteps, message
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <h3 className="text-lg font-semibold mb-2">Optimizing Prompt</h3>
           <p className="text-gray-600 mb-4">{message}</p>
-          
+
           {totalSteps > 0 && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-gray-600">
@@ -27,7 +27,7 @@ export function ProgressDisplay({ isOptimizing, currentStep, totalSteps, message
                 <span>{Math.round(progress)}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
+                <div
                   className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />

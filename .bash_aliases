@@ -39,7 +39,7 @@ alias requirements='pip freeze > requirements.txt'
 alias claude-backend='claude /agents backend-developer'
 alias claude-frontend='claude /agents frontend-developer'
 alias claude-ai='claude /agents ai-integration'
-alias claude-security='claude /agents security-specialist' 
+alias claude-security='claude /agents security-specialist'
 alias claude-perf='claude /agents performance-optimizer'
 
 # Enhanced CLI tools

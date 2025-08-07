@@ -16,25 +16,25 @@ case "$1" in
         $COMPOSE_CMD up -d
         echo -e "${GREEN}✅ Infisical started at http://localhost:8080${NC}"
         ;;
-    
+
     stop)
         echo -e "${YELLOW}🛑 Stopping Infisical services...${NC}"
         $COMPOSE_CMD down
         echo -e "${GREEN}✅ Infisical services stopped${NC}"
         ;;
-    
+
     restart)
         echo -e "${YELLOW}🔄 Restarting Infisical services...${NC}"
         $COMPOSE_CMD down
         $COMPOSE_CMD up -d
         echo -e "${GREEN}✅ Infisical services restarted${NC}"
         ;;
-    
+
     status)
         echo -e "${BLUE}📊 Infisical Service Status:${NC}"
         $COMPOSE_CMD ps
         ;;
-    
+
     logs)
         if [ -n "$2" ]; then
             echo -e "${BLUE}📜 Showing logs for $2...${NC}"
@@ -44,22 +44,22 @@ case "$1" in
             $COMPOSE_CMD logs -f
         fi
         ;;
-    
+
     backup)
         echo -e "${BLUE}💾 Creating backup...${NC}"
         BACKUP_DIR="backups/$(date +%Y%m%d_%H%M%S)"
         mkdir -p "$BACKUP_DIR"
-        
+
         # Backup database
         docker-compose --env-file .env.infisical -f docker-compose.infisical.yml exec -T infisical-db pg_dump -U infisical infisical > "$BACKUP_DIR/database.sql"
-        
+
         # Backup configuration
         cp .env.infisical "$BACKUP_DIR/"
         cp docker-compose.infisical.yml "$BACKUP_DIR/"
-        
+
         echo -e "${GREEN}✅ Backup created in $BACKUP_DIR${NC}"
         ;;
-    
+
     reset)
         echo -e "${RED}⚠️  WARNING: This will delete ALL Infisical data!${NC}"
         read -p "Are you sure? Type 'yes' to confirm: " confirm
@@ -73,7 +73,7 @@ case "$1" in
             echo -e "${BLUE}❌ Reset cancelled${NC}"
         fi
         ;;
-    
+
     cli)
         echo -e "${BLUE}💻 Installing Infisical CLI...${NC}"
         if command -v npm &> /dev/null; then
@@ -84,7 +84,7 @@ case "$1" in
             echo -e "${RED}❌ npm not found. Please install Node.js first${NC}"
         fi
         ;;
-    
+
     setup-project)
         echo -e "${BLUE}📋 Setting up PromptEvolver project in Infisical...${NC}"
         echo "This will guide you through creating the project structure:"
@@ -96,7 +96,7 @@ case "$1" in
         echo ""
         echo -e "${YELLOW}Authentication Feature Secrets:${NC}"
         echo "  - JWT_SECRET_KEY"
-        echo "  - JWT_REFRESH_SECRET" 
+        echo "  - JWT_REFRESH_SECRET"
         echo "  - OAUTH_CLIENT_ID"
         echo "  - OAUTH_CLIENT_SECRET"
         echo "  - SESSION_SECRET_KEY"
@@ -115,7 +115,7 @@ case "$1" in
         echo "  - PROMETHEUS_CONFIG"
         echo "  - SENTRY_DSN"
         ;;
-    
+
     *)
         echo -e "${BLUE}🔐 Infisical Management for PromptEvolver${NC}"
         echo ""

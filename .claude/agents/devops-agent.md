@@ -79,7 +79,7 @@ version: '3.8'
 
 services:
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
@@ -191,24 +191,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-        
+
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
         pip install -r requirements-test.txt
-        
+
     - name: Run tests
       run: |
         pytest --cov=app --cov-report=xml
-        
+
     - name: Upload coverage
       uses: codecov/codecov-action@v3
-      
+
     - name: Security scan
       run: |
         bandit -r app/
@@ -218,15 +218,15 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Build and push Docker images
       run: |
         docker build -t promptevolver/backend:latest ./backend
         docker build -t promptevolver/frontend:latest ./frontend
-        
+
         # Push to registry (if using Docker Hub/ECR)
         # docker push promptevolver/backend:latest
         # docker push promptevolver/frontend:latest
@@ -235,7 +235,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
     - name: Deploy to production
       run: |
@@ -529,14 +529,14 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
-    
+
     # Test Convex functions
     - name: Test Convex Backend
       run: |
         npm install
         npx convex dev --until-success &
         npm run test:convex
-        
+
     # Test Next.js frontend
     - name: Test Frontend
       run: |
@@ -547,17 +547,17 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     # Deploy Convex backend
     - name: Deploy Convex
       run: |
         npx convex deploy --prod
       env:
         CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
-    
+
     # Deploy Vercel frontend (automatic via Vercel GitHub integration)
     - name: Deploy Vercel
       uses: amondnet/vercel-action@v25
@@ -597,7 +597,7 @@ CONVEX_DEPLOYMENT=dev:your-dev-deployment
 NEXT_PUBLIC_CONVEX_URL=https://your-dev-deployment.convex.cloud
 OLLAMA_BASE_URL=http://localhost:11434
 
-# Production environment  
+# Production environment
 CONVEX_DEPLOYMENT=prod:your-prod-deployment
 NEXT_PUBLIC_CONVEX_URL=https://your-prod-deployment.convex.cloud
 OLLAMA_BASE_URL=https://your-production-ollama.com
@@ -611,7 +611,7 @@ export const healthCheck = query({
   handler: async (ctx) => {
     const dbHealth = await ctx.db.query("users").take(1); // Test DB
     const timestamp = Date.now();
-    
+
     return {
       status: "healthy",
       timestamp,

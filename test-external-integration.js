@@ -31,7 +31,7 @@ app.post('/api/generate', (req, res) => {
   const { model, prompt } = req.body;
   console.log(`🤖 Mock /api/generate called with model: ${model}`);
   console.log(`📝 Prompt: ${prompt?.substring(0, 100)}...`);
-  
+
   // Simulate PromptWizard optimized response
   const mockResponse = `Based on your request, I'll provide an optimized response using Microsoft PromptWizard methodology:
 

@@ -9,7 +9,7 @@ This document provides a complete implementation guide for building a CLI bridge
 The CLI bridge system consists of four main layers:
 
 1. **CLI Interface Layer** - User-facing command line interface
-2. **Bridge Middleware Layer** - Evaluation engine and processing logic  
+2. **Bridge Middleware Layer** - Evaluation engine and processing logic
 3. **PromptEvolver Application Layer** - Your existing production system with Qwen3-4B
 4. **PromptWizard Standards Layer** - Microsoft's evaluation methodology integration
 
@@ -67,7 +67,7 @@ promptevol-eval report --session session_id --format comprehensive
 
 ### Core Metrics (Weighted Scoring)
 - **Accuracy (40%)**: Primary performance metric - percentage of correct answers
-- **Efficiency (30%)**: API calls and token usage optimization  
+- **Efficiency (30%)**: API calls and token usage optimization
 - **Consistency (20%)**: Performance stability across multiple mini-batches
 - **Cost Effectiveness (10%)**: Performance per dollar spent on API calls
 
@@ -92,44 +92,44 @@ class PromptWizardCompatibleEvaluator:
         self.endpoint = promptevolver_endpoint
         self.model = model_name
         self.session = aiohttp.ClientSession()
-        
+
         # PromptWizard-compatible components
         self.mini_batch_evaluator = MiniBatchEvaluator(batch_size=5)
         self.llm_judge = LLMAsJudgeEvaluator()
         self.critique_analyzer = CritiqueAnalyzer()
         self.performance_tracker = PerformanceTracker()
-    
+
     async def evaluate_with_promptwizard_standard(
-        self, 
-        prompt: str, 
+        self,
+        prompt: str,
         mode: str = "comprehensive",
         dataset: str = None
     ) -> PromptWizardEvaluationResult:
-        
+
         # Stage 1: Send to PromptEvolver for optimization
         optimization_result = await self.optimize_via_promptevolver(prompt)
-        
+
         # Stage 2: PromptWizard-style mini-batch evaluation
         mini_batch_scores = await self.mini_batch_evaluator.evaluate(
             prompt=optimization_result.optimized_prompt,
             examples=self.load_evaluation_examples(dataset),
             batch_size=5
         )
-        
+
         # Stage 3: LLM-as-judge scoring
         llm_judge_scores = await self.llm_judge.evaluate(
             original=prompt,
             optimized=optimization_result.optimized_prompt,
             criteria=self.get_task_specific_criteria(dataset)
         )
-        
+
         # Stage 4: Critique analysis
         critique_feedback = await self.critique_analyzer.analyze(
             prompt=optimization_result.optimized_prompt,
             performance_data=mini_batch_scores,
             task_requirements=self.get_task_requirements(dataset)
         )
-        
+
         # Stage 5: Comprehensive scoring
         overall_score = self.calculate_promptwizard_score(
             accuracy=mini_batch_scores.accuracy,
@@ -137,7 +137,7 @@ class PromptWizardCompatibleEvaluator:
             consistency=mini_batch_scores.consistency,
             task_alignment=llm_judge_scores.task_alignment
         )
-        
+
         return PromptWizardEvaluationResult(
             original_prompt=prompt,
             optimized_prompt=optimization_result.optimized_prompt,
@@ -160,20 +160,20 @@ class MiniBatchEvaluator:
     def __init__(self, batch_size: int = 5):
         self.batch_size = batch_size
         self.max_eval_batches = 10  # PromptWizard default
-        
+
     async def evaluate(self, prompt: str, examples: List[Dict], batch_size: int = None):
         batch_size = batch_size or self.batch_size
         batches = self.create_mini_batches(examples, batch_size)
-        
+
         batch_scores = []
         for i, batch in enumerate(batches[:self.max_eval_batches]):
             batch_score = await self.evaluate_batch(prompt, batch)
             batch_scores.append(batch_score)
-            
+
             # Early stopping if consistently poor performance
             if len(batch_scores) >= 3 and all(score < 0.3 for score in batch_scores[-3:]):
                 break
-        
+
         return MiniBatchResult(
             accuracy=np.mean(batch_scores),
             consistency=1.0 - np.std(batch_scores),  # Higher consistency = lower std dev
@@ -188,31 +188,31 @@ class LLMAsJudgeEvaluator:
     def __init__(self):
         self.judge_prompt_template = '''
         You are an expert evaluator for prompt optimization systems.
-        
+
         Evaluate the following optimized prompt based on these criteria:
         1. Task Alignment: How well does the prompt align with the intended task?
         2. Instruction Quality: Are the instructions clear, specific, and actionable?
         3. Example Integration: How well are examples integrated and utilized?
         4. Reasoning Quality: Does the prompt encourage proper reasoning?
-        
+
         Original Prompt: {original}
         Optimized Prompt: {optimized}
         Task Requirements: {task_requirements}
-        
+
         Provide scores (0-100) for each criterion and overall assessment.
         Format your response as JSON with scores and detailed reasoning.
         '''
-    
+
     async def evaluate(self, original: str, optimized: str, criteria: Dict):
         judge_prompt = self.judge_prompt_template.format(
             original=original,
             optimized=optimized,
             task_requirements=criteria.get('task_requirements', 'General task')
         )
-        
+
         response = await self.call_llm_judge(judge_prompt)
         scores = self.parse_judge_response(response)
-        
+
         return LLMJudgeResult(
             task_alignment=scores.get('task_alignment', 0),
             instruction_quality=scores.get('instruction_quality', 0),
@@ -304,7 +304,7 @@ datasets:
     path: "data/gsm8k/"
     format: "jsonl"
     answer_extraction: "numeric"
-  
+
   bbii:
     path: "data/bbii/"
     format: "jsonl"

@@ -17,7 +17,7 @@ export const getRecentSessions = query({
   },
   handler: async (ctx, args) => {
     const limit = args.limit || 10;
-    
+
     // For demo purposes, get demo user if no userId provided
     let userId = args.userId;
     if (!userId) {
@@ -182,7 +182,7 @@ export const getSessionsByStatus = query({
   },
   handler: async (ctx, args) => {
     const limit = args.limit || 50;
-    
+
     // For demo purposes, get demo user if no userId provided
     let userId = args.userId;
     if (!userId) {
@@ -197,7 +197,7 @@ export const getSessionsByStatus = query({
 
     const sessions = await ctx.db
       .query("optimizationSessions")
-      .filter((q) => 
+      .filter((q) =>
         q.and(
           q.eq(q.field("userId"), userId),
           q.eq(q.field("status"), args.status)
@@ -232,7 +232,7 @@ export const searchSessions = query({
   },
   handler: async (ctx, args) => {
     const limit = args.limit || 20;
-    
+
     // For demo purposes, get demo user if no userId provided
     let userId = args.userId;
     if (!userId) {
@@ -269,9 +269,9 @@ export const searchSessions = query({
       const originalPrompt = session.prompt?.originalPrompt?.toLowerCase() || "";
       const optimizedPrompt = session.prompt?.optimizedPrompt?.toLowerCase() || "";
       const contextDomain = session.prompt?.contextDomain?.toLowerCase() || "";
-      
-      return originalPrompt.includes(searchLower) || 
-             optimizedPrompt.includes(searchLower) || 
+
+      return originalPrompt.includes(searchLower) ||
+             optimizedPrompt.includes(searchLower) ||
              contextDomain.includes(searchLower);
     });
 
@@ -360,7 +360,7 @@ export const getPerformanceMetrics = query({
   },
   handler: async (ctx, args) => {
     const timeRange = args.timeRange || "30d";
-    
+
     // Calculate time threshold
     const now = Date.now();
     const timeThresholds = {
@@ -393,7 +393,7 @@ export const getPerformanceMetrics = query({
 
     const sessions = await ctx.db
       .query("optimizationSessions")
-      .filter((q) => 
+      .filter((q) =>
         q.and(
           q.eq(q.field("userId"), userId),
           q.gte(q.field("createdAt"), threshold)

@@ -235,7 +235,7 @@ Frontend (Next.js 15.4.5 + React 19)
 ├── React 19 concurrent features
 └── Responsive design patterns
 
-Backend (Convex)  
+Backend (Convex)
 ├── Serverless functions
 ├── Real-time database
 ├── TypeScript-first development
@@ -527,8 +527,8 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
-  variant, size, children, onClick 
+export const Button: React.FC<ButtonProps> = ({
+  variant, size, children, onClick
 }) => {
   const baseClasses = "font-medium rounded-lg transition-colors";
   const variantClasses = {
@@ -536,9 +536,9 @@ export const Button: React.FC<ButtonProps> = ({
     secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
     danger: "bg-red-600 text-white hover:bg-red-700"
   };
-  
+
   return (
-    <button 
+    <button
       className={`${baseClasses} ${variantClasses[variant]}`}
       onClick={onClick}
     >
@@ -556,20 +556,20 @@ import { ResultView } from '../molecules/ResultView';
 import { useOptimizeStore } from '../store/optimizeStore';
 
 export const OptimizeFlow: React.FC = () => {
-  const { 
-    currentPrompt, 
-    optimizedPrompt, 
-    isOptimizing, 
-    optimizePrompt 
+  const {
+    currentPrompt,
+    optimizedPrompt,
+    isOptimizing,
+    optimizePrompt
   } = useOptimizeStore();
 
   return (
     <div className="optimize-flow">
-      <PromptEditor 
+      <PromptEditor
         value={currentPrompt}
         onChange={setCurrentPrompt}
       />
-      <ResultView 
+      <ResultView
         result={optimizedPrompt}
         isLoading={isOptimizing}
       />
@@ -684,7 +684,7 @@ Following our AVSHA framework, secrets are organized by feature:
 ```
 Environment: development
 ├── JWT_SECRET_KEY           # JWT token signing key
-├── JWT_REFRESH_SECRET       # JWT refresh token key  
+├── JWT_REFRESH_SECRET       # JWT refresh token key
 ├── OAUTH_CLIENT_ID          # OAuth client identifier
 ├── OAUTH_CLIENT_SECRET      # OAuth client secret
 └── SESSION_SECRET_KEY       # Session encryption key
@@ -702,7 +702,7 @@ Environment: development
 
 **Dashboard Feature Secrets:**
 ```
-Environment: development  
+Environment: development
 ├── ANALYTICS_API_KEY       # Analytics service key
 ├── MONITORING_TOKEN        # Monitoring service token
 ├── GRAFANA_API_KEY         # Grafana dashboard key
@@ -755,7 +755,7 @@ The security-specialist agent now includes Infisical management:
 
 # Agent automatically:
 # 1. Checks Infisical service status
-# 2. Validates secret organization follows AVSHA structure  
+# 2. Validates secret organization follows AVSHA structure
 # 3. Ensures no hardcoded secrets in commits
 # 4. Reviews secret access audit logs
 # 5. Provides security recommendations
@@ -771,7 +771,7 @@ Before EVERY commit involving configuration or secrets:
 # 2. Validate secret organization
 infisical projects list
 
-# 3. Export latest secrets  
+# 3. Export latest secrets
 infisical export --env=development --format=dotenv > .env.development
 
 # 4. Scan for hardcoded secrets (manual for now)
@@ -792,7 +792,7 @@ shared/
 │   ├── SecretInput/         # Masked input (like Infisical's secret forms)
 │   ├── EnvironmentBadge/    # Environment indicator (dev/staging/prod)
 │   └── SecretStrength/      # Secret validation indicator
-├── molecules/  
+├── molecules/
 │   ├── SecretForm/          # Add/edit secret forms
 │   ├── SecretList/          # List secrets with masking
 │   └── EnvironmentSwitcher/ # Switch between environments
@@ -807,7 +807,7 @@ Each feature integrates with Infisical:
 
 **FastAPI Backend Integration:**
 ```python
-# app/shared/organisms/secret_loader.py  
+# app/shared/organisms/secret_loader.py
 import os
 from dotenv import load_dotenv
 
@@ -832,7 +832,7 @@ Using Infisical teaches us what PromptVault needs:
 
 #### **Essential Features to Replicate**
 1. **Web UI**: Simple, clean interface for secret management
-2. **Environment Separation**: Clear dev/staging/prod organization  
+2. **Environment Separation**: Clear dev/staging/prod organization
 3. **CLI Integration**: Command-line tool for automation
 4. **Export Functionality**: Generate .env files for applications
 5. **Audit Logging**: Track who accessed what and when
@@ -845,7 +845,7 @@ Using Infisical teaches us what PromptVault needs:
 4. **Minimal UI**: Focus on essential functionality
 5. **Git Integration**: Built-in secret scanning and pre-commit hooks
 
-#### **AVSHA Enhancements**  
+#### **AVSHA Enhancements**
 1. **Feature-Based Organization**: Automatic grouping by AVSHA features
 2. **Framework Integration**: Native integration with our automation pipeline
 3. **Component Generation**: Auto-generate secret management UI components
@@ -977,7 +977,7 @@ export const parseAIResponse = (response: string): ParsedResponse => {
 // WebSocket-based progress updates
 export const trackOptimizationProgress = (sessionId: string) => {
   const progress = useConvexSubscription(api.sessions.watchProgress, { sessionId });
-  
+
   return {
     stage: progress?.stage || 'queued',
     percentage: progress?.percentage || 0,
@@ -1081,7 +1081,7 @@ After EVERY code change, file modification, or task completion, Claude Code MUST
 # 1. Update Contextual Knowledge Graph
 python .claude/scripts/update_knowledge_graph.py
 
-# 2. Generate Contextual Embeddings  
+# 2. Generate Contextual Embeddings
 python .claude/scripts/generate_embeddings.py
 
 # 3. Update CHANGELOG.md
@@ -1132,7 +1132,7 @@ def generate_context_embeddings():
         "quality_context": extract_quality_metrics(),
         "temporal_context": extract_change_history()
     }
-    
+
     for context_type, data in contexts.items():
         embedding = create_embedding(data)
         update_knowledge_graph(context_type, embedding)
@@ -1146,7 +1146,7 @@ def generate_context_embeddings():
 ### Added
 - New features and capabilities
 
-### Changed  
+### Changed
 - Modifications to existing functionality
 
 ### Fixed
@@ -1207,7 +1207,7 @@ def generate_commit_message(changes):
 # Multi-Modal Embedding Generation
 EMBEDDING_MODELS = {
     "code_semantic": "microsoft/codebert-base",
-    "architectural": "sentence-transformers/all-MiniLM-L6-v2", 
+    "architectural": "sentence-transformers/all-MiniLM-L6-v2",
     "temporal": "custom_temporal_transformer",
     "quality": "custom_quality_embedder"
 }
@@ -1227,31 +1227,31 @@ CONTEXT_DIMENSIONS = {
 def get_relevant_context(query, max_tokens=4000):
     """Retrieve most relevant context based on embeddings"""
     query_embedding = generate_embedding(query)
-    
+
     # Semantic search through knowledge graph
     relevant_nodes = graph.similarity_search(
-        query_embedding, 
+        query_embedding,
         top_k=20,
         filters=["recent", "high_quality", "architectural"]
     )
-    
+
     # Contextual ranking
     ranked_context = rank_by_relevance(relevant_nodes, query_embedding)
-    
+
     # Token-optimized context assembly
     return assemble_context(ranked_context, max_tokens)
 
-# Predictive Context Loading  
+# Predictive Context Loading
 def predict_needed_context(current_task):
     """Predict what context will be needed based on task patterns"""
     task_embedding = generate_embedding(current_task)
-    
+
     # Find similar historical tasks
     similar_tasks = graph.find_similar_tasks(task_embedding)
-    
+
     # Extract context patterns from successful completions
     context_patterns = extract_context_patterns(similar_tasks)
-    
+
     # Pre-load predicted context
     return load_predicted_context(context_patterns)
 ```

@@ -27,7 +27,7 @@ export async function optimizeWithHFSpace(
   try {
     // Gradio 5.0 uses /gradio_api/call endpoint
     const predictUrl = `${HF_SPACE_URL}/gradio_api/call/optimize_prompt`;
-    
+
     // Step 1: Submit the request
     const submitResponse = await fetch(predictUrl, {
       method: "POST",
@@ -48,14 +48,14 @@ export async function optimizeWithHFSpace(
 
     // Step 2: Get the result (Gradio 5.0 uses event streaming)
     const resultUrl = `${HF_SPACE_URL}/gradio_api/call/optimize_prompt/${eventId}`;
-    
+
     // Poll for result (with timeout)
     let attempts = 0;
     const maxAttempts = 30; // 30 seconds timeout
-    
+
     while (attempts < maxAttempts) {
       const resultResponse = await fetch(resultUrl);
-      
+
       if (resultResponse.ok) {
         const text = await resultResponse.text();
         // Parse SSE format
@@ -73,17 +73,17 @@ export async function optimizeWithHFSpace(
           }
         }
       }
-      
+
       // Wait before next attempt
       await new Promise(resolve => setTimeout(resolve, 1000));
       attempts++;
     }
 
     throw new Error("Timeout waiting for HF Space response");
-    
+
   } catch (error) {
     console.error("HF Space error:", error);
-    
+
     // Return fallback response
     return {
       status: "error",
@@ -110,9 +110,9 @@ export async function checkHFSpaceHealth(): Promise<{
       method: "GET",
       signal: AbortSignal.timeout(5000), // 5 second timeout
     });
-    
+
     const available = response.ok && response.status === 200;
-    
+
     return {
       available,
       model: available ? "Qwen2.5-7B via HF Space" : "Unavailable",

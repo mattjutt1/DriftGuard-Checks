@@ -16,7 +16,7 @@ INSTALL_DIR="/opt/ollama"
 
 echo "📋 Deployment Configuration:"
 echo "   - Ollama Version: $OLLAMA_VERSION"
-echo "   - Model: $MODEL_NAME"  
+echo "   - Model: $MODEL_NAME"
 echo "   - Port: $SERVER_PORT"
 echo "   - Install Directory: $INSTALL_DIR"
 echo

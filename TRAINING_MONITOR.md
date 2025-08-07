@@ -1,6 +1,6 @@
 # 🚀 PromptWizard Training Monitor
 
-**Space URL**: https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training  
+**Space URL**: https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training
 **Status**: 🔨 Building...
 
 ## What to Expect When Ready:

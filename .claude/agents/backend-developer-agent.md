@@ -100,12 +100,12 @@ export const createOptimizationRequest = mutation({
       status: "pending",
       createdAt: Date.now(),
     });
-    
+
     // Schedule optimization processing
     await ctx.scheduler.runAfter(0, internal.optimize.processOptimization, {
       sessionId,
     });
-    
+
     return sessionId;
   },
 });
@@ -116,10 +116,10 @@ export const optimizePromptWithAI = action({
   handler: async (ctx, { sessionId }) => {
     // Fetch session data
     const session = await ctx.runQuery(internal.sessions.getSession, { sessionId });
-    
+
     // Call external AI service (PromptWizard + Ollama)
     const optimizedResult = await callPromptWizard(session.originalPrompt);
-    
+
     // Update session with results
     await ctx.runMutation(internal.sessions.updateSession, {
       sessionId,
@@ -145,14 +145,14 @@ export const getUserOptimizations = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Unauthenticated");
-    
+
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) => q.eq("tokenIdentifier", identity.tokenIdentifier))
       .unique();
-    
+
     if (!user) throw new Error("User not found");
-    
+
     return await ctx.db
       .query("optimizationSessions")
       .withIndex("by_user", (q) => q.eq("userId", user._id))

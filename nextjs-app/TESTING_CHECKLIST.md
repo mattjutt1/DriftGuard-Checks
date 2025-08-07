@@ -28,13 +28,13 @@
   - [ ] Iteration slider appears in Advanced mode
   - [ ] Form validation (empty prompt)
   - [ ] Character counter updates
-  
+
 - [ ] **Session History Sidebar**:
   - [ ] Shows seeded demo sessions
   - [ ] Status badges display correctly
   - [ ] Quality scores visible
   - [ ] Session cards are clickable
-  
+
 - [ ] **Quality Metrics Dashboard**:
   - [ ] Appears when optimization completes
   - [ ] Progress bars animate correctly
@@ -110,7 +110,7 @@
 ## 🐛 Common Issues to Watch For:
 
 ### Connection Issues:
-- ❌ "Convex client not initialized" 
+- ❌ "Convex client not initialized"
 - ❌ CORS errors in console
 - ❌ 401/403 authentication errors
 - ❌ WebSocket connection failures

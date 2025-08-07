@@ -52,19 +52,19 @@ services:
       - PORT=4000
       - DB_CONNECTION_URI=postgres://${INFISICAL_DB_USER:-infisical}:${INFISICAL_DB_PASSWORD:-infisical}@infisical-db:5432/${INFISICAL_DB_NAME:-infisical}
       - REDIS_URL=redis://infisical-redis:6379
-      
+
       # Security Keys (CHANGE THESE!)
       - ENCRYPTION_KEY=${INFISICAL_ENCRYPTION_KEY}
       - AUTH_SECRET=${INFISICAL_AUTH_SECRET}
       - JWT_SIGNUP_SECRET=${INFISICAL_JWT_SIGNUP_SECRET}
       - JWT_REFRESH_SECRET=${INFISICAL_JWT_REFRESH_SECRET}
       - JWT_AUTH_SECRET=${INFISICAL_JWT_AUTH_SECRET}
-      
+
       # Site Configuration
       - SITE_URL=${INFISICAL_SITE_URL:-http://localhost:8080}
       - INVITE_FROM_EMAIL=${INVITE_FROM_EMAIL:-admin@promptevolver.local}
       - TRUST_PROXY=true
-      
+
       # Email Configuration (Optional for development)
       - SMTP_HOST=${SMTP_HOST:-}
       - SMTP_PORT=${SMTP_PORT:-587}
@@ -72,7 +72,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD:-}
       - SMTP_FROM_ADDRESS=${SMTP_FROM_ADDRESS:-noreply@promptevolver.local}
       - SMTP_FROM_NAME=${SMTP_FROM_NAME:-PromptEvolver Infisical}
-      
+
     networks:
       - infisical-network
     ports:

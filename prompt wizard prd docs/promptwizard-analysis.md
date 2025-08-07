@@ -141,7 +141,7 @@ PromptWizard accommodates three distinct optimization scenarios:
 - **License**: Research use (⚠️ Check terms for commercial use)
 - **Use Case**: Complex, evolved instructions with varying difficulty levels
 
-#### ShareGPT Conversations  
+#### ShareGPT Conversations
 - **Size**: ~90,000 multi-turn conversations
 - **Format**: `{conversations: [{from, value}]}`
 - **Download**: `datasets.load_dataset('anon8231489123/ShareGPT_Vicuna_unfiltered')`
@@ -233,7 +233,7 @@ def evaluate_prompt_performance(prompt, examples, target_llm):
 
 #### Mutation Strategies
 - **Semantic Rewording**: Preserve meaning while changing expression
-- **Structure Modification**: Alter prompt organization and flow  
+- **Structure Modification**: Alter prompt organization and flow
 - **Context Addition**: Include relevant background information
 - **Constraint Specification**: Add explicit requirements and formats
 - **Style Adaptation**: Adjust tone and complexity for target audience
@@ -288,7 +288,7 @@ PromptWizard employs comprehensive evaluation across multiple dimensions:
 
 #### Efficiency Metrics
 - **API Call Reduction**: 69 calls vs. 2,115+ for competing methods
-- **Token Usage Optimization**: 24K tokens vs. 400K-1,488K for baselines  
+- **Token Usage Optimization**: 24K tokens vs. 400K-1,488K for baselines
 - **Time to Optimization**: Minutes vs. hours for traditional approaches
 - **Cost per Task**: $0.05 vs. $2-10+ for alternative methods
 
@@ -362,7 +362,7 @@ import json
 
 # Load commercially-friendly datasets
 gsm8k = load_dataset('gsm8k')
-humaneval = load_dataset('openai_humaneval') 
+humaneval = load_dataset('openai_humaneval')
 bigbench = load_dataset('google/bigbench')
 aqua_rat = load_dataset('aqua_rat')
 
@@ -397,7 +397,7 @@ custom_examples = [
         "answer": "Enhanced prompt: 'Please improve the following [content type] by: 1) Identifying specific areas for enhancement, 2) Providing concrete suggestions with rationale, 3) Prioritizing changes by impact, 4) Ensuring consistency with [brand/style guide]. Focus on [specific aspects like clarity, engagement, accuracy]."
     },
     {
-        "question": "Enhance this unclear instruction: 'Analyze the data'", 
+        "question": "Enhance this unclear instruction: 'Analyze the data'",
         "answer": "Enhanced prompt: 'Perform a comprehensive data analysis including: 1) Descriptive statistics (mean, median, standard deviation, quartiles), 2) Data quality assessment (missing values, outliers, inconsistencies), 3) Correlation analysis between key variables, 4) Visual representations (histograms, scatter plots, trend lines), 5) Key insights and actionable recommendations. Present findings in executive summary format."
     }
 ]
@@ -418,7 +418,7 @@ max_tokens: 2048
 
 # Dataset configuration
 train_file: "data/combined_training.jsonl"
-test_file: "data/validation_set.jsonl" 
+test_file: "data/validation_set.jsonl"
 seen_set_size: 25
 few_shot_count: 3
 
@@ -449,7 +449,7 @@ optimizer = PromptOptimizer(
 initial_prompt = """
 Transform vague user requests into clear, actionable prompts by:
 1. Identifying the core intent
-2. Adding necessary context and constraints  
+2. Adding necessary context and constraints
 3. Structuring for optimal LLM response
 4. Including output format specifications
 """
@@ -507,22 +507,22 @@ class PromptEnhancer:
     def __init__(self, optimized_prompt, examples):
         self.prompt_template = optimized_prompt
         self.few_shot_examples = examples
-        
+
     def enhance_user_input(self, vague_input):
         """Transform vague input into well-engineered prompt"""
-        
+
         # Construct enhancement prompt with few-shot examples
         enhancement_prompt = self.prompt_template
-        
+
         # Add few-shot examples
         for example in self.few_shot_examples[:3]:
             enhancement_prompt += f"\n\nExample:\nInput: {example['question']}\nOutput: {example['answer']}"
-        
+
         # Add current user input
         enhancement_prompt += f"\n\nInput: {vague_input}\nOutput:"
-        
+
         return enhancement_prompt
-    
+
     def batch_enhance(self, user_inputs):
         """Enhance multiple inputs efficiently"""
         return [self.enhance_user_input(inp) for inp in user_inputs]
@@ -547,7 +547,7 @@ enhanced_prompt = enhancer.enhance_user_input(vague_request)
 3. **AQUA-RAT** - Structured reasoning with explanations
 4. **BigBench** - Diverse instruction induction tasks
 
-#### Tier 2: Enhancement Datasets  
+#### Tier 2: Enhancement Datasets
 1. **Chain-of-Thought Hub** - Reasoning pattern templates
 2. **Custom SaaS Examples** - Domain-specific prompt transformations
 3. **Business Logic Problems** - Enterprise-specific scenarios
@@ -571,7 +571,7 @@ enhanced_prompt = enhancer.enhance_user_input(vague_request)
 core_categories = [
     "requirements_clarification",    # "Make it better" → specific improvements
     "task_decomposition",           # Complex requests → step-by-step
-    "context_expansion",            # Minimal info → comprehensive prompts  
+    "context_expansion",            # Minimal info → comprehensive prompts
     "output_specification",         # Vague outcomes → structured formats
     "constraint_addition",          # Open-ended → bounded parameters
 ]
@@ -586,7 +586,7 @@ total_custom_examples = len(core_categories) * target_examples_per_category
 # SaaS-specific categories
 saas_categories = [
     "customer_support_enhancement",
-    "content_generation_refinement", 
+    "content_generation_refinement",
     "data_analysis_specification",
     "workflow_automation_clarity",
     "integration_requirement_detail"
@@ -599,7 +599,7 @@ saas_categories = [
 advanced_patterns = [
     "multi_step_reasoning_chains",
     "conditional_logic_prompts",
-    "error_handling_specifications", 
+    "error_handling_specifications",
     "performance_optimization_requests",
     "security_consideration_integration"
 ]
@@ -618,7 +618,7 @@ advanced_patterns = [
 - **Commercial Use**: Open source, MIT licensed
 - **Integration**: Complementary to PromptWizard for structured outputs
 
-#### Microsoft PromptBase  
+#### Microsoft PromptBase
 - **Repository**: https://github.com/microsoft/promptbase
 - **Purpose**: Curated collection of prompt engineering resources
 - **Content**: Best practices, examples, evaluation methods
@@ -626,7 +626,7 @@ advanced_patterns = [
 - **Use Case**: Learning prompt engineering fundamentals
 
 #### Microsoft Prompt Engineering Guide
-- **Repository**: https://github.com/microsoft/prompt-engineering  
+- **Repository**: https://github.com/microsoft/prompt-engineering
 - **Purpose**: Educational resources and best practices
 - **Content**: Comprehensive guides, examples, case studies
 - **Target Audience**: Developers and prompt engineers
@@ -643,7 +643,7 @@ advanced_patterns = [
 
 #### LMOps Toolkit
 - **Purpose**: Large Model Operations and optimization
-- **Components**: Prompt optimization, model evaluation, deployment tools  
+- **Components**: Prompt optimization, model evaluation, deployment tools
 - **Status**: Research initiative, various open-source components
 - **Integration**: Ecosystem compatibility with PromptWizard
 
@@ -668,7 +668,7 @@ pip install datasets huggingface_hub
 
 # Commercial-friendly datasets (immediate use)
 python -c "from datasets import load_dataset; load_dataset('gsm8k').save_to_disk('gsm8k')"
-python -c "from datasets import load_dataset; load_dataset('openai_humaneval').save_to_disk('humaneval')" 
+python -c "from datasets import load_dataset; load_dataset('openai_humaneval').save_to_disk('humaneval')"
 python -c "from datasets import load_dataset; load_dataset('google/bigbench').save_to_disk('bigbench')"
 python -c "from datasets import load_dataset; load_dataset('aqua_rat').save_to_disk('aqua_rat')"
 
@@ -689,21 +689,21 @@ def alpaca_to_promptwizard(alpaca_data):
         question = item['instruction']
         if item['input'].strip():
             question += f" Input: {item['input']}"
-        
+
         converted.append({
             "question": question,
             "answer": item['output']
         })
     return converted
 
-# ShareGPT to PromptWizard format  
+# ShareGPT to PromptWizard format
 def sharegpt_to_promptwizard(sharegpt_data):
     converted = []
     for conversation in sharegpt_data:
         if len(conversation['conversations']) >= 2:
             human_msg = conversation['conversations'][0]['value']
             ai_msg = conversation['conversations'][1]['value']
-            
+
             converted.append({
                 "question": human_msg,
                 "answer": ai_msg
@@ -746,7 +746,7 @@ evaluation_metric: "accuracy"
 
 #### Advanced Configuration
 ```yaml
-# config/advanced_config.yaml  
+# config/advanced_config.yaml
 experiment_name: "advanced_prompt_optimization"
 model_name: "gpt-4"
 temperature: 0.8
@@ -785,48 +785,48 @@ class PromptWizardBenchmark:
     def __init__(self, config_path):
         self.config = self.load_config(config_path)
         self.results = {}
-        
+
     def run_benchmark_suite(self):
         """Run comprehensive benchmark across multiple datasets"""
-        
+
         datasets = [
             ("GSM8K", "data/gsm8k_test.jsonl"),
-            ("HumanEval", "data/humaneval_test.jsonl"), 
+            ("HumanEval", "data/humaneval_test.jsonl"),
             ("Custom", "data/custom_test.jsonl")
         ]
-        
+
         for dataset_name, dataset_path in datasets:
             print(f"Benchmarking on {dataset_name}...")
-            
+
             start_time = time.time()
             results = self.benchmark_dataset(dataset_path)
             end_time = time.time()
-            
+
             self.results[dataset_name] = {
                 **results,
                 "runtime_seconds": end_time - start_time,
                 "timestamp": datetime.now().isoformat()
             }
-            
+
         self.save_benchmark_results()
         return self.results
-        
+
     def benchmark_dataset(self, dataset_path):
         """Benchmark PromptWizard on single dataset"""
-        
+
         # Load test data
         test_data = self.load_jsonl(dataset_path)
-        
+
         # Run optimization
         optimizer = PromptOptimizer(self.config)
         optimized_prompt, examples = optimizer.optimize(test_data)
-        
+
         # Evaluate performance
         baseline_accuracy = self.evaluate_baseline(test_data)
         optimized_accuracy = self.evaluate_optimized(
             optimized_prompt, examples, test_data
         )
-        
+
         return {
             "baseline_accuracy": baseline_accuracy,
             "optimized_accuracy": optimized_accuracy,
@@ -877,11 +877,11 @@ def process_large_dataset(dataset_path, chunk_size=1000):
         chunk = []
         for line in f:
             chunk.append(json.loads(line))
-            
+
             if len(chunk) >= chunk_size:
                 yield chunk
                 chunk = []
-                
+
         if chunk:  # Process remaining items
             yield chunk
 ```
@@ -912,7 +912,7 @@ This comprehensive analysis of Microsoft's PromptWizard provides a complete road
 **Key Takeaways:**
 1. **Simple but Effective**: JSONL format with just `{question, answer}` pairs
 2. **Commercially Viable**: Multiple MIT/Apache 2.0 licensed datasets available
-3. **Cost-Effective**: 5-60x cost reduction vs. traditional approaches  
+3. **Cost-Effective**: 5-60x cost reduction vs. traditional approaches
 4. **Production-Ready**: No model fine-tuning required, works with any LLM
 5. **Proven Results**: 90.10% MMLU, 95.4% GSM8K performance
 
@@ -922,8 +922,8 @@ For commercial applications, prioritize the MIT and Apache 2.0 licensed datasets
 
 ---
 
-**Report Generated**: August 7, 2025  
-**Total Pages**: 25  
-**Word Count**: ~8,500 words  
-**Datasets Analyzed**: 10+ comprehensive sources  
+**Report Generated**: August 7, 2025
+**Total Pages**: 25
+**Word Count**: ~8,500 words
+**Datasets Analyzed**: 10+ comprehensive sources
 **Implementation Examples**: 15+ code snippets and configurations

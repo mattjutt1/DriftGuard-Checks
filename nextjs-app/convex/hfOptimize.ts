@@ -21,7 +21,7 @@ export const checkHFSpaceHealth = action({
         method: "GET",
         signal: AbortSignal.timeout(5000),
       });
-      
+
       return {
         available: response.ok,
         model: "Qwen3-30B-A3B-Instruct-2507",
@@ -46,25 +46,25 @@ export const optimizeWithHFSpace: any = action({
   },
   handler: async (ctx, args): Promise<any> => {
     const startTime = Date.now();
-    
+
     try {
       // Get session and prompt data
       const session = await ctx.runQuery(api.optimizations.getSession, {
         sessionId: args.sessionId,
       });
-      
+
       if (!session) {
         throw new Error("Session not found");
       }
-      
+
       const prompt = await ctx.runQuery(api.optimizations.getPromptById, {
         promptId: session.promptId,
       });
-      
+
       if (!prompt) {
         throw new Error("Prompt not found");
       }
-      
+
       // Update session status
       await ctx.runMutation(api.optimizations.updateSessionStatus, {
         sessionId: args.sessionId,
@@ -88,21 +88,21 @@ export const optimizeWithHFSpace: any = action({
           },
         ],
       });
-      
+
       // Step 1: Connect to HF Space
       await ctx.runMutation(api.optimizations.updateProgressStep, {
         sessionId: args.sessionId,
         stepIndex: 0,
         status: "completed",
       });
-      
+
       // Step 2: Call HF Space API
       await ctx.runMutation(api.optimizations.updateProgressStep, {
         sessionId: args.sessionId,
         stepIndex: 1,
         status: "processing",
       });
-      
+
       const apiUrl = `${HF_SPACE_URL}/api/optimize`;
       const gradioRequest = {
         data: [
@@ -112,7 +112,7 @@ export const optimizeWithHFSpace: any = action({
           0.7, // temperature
         ],
       };
-      
+
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -121,27 +121,27 @@ export const optimizeWithHFSpace: any = action({
         body: JSON.stringify(gradioRequest),
         signal: AbortSignal.timeout(30000), // 30 second timeout
       });
-      
+
       if (!response.ok) {
         throw new Error(`HF Space returned status ${response.status}`);
       }
-      
+
       const result = await response.json();
       const hfResponse = result.data?.[0];
-      
+
       if (!hfResponse) {
         throw new Error("Invalid response from HF Space");
       }
-      
+
       // Step 3: Process results
       await ctx.runMutation(api.optimizations.updateProgressStep, {
         sessionId: args.sessionId,
         stepIndex: 2,
         status: "processing",
       });
-      
+
       const processingTimeMs = Date.now() - startTime;
-      
+
       // Format results for Convex
       const finalResults = {
         bestPrompt: hfResponse.optimized_prompt || prompt.originalPrompt,
@@ -159,7 +159,7 @@ export const optimizeWithHFSpace: any = action({
           `Model: ${hfResponse.model || 'Qwen3-30B-A3B'}`,
         ],
       };
-      
+
       // Complete session
       await ctx.runMutation(api.optimizations.completeSession, {
         sessionId: args.sessionId,
@@ -169,7 +169,7 @@ export const optimizeWithHFSpace: any = action({
         expertIdentity: hfResponse.expert_profile || "Qwen3-30B Expert",
         finalResults,
       });
-      
+
       // Mark all steps completed
       for (let i = 0; i < 3; i++) {
         await ctx.runMutation(api.optimizations.updateProgressStep, {
@@ -178,7 +178,7 @@ export const optimizeWithHFSpace: any = action({
           status: "completed",
         });
       }
-      
+
       return {
         success: true,
         sessionId: args.sessionId,
@@ -191,7 +191,7 @@ export const optimizeWithHFSpace: any = action({
         sessionId: args.sessionId,
         errorMessage: error instanceof Error ? error.message : "Unknown error",
       });
-      
+
       return {
         success: false,
         sessionId: args.sessionId,

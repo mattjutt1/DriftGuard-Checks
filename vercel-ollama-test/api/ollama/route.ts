@@ -4,19 +4,19 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   try {
     // This would fail on Vercel for multiple reasons:
-    
+
     // 1. No way to install/run Ollama binary in Vercel functions
     // 2. No persistent filesystem to store 2.6GB model
     // 3. Function timeout limit (10s max, model loading takes 30-60s)
     // 4. Memory limit (1GB max, Qwen3:4b needs 2.6GB+)
-    
+
     // Hypothetical Ollama code that would fail:
     /*
     const ollama = spawn('ollama', ['serve']);  // ❌ Binary not available
     await downloadModel('qwen3:4b');            // ❌ No persistent storage
     const response = await ollama.generate();   // ❌ Takes too long, uses too much RAM
     */
-    
+
     return NextResponse.json({
       error: "Vercel Functions Limitations",
       issues: [
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       ],
       solution: "Use external server (Railway, VPS, Cloud Run, etc.)"
     });
-    
+
   } catch (error) {
     return NextResponse.json({
       error: "This proves why Vercel can't run Ollama",

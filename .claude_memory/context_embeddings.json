@@ -10,7 +10,7 @@
       "semantic_summary": "Honest documentation cleanup removing fabricated claims about PromptWizard implementation, adding development demo disclaimers, and documenting actual performance/architecture limitations"
     },
     "architectural_context": {
-      "model": "architectural-pattern-embedder", 
+      "model": "architectural-pattern-embedder",
       "vectors": [],
       "metadata": {
         "patterns": ["development_demo", "localhost_dependency", "system_prompt_ai"],
@@ -29,7 +29,7 @@
             "impact": "builds_trust_through_honesty"
           },
           {
-            "decision": "document_all_fabrications", 
+            "decision": "document_all_fabrications",
             "rationale": "Audit found multiple false claims that mislead users",
             "impact": "prevents_future_misunderstandings"
           }
@@ -42,7 +42,7 @@
       "metadata": {
         "quality_improvements": [
           "removed_fabricated_feature_claims",
-          "added_honest_performance_warnings", 
+          "added_honest_performance_warnings",
           "documented_architecture_limitations",
           "corrected_version_history"
         ],

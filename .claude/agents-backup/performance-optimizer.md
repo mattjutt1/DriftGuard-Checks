@@ -64,12 +64,12 @@ class ModelPerformanceOptimizer:
     def __init__(self):
         self.response_cache = TTLCache(maxsize=1000, ttl=3600)
         self.batch_processor = BatchProcessor(max_batch_size=5)
-    
+
     async def optimize_prompt(self, prompt: str) -> str:
         # Check cache first
         if cached_result := self.response_cache.get(hash(prompt)):
             return cached_result
-        
+
         # Batch processing for efficiency
         result = await self.batch_processor.process(prompt)
         self.response_cache[hash(prompt)] = result
@@ -89,7 +89,7 @@ const PromptInput = memo(({ value, onChange }) => {
     debounce(onChange, 300),
     [onChange]
   );
-  
+
   return <textarea onChange={debouncedOnChange} />;
 });
 
@@ -115,10 +115,10 @@ class CacheManager:
     def __init__(self):
         # L1: In-memory cache (fastest)
         self.memory_cache = TTLCache(maxsize=100, ttl=300)
-        
+
         # L2: Redis cache (shared)
         self.redis_cache = redis.Redis(host='localhost', port=6379)
-        
+
         # L3: Database cache (persistent)
         self.db_cache_ttl = 3600
 ```
@@ -137,7 +137,7 @@ class PerformanceMonitor:
             "gpu_usage": GPUtil.getGPUs()[0].load * 100,
             "gpu_memory": GPUtil.getGPUs()[0].memoryUtil * 100,
         }
-    
+
     def check_performance_thresholds(self, metrics):
         alerts = []
         if metrics["cpu_percent"] > 80:

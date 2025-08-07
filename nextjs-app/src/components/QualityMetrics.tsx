@@ -19,7 +19,7 @@ interface QualityMetricsProps {
 // Progress Bar Component
 function ProgressBar({ label, value, maxValue = 10, className = "", showValue = true }: ProgressBarProps) {
   const percentage = Math.min((value / maxValue) * 100, 100);
-  
+
   const getColorClass = (percentage: number) => {
     if (percentage >= 80) return "bg-emerald-500";
     if (percentage >= 60) return "bg-blue-500";
@@ -36,7 +36,7 @@ function ProgressBar({ label, value, maxValue = 10, className = "", showValue = 
         )}
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <div 
+        <div
           className={`h-2.5 rounded-full transition-all duration-500 ease-out ${getColorClass(percentage)}`}
           style={{ width: `${percentage}%` }}
         />
@@ -58,7 +58,7 @@ export function QualityMetrics({ metrics, overallScore }: QualityMetricsProps) {
           </div>
         )}
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ProgressBar label="Clarity" value={metrics.clarity} />
         <ProgressBar label="Specificity" value={metrics.specificity} />

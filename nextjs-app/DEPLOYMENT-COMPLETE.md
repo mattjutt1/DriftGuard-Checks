@@ -68,8 +68,8 @@ vercel --prod
 ```
 ┌─────────────────┐
 │   Vercel Edge   │ ← Demo Frontend (127 kB bundle)
-│   Next.js 15    │   
-│   React 19      │   
+│   Next.js 15    │
+│   React 19      │
 └─────────────────┘
 ```
 

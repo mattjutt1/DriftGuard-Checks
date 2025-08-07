@@ -19,7 +19,7 @@ if [ -f ".claude/scripts/update_knowledge_graph.py" ]; then
             git add .claude/knowledge_graph.json
         fi
         if [ -f ".claude/context_vectors.json" ]; then
-            git add .claude/context_vectors.json  
+            git add .claude/context_vectors.json
         fi
     else
         echo "⚠️  Knowledge graph update failed, continuing with commit"

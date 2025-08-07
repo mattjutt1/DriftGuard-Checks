@@ -31,18 +31,18 @@ export interface DirectOptimizationHookState {
   // Core state
   isOptimizing: boolean;
   error: string | null;
-  
+
   // Progress tracking
   currentStep: number;
   totalSteps: number;
   progressMessage: string;
   currentIteration: number;
-  
+
   // Results
   results: OptimizationResults | null;
   qualityMetrics: OptimizationMetrics | null;
   currentSession: any; // Mock session for compatibility
-  
+
   // Actions
   startOptimization: (prompt: string, contextDomain?: string, advanced?: boolean, iterations?: number) => Promise<void>;
   resetOptimization: () => void;
@@ -80,12 +80,12 @@ export function useDirectOptimization(): DirectOptimizationHookState {
   // Simulate progress steps
   const simulateProgress = async (steps: string[]) => {
     setTotalSteps(steps.length);
-    
+
     for (let i = 0; i < steps.length; i++) {
       setCurrentStep(i + 1);
       setProgressMessage(steps[i]);
       setCurrentIteration(i + 1);
-      
+
       // Simulate processing time
       await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
     }
@@ -198,7 +198,7 @@ export function useDirectOptimization(): DirectOptimizationHookState {
   const checkOllamaHealth = useCallback(async () => {
     try {
       console.log('🩺 HEALTH CHECK: Testing direct API connection...');
-      
+
       const response = await fetch('/api/optimize', {
         method: 'GET',
       });
@@ -206,7 +206,7 @@ export function useDirectOptimization(): DirectOptimizationHookState {
       if (response.ok) {
         const healthData = await response.json();
         console.log('🩺 HEALTH CHECK: Success -', healthData);
-        
+
         return {
           available: healthData.status === 'healthy',
           model: healthData.model || 'qwen3:4b',
@@ -217,7 +217,7 @@ export function useDirectOptimization(): DirectOptimizationHookState {
       }
     } catch (err) {
       console.error('🩺 HEALTH CHECK: Error -', err);
-      
+
       return {
         available: false,
         model: 'qwen3:4b',
@@ -230,18 +230,18 @@ export function useDirectOptimization(): DirectOptimizationHookState {
     // Core state
     isOptimizing,
     error,
-    
+
     // Progress tracking
     currentStep,
     totalSteps,
     progressMessage,
     currentIteration,
-    
+
     // Results
     results,
     qualityMetrics,
     currentSession,
-    
+
     // Actions
     startOptimization,
     resetOptimization,

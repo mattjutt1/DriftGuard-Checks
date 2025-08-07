@@ -35,7 +35,7 @@ const DEFAULT_PROMPTWIZARD_CONFIG: PromptWizardConfig = {
 // Expert identity generation based on PromptWizard methodology
 function generateExpertIdentity(originalPrompt: string, contextDomain: string): string {
   const lowerPrompt = originalPrompt.toLowerCase();
-  
+
   if (lowerPrompt.includes('marketing') || lowerPrompt.includes('campaign') || lowerPrompt.includes('a/b test') || contextDomain === 'marketing') {
     return "You are an expert marketing strategist with 10+ years of experience in conversion optimization, A/B testing, and campaign performance analysis. You specialize in creating data-driven marketing copy that maximizes engagement and drives measurable results.";
   } else if (lowerPrompt.includes('code') || lowerPrompt.includes('programming') || lowerPrompt.includes('software') || contextDomain === 'programming') {
@@ -54,9 +54,9 @@ function generateExpertIdentity(originalPrompt: string, contextDomain: string): 
 // Apply PromptWizard's critique_n_refine methodology
 function buildPromptWizardPrompt(originalPrompt: string, contextDomain: string, useAdvancedMode: boolean): string {
   const expertIdentity = generateExpertIdentity(originalPrompt, contextDomain);
-  
+
   let optimizedPrompt = `${expertIdentity}\n\nTask: ${originalPrompt}`;
-  
+
   // Apply domain-specific refinements based on critique_n_refine methodology
   if (contextDomain === 'marketing' || originalPrompt.toLowerCase().includes('marketing') || originalPrompt.toLowerCase().includes('a/b test')) {
     optimizedPrompt += "\n\nApply these marketing optimization principles:";
@@ -65,7 +65,7 @@ function buildPromptWizardPrompt(originalPrompt: string, contextDomain: string, 
     optimizedPrompt += "\n• Use persuasive copywriting techniques (urgency, social proof, scarcity)";
     optimizedPrompt += "\n• Ensure each variant tests a distinct hypothesis";
     optimizedPrompt += "\n• Consider the target audience's psychology and motivations";
-    
+
     if (useAdvancedMode) {
       optimizedPrompt += "\n\nAdvanced requirements:";
       optimizedPrompt += "\n• Provide statistical power analysis for sample size determination";
@@ -75,7 +75,7 @@ function buildPromptWizardPrompt(originalPrompt: string, contextDomain: string, 
     }
   } else if (contextDomain === 'programming' || originalPrompt.toLowerCase().includes('code') || originalPrompt.toLowerCase().includes('programming')) {
     optimizedPrompt += "\n\nApply these software development best practices:";
-    optimizedPrompt += "\n• Write clean, readable, and maintainable code";  
+    optimizedPrompt += "\n• Write clean, readable, and maintainable code";
     optimizedPrompt += "\n• Follow SOLID principles and design patterns";
     optimizedPrompt += "\n• Include proper error handling and edge cases";
     optimizedPrompt += "\n• Add comprehensive documentation and comments";
@@ -87,11 +87,11 @@ function buildPromptWizardPrompt(originalPrompt: string, contextDomain: string, 
     optimizedPrompt += "\n• Include relevant examples and practical applications";
     optimizedPrompt += "\n• Consider multiple perspectives and approaches";
   }
-  
+
   // Add PromptWizard standard structure
   optimizedPrompt += "\n\n" + DEFAULT_PROMPTWIZARD_CONFIG.base_instruction;
   optimizedPrompt += "\n\n" + DEFAULT_PROMPTWIZARD_CONFIG.answer_format;
-  
+
   return optimizedPrompt;
 }
 
@@ -100,7 +100,7 @@ async function callOllamaAPI(prompt: string, retries: number = 3): Promise<strin
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       console.log(`🤖 OLLAMA API: Attempt ${attempt}/${retries}`);
-      
+
       const response = await fetch(`${OLLAMA_BASE_URL}/api/generate`, {
         method: 'POST',
         headers: {
@@ -122,7 +122,7 @@ async function callOllamaAPI(prompt: string, retries: number = 3): Promise<strin
       }
 
       const result = await response.json();
-      
+
       if (result.response) {
         console.log(`🤖 OLLAMA API: Success on attempt ${attempt}`);
         return result.response;
@@ -131,16 +131,16 @@ async function callOllamaAPI(prompt: string, retries: number = 3): Promise<strin
       }
     } catch (error) {
       console.error(`🤖 OLLAMA API: Attempt ${attempt} failed:`, error);
-      
+
       if (attempt === retries) {
         throw new Error(`Failed to get response from Ollama after ${retries} attempts: ${error}`);
       }
-      
+
       // Exponential backoff
       await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
     }
   }
-  
+
   throw new Error('Unexpected error in Ollama API call');
 }
 
@@ -176,7 +176,7 @@ function calculateQualityMetrics(originalPrompt: string, optimizedResponse: stri
     }
   });
 
-  metrics.overall = (metrics.clarity + metrics.specificity + metrics.engagement + 
+  metrics.overall = (metrics.clarity + metrics.specificity + metrics.engagement +
                     metrics.structure + metrics.completeness + metrics.errorPrevention) / 6;
 
   return metrics;
@@ -185,39 +185,39 @@ function calculateQualityMetrics(originalPrompt: string, optimizedResponse: stri
 // Extract improvements from the AI response
 function extractImprovements(originalPrompt: string, optimizedResponse: string, contextDomain: string): string[] {
   const improvements = [];
-  
+
   if (optimizedResponse.length > originalPrompt.length * 1.5) {
     improvements.push("Significantly expanded prompt detail and context");
   }
-  
+
   if (optimizedResponse.includes('step by step') || optimizedResponse.includes('systematic')) {
     improvements.push("Added systematic, step-by-step approach");
   }
-  
+
   if (optimizedResponse.includes('example') || optimizedResponse.includes('instance')) {
     improvements.push("Incorporated specific examples and practical applications");
   }
-  
+
   if (contextDomain === 'marketing' && optimizedResponse.includes('test')) {
     improvements.push("Applied marketing-specific A/B testing methodology");
     improvements.push("Enhanced conversion optimization focus");
   }
-  
+
   if (contextDomain === 'programming' && optimizedResponse.includes('code')) {
     improvements.push("Added software engineering best practices");
     improvements.push("Incorporated error handling and maintainability considerations");
   }
-  
+
   improvements.push("Applied Microsoft PromptWizard critique_n_refine methodology");
   improvements.push("Enhanced with domain-specific expert identity and context");
-  
+
   return improvements;
 }
 
 // Main optimization function using real Qwen3:4b + PromptWizard
 async function optimizePromptWithQwen(
-  originalPrompt: string, 
-  contextDomain: string, 
+  originalPrompt: string,
+  contextDomain: string,
   useAdvancedMode: boolean
 ) {
   console.log('🧙 PROMPTWIZARD: Starting real optimization with Qwen3:4b');
@@ -227,16 +227,16 @@ async function optimizePromptWithQwen(
 
   // Step 1: Build optimized prompt using PromptWizard methodology
   const optimizedPrompt = buildPromptWizardPrompt(originalPrompt, contextDomain, useAdvancedMode);
-  
+
   // Step 2: Get AI response using Qwen3:4b through Ollama
   const aiResponse = await callOllamaAPI(optimizedPrompt);
-  
+
   // Step 3: Calculate quality metrics
   const qualityMetrics = calculateQualityMetrics(originalPrompt, aiResponse, contextDomain);
-  
+
   // Step 4: Extract improvements
   const improvements = extractImprovements(originalPrompt, aiResponse, contextDomain);
-  
+
   // Step 5: Generate expert insights
   const expertInsights = [
     "Optimized using Microsoft PromptWizard methodology with Qwen3:4b language model",
@@ -244,9 +244,9 @@ async function optimizePromptWithQwen(
     `Domain-specific optimization applied for ${contextDomain} context`,
     "Expert identity generation improved response accuracy and relevance"
   ];
-  
+
   console.log('🧙 PROMPTWIZARD: Optimization completed successfully');
-  
+
   return {
     bestPrompt: aiResponse,
     improvements,
@@ -273,7 +273,7 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('🚀 API: Starting optimization request');
-    
+
     // Perform real optimization using Qwen3:4b + PromptWizard
     const result = await optimizePromptWithQwen(
       prompt.trim(),
@@ -282,7 +282,7 @@ export async function POST(request: NextRequest) {
     );
 
     console.log('🚀 API: Optimization completed successfully');
-    
+
     return NextResponse.json({
       success: true,
       result,
@@ -291,10 +291,10 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('🚀 API: Optimization error:', error);
-    
+
     return NextResponse.json(
-      { 
-        success: false, 
+      {
+        success: false,
         error: error instanceof Error ? error.message : 'Unknown error occurred',
         details: 'Failed to process optimization request'
       },
@@ -308,11 +308,11 @@ export async function GET() {
   try {
     // Test Ollama connection
     const response = await fetch(`${OLLAMA_BASE_URL}/api/tags`);
-    
+
     if (response.ok) {
       const models = await response.json();
       const hasQwen = models.models?.some((model: any) => model.name.includes('qwen3:4b'));
-      
+
       return NextResponse.json({
         status: 'healthy',
         ollama: 'connected',

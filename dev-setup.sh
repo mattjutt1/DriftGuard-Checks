@@ -7,7 +7,7 @@ echo "🚀 Setting up PromptEvolver development environment..."
 if [ -f ".bash_aliases" ]; then
     echo "📝 Loading development aliases..."
     source .bash_aliases
-    
+
     # Add to bashrc if not already there
     if ! grep -q "source.*\.bash_aliases" ~/.bashrc; then
         echo "" >> ~/.bashrc
@@ -62,7 +62,7 @@ echo ""
 echo "💡 Useful aliases:"
 echo "  inf-start/stop    - Manage Infisical"
 echo "  dev-backend       - Start backend server"
-echo "  dev-docs          - Local documentation"  
+echo "  dev-docs          - Local documentation"
 echo "  knowledge-sync    - Update knowledge graph"
 echo "  claude-*          - Quick sub-agent access"
 echo ""

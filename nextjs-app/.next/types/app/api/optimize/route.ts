@@ -26,7 +26,7 @@ checkFields<Diff<{
   preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
   runtime?: 'nodejs' | 'experimental-edge' | 'edge'
   maxDuration?: number
-  
+
 }, TEntry, ''>>()
 
 type RouteContext = { params: Promise<SegmentParams> }
@@ -54,7 +54,7 @@ if ('GET' in entry) {
       'GET'
     >
   >()
-  
+
   checkFields<
     Diff<
       {
@@ -93,7 +93,7 @@ if ('HEAD' in entry) {
       'HEAD'
     >
   >()
-  
+
   checkFields<
     Diff<
       {
@@ -132,7 +132,7 @@ if ('OPTIONS' in entry) {
       'OPTIONS'
     >
   >()
-  
+
   checkFields<
     Diff<
       {
@@ -171,7 +171,7 @@ if ('POST' in entry) {
       'POST'
     >
   >()
-  
+
   checkFields<
     Diff<
       {
@@ -210,7 +210,7 @@ if ('PUT' in entry) {
       'PUT'
     >
   >()
-  
+
   checkFields<
     Diff<
       {
@@ -249,7 +249,7 @@ if ('DELETE' in entry) {
       'DELETE'
     >
   >()
-  
+
   checkFields<
     Diff<
       {
@@ -288,7 +288,7 @@ if ('PATCH' in entry) {
       'PATCH'
     >
   >()
-  
+
   checkFields<
     Diff<
       {

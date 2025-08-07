@@ -83,10 +83,10 @@ export const testPromptWizardOptimization = action({
         "balanced",
         0.7 // Default temperature
       );
-      
-      return { 
-        success: result.status === "success" || result.status === "mock_mode", 
-        result 
+
+      return {
+        success: result.status === "success" || result.status === "mock_mode",
+        result
       };
     } catch (error) {
       return {
@@ -175,7 +175,7 @@ export const quickOptimize = action({
 
       // Try HF Space first, fallback to local PromptWizard
       let optimizationResult: OptimizationResult;
-      
+
       try {
         // Try HF Space
         const hfResult = await optimizeWithHFSpace(
@@ -184,7 +184,7 @@ export const quickOptimize = action({
           "balanced",
           0.7
         );
-        
+
         if (hfResult.status === "success" || hfResult.status === "mock_mode") {
           // Convert HF result to PromptWizard format
           optimizationResult = {
@@ -361,7 +361,7 @@ export const advancedOptimize = action({
 
       // Try HF Space first, fallback to local PromptWizard
       let optimizationResult: OptimizationResult;
-      
+
       try {
         // Try HF Space
         const hfResult = await optimizeWithHFSpace(
@@ -370,7 +370,7 @@ export const advancedOptimize = action({
           "balanced",
           0.7
         );
-        
+
         if (hfResult.status === "success" || hfResult.status === "mock_mode") {
           // Convert HF result to PromptWizard format
           optimizationResult = {

@@ -22,7 +22,7 @@
 
 ### 3. File I/O Enhancements
 - **Input Formats**: TXT (line-by-line), JSON (array/object), JSONL (line-by-line JSON)
-- **Output Formats**: 
+- **Output Formats**:
   - JSON: Full metadata with structured results
   - JSONL: One result per line for streaming/processing
   - CSV: Tabular format for analysis

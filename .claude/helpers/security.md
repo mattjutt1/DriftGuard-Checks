@@ -54,7 +54,7 @@ Following our AVSHA framework, secrets are organized by feature:
 ```
 Environment: development
 ├── JWT_SECRET_KEY           # JWT token signing key
-├── JWT_REFRESH_SECRET       # JWT refresh token key  
+├── JWT_REFRESH_SECRET       # JWT refresh token key
 ├── OAUTH_CLIENT_ID          # OAuth client identifier
 ├── OAUTH_CLIENT_SECRET      # OAuth client secret
 └── SESSION_SECRET_KEY       # Session encryption key
@@ -72,7 +72,7 @@ Environment: development
 
 **Dashboard Feature Secrets:**
 ```
-Environment: development  
+Environment: development
 ├── ANALYTICS_API_KEY       # Analytics service key
 ├── MONITORING_TOKEN        # Monitoring service token
 ├── GRAFANA_API_KEY         # Grafana dashboard key
@@ -125,7 +125,7 @@ The security-specialist agent now includes Infisical management:
 
 # Agent automatically:
 # 1. Checks Infisical service status
-# 2. Validates secret organization follows AVSHA structure  
+# 2. Validates secret organization follows AVSHA structure
 # 3. Ensures no hardcoded secrets in commits
 # 4. Reviews secret access audit logs
 # 5. Provides security recommendations
@@ -141,7 +141,7 @@ Before EVERY commit involving configuration or secrets:
 # 2. Validate secret organization
 infisical projects list
 
-# 3. Export latest secrets  
+# 3. Export latest secrets
 infisical export --env=development --format=dotenv > .env.development
 
 # 4. Scan for hardcoded secrets (manual for now)
@@ -162,7 +162,7 @@ shared/
 │   ├── SecretInput/         # Masked input (like Infisical's secret forms)
 │   ├── EnvironmentBadge/    # Environment indicator (dev/staging/prod)
 │   └── SecretStrength/      # Secret validation indicator
-├── molecules/  
+├── molecules/
 │   ├── SecretForm/          # Add/edit secret forms
 │   ├── SecretList/          # List secrets with masking
 │   └── EnvironmentSwitcher/ # Switch between environments
@@ -177,7 +177,7 @@ Each feature integrates with Infisical:
 
 **FastAPI Backend Integration:**
 ```python
-# app/shared/organisms/secret_loader.py  
+# app/shared/organisms/secret_loader.py
 import os
 from dotenv import load_dotenv
 
@@ -202,7 +202,7 @@ Using Infisical teaches us what PromptVault needs:
 
 #### **Essential Features to Replicate**
 1. **Web UI**: Simple, clean interface for secret management
-2. **Environment Separation**: Clear dev/staging/prod organization  
+2. **Environment Separation**: Clear dev/staging/prod organization
 3. **CLI Integration**: Command-line tool for automation
 4. **Export Functionality**: Generate .env files for applications
 5. **Audit Logging**: Track who accessed what and when
@@ -215,7 +215,7 @@ Using Infisical teaches us what PromptVault needs:
 4. **Minimal UI**: Focus on essential functionality
 5. **Git Integration**: Built-in secret scanning and pre-commit hooks
 
-#### **AVSHA Enhancements**  
+#### **AVSHA Enhancements**
 1. **Feature-Based Organization**: Automatic grouping by AVSHA features
 2. **Framework Integration**: Native integration with our automation pipeline
 3. **Component Generation**: Auto-generate secret management UI components

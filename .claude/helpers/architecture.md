@@ -13,7 +13,7 @@ Frontend (Next.js 15.4.5 + React 19)
 ├── React 19 concurrent features
 └── Responsive design patterns
 
-Backend (Convex)  
+Backend (Convex)
 ├── Serverless functions
 ├── Real-time database
 ├── TypeScript-first development
@@ -286,8 +286,8 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
-  variant, size, children, onClick 
+export const Button: React.FC<ButtonProps> = ({
+  variant, size, children, onClick
 }) => {
   const baseClasses = "font-medium rounded-lg transition-colors";
   const variantClasses = {
@@ -295,9 +295,9 @@ export const Button: React.FC<ButtonProps> = ({
     secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
     danger: "bg-red-600 text-white hover:bg-red-700"
   };
-  
+
   return (
-    <button 
+    <button
       className={`${baseClasses} ${variantClasses[variant]}`}
       onClick={onClick}
     >
@@ -315,20 +315,20 @@ import { ResultView } from '../molecules/ResultView';
 import { useOptimizeStore } from '../store/optimizeStore';
 
 export const OptimizeFlow: React.FC = () => {
-  const { 
-    currentPrompt, 
-    optimizedPrompt, 
-    isOptimizing, 
-    optimizePrompt 
+  const {
+    currentPrompt,
+    optimizedPrompt,
+    isOptimizing,
+    optimizePrompt
   } = useOptimizeStore();
 
   return (
     <div className="optimize-flow">
-      <PromptEditor 
+      <PromptEditor
         value={currentPrompt}
         onChange={setCurrentPrompt}
       />
-      <ResultView 
+      <ResultView
         result={optimizedPrompt}
         isLoading={isOptimizing}
       />

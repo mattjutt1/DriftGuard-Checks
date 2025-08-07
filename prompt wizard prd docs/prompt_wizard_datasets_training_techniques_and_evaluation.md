@@ -94,4 +94,3 @@ PromptWizard often reports **large accuracy gains** (e.g. GPT‑3.5 on GSM8K: \~
 ## Sources
 
 PromptWizard GitHub README, project blog, and Hugging Face dataset pages (Alpaca, Dolly 15k, Bad‑Improved Prompts, GSM8K, MATH, WizardLM, etc.). All cited licenses verified August 2025.
-

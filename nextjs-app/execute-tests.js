@@ -43,7 +43,7 @@ class TestExecutor {
 
   async checkEnvironment() {
     this.log('Phase 1: Basic Connectivity Testing', 'info');
-    
+
     const tests = [
       { name: 'Package.json exists', check: () => this.checkFile('package.json', 'Package.json') },
       { name: 'Convex config exists', check: () => this.checkFile('convex.json', 'Convex config') },
@@ -63,15 +63,15 @@ class TestExecutor {
     }
 
     this.results.phase1.status = passed === tests.length ? 'passed' : 'failed';
-    this.log(`Phase 1 Complete: ${passed}/${tests.length} tests passed`, 
+    this.log(`Phase 1 Complete: ${passed}/${tests.length} tests passed`,
              this.results.phase1.status === 'passed' ? 'success' : 'error');
-    
+
     return this.results.phase1.status === 'passed';
   }
 
   async checkUIComponents() {
     this.log('Phase 2: UI Components Testing', 'info');
-    
+
     const components = [
       'src/app/page.tsx',
       'src/app/layout.tsx',
@@ -101,15 +101,15 @@ class TestExecutor {
     }
 
     this.results.phase2.status = passed >= components.length ? 'passed' : 'failed';
-    this.log(`Phase 2 Complete: ${passed}/${components.length + 1} tests passed`, 
+    this.log(`Phase 2 Complete: ${passed}/${components.length + 1} tests passed`,
              this.results.phase2.status === 'passed' ? 'success' : 'error');
-    
+
     return this.results.phase2.status === 'passed';
   }
 
   async simulateFunctionalTests() {
     this.log('Phase 3: Core Functionality Simulation', 'info');
-    
+
     const functionalTests = [
       'Quick optimization flow',
       'Advanced optimization flow',
@@ -132,24 +132,24 @@ class TestExecutor {
       } else {
         this.log(`${test}: FAIL`, 'error');
       }
-      
+
       // Simulate test execution time
       await new Promise(resolve => setTimeout(resolve, 100));
     }
 
     this.results.phase3.status = passed >= functionalTests.length * 0.8 ? 'passed' : 'failed';
-    this.log(`Phase 3 Complete: ${passed}/${functionalTests.length} tests passed`, 
+    this.log(`Phase 3 Complete: ${passed}/${functionalTests.length} tests passed`,
              this.results.phase3.status === 'passed' ? 'success' : 'error');
-    
+
     return this.results.phase3.status === 'passed';
   }
 
   async checkResponsiveDesign() {
     this.log('Phase 4: Responsive Design Testing', 'info');
-    
+
     const responsiveTests = [
       'Mobile layout (< 768px)',
-      'Tablet layout (768px - 1024px)', 
+      'Tablet layout (768px - 1024px)',
       'Desktop layout (> 1024px)',
       'Modal responsiveness',
       'Form input responsiveness',
@@ -162,12 +162,12 @@ class TestExecutor {
       // Check if CSS contains responsive classes
       try {
         const cssContent = fs.readFileSync('src/app/globals.css', 'utf8');
-        const hasResponsive = cssContent.includes('@media') || 
-                             cssContent.includes('sm:') || 
-                             cssContent.includes('md:') || 
+        const hasResponsive = cssContent.includes('@media') ||
+                             cssContent.includes('sm:') ||
+                             cssContent.includes('md:') ||
                              cssContent.includes('lg:') ||
                              cssContent.includes('xl:');
-        
+
         this.results.phase4.tests.push({ name: test, passed: hasResponsive });
         if (hasResponsive) {
           this.log(`${test}: PASS`, 'success');
@@ -182,15 +182,15 @@ class TestExecutor {
     }
 
     this.results.phase4.status = passed >= responsiveTests.length * 0.7 ? 'passed' : 'failed';
-    this.log(`Phase 4 Complete: ${passed}/${responsiveTests.length} tests passed`, 
+    this.log(`Phase 4 Complete: ${passed}/${responsiveTests.length} tests passed`,
              this.results.phase4.status === 'passed' ? 'success' : 'error');
-    
+
     return this.results.phase4.status === 'passed';
   }
 
   async checkIntegration() {
     this.log('Phase 5: Integration Testing', 'info');
-    
+
     const integrationTests = [
       'Convex client initialization',
       'API function imports',
@@ -205,9 +205,9 @@ class TestExecutor {
       // Check for proper imports and dependencies
       try {
         const hookContent = fs.readFileSync('src/hooks/useOptimization.ts', 'utf8');
-        const hasConvexImports = hookContent.includes('convex/react') && 
+        const hasConvexImports = hookContent.includes('convex/react') &&
                                 hookContent.includes('_generated/api');
-        
+
         this.results.phase5.tests.push({ name: test, passed: hasConvexImports });
         if (hasConvexImports) {
           this.log(`${test}: PASS`, 'success');
@@ -222,15 +222,15 @@ class TestExecutor {
     }
 
     this.results.phase5.status = passed >= integrationTests.length * 0.8 ? 'passed' : 'failed';
-    this.log(`Phase 5 Complete: ${passed}/${integrationTests.length} tests passed`, 
+    this.log(`Phase 5 Complete: ${passed}/${integrationTests.length} tests passed`,
              this.results.phase5.status === 'passed' ? 'success' : 'error');
-    
+
     return this.results.phase5.status === 'passed';
   }
 
   generateReport() {
     this.log('Generating Test Report...', 'info');
-    
+
     const report = {
       timestamp: new Date().toISOString(),
       summary: {

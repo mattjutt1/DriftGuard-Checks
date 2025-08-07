@@ -1,8 +1,8 @@
 # Product Requirements Document (PRD) – PromptEvolver 3.0
-## AI-Native Development with Claude Code CLI + Human Assistant  
+## AI-Native Development with Claude Code CLI + Human Assistant
 ## Complete Convex + Vercel Implementation - Final Version
-**Status:** Final Implementation Ready - All Components Complete  
-**Team:** Claude Code CLI (Autonomous Developer) + Human Assistant (You)  
+**Status:** Final Implementation Ready - All Components Complete
+**Team:** Claude Code CLI (Autonomous Developer) + Human Assistant (You)
 **Stack:** Convex Database + Vercel Hosting + Bootstrap Strategy
 **Date:** August 4, 2025
 
@@ -86,7 +86,7 @@ interface ConvexFreeTier {
   limits: {
     function_calls: "1M calls/month",
     database_storage: "1GB",
-    file_storage: "1GB", 
+    file_storage: "1GB",
     bandwidth: "10GB/month",
     concurrent_connections: 1000
   },
@@ -119,16 +119,16 @@ interface CompleteSystemArchitecture {
     pwa: "Service Worker + offline capabilities",
     auth: "NextAuth.js v5 with GitHub + Email"
   },
-  
+
   backend_layer: {
     runtime: "Convex serverless functions",
     database: "Convex document store with ACID transactions",
-    real_time: "Built-in live queries and subscriptions", 
+    real_time: "Built-in live queries and subscriptions",
     vector_search: "Semantic template discovery",
     file_storage: "Template assets and user files",
     auth: "Session management and RBAC"
   },
-  
+
   llm_processing: {
     runtime: "Ollama (client-side installation)",
     model: "Qwen3-8B-Instruct (4.6GB download)",
@@ -136,7 +136,7 @@ interface CompleteSystemArchitecture {
     context_handling: "128K token support with chunking",
     privacy: "100% local processing, zero cloud API calls"
   },
-  
+
   advanced_features: {
     template_system: "95 templates across 8 industries",
     prompt_builder: "Contextual engineering with smart variables",
@@ -161,7 +161,7 @@ interface TemplateLibrary {
       count: 15,
       templates: [
         "Strategic Planning Framework",
-        "Market Analysis Template", 
+        "Market Analysis Template",
         "Competitive Intelligence Brief",
         "Business Case Builder",
         "Risk Assessment Matrix",
@@ -177,7 +177,7 @@ interface TemplateLibrary {
         "Business Model Canvas"
       ]
     },
-    
+
     "Marketing & Sales": {
       count: 20,
       templates: [
@@ -203,7 +203,7 @@ interface TemplateLibrary {
         "Customer Testimonial Request"
       ]
     },
-    
+
     "Technology & Development": {
       count: 18,
       templates: [
@@ -227,7 +227,7 @@ interface TemplateLibrary {
         "Integration Testing Plan"
       ]
     },
-    
+
     "Creative & Content": {
       count: 12,
       templates: [
@@ -245,7 +245,7 @@ interface TemplateLibrary {
         "User-Generated Content Campaign"
       ]
     },
-    
+
     "Customer Service": {
       count: 10,
       templates: [
@@ -261,7 +261,7 @@ interface TemplateLibrary {
         "Customer Success Plan"
       ]
     },
-    
+
     "Healthcare & Medical": {
       count: 8,
       templates: [
@@ -275,7 +275,7 @@ interface TemplateLibrary {
         "Quality Improvement Plan"
       ]
     },
-    
+
     "Finance & Accounting": {
       count: 7,
       templates: [
@@ -288,7 +288,7 @@ interface TemplateLibrary {
         "Cash Flow Projection"
       ]
     },
-    
+
     "Education & Training": {
       count: 5,
       templates: [
@@ -312,18 +312,18 @@ interface PromptBuilderSystem {
     filtering: "By category, difficulty, popularity, rating",
     search: "Semantic search using Convex vector search"
   },
-  
+
   variable_system: {
     types: {
       text: "Free-form text input with character limits",
       select: "Dropdown with predefined options",
-      multiselect: "Multiple choice with checkboxes", 
+      multiselect: "Multiple choice with checkboxes",
       number: "Numeric input with min/max validation",
       date: "Date picker for time-sensitive content",
       url: "URL input with validation",
       email: "Email input with validation"
     },
-    
+
     smart_suggestions: {
       industry_aware: "Suggest values based on selected industry",
       context_sensitive: "Previous selections influence future options",
@@ -331,7 +331,7 @@ interface PromptBuilderSystem {
       template_learning: "Popular combinations from usage data"
     }
   },
-  
+
   contextual_engineering: {
     frameworks: [
       {
@@ -340,7 +340,7 @@ interface PromptBuilderSystem {
         best_for: "General business communication"
       },
       {
-        name: "PAR Framework", 
+        name: "PAR Framework",
         components: ["Problem", "Action", "Result"],
         best_for: "Problem-solving and case studies"
       },
@@ -350,11 +350,11 @@ interface PromptBuilderSystem {
         best_for: "Behavioral descriptions and examples"
       }
     ],
-    
+
     auto_application: "Framework selection based on template category",
     custom_frameworks: "Users can create and save custom frameworks"
   },
-  
+
   one_click_optimization: {
     modes: ["fast", "deep", "auto"],
     preview: "Show optimization preview before applying",
@@ -373,7 +373,7 @@ interface CollaborationFeatures {
     cursor_tracking: "Live cursor positions and selections",
     presence_indicators: "Active users with avatars and status"
   },
-  
+
   project_sharing: {
     permissions: {
       owner: "Full control, can delete project",
@@ -381,7 +381,7 @@ interface CollaborationFeatures {
       viewer: "Read-only access with commenting",
       commenter: "Can add comments but not edit"
     },
-    
+
     sharing_methods: [
       "Direct user invitation via email",
       "Shareable links with expiration",
@@ -389,7 +389,7 @@ interface CollaborationFeatures {
       "Public template publishing"
     ]
   },
-  
+
   communication: {
     comments: "Contextual comments on specific text selections",
     suggestions: "Tracked changes with accept/reject",
@@ -416,7 +416,7 @@ interface PricingTiers {
     },
     features: [
       "Basic prompt optimization",
-      "5 essential templates", 
+      "5 essential templates",
       "Local LLM processing",
       "Community support",
       "Basic analytics"
@@ -427,7 +427,7 @@ interface PricingTiers {
       "Tries to invite collaborators"
     ]
   },
-  
+
   pro: {
     price: "$29/month",
     limits: {
@@ -450,9 +450,9 @@ interface PricingTiers {
     ],
     target_users: "Individual professionals, freelancers, small teams"
   },
-  
+
   team: {
-    price: "$99/month", 
+    price: "$99/month",
     limits: {
       optimizations_per_month: "Unlimited",
       templates_access: "All templates + team templates",
@@ -473,7 +473,7 @@ interface PricingTiers {
     ],
     target_users: "Growing teams, agencies, departments"
   },
-  
+
   enterprise: {
     price: "Custom pricing (starts at $500/month)",
     limits: {
@@ -512,7 +512,7 @@ interface BusinessModel {
     infrastructure: 0, // Free tiers (Vercel + Convex)
     revenue: 120000, // $120K ARR (conservative)
     profit: 120000, // 100% profit margin
-    
+
     user_breakdown: {
       free_users: 8000,
       pro_users: 300, // $29/month
@@ -520,13 +520,13 @@ interface BusinessModel {
       enterprise_users: 2 // Custom pricing
     }
   },
-  
+
   year_2: {
     team_costs: 150000, // First human hire + tools
     infrastructure: 1200, // Upgraded tiers
     revenue: 800000, // $800K ARR
     profit: 648800, // 81% profit margin
-    
+
     user_breakdown: {
       free_users: 40000,
       pro_users: 1500,
@@ -534,13 +534,13 @@ interface BusinessModel {
       enterprise_users: 8
     }
   },
-  
+
   year_3: {
     team_costs: 400000, // Small team expansion
     infrastructure: 6000, // Scaled infrastructure
     revenue: 3000000, // $3M ARR
     profit: 2594000, // 86% profit margin
-    
+
     user_breakdown: {
       free_users: 150000,
       pro_users: 5000,
@@ -568,7 +568,7 @@ interface Phase1Execution {
     ],
     marketing: "None - development focus"
   },
-  
+
   month_2: {
     focus: "Advanced features and polish",
     milestones: [
@@ -579,7 +579,7 @@ interface Phase1Execution {
     ],
     marketing: "Content creation and community building"
   },
-  
+
   month_3: {
     focus: "Beta launch preparation",
     milestones: [
@@ -590,7 +590,7 @@ interface Phase1Execution {
     ],
     marketing: "Influencer outreach and partnerships"
   },
-  
+
   month_4: {
     focus: "Closed beta launch",
     milestones: [
@@ -601,7 +601,7 @@ interface Phase1Execution {
     ],
     marketing: "Product Hunt preparation"
   },
-  
+
   month_5: {
     focus: "Public beta and iteration",
     milestones: [
@@ -612,7 +612,7 @@ interface Phase1Execution {
     ],
     marketing: "PR outreach and media coverage"
   },
-  
+
   month_6: {
     focus: "Production launch",
     milestones: [
@@ -646,14 +646,14 @@ interface ContentStrategy {
       target_audience: "Enterprise decision makers"
     }
   ],
-  
+
   video_content: [
     "PromptEvolver Demo: Transform Your Prompts in Seconds",
     "Template Library Tour: 95 Ready-to-Use Prompt Templates",
     "Advanced Prompt Engineering with Contextual Frameworks",
     "Real-time Collaboration: Team Prompt Optimization"
   ],
-  
+
   social_media: {
     twitter: "Daily prompt tips, optimization examples, tool updates",
     linkedin: "Professional AI use cases, business impact stories",
@@ -677,14 +677,14 @@ interface ProductionDeployment {
       data: "Synthetic test data",
       purpose: "Feature development and testing"
     },
-    
+
     staging: {
-      url: "staging.promptevolver.com", 
+      url: "staging.promptevolver.com",
       deployment: "Auto-deploy on develop branch merge",
       data: "Production-like anonymized data",
       purpose: "QA testing and client previews"
     },
-    
+
     production: {
       url: "app.promptevolver.com",
       deployment: "Manual approval from main branch",
@@ -692,7 +692,7 @@ interface ProductionDeployment {
       purpose: "Live customer environment"
     }
   },
-  
+
   infrastructure: {
     frontend: {
       hosting: "Vercel Pro ($20/month when needed)",
@@ -700,14 +700,14 @@ interface ProductionDeployment {
       ssl: "Automatic SSL certificates",
       domains: "Custom domain with Cloudflare DNS"
     },
-    
+
     backend: {
       database: "Convex Professional ($25/month when needed)",
       functions: "Serverless auto-scaling",
       storage: "File uploads and assets",
       search: "Vector search for templates"
     },
-    
+
     monitoring: {
       uptime: "Uptime Robot for 24/7 monitoring",
       errors: "Sentry for error tracking",
@@ -715,14 +715,14 @@ interface ProductionDeployment {
       performance: "Vercel Analytics built-in"
     }
   },
-  
+
   scaling_plan: {
     trigger_points: {
       vercel_upgrade: "25K monthly visitors or advanced features needed",
       convex_upgrade: "1M function calls/month or additional storage",
       monitoring_upgrade: "Advanced alerting and reporting needed"
     },
-    
+
     cost_projection: {
       month_1_6: "$15/month (domain + basic tools)",
       month_6_12: "$75/month (upgraded tiers + monitoring)",
@@ -758,22 +758,22 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: TypeScript type checking
         run: npm run type-check
-      
+
       - name: ESLint code quality
         run: npm run lint
-      
+
       - name: Prettier formatting
         run: npm run format:check
-      
+
       - name: Security audit
         run: npm audit --audit-level=moderate
-      
+
       - name: Bundle size check
         run: npm run bundle-size
 
@@ -790,13 +790,13 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run ${{ matrix.test-type }} tests
         run: npm run test:${{ matrix.test-type }}
-      
+
       - name: Upload coverage
         if: matrix.test-type == 'unit'
         uses: codecov/codecov-action@v3
@@ -807,12 +807,12 @@ jobs:
     needs: quality-gates
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: SAST scan
         uses: github/codeql-action/analyze@v3
         with:
           languages: typescript, javascript
-      
+
       - name: Dependency check
         run: npm audit --audit-level=moderate
 
@@ -827,10 +827,10 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Deploy Convex
         run: |
           npx convex deploy --cmd 'npm run build:convex'
@@ -843,7 +843,7 @@ jobs:
     needs: deploy-convex
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
@@ -864,17 +864,17 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Health check
         run: |
           curl -f https://app.promptevolver.com/api/health || exit 1
-      
+
       - name: Smoke tests
         run: npm run test:smoke:production
-      
+
       - name: Lighthouse CI
         run: |
           npm install -g @lhci/cli
@@ -915,14 +915,14 @@ interface AnalyticsDashboard {
     monthly_cohorts: "Track user lifecycle and churn",
     feature_adoption: "Which features drive engagement"
   },
-  
+
   optimization_metrics: {
     total_optimizations: "Volume of prompt optimizations",
     average_quality_improvement: "50%+ target improvement",
     processing_time_distribution: "Fast vs deep mode usage",
     user_satisfaction_scores: "1-5 rating on optimizations"
   },
-  
+
   business_metrics: {
     conversion_funnel: {
       visitors: "Landing page traffic",
@@ -931,7 +931,7 @@ interface AnalyticsDashboard {
       conversions: "Free to paid upgrade",
       expansion: "Tier upgrades over time"
     },
-    
+
     revenue_tracking: {
       mrr: "Monthly recurring revenue",
       arr: "Annual recurring revenue",
@@ -940,7 +940,7 @@ interface AnalyticsDashboard {
       churn_rate: "Monthly subscription cancellations"
     }
   },
-  
+
   technical_metrics: {
     performance: {
       page_load_time: "Target <1.2s TTI",
@@ -948,7 +948,7 @@ interface AnalyticsDashboard {
       error_rate: "Target <1% failed optimizations",
       uptime: "Target 99.9% availability"
     },
-    
+
     infrastructure: {
       convex_function_calls: "Track against 1M monthly limit",
       vercel_bandwidth: "Track against 100GB monthly limit",
@@ -969,7 +969,7 @@ interface KPITargets {
     monthly_revenue: 1500,
     user_satisfaction: 4.2
   },
-  
+
   month_6: {
     total_users: 5000,
     daily_active_users: 500,
@@ -977,7 +977,7 @@ interface KPITargets {
     monthly_revenue: 8000,
     user_satisfaction: 4.4
   },
-  
+
   month_12: {
     total_users: 20000,
     daily_active_users: 2000,
@@ -985,7 +985,7 @@ interface KPITargets {
     monthly_revenue: 35000,
     user_satisfaction: 4.6
   },
-  
+
   success_criteria: {
     product_market_fit: "NPS >50, 60%+ weekly retention",
     growth_rate: "20%+ month-over-month user growth",
@@ -1012,18 +1012,18 @@ interface ImplementationTimeline {
     ],
     deliverable: "Basic app with user auth working"
   },
-  
+
   week_2: {
     focus: "Core optimization engine",
     tasks: [
       "Integrate Ollama client library",
-      "Implement Qwen3-8B model communication", 
+      "Implement Qwen3-8B model communication",
       "Build basic prompt optimization workflow",
       "Create Monaco Editor integration"
     ],
     deliverable: "Working prompt optimization (basic)"
   },
-  
+
   week_3: {
     focus: "Template system foundation",
     tasks: [
@@ -1034,7 +1034,7 @@ interface ImplementationTimeline {
     ],
     deliverable: "Template library with core templates"
   },
-  
+
   week_4: {
     focus: "Advanced prompt builder",
     tasks: [
@@ -1045,7 +1045,7 @@ interface ImplementationTimeline {
     ],
     deliverable: "Complete prompt builder interface"
   },
-  
+
   week_5: {
     focus: "Real-time collaboration",
     tasks: [
@@ -1056,7 +1056,7 @@ interface ImplementationTimeline {
     ],
     deliverable: "Real-time collaboration working"
   },
-  
+
   week_6: {
     focus: "Subscription and billing",
     tasks: [
@@ -1067,7 +1067,7 @@ interface ImplementationTimeline {
     ],
     deliverable: "Complete monetization system"
   },
-  
+
   week_7: {
     focus: "Polish and optimization",
     tasks: [
@@ -1078,7 +1078,7 @@ interface ImplementationTimeline {
     ],
     deliverable: "Production-ready application"
   },
-  
+
   week_8: {
     focus: "Launch preparation",
     tasks: [
@@ -1104,7 +1104,7 @@ interface PostLaunchRoadmap {
       "Mobile responsiveness improvements"
     ]
   },
-  
+
   month_3: {
     focus: "Enterprise features",
     features: [
@@ -1114,7 +1114,7 @@ interface PostLaunchRoadmap {
       "API access for integrations"
     ]
   },
-  
+
   month_6: {
     focus: "AI enhancement",
     features: [
@@ -1124,7 +1124,7 @@ interface PostLaunchRoadmap {
       "Advanced prompt frameworks"
     ]
   },
-  
+
   month_12: {
     focus: "Platform expansion",
     features: [
@@ -1154,7 +1154,7 @@ export default defineSchema({
     email: v.string(),
     name: v.optional(v.string()),
     image: v.optional(v.string()),
-    
+
     // User preferences
     preferences: v.object({
       defaultMode: v.union(v.literal("fast"), v.literal("deep"), v.literal("auto")),
@@ -1164,7 +1164,7 @@ export default defineSchema({
       autoSave: v.boolean(),
       privacyLevel: v.union(v.literal("strict"), v.literal("balanced"), v.literal("minimal"))
     }),
-    
+
     // Usage tracking (anonymized)
     usage: v.object({
       totalOptimizations: v.number(),
@@ -1173,7 +1173,7 @@ export default defineSchema({
       lastActiveAt: v.number(),
       subscriptionTier: v.union(v.literal("free"), v.literal("pro"), v.literal("enterprise"))
     }),
-    
+
     // Timestamps
     createdAt: v.number(),
     updatedAt: v.number()
@@ -1187,7 +1187,7 @@ export default defineSchema({
     name: v.string(),
     description: v.optional(v.string()),
     userId: v.id("users"),
-    
+
     // Project settings
     settings: v.object({
       defaultMode: v.union(v.literal("fast"), v.literal("deep"), v.literal("auto")),
@@ -1195,14 +1195,14 @@ export default defineSchema({
       publicTemplates: v.boolean(),
       autoOptimize: v.boolean()
     }),
-    
+
     // Collaboration
     collaborators: v.array(v.object({
       userId: v.id("users"),
       role: v.union(v.literal("owner"), v.literal("editor"), v.literal("viewer")),
       addedAt: v.number()
     })),
-    
+
     // Metadata for analytics (no prompt content)
     metadata: v.object({
       totalPrompts: v.number(),
@@ -1210,7 +1210,7 @@ export default defineSchema({
       averageImprovement: v.number(),
       lastModified: v.number()
     }),
-    
+
     // Timestamps
     createdAt: v.number(),
     updatedAt: v.number()
@@ -1224,7 +1224,7 @@ export default defineSchema({
     sessionId: v.string(),
     userId: v.id("users"),
     projectId: v.optional(v.id("projects")),
-    
+
     // Optimization metadata only
     metadata: v.object({
       originalLength: v.number(),
@@ -1236,7 +1236,7 @@ export default defineSchema({
       improvementPercentage: v.number(),
       complexityLevel: v.union(v.literal("low"), v.literal("medium"), v.literal("high"))
     }),
-    
+
     // User feedback
     feedback: v.optional(v.object({
       rating: v.number(), // 1-5
@@ -1245,7 +1245,7 @@ export default defineSchema({
       categories: v.array(v.string()), // e.g., ["clarity", "engagement", "technical"]
       submittedAt: v.number()
     })),
-    
+
     // Analytics data (anonymized)
     analytics: v.object({
       modelVersion: v.string(),
@@ -1254,7 +1254,7 @@ export default defineSchema({
       errorOccurred: v.boolean(),
       retryCount: v.number()
     }),
-    
+
     // Timestamps
     createdAt: v.number(),
     completedAt: v.optional(v.number())
@@ -1272,7 +1272,7 @@ export default defineSchema({
     description: v.string(),
     category: v.string(),
     tags: v.array(v.string()),
-    
+
     // Template content (this is public, so it's safe to store)
     content: v.string(),
     variables: v.array(v.object({
@@ -1282,12 +1282,12 @@ export default defineSchema({
       required: v.boolean(),
       defaultValue: v.optional(v.string())
     })),
-    
+
     // Community data
     authorId: v.id("users"),
     isPublic: v.boolean(),
     isVerified: v.boolean(),
-    
+
     // Usage statistics
     usage: v.object({
       timesUsed: v.number(),
@@ -1295,11 +1295,11 @@ export default defineSchema({
       totalRatings: v.number(),
       successRate: v.number()
     }),
-    
+
     // Version control
     version: v.string(),
     parentTemplateId: v.optional(v.id("templates")),
-    
+
     // Timestamps
     createdAt: v.number(),
     updatedAt: v.number()
@@ -1319,7 +1319,7 @@ export default defineSchema({
     userId: v.id("users"),
     projectId: v.id("projects"),
     sessionId: v.string(),
-    
+
     // Cursor position and selection
     cursor: v.object({
       line: v.number(),
@@ -1327,11 +1327,11 @@ export default defineSchema({
       selectionStart: v.optional(v.number()),
       selectionEnd: v.optional(v.number())
     }),
-    
+
     // User status
     status: v.union(v.literal("active"), v.literal("idle"), v.literal("away")),
     lastSeen: v.number(),
-    
+
     // Collaboration metadata
     currentTool: v.optional(v.string()),
     focusedElement: v.optional(v.string())
@@ -1394,7 +1394,7 @@ export default defineSchema({
 Every component has been specified, every gap filled, and every requirement defined. This PRD is **Claude Code CLI ready** for immediate implementation with:
 
 - Complete database schemas and API specifications
-- Detailed UI/UX components and user flows  
+- Detailed UI/UX components and user flows
 - Full authentication and authorization systems
 - Comprehensive error handling and monitoring
 - Production deployment and scaling strategies
@@ -1404,9 +1404,9 @@ Every component has been specified, every gap filled, and every requirement defi
 
 ---
 
-**Document Status: Complete - All Components Integrated**  
-**Implementation Readiness: 100% - Ready for Claude Code CLI**  
-**Team: 2-Person AI-Native Development**  
+**Document Status: Complete - All Components Integrated**
+**Implementation Readiness: 100% - Ready for Claude Code CLI**
+**Team: 2-Person AI-Native Development**
 **Total Startup Cost: $0 (Free-tier bootstrap)**
 
 *The future of software development starts here.*

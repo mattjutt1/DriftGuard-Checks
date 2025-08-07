@@ -22,7 +22,7 @@ interface OptimizationResultsProps {
 function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
   const { results, currentSession, qualityMetrics } = useOptimization();
   const [showFeedback, setShowFeedback] = useState(false);
-  
+
   if (!isVisible || !results) return null;
 
   return (
@@ -38,7 +38,7 @@ function OptimizationResults({ isVisible, onClose }: OptimizationResultsProps) {
               ×
             </button>
           </div>
-          
+
           <div className="p-6 space-y-6">
           {/* Results Summary */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -146,7 +146,7 @@ export default function Home() {
   // Try to use Convex optimization first, fallback to direct API
   const convexHook = useOptimization();
   const directHook = useDirectOptimization();
-  
+
   // Use Convex hook now that authentication is fixed
   const {
     isOptimizing,
@@ -172,7 +172,7 @@ export default function Home() {
 
   const handleOptimize = async (prompt: string, contextDomain: string, useAdvancedMode: boolean, iterations: number) => {
     if (!prompt.trim()) return;
-    
+
     try {
       await startOptimization(prompt, contextDomain, useAdvancedMode, iterations);
       setShowResults(true);
@@ -193,21 +193,21 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Optimization Progress Modal */}
-      <ProgressDisplay 
+      <ProgressDisplay
         isOptimizing={isOptimizing}
         currentStep={currentStep}
         totalSteps={totalSteps}
         message={progressMessage}
       />
-      
+
       {/* Results Modal */}
-      <OptimizationResults 
+      <OptimizationResults
         isVisible={showResults}
         onClose={() => setShowResults(false)}
       />
 
       {/* Error Alert */}
-      <ErrorHandling 
+      <ErrorHandling
         error={error}
         onDismiss={resetOptimization}
       />
@@ -247,7 +247,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               <button className="nav-item w-full text-left p-3 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -368,7 +368,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <OptimizationForm 
+                <OptimizationForm
                   onOptimize={handleOptimize}
                   isOptimizing={isOptimizing}
                   useAdvancedMode={useAdvancedMode}
@@ -379,8 +379,8 @@ export default function Home() {
               {/* Quality Metrics - Only show when available */}
               {qualityMetrics && (
                 <div className="desktop-card bg-white rounded-xl shadow-sm">
-                  <QualityMetrics 
-                    metrics={qualityMetrics} 
+                  <QualityMetrics
+                    metrics={qualityMetrics}
                     overallScore={results?.qualityMetrics.overall}
                   />
                 </div>
@@ -453,7 +453,7 @@ export default function Home() {
                   View All
                 </button>
               </div>
-              
+
               {historyLoading ? (
                 <div className="text-center py-8">
                   <div className="loading-pulse animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
@@ -495,12 +495,12 @@ export default function Home() {
                           </div>
                         )}
                       </div>
-                      
+
                       <p className="text-sm text-gray-700 line-clamp-2 mb-2">
                         {session.prompt?.originalPrompt.substring(0, 60)}
                         {(session.prompt?.originalPrompt.length || 0) > 60 && "..."}
                       </p>
-                      
+
                       <div className="flex items-center justify-between text-xs text-gray-500">
                         <span>{new Date(session.createdAt).toLocaleDateString()}</span>
                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

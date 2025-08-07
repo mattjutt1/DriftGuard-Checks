@@ -69,7 +69,7 @@ class HFSpaceClient {
    */
   async optimizePrompt(request: OptimizationRequest): Promise<OptimizationResponse> {
     const apiUrl = `${this.config.spaceUrl}/api/optimize`;
-    
+
     // Prepare the request in Gradio format
     const gradioRequest = {
       data: [
@@ -81,7 +81,7 @@ class HFSpaceClient {
     };
 
     let lastError: Error | null = null;
-    
+
     // Retry logic with exponential backoff
     for (let attempt = 1; attempt <= this.config.retryAttempts!; attempt++) {
       try {
@@ -99,7 +99,7 @@ class HFSpaceClient {
         }
 
         const result = await response.json();
-        
+
         // Gradio returns data in a wrapper
         if (result.data && Array.isArray(result.data) && result.data.length > 0) {
           return result.data[0] as OptimizationResponse;
@@ -108,7 +108,7 @@ class HFSpaceClient {
         }
       } catch (error) {
         lastError = error as Error;
-        
+
         // If not the last attempt, wait before retrying
         if (attempt < this.config.retryAttempts!) {
           const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
@@ -129,10 +129,10 @@ class HFSpaceClient {
     mode?: "quick" | "balanced" | "thorough"
   ): Promise<OptimizationResponse[]> {
     const apiUrl = `${this.config.spaceUrl}/api/batch`;
-    
+
     // Join prompts with separator for batch processing
     const batchText = prompts.join("\n---\n");
-    
+
     const gradioRequest = {
       data: [
         batchText,
@@ -155,7 +155,7 @@ class HFSpaceClient {
     }
 
     const result = await response.json();
-    
+
     if (result.data && Array.isArray(result.data) && result.data.length > 0) {
       return result.data[0] as OptimizationResponse[];
     } else {

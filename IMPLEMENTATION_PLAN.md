@@ -10,24 +10,24 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 0.1: Workspace Cleanup [15 min]
 - **Agent**: devops-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `mcp__ide__getDiagnostics` - Check current errors
   - `Bash: df -h` - Check disk space before/after
 - **Actions**:
   ```bash
   # DELETE Windows artifacts
   find . -name "*Zone.Identifier" -delete
-  
+
   # DELETE redundant deployment docs (keep one comprehensive guide)
   rm -f DEPLOYMENT-GUIDE.md CORRECT-DEPLOYMENT-GUIDE.md DEPLOYMENT_SUCCESS.md
   rm -f RAILWAY-DEPLOYMENT-STEPS.md RAILWAY_DEPLOYMENT.md HF-DEPLOYMENT-QUICK-GUIDE.md
   rm -f HF-SPACES-DEPLOYMENT-PLAN.md HF_SPACE_FIX.md
   # Keep only: DEPLOYMENT_GUIDE.md as the main guide
-  
+
   # DELETE multiple Dockerfiles (keep one main)
   rm -f Dockerfile.build Dockerfile.direct Dockerfile.minimal Dockerfile.ollama Dockerfile.socat
   # Keep only: Dockerfile
-  
+
   # DELETE test artifacts and result JSONs
   rm -f cli/*.json
   rm -f loggies.txt
@@ -35,30 +35,30 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
   find . -name "*.pyc" -delete
   find . -name "__pycache__" -delete
   find . -name ".pytest_cache" -delete
-  
+
   # DELETE redundant virtual environments
   rm -rf test_env hf_env cli/test_env nextjs-app/test_env nextjs-app/hf_training/venv
   rm -rf nextjs-app/hf_training/hf_env nextjs-app/hf_training/venv_train
   rm -rf hf-deployment/venv hf-space/venv
   # Keep only: venv/ at root level
-  
+
   # DELETE duplicate/backup files
   rm -f claude.md optimized-claude-framework.md.integrated
   rm -f hf-space/app_fixed.py hf-space/app_minimal.py hf-space/app_backup.py
   rm -f hf-deployment/app_backup.py
   rm -f nextjs-app/convex/promptwizard.ts.backup
-  
+
   # DELETE old test reports
   rm -rf cli/tests/reports/
   rm -f *TEST*.md *TEST*.json
-  
+
   # DELETE duplicate nextjs-app inside nextjs-app
   rm -rf nextjs-app/nextjs-app/
-  
+
   # DELETE egg-info directories
   rm -rf *.egg-info
   rm -rf cli/*.egg-info
-  
+
   # Check space saved
   df -h .
   ```
@@ -67,7 +67,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 0.2: Install Development Tools [20 min]
 - **Agent**: devops-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: Python development tools 2024`
   - `WebSearch: "best python ML development tools 2024"`
 - **Actions**:
@@ -77,22 +77,22 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
   pip install pytest pytest-cov pytest-asyncio pytest-mock
   pip install black isort mypy pylint flake8
   pip install pre-commit commitizen
-  
+
   # ML/AI tools
   pip install tensorboard wandb
   pip install memory_profiler py-spy
-  
+
   # Documentation tools
   pip install sphinx mkdocs mkdocs-material
   pip install pydoc-markdown
-  
+
   # CLI tools
   sudo apt-get update
   sudo apt-get install -y jq yq httpie tree
-  
+
   # Node.js tools (for frontend)
   npm install -g prettier eslint jest husky commitizen
-  
+
   # Create requirements-dev.txt
   pip freeze > requirements-dev.txt
   ```
@@ -169,7 +169,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 1.2: Create Core Documentation Files [20 min]
 - **Agent**: documentation-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: README best practices`
   - `Read: PRD section 1-3`
 - **Actions**:
@@ -202,7 +202,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 2.1: Create JSON Schema [25 min]
 - **Agent**: backend-developer-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: JSON schema validation`
   - `Read: PRD FR1 - schema requirements`
 - **Actions**: Create `schemas/engineered_prompt.schema.json`
@@ -237,7 +237,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 3.1: Create normalize_datasets.py [30 min]
 - **Agent**: backend-developer-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: data normalization pandas`
   - `WebSearch: "prompt dataset formats 2024"`
 - **Actions**: Implement weak→improved format converter
@@ -246,7 +246,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 3.2: Create generate_seed_pairs.py [35 min]
 - **Agent**: ai-integration-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Read: microsoft-promptwizard/README.md`
   - `Context7: PromptWizard usage`
 - **Actions**: Integrate PromptWizard for offline generation
@@ -295,7 +295,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 4.1: Create train_stage1.py [35 min]
 - **Agent**: ai-integration-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: LoRA fine-tuning transformers`
   - `Read: PRD section 10 - model specs`
 - **Actions**: Implement foundational instruction tuning
@@ -349,7 +349,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 5.1: Create eval_suite.py [40 min]
 - **Agent**: backend-developer-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: ML evaluation metrics`
   - `Read: PRD section 12 - acceptance tests`
 - **Actions**: Implement comprehensive evaluation framework
@@ -389,7 +389,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 5.7: LLM-as-Judge Integration [40 min]
 - **Agent**: ai-integration-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: LLM-as-judge implementation`
   - `WebSearch: "GPT-4 judge evaluation 2024"`
 - **Actions**: Integrate judge model for quality scoring
@@ -416,7 +416,7 @@ This plan breaks down the PRD into **102 micro-tasks** organized in **6 phases**
 
 #### Task 6.1: Create FastAPI App [35 min]
 - **Agent**: backend-developer-agent
-- **Pre-task**: 
+- **Pre-task**:
   - `Context7: FastAPI best practices 2024`
   - `Read: PRD FR2 - modes`
 - **Actions**: Create `server/app.py` with basic structure

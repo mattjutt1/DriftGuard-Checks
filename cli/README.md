@@ -59,7 +59,7 @@ promptevolver health
 # Quick optimization (1 iteration)
 promptevolver optimize "Your prompt here"
 
-# Advanced optimization (3 iterations)  
+# Advanced optimization (3 iterations)
 promptevolver optimize "Your prompt here" --mode advanced
 
 # Customize settings
@@ -94,7 +94,7 @@ promptevolver batch prompts.txt --output my_results.json
 ### Optimize Command
 - `--mode`, `-m` - Optimization mode: `quick` (1 iteration) or `advanced` (3 iterations)
 - `--reasoning/--no-reasoning` - Generate expert reasoning (default: enabled)
-- `--expert-identity/--no-expert-identity` - Generate expert identity (default: enabled) 
+- `--expert-identity/--no-expert-identity` - Generate expert identity (default: enabled)
 - `--rounds`, `-r` - Number of mutation rounds (default: 3)
 
 ### Batch Command

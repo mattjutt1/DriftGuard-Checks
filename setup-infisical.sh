@@ -32,10 +32,10 @@ generate_key() {
 # Create .env.infisical from example if it doesn't exist
 if [ ! -f ".env.infisical" ]; then
     echo -e "${YELLOW}📋 Creating .env.infisical configuration file...${NC}"
-    
+
     # Copy example file
     cp .env.infisical.example .env.infisical
-    
+
     # Generate secure keys
     ENCRYPTION_KEY=$(generate_key)
     AUTH_SECRET=$(generate_key)
@@ -43,7 +43,7 @@ if [ ! -f ".env.infisical" ]; then
     JWT_REFRESH_SECRET=$(generate_key)
     JWT_AUTH_SECRET=$(generate_key)
     DB_PASSWORD=$(generate_key)
-    
+
     # Replace placeholder values
     sed -i "s/your_32_char_encryption_key_here_change_this/${ENCRYPTION_KEY}/" .env.infisical
     sed -i "s/your_auth_secret_here_change_this_value/${AUTH_SECRET}/" .env.infisical
@@ -51,7 +51,7 @@ if [ ! -f ".env.infisical" ]; then
     sed -i "s/your_jwt_refresh_secret_change_this/${JWT_REFRESH_SECRET}/" .env.infisical
     sed -i "s/your_jwt_auth_secret_change_this/${JWT_AUTH_SECRET}/" .env.infisical
     sed -i "s/change_this_password_for_production/${DB_PASSWORD}/" .env.infisical
-    
+
     echo -e "${GREEN}✅ Generated secure configuration in .env.infisical${NC}"
 else
     echo -e "${BLUE}ℹ️  Using existing .env.infisical configuration${NC}"

@@ -11,7 +11,7 @@ After every code change, Claude Code MUST execute these scripts in order:
 # 1. Update Knowledge Graph
 python .claude/scripts/update_knowledge_graph.py
 
-# 2. Generate Contextual Embeddings  
+# 2. Generate Contextual Embeddings
 python .claude/scripts/generate_embeddings.py
 
 # 3. Update CHANGELOG.md
