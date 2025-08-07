@@ -16,6 +16,7 @@ models:
 Powerful prompt optimization using Microsoft PromptWizard methodology with Qwen3's latest 30B parameter Mixture of Experts model (256K context).
 
 ## Features
+
 - **Qwen3-30B-A3B MoE Model**: 30B parameters total, only 3B active per request
 - **PromptWizard Methodology**: Microsoft's proven optimization techniques
 - **Multiple Modes**: Quick, Balanced, and Thorough optimization
@@ -25,6 +26,7 @@ Powerful prompt optimization using Microsoft PromptWizard methodology with Qwen3
 ## API Usage
 
 ### Single Prompt
+
 ```python
 import requests
 
@@ -36,6 +38,7 @@ result = response.json()["data"][0]
 ```
 
 ### Batch Processing
+
 ```python
 response = requests.post(
     "https://[space-url]/api/batch",
@@ -45,6 +48,7 @@ results = response.json()["data"][0]
 ```
 
 ## Configuration
+
 - **ZeroGPU**: Enabled for free GPU access
 - **Model**: Qwen/Qwen3-30B-A3B
 - **Framework**: Transformers + Gradio

@@ -46,6 +46,7 @@ Database (Convex)
 ### Database Schema
 
 Primary tables:
+
 - `users` - User authentication and preferences
 - `prompts` - Original and optimized prompt pairs
 - `optimization_sessions` - Processing sessions with metrics
@@ -55,15 +56,18 @@ Primary tables:
 ## 🏗️ INTELLIGENT CODE STRUCTURE APPROACH
 
 ### **Architecture Philosophy**
+
 Use standard Next.js App Router structure enhanced with intelligent organization principles. Apply advanced patterns only when they provide clear user value, following KISS principles selectively rather than blindly.
 
 ### **Core Principles**
+
 1. **Standard Patterns First**: Use proven Next.js App Router conventions
 2. **Value-Based Complexity**: Preserve advanced features when they provide clear user benefits
 3. **Intelligent Simplification**: Apply KISS principles where they improve, not where they limit
 4. **Quality Over Compliance**: Focus on working quality measures over rigid tool compliance
 
 ### **Enhanced Next.js Structure**
+
 ```
 app/                           # Next.js 15 App Router
 ├── (auth)/                    # Route groups for organization
@@ -94,6 +98,7 @@ lib/                          # Utilities and configurations
 ### **AVSHA Architecture Pattern**
 
 #### **Frontend Structure (Next.js/React)**
+
 ```
 features/                       # Feature-specific vertical slices
 ├── authentication/
@@ -164,6 +169,7 @@ features/                       # Feature-specific vertical slices
 ```
 
 #### **Backend Structure (Convex/TypeScript)**
+
 ```
 convex/
 ├── shared/                        # Cross-feature shared functions
@@ -247,6 +253,7 @@ convex/
 ### **AVSHA Decision Framework**
 
 #### **Component Placement Decision Tree**
+
 ```
 1. Is this component used across multiple features?
    YES → Place in /shared/
@@ -269,6 +276,7 @@ convex/
 ```
 
 #### **Feature Slice Criteria**
+
 - **High Cohesion**: All components serve the same business capability
 - **Loose Coupling**: Minimal dependencies on other features
 - **Clear Boundaries**: Well-defined APIs between features
@@ -277,6 +285,7 @@ convex/
 ### **Implementation Guidelines**
 
 #### **For Atoms (Basic Building Blocks)**
+
 ```typescript
 // Example: shared/atoms/Button/Button.tsx
 interface ButtonProps {
@@ -308,6 +317,7 @@ export const Button: React.FC<ButtonProps> = ({
 ```
 
 #### **For Feature Organisms (Complex Components)**
+
 ```typescript
 // Example: features/optimization/organisms/OptimizeFlow.tsx
 import { PromptEditor } from '../molecules/PromptEditor';
@@ -338,6 +348,7 @@ export const OptimizeFlow: React.FC = () => {
 ```
 
 ### **Migration Strategy for Existing Code**
+
 1. **Audit Current Structure**: Map existing components to AVSHA matrix
 2. **Identify Shared Components**: Move cross-feature components to `/shared/`
 3. **Create Feature Boundaries**: Group related functionality into feature slices
@@ -347,6 +358,7 @@ export const OptimizeFlow: React.FC = () => {
 7. **Validate Architecture**: Ensure each component follows AVSHA principles
 
 ### **AVSHA Success Metrics**
+
 - **Reusability Score**: Percentage of components used across multiple contexts
 - **Feature Cohesion**: Internal coupling vs. external dependencies ratio
 - **Development Velocity**: Time to implement new features using existing components

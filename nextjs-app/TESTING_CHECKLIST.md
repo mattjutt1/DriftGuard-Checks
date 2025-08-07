@@ -2,13 +2,15 @@
 
 ## 🔧 Phase 1: Basic Connectivity (30 min)
 
-### Setup Steps:
+### Setup Steps
+
 - [ ] Run `chmod +x setup-dev.sh && ./setup-dev.sh`
 - [ ] Copy Convex deployment URL to `.env.local`
 - [ ] Verify `npm run dev` starts without errors
 - [ ] Check browser console for connection errors
 
-### Basic Tests:
+### Basic Tests
+
 - [ ] Page loads without TypeScript errors
 - [ ] Convex client connects (no connection warnings)
 - [ ] "System Health" button responds
@@ -16,13 +18,15 @@
 
 ## 🧪 Phase 2: Demo Data & UI (45 min)
 
-### Seed Demo Data:
+### Seed Demo Data
+
 - [ ] Open Convex dashboard
 - [ ] Run `seedData.seedDemoData({})` in functions tab
 - [ ] Verify demo data created successfully
 - [ ] Refresh frontend - session history should show data
 
-### UI Component Tests:
+### UI Component Tests
+
 - [ ] **Optimization Form**:
   - [ ] Quick/Advanced mode toggle works
   - [ ] Iteration slider appears in Advanced mode
@@ -43,7 +47,8 @@
 
 ## 🚀 Phase 3: Core Functionality (60 min)
 
-### Quick Optimization Flow:
+### Quick Optimization Flow
+
 - [ ] Enter test prompt: "Write a product description"
 - [ ] Click "Quick Optimize"
 - [ ] Progress modal appears
@@ -51,7 +56,8 @@
 - [ ] Results modal shows after completion
 - [ ] Session appears in history sidebar
 
-### Advanced Optimization Flow:
+### Advanced Optimization Flow
+
 - [ ] Switch to Advanced mode
 - [ ] Set iterations to 3
 - [ ] Enter test prompt: "Explain machine learning"
@@ -60,7 +66,8 @@
 - [ ] More detailed results
 - [ ] Higher quality metrics
 
-### Error Handling:
+### Error Handling
+
 - [ ] Test with empty prompt (should show validation)
 - [ ] Test with very long prompt (should handle gracefully)
 - [ ] Simulate network error (disconnect internet briefly)
@@ -68,7 +75,8 @@
 
 ## 📱 Phase 4: Responsive & Polish (30 min)
 
-### Responsive Design:
+### Responsive Design
+
 - [ ] Mobile view (< 768px)
   - [ ] Form stacks vertically
   - [ ] Sidebar becomes full-width
@@ -80,7 +88,8 @@
   - [ ] 3-column layout displays
   - [ ] All hover states work
 
-### Animation & UX:
+### Animation & UX
+
 - [ ] Smooth transitions between states
 - [ ] Loading spinners animate
 - [ ] Progress bars fill smoothly
@@ -89,45 +98,51 @@
 
 ## 🔍 Phase 5: Integration Testing (45 min)
 
-### Real-time Updates:
+### Real-time Updates
+
 - [ ] Start optimization in one tab
 - [ ] Open another tab - progress should sync
 - [ ] Complete optimization - both tabs update
 - [ ] Session history updates in real-time
 
-### Data Persistence:
+### Data Persistence
+
 - [ ] Refresh page during optimization
 - [ ] State should restore correctly
 - [ ] Session history persists
 - [ ] Quality metrics remain visible
 
-### Performance:
+### Performance
+
 - [ ] Page loads quickly (< 3s)
 - [ ] Optimization starts promptly
 - [ ] No memory leaks (check dev tools)
 - [ ] Smooth scrolling in session history
 
-## 🐛 Common Issues to Watch For:
+## 🐛 Common Issues to Watch For
 
-### Connection Issues:
+### Connection Issues
+
 - ❌ "Convex client not initialized"
 - ❌ CORS errors in console
 - ❌ 401/403 authentication errors
 - ❌ WebSocket connection failures
 
-### UI Issues:
+### UI Issues
+
 - ❌ Layout breaks on mobile
 - ❌ Modals don't center properly
 - ❌ Progress bars don't animate
 - ❌ Text overflow in session cards
 
-### Functional Issues:
+### Functional Issues
+
 - ❌ Optimization never completes
 - ❌ Progress gets stuck at certain steps
 - ❌ Results modal shows undefined data
 - ❌ Session history doesn't update
 
-## ✅ Success Criteria:
+## ✅ Success Criteria
 
 **Phase 1 Success**: Page loads, Convex connects, no console errors
 **Phase 2 Success**: Demo data loads, all UI components render correctly
@@ -135,7 +150,7 @@
 **Phase 4 Success**: Responsive design works on all screen sizes
 **Phase 5 Success**: Real-time updates work, data persists correctly
 
-## 🎯 Next Steps After Testing:
+## 🎯 Next Steps After Testing
 
 1. **If all tests pass**: Move to production deployment
 2. **If issues found**: Debug systematically using this checklist

@@ -32,16 +32,19 @@ sudo /tmp/deploy-ollama-server.sh
 ### Option 3: Cloud Deployment Services
 
 **Railway:**
+
 - Connect this repository
 - Set `DOCKERFILE_PATH=docker-ollama-server/Dockerfile`
 - Deploy (provides public URL automatically)
 
 **DigitalOcean App Platform:**
+
 - Create new app from GitHub
 - Set build context to `docker-ollama-server/`
 - Deploy
 
 **Google Cloud Run:**
+
 ```bash
 gcloud builds submit --tag gcr.io/PROJECT_ID/ollama-server docker-ollama-server/
 gcloud run deploy --image gcr.io/PROJECT_ID/ollama-server --port 11434

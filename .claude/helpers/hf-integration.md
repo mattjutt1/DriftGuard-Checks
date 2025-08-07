@@ -3,12 +3,14 @@
 ## HuggingFace Spaces Integration
 
 ### **HuggingFace Spaces Configuration**
+
 - **Space Type**: Gradio/Streamlit hybrid for optimal performance
 - **Hardware**: GPU-enabled for Qwen3:4b model inference
 - **Python Version**: 3.9+ for compatibility
 - **Model**: Qwen3:4b (2.6GB, efficient inference)
 
 ### **Space Structure**
+
 ```
 huggingface-space/
 ├── app.py                    # Main Gradio/Streamlit application
@@ -32,6 +34,7 @@ huggingface-space/
 ### **Key Integration Points**
 
 #### **API Endpoints for Convex Integration**
+
 ```python
 # api/optimize.py
 @app.post("/api/v1/optimize")
@@ -69,6 +72,7 @@ async def health_check():
 ```
 
 #### **PromptWizard Configuration for HF Spaces**
+
 ```python
 # promptwizard/optimizer.py
 import os
@@ -113,6 +117,7 @@ class HFSpaceOptimizer:
 ```
 
 ### **Gradio Interface for Testing**
+
 ```python
 # app.py
 import gradio as gr
@@ -161,6 +166,7 @@ if __name__ == "__main__":
 ```
 
 ### **Requirements and Dependencies**
+
 ```txt
 # requirements.txt
 gradio>=4.0.0
@@ -176,6 +182,7 @@ python-multipart>=0.0.6
 ```
 
 ### **Environment Variables for HF Spaces**
+
 ```bash
 # HF Spaces environment variables
 MUTATE_REFINE_ITERATIONS=3
@@ -190,6 +197,7 @@ CONVEX_WEBHOOK_URL=https://your-convex.convex.cloud/api/webhook
 ```
 
 ### **Integration with Convex Actions**
+
 ```typescript
 // convex/actions.ts - Updated for HF Spaces
 export const optimizePromptWithHFSpace = action({
@@ -237,6 +245,7 @@ export const optimizePromptWithHFSpace = action({
 ```
 
 ### **Performance Optimization for HF Spaces**
+
 ```python
 # Performance optimizations
 OPTIMIZATION_CONFIG = {
@@ -250,6 +259,7 @@ OPTIMIZATION_CONFIG = {
 ```
 
 ### **Monitoring and Logging**
+
 ```python
 # Monitoring for HF Spaces
 import logging

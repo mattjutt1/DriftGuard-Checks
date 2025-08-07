@@ -5,18 +5,21 @@
 ### Step 1: Configure Convex Production Backend
 
 1. **Login to Convex (run manually in your terminal):**
+
    ```bash
    cd /home/matt/prompt-wizard/nextjs-app
    npx convex auth
    ```
 
 2. **Initialize Production Deployment:**
+
    ```bash
    npx convex deploy --prod
    ```
 
 3. **Configure Environment Variables:**
    After deployment, copy the production URL to your `.env.local`:
+
    ```bash
    # The deployment will provide a URL like:
    # https://enchanted-rooster-257.convex.cloud
@@ -25,6 +28,7 @@
 ### Step 2: Update Configuration Files
 
 1. **Update `.env.local`:**
+
    ```env
    # Production Convex Configuration
    NEXT_PUBLIC_CONVEX_URL=https://your-deployment-name.convex.cloud
@@ -37,16 +41,19 @@
 ### Step 3: Deploy Next.js Frontend to Vercel
 
 1. **Install Vercel CLI (if not already installed):**
+
    ```bash
    npm i -g vercel
    ```
 
 2. **Login to Vercel:**
+
    ```bash
    vercel login
    ```
 
 3. **Deploy to Production:**
+
    ```bash
    vercel --prod
    ```
@@ -99,9 +106,10 @@ After deployment, test these key features:
 
 ## 🛠️ Troubleshooting
 
-### Common Issues:
+### Common Issues
 
 1. **"No CONVEX_DEPLOYMENT set" error:**
+
    ```bash
    npx convex dev  # Run once to configure
    ```
@@ -114,6 +122,7 @@ After deployment, test these key features:
    - Convex automatically handles CORS for your deployment domain
 
 4. **Function not found errors:**
+
    ```bash
    npx convex deploy --prod  # Redeploy functions
    ```

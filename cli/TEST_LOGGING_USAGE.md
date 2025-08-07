@@ -7,24 +7,28 @@ The test logging system captures test execution data, API performance metrics, a
 ## Components
 
 ### 1. Database Schema (Convex)
+
 - **testExecutions** - Test run metadata and summaries
 - **testResults** - Individual test results with detailed metrics
 - **apiCalls** - API performance data with response times
 - **errorLogs** - Detailed error information and context
 
 ### 2. HTTP Endpoints
+
 - `POST /log-test` - Submit test execution data from CLI
 - `GET /test-results` - Retrieve test execution history
 - `GET /api-metrics` - Get API performance data
 - `PUT /test-status` - Update test execution status
 
 ### 3. CLI Utilities
+
 - **test_logger.py** - Core logging functionality and example usage
 - **run_tests_with_logging.py** - Enhanced test runner with Convex integration
 
 ## Quick Start
 
 ### 1. Run Example Test Session
+
 ```bash
 cd /home/matt/prompt-wizard/cli
 python test_logger.py
@@ -33,6 +37,7 @@ python test_logger.py
 This will submit sample test data to demonstrate the logging system.
 
 ### 2. Run Tests with Logging
+
 ```bash
 # Run pytest with automatic logging
 python run_tests_with_logging.py
@@ -42,6 +47,7 @@ python run_tests_with_logging.py cli
 ```
 
 ### 3. Install Dependencies
+
 ```bash
 pip install requests
 ```
@@ -49,6 +55,7 @@ pip install requests
 ## API Usage Examples
 
 ### Submit Test Results via HTTP
+
 ```bash
 curl -X POST http://localhost:3000/log-test \
   -H "Content-Type: application/json" \
@@ -76,6 +83,7 @@ curl -X POST http://localhost:3000/log-test \
 ```
 
 ### Get Test Results
+
 ```bash
 # Get recent test executions
 curl "http://localhost:3000/test-results?limit=10"
@@ -88,6 +96,7 @@ curl "http://localhost:3000/test-results?testType=api&limit=20"
 ```
 
 ### Get API Metrics
+
 ```bash
 # Get last 24 hours of API metrics
 curl "http://localhost:3000/api-metrics"
@@ -99,6 +108,7 @@ curl "http://localhost:3000/api-metrics?endpoint=/optimize&hours=12"
 ## Configuration
 
 ### Convex URL Configuration
+
 The default configuration uses `http://localhost:3000` for local development. For deployed Convex, update the URL:
 
 ```python
@@ -106,13 +116,16 @@ logger = TestLogger("https://your-convex-deployment.convex.cloud")
 ```
 
 ### Environment Variables
+
 Set these environment variables for enhanced metadata:
+
 - `GIT_BRANCH` - Current git branch
 - `GIT_COMMIT` - Current git commit hash
 
 ## Data Structure
 
 ### Test Result Object
+
 ```python
 {
     "testId": "module::test_name",
@@ -130,6 +143,7 @@ Set these environment variables for enhanced metadata:
 ```
 
 ### API Call Log Object
+
 ```python
 {
     "callId": "unique_call_id",
@@ -148,6 +162,7 @@ Set these environment variables for enhanced metadata:
 ```
 
 ### Error Log Object
+
 ```python
 {
     "errorId": "unique_error_id",
@@ -173,6 +188,7 @@ Set these environment variables for enhanced metadata:
 ## Integration with Existing Tests
 
 The system integrates with:
+
 - **pytest** - Automatic JSON output parsing
 - **CLI tests** - Direct integration with existing test_cli.py
 - **API tests** - Captures real API call performance

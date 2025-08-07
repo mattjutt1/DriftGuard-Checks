@@ -1,5 +1,7 @@
 # Product Requirements Document (PRD) – PromptEvolver 4B Hybrid
+
 ## Intelligent Local + Cloud Prompt Optimization Platform
+
 ### Qwen3 4B + Free Cloud AI Integration Strategy
 
 ---
@@ -11,6 +13,7 @@ PromptEvolver 4B Hybrid is a **cost-effective prompt optimization platform** tha
 The system uses **Qwen3 4B (quantized)** for fast local inference, privacy-sensitive tasks, and iterative refinement, while leveraging **free-tier cloud services** (Claude, GPT, Gemini) for complex analysis, research, and evaluation that requires sophisticated reasoning capabilities.
 
 ### Document Metadata
+
 - **Product Name**: PromptEvolver 4B Hybrid
 - **Version**: 1.0 (Hybrid Architecture)
 - **Created**: January 2025
@@ -37,6 +40,7 @@ The system uses **Qwen3 4B (quantized)** for fast local inference, privacy-sensi
 ## 🏗 HYBRID SYSTEM ARCHITECTURE
 
 ### Architecture Overview (4B + Cloud Hybrid)
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    FRONTEND LAYER                              │
@@ -73,6 +77,7 @@ The system uses **Qwen3 4B (quantized)** for fast local inference, privacy-sensi
 ```
 
 ### Technology Stack Decisions (Hybrid Optimized)
+
 | Layer | Technology | Justification | Hybrid Integration |
 |-------|------------|---------------|-------------------|
 | **Local Model** | Qwen3 4B Quantized | 4-6GB VRAM, <2s inference | Privacy, speed, offline |
@@ -89,6 +94,7 @@ The system uses **Qwen3 4B (quantized)** for fast local inference, privacy-sensi
 ### 5.1 Smart Optimization Router
 
 #### Core Routing Logic
+
 | Prompt Type | Processing Strategy | Rationale | Expected Time |
 |-------------|-------------------|-----------|---------------|
 | **Simple Edits** | 4B Local Only | Grammar, formatting, basic clarity | 1-3 seconds |
@@ -98,6 +104,7 @@ The system uses **Qwen3 4B (quantized)** for fast local inference, privacy-sensi
 | **Iterative Refinement** | Hybrid Cycles | Multiple rounds with learning | 30-60 seconds |
 
 #### Intelligence Routing Algorithm
+
 ```typescript
 interface RoutingDecision {
   complexity: 'simple' | 'medium' | 'complex'
@@ -137,6 +144,7 @@ class OptimizationRouter {
 ### 5.2 Free Tier Cloud Service Integration
 
 #### Service Utilization Strategy
+
 | Service | Free Tier Limit | Primary Use Case | Secondary Use | Quota Management |
 |---------|-----------------|------------------|---------------|------------------|
 | **Claude (Anthropic)** | ~100K tokens/month | Complex reasoning, analysis | Quality evaluation | Priority routing |
@@ -145,6 +153,7 @@ class OptimizationRouter {
 | **Perplexity AI** | Free search queries | Current information | Best practices lookup | Knowledge cache |
 
 #### Cloud Service Orchestration
+
 ```python
 class CloudServiceManager:
     def __init__(self):
@@ -198,6 +207,7 @@ class CloudServiceManager:
 ### 5.3 Realistic 4B Model Integration
 
 #### Qwen3 4B Optimization for Real Performance
+
 ```python
 class OptimizedQwen3_4B:
     def __init__(self):
@@ -277,6 +287,7 @@ class OptimizedQwen3_4B:
 ### 5.4 Hybrid Evaluation Pipeline
 
 #### Realistic Quality Assessment
+
 ```python
 class HybridEvaluationPipeline:
     def __init__(self):
@@ -336,6 +347,7 @@ class HybridEvaluationPipeline:
 ### 6.1 Realistic Hardware Requirements
 
 #### Hardware Tiers (4B Quantized Model)
+
 | Tier | GPU | VRAM | RAM | Performance | Monthly Cost |
 |------|-----|------|-----|-------------|--------------|
 | **Recommended** | RTX 3060 Ti | 8GB | 16GB | ~2s optimization | $0-3 |
@@ -346,6 +358,7 @@ class HybridEvaluationPipeline:
 ### 6.2 Cost Management Strategy
 
 #### Free Tier Optimization
+
 ```python
 class CostOptimizer:
     def __init__(self):
@@ -394,6 +407,7 @@ class CostOptimizer:
 ### 6.3 Performance Optimization
 
 #### Realistic Performance Targets
+
 | Operation Type | Target Time | Fallback Time | Success Rate |
 |----------------|-------------|---------------|--------------|
 | **Simple edits** | 1-3 seconds | 5 seconds | 95% |
@@ -402,6 +416,7 @@ class CostOptimizer:
 | **Research-heavy** | 30-60 seconds | 90 seconds | 75% |
 
 #### Caching Strategy
+
 ```typescript
 interface CacheStrategy {
   levels: {
@@ -434,6 +449,7 @@ interface CacheStrategy {
 ### 7.2 Cost Monitoring Dashboard
 
 #### Monthly Budget Tracking
+
 ```python
 class CostDashboard:
     def generate_monthly_report(self) -> CostReport:
@@ -472,6 +488,7 @@ class CostDashboard:
 ## 🚀 DEPLOYMENT ROADMAP
 
 ### Phase 1: Core Hybrid Foundation (Month 1)
+
 - [ ] **4B Model Setup**: Quantized Qwen3 4B integration
 - [ ] **Basic Cloud Integration**: Claude + Gemini API setup
 - [ ] **Routing Logic**: Simple complexity-based routing
@@ -479,6 +496,7 @@ class CostDashboard:
 - [ ] **Local UI**: Simple optimization interface
 
 ### Phase 2: Intelligence Enhancement (Month 2)
+
 - [ ] **Smart Routing**: Advanced complexity analysis
 - [ ] **Caching System**: Multi-level result caching
 - [ ] **Quality Metrics**: Hybrid evaluation pipeline
@@ -486,6 +504,7 @@ class CostDashboard:
 - [ ] **Cost Optimization**: Free tier maximization
 
 ### Phase 3: Production Optimization (Month 3)
+
 - [ ] **Performance Tuning**: Sub-20s optimization targets
 - [ ] **Advanced Features**: Batch processing, templates
 - [ ] **Monitoring Dashboard**: Real-time cost and performance
@@ -493,6 +512,7 @@ class CostDashboard:
 - [ ] **Documentation**: User guides and API docs
 
 ### Phase 4: Scale & Learning (Month 4+)
+
 - [ ] **Usage Analytics**: Pattern recognition and optimization
 - [ ] **Model Fine-tuning**: Local model improvement with cloud insights
 - [ ] **Advanced Routing**: Machine learning-based service selection
@@ -513,6 +533,7 @@ PromptEvolver 4B Hybrid delivers a **pragmatic and cost-effective** prompt optim
 ✅ **Real Hardware Support** - Works on 6GB+ VRAM vs requiring 24GB+
 
 **Key Advantages of Hybrid 4B + Cloud Approach:**
+
 - 💰 **Cost-Effective**: Maximum value from free tiers + minimal local hardware
 - 🚀 **Practical Speed**: Fast local processing for simple tasks, cloud assist for complex
 - 🔒 **Smart Privacy**: Local processing for sensitive content, cloud for research

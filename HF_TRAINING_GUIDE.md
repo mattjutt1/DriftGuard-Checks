@@ -1,11 +1,13 @@
 # 🚀 HuggingFace GPU Training Guide for PromptWizard
 
 ## Overview
+
 We've created a complete training setup to fine-tune Qwen models on HuggingFace's GPU infrastructure using real GSM8K data with PromptWizard methodology.
 
 ## What We've Built
 
 ### 1. Training Data (✅ Complete)
+
 - **Location**: `nextjs-app/data/gsm8k/`
 - **Files**:
   - `train.jsonl` - 100 training examples
@@ -13,6 +15,7 @@ We've created a complete training setup to fine-tune Qwen models on HuggingFace'
 - **Format**: PromptWizard-compatible JSON with questions, answers, and full solutions
 
 ### 2. Training Scripts (✅ Complete)
+
 - **Full Script**: `nextjs-app/scripts/train_on_hf.py`
   - LoRA-based fine-tuning for efficiency
   - 8-bit quantization to reduce memory usage
@@ -25,6 +28,7 @@ We've created a complete training setup to fine-tune Qwen models on HuggingFace'
   - Can run on Google Colab or HF Spaces
 
 ### 3. HuggingFace Space (✅ Complete)
+
 - **Location**: `nextjs-app/hf_training/`
 - **Files**:
   - `app.py` - Gradio interface for training
@@ -35,6 +39,7 @@ We've created a complete training setup to fine-tune Qwen models on HuggingFace'
 ## Quick Start Options
 
 ### Option 1: HuggingFace Space (Recommended)
+
 ```bash
 cd nextjs-app/hf_training/
 
@@ -45,12 +50,14 @@ cd nextjs-app/hf_training/
 ```
 
 ### Option 2: Google Colab
+
 1. Upload `train_notebook.ipynb` to Google Colab
 2. Enable GPU runtime (Runtime → Change runtime type → GPU)
 3. Run all cells
 4. Model will be saved and can be pushed to HF Hub
 
 ### Option 3: Local with HF API
+
 ```bash
 # Install dependencies
 pip install -r nextjs-app/hf_training/requirements.txt
@@ -61,6 +68,7 @@ python train_on_hf.py
 ```
 
 ## GPU Requirements
+
 - **Minimum**: T4 GPU (16GB VRAM)
 - **Recommended**: A10G or better
 - **Training Time**: ~30-60 minutes on T4
@@ -68,6 +76,7 @@ python train_on_hf.py
 ## Training Configuration
 
 ### Default Settings (Optimized for T4)
+
 ```python
 MODEL_NAME = "Qwen/Qwen2.5-1.5B"  # Smaller model for faster training
 NUM_EPOCHS = 1                     # Quick training for demo
@@ -77,6 +86,7 @@ LORA_RANK = 8                      # Efficient fine-tuning
 ```
 
 ### Production Settings (A10G or better)
+
 ```python
 MODEL_NAME = "Qwen/Qwen2.5-7B"    # Full model
 NUM_EPOCHS = 3                     # Better learning
@@ -94,6 +104,7 @@ After training completes:
    - Local: `./qwen-promptwizard-final/`
 
 2. **Integration with PromptWizard**:
+
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -114,6 +125,7 @@ tokenizer = AutoTokenizer.from_pretrained(
 ## Real Evaluation (Not Fake Metrics!)
 
 Our training uses REAL evaluation based on:
+
 - **GSM8K Dataset**: Actual grade school math problems
 - **PromptWizard Methodology**: Microsoft's proven optimization approach
 - **Measurable Metrics**: Perplexity, loss, accuracy on test set
@@ -122,6 +134,7 @@ Our training uses REAL evaluation based on:
 ## Monitoring Training
 
 ### With WandB (Optional)
+
 ```bash
 # Set environment variable before training
 export USE_WANDB=true
@@ -130,6 +143,7 @@ export USE_WANDB=true
 ```
 
 ### In HF Space
+
 - Real-time output in Gradio interface
 - GPU status monitoring
 - Training loss curves
@@ -138,17 +152,20 @@ export USE_WANDB=true
 ## Cost Estimates
 
 ### HuggingFace (Free Tier)
+
 - **Spaces**: Free T4 GPU (limited availability)
 - **Training Time**: ~1 hour
 - **Cost**: $0
 
 ### Google Colab
+
 - **Free Tier**: T4 GPU for ~4 hours/day
 - **Pro**: $10/month for better GPUs
 - **Training Time**: ~30-45 minutes
 - **Cost**: $0-10
 
 ### HuggingFace Pro
+
 - **Cost**: $9/month
 - **Benefits**: Priority GPU access, persistent storage
 - **Training Time**: ~20-30 minutes
@@ -156,16 +173,19 @@ export USE_WANDB=true
 ## Troubleshooting
 
 ### Out of Memory
+
 - Reduce batch_size to 2
 - Use smaller model (Qwen2.5-1.5B)
 - Increase gradient_accumulation_steps
 
 ### Slow Training
+
 - Check GPU is enabled
 - Reduce max_length to 256
 - Use fewer training examples
 
 ### Model Not Learning
+
 - Increase num_epochs to 3-5
 - Adjust learning_rate (try 5e-5)
 - Use more training data

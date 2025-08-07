@@ -1,4 +1,5 @@
 # Product Requirements Document (PRD) – Claude Code Advanced Empirical Evaluator
+
 ## End-to-End Research-Driven Evaluation and Fine-Tuning Pipeline for PromptEvolver Integration
 
 ---
@@ -10,6 +11,7 @@ This PRD defines a next-generation **empirical research-backed evaluation pipeli
 **Mission:** Deliver fully-automated, non-fabricated, reproducible prompt evaluations and training data for optimal, fact-driven model fine-tuning using PromptEvolver.
 
 ### Document Metadata
+
 - **Product Name**: Claude Code Advanced Empirical Evaluator
 - **Version**: 1.0 (Production Implementation Ready)
 - **Created**: August 4, 2025
@@ -118,6 +120,7 @@ claude-code-cli synth-prompts \
 ```
 
 **Research Quality Gates:**
+
 - **Source Verification**: All information must link to accessible, authoritative sources
 - **Citation Integrity**: Minimum 3 citations per prompt candidate
 - **Temporal Relevance**: Sources must be within acceptable recency threshold
@@ -145,6 +148,7 @@ claude-code-cli monitor-quality \
 ```
 
 **Evaluation Metrics Framework:**
+
 - **Factual Accuracy**: Verification against source material
 - **Improvement Consistency**: Reliable enhancement across test cases
 - **Citation Preservation**: Maintained source traceability
@@ -172,6 +176,7 @@ claude-code-cli build-finetune-dataset \
 ```
 
 **Dataset Quality Assurance:**
+
 - **Lineage Tracking**: Every training example traces to research sources
 - **Metadata Enrichment**: Full context including optimization parameters
 - **Format Validation**: Compliance with training pipeline requirements
@@ -182,6 +187,7 @@ claude-code-cli build-finetune-dataset \
 ## 📊 Data Schema & Pipeline Specifications
 
 ### Research Data Structure
+
 ```json
 {
   "research_entry": {
@@ -203,6 +209,7 @@ claude-code-cli build-finetune-dataset \
 ```
 
 ### Evaluation Results Schema
+
 ```json
 {
   "evaluation_result": {
@@ -233,6 +240,7 @@ claude-code-cli build-finetune-dataset \
 ```
 
 ### Fine-tuning Dataset Format
+
 ```json
 {
   "training_example": {
@@ -255,12 +263,14 @@ claude-code-cli build-finetune-dataset \
 ### Claude Code CLI Integration Points
 
 **Required MCP Servers:**
+
 - **FireCrawl MCP**: Structured web scraping with content extraction
 - **Context7 MCP**: Documentation analysis and knowledge synthesis
 - **Playwright MCP**: Browser automation for dynamic content access
 - **Custom Research MCP**: Specialized academic paper and repository analysis
 
 **CLI Extension Architecture:**
+
 ```typescript
 interface EvaluatorMiddleware {
   researchAggregator: ResearchAggregationService;
@@ -285,12 +295,14 @@ class ResearchAggregationService {
 ### Quality Assurance Framework
 
 **Fabrication Detection Pipeline:**
+
 1. **Source Verification**: Cross-reference all claims against cited sources
 2. **Temporal Consistency**: Ensure information currency and relevance
 3. **Authority Scoring**: Evaluate source credibility and domain expertise
 4. **Cross-Validation**: Verify claims across multiple independent sources
 
 **Performance Monitoring:**
+
 - Real-time quality metrics dashboard
 - Automated anomaly detection for unusual results
 - Statistical significance testing for improvements
@@ -301,24 +313,28 @@ class ResearchAggregationService {
 ## 📋 Implementation Roadmap
 
 ### Sprint 1: Foundation (Weeks 1-2)
+
 - [ ] Claude Code MCP server integration (FireCrawl, Context7, Playwright)
 - [ ] Basic research aggregation and citation tracking
 - [ ] PromptEvolver API client development
 - [ ] Core middleware plugin architecture
 
 ### Sprint 2: Evaluation Pipeline (Weeks 3-4)
+
 - [ ] Empirical evaluation framework implementation
 - [ ] Quality gates and fact verification engine
 - [ ] Automated prompt synthesis with citation backing
 - [ ] Performance monitoring and logging system
 
 ### Sprint 3: Dataset Generation (Weeks 5-6)
+
 - [ ] Fine-tuning dataset builder with lineage tracking
 - [ ] Report generation and visualization tools
 - [ ] End-to-end workflow testing and validation
 - [ ] Documentation and user guides
 
 ### Sprint 4: Optimization & Scale (Weeks 7-8)
+
 - [ ] Performance optimization and parallel processing
 - [ ] Advanced analytics and insights dashboard
 - [ ] Integration testing with RPromptEvolve pipeline
@@ -329,12 +345,14 @@ class ResearchAggregationService {
 ## 🔄 Continuous Improvement Cycle
 
 **Feedback Loop Integration:**
+
 1. **Post-Training Analysis**: Evaluate fine-tuned model performance against research predictions
 2. **Research Refinement**: Update research strategies based on training outcomes
 3. **Quality Threshold Adjustment**: Dynamically adjust quality gates based on results
 4. **Methodology Evolution**: Incorporate new research techniques and evaluation methods
 
 **Success Metrics Tracking:**
+
 - Model improvement consistency across iterations
 - Research-to-performance correlation strength
 - Dataset quality scores and training effectiveness
@@ -345,12 +363,14 @@ class ResearchAggregationService {
 ## 🛡️ Quality Assurance & Validation
 
 **Zero-Fabrication Guarantee:**
+
 - **Mandatory Source Linking**: Every claim must trace to verifiable source
 - **Citation Integrity Checks**: Automated verification of source accuracy
 - **Human Validation Gates**: Expert review for critical evaluation points
 - **Audit Trail Maintenance**: Complete workflow traceability for compliance
 
 **Empirical Validation Framework:**
+
 - **Multi-Source Triangulation**: Verify findings across independent sources
 - **Statistical Significance Testing**: Ensure improvements are not random
 - **Peer Review Integration**: Expert validation of research methodologies
@@ -361,18 +381,21 @@ class ResearchAggregationService {
 ## 📈 Expected Outcomes & Benefits
 
 **Primary Deliverables:**
+
 1. **Fact-Grounded Fine-Tuning Datasets**: Training data with complete research lineage
 2. **Empirical Evaluation Reports**: Comprehensive analysis with citation backing
 3. **Automated Research Pipeline**: Scalable workflow for continuous improvement
 4. **Quality Assurance Framework**: Zero-fabrication validation system
 
 **Performance Targets:**
+
 - **Research Coverage**: 95%+ of prompts backed by authoritative sources
 - **Evaluation Accuracy**: 90%+ correlation between predicted and actual improvements
 - **Processing Efficiency**: 10x faster than manual research and evaluation
 - **Quality Consistency**: 99%+ fabrication-free dataset generation
 
 **Strategic Impact:**
+
 - **Scalable Model Improvement**: Automated fine-tuning dataset creation
 - **Research-Driven Development**: Evidence-based prompt optimization
 - **Quality Assurance**: Verifiable, reproducible evaluation processes
@@ -383,6 +406,7 @@ class ResearchAggregationService {
 ## ✅ Success Criteria & Validation
 
 **Acceptance Testing Framework:**
+
 - [ ] **Complete Workflow Automation**: End-to-end CLI orchestration
 - [ ] **Zero-Fabrication Compliance**: 100% source-backed evaluation claims
 - [ ] **PromptEvolver Integration**: Seamless API communication and data flow
@@ -391,6 +415,7 @@ class ResearchAggregationService {
 - [ ] **Performance Benchmarks**: Meet throughput and quality targets
 
 **Production Readiness Checklist:**
+
 - [ ] Comprehensive error handling and recovery mechanisms
 - [ ] Scalable architecture supporting high-volume processing
 - [ ] Security compliance for research data and source access

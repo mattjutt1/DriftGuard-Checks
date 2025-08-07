@@ -1,11 +1,12 @@
 # 🚀 PromptWizard Training Monitor
 
-**Space URL**: https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training
+**Space URL**: <https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training>
 **Status**: 🔨 Building...
 
-## What to Expect When Ready:
+## What to Expect When Ready
 
-### Gradio Interface Layout:
+### Gradio Interface Layout
+
 ```
 ┌─────────────────────────────────────┐
 │  🧙 PromptWizard Qwen Fine-tuning  │
@@ -30,42 +31,49 @@
 └─────────────────────────────────────┘
 ```
 
-## Training Stages:
+## Training Stages
 
 ### Stage 1: Initialization (2-3 min)
+
 - Load Qwen model with LoRA
 - Configure 8-bit quantization
 - Load GSM8K dataset
 
 ### Stage 2: Training (30-60 min)
+
 - Process 100 training examples
 - Validate on 50 test examples
 - Update model weights
 - Show loss metrics
 
 ### Stage 3: Model Upload
+
 - Save to HuggingFace Hub
 - Model available at: `unfiltrdfreedom/promptwizard-qwen-gsm8k`
 
-## Real Metrics We'll See:
+## Real Metrics We'll See
+
 - **Perplexity**: Lower is better (target: <10)
 - **Loss**: Should decrease over epochs
 - **Learning Rate**: Follows cosine schedule
 - **GPU Memory**: ~10-12GB usage with 8-bit
 
-## Commands While Training:
+## Commands While Training
 
-### Monitor GPU Usage:
+### Monitor GPU Usage
+
 The interface will show real-time GPU metrics
 
-### Expected Timeline:
+### Expected Timeline
+
 - Building: 2-3 minutes ⬅️ We are here
 - Interface Ready: 1 minute
 - Training Start: User triggered
 - Training Time: 30-60 minutes
 - Model Upload: 2-3 minutes
 
-## Success Indicators:
+## Success Indicators
+
 ✅ Loss decreasing steadily
 ✅ No out-of-memory errors
 ✅ Validation loss not increasing (no overfitting)

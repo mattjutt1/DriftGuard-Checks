@@ -3,9 +3,11 @@
 ## 🚫 ANTI-OVER-ENGINEERING PROTOCOL
 
 ### **KISS Principle Enforcement**
+
 Keep It Simple, Stupid - Every decision must pass the simplicity test.
 
 #### **Intelligent Simplification Rules**
+
 1. **Value-Based Complexity**: Keep advanced features when they provide clear user benefits
 2. **KISS with Intelligence**: Apply simplicity where it improves, not where it limits
 3. **Evidence-Based Decisions**: Use data and user feedback to guide complexity decisions
@@ -13,7 +15,9 @@ Keep It Simple, Stupid - Every decision must pass the simplicity test.
 5. **Quality Over Compliance**: Focus on working quality measures over rigid tool requirements
 
 ### **Enhanced Solution Validation Process**
+
 Before implementing any solution, validate:
+
 1. Does this solve the CURRENT problem with clear user value?
 2. Does this use proven technology patterns and best practices?
 3. Will this solution scale appropriately for the expected usage?
@@ -25,12 +29,14 @@ Before implementing any solution, validate:
 #### **Apply KISS Principles Intelligently (Not Blindly)**
 
 **Keep Advanced When:**
+
 - Dual-mode optimization provides clear user choice and value
 - Quality metrics tracking enables data-driven improvements
 - Error recovery systems improve reliability without adding complexity
 - Real-time progress reduces user anxiety and improves perception
 
 **Simplify When:**
+
 - Complex abstractions don't provide proportional benefits
 - Multiple similar components can be consolidated
 - Configuration options overwhelm users without clear use cases
@@ -39,6 +45,7 @@ Before implementing any solution, validate:
 ### **Framework Compliance vs. Practical Benefits**
 
 **Prioritize:**
+
 1. **Working Quality**: Code that works reliably over code that passes arbitrary style checks
 2. **User Experience**: Features that improve actual user outcomes
 3. **Developer Productivity**: Tools and patterns that enable faster, better development
@@ -46,6 +53,7 @@ Before implementing any solution, validate:
 5. **Performance**: Measurable improvements in speed, reliability, or resource usage
 
 **De-prioritize:**
+
 1. **Rigid Tool Compliance**: Perfect Prettier formatting over working features
 2. **Architectural Purity**: Complex patterns that don't solve real problems
 3. **Premature Optimization**: Performance work without measured bottlenecks
@@ -54,6 +62,7 @@ Before implementing any solution, validate:
 ## 🚨 MANDATORY BEHAVIORS
 
 ### **Things Claude Code MUST Always Do**
+
 1. **Consult subagents** for ALL specialized tasks - no exceptions
 2. **Apply KISS principles** to every solution
 3. **Run quality gates** before and after implementation
@@ -66,6 +75,7 @@ Before implementing any solution, validate:
 10. **Validate simplicity** before implementing complexity
 
 ### **Things Claude Code MUST Never Do**
+
 1. **Never bypass streamlined agent hierarchy** - consult appropriate specialist agents
 2. **Never apply rigid simplification blindly** - preserve valuable advanced features
 3. **Never skip quality gates** - maintain enhanced quality standards
@@ -80,6 +90,7 @@ Before implementing any solution, validate:
 ## 🎮 DEVELOPMENT VIBE CHECK
 
 ### **Continuous Vibe Assessment**
+
 Does this feel effortless and natural?
 Are we solving real problems elegantly?
 Is the solution beautifully simple?
@@ -87,6 +98,7 @@ Would a new developer smile when seeing this?
 Are we using the full power of our agent team?
 
 ### **Flow State Indicators**
+
 - Subagents working in harmony
 - Code emerging naturally from requirements
 - Quality gates passing automatically

@@ -3,17 +3,20 @@
 ## Deployment Configuration
 
 ### **Technology Stack Deployment**
+
 - **Frontend**: Vercel (Next.js 15.4.5 + React 19 optimized)
 - **Backend**: Convex (serverless, auto-scaling)
 - **AI Processing**: Ollama (local development), HuggingFace Spaces (production)
 - **Database**: Convex (managed, real-time)
 
 ### **Deployment Targets**
+
 - **Development**: Local Ollama + Convex dev environment
 - **Staging**: Vercel preview + Convex staging
 - **Production**: Vercel + Convex production + HuggingFace Spaces
 
 ### **Environment Configuration**
+
 ```bash
 # Development
 CONVEX_URL=https://your-dev-convex.convex.cloud
@@ -27,6 +30,7 @@ NEXT_PUBLIC_CONVEX_URL=https://your-prod-convex.convex.cloud
 ```
 
 ### **Deployment Pipeline**
+
 ```bash
 # 1. Frontend (Vercel)
 npm run build
@@ -43,12 +47,14 @@ npm run verify:production
 ```
 
 ### **Performance Considerations**
+
 - **Build Optimization**: Turbopack for fast builds
 - **Edge Deployment**: Vercel Edge Functions for global performance
 - **Caching Strategy**: Convex automatic caching + CDN
 - **Image Optimization**: Next.js Image component + Vercel optimization
 
 ### **Monitoring and Health Checks**
+
 ```typescript
 // Health check endpoints
 export const healthCheck = {
@@ -67,6 +73,7 @@ export const performanceMetrics = {
 ```
 
 ### **Rollback Strategy**
+
 ```bash
 # Convex rollback
 npx convex rollback --to-version <version>

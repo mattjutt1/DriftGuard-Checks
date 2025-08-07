@@ -26,6 +26,7 @@
 #### **Framework Compliance vs. Practical Benefits**
 
 **Prioritize:**
+
 1. **Working Quality**: Code that works reliably over code that passes arbitrary style checks
 2. **User Experience**: Features that improve actual user outcomes
 3. **Developer Productivity**: Tools and patterns that enable faster, better development
@@ -33,12 +34,14 @@
 5. **Performance**: Measurable improvements in speed, reliability, or resource usage
 
 **De-prioritize:**
+
 1. **Rigid Tool Compliance**: Perfect Prettier formatting over working features
 2. **Architectural Purity**: Complex patterns that don't solve real problems
 3. **Premature Optimization**: Performance work without measured bottlenecks
 4. **Over-Abstraction**: Generic solutions for specific, simple problems
 
 #### **AVSHA Quality Gates**
+
 1. **Atomic Validation**: Each atom has single responsibility and clear interface
 2. **Molecular Composition**: Molecules properly compose atoms without tight coupling
 3. **Organism Boundaries**: Complex components maintain clear dependencies
@@ -48,6 +51,7 @@
 7. **Page Integration**: Top-level pages properly integrate all layers
 
 #### **Knowledge Graph Integration**
+
 ```python
 # AVSHA-specific knowledge graph entities
 AVSHA_ENTITIES = {

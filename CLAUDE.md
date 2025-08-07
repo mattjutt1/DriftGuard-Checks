@@ -3,6 +3,7 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 # PromptEvolver Development Framework
+
 ## Optimized Claude Code Agentic Development Protocol
 
 ### 🎯 FRAMEWORK OVERVIEW
@@ -31,6 +32,7 @@ PromptEvolver is an AI-powered prompt optimization application that leverages Mi
 ## 🏗️ HIERARCHICAL DECISION FRAMEWORK
 
 ### **Decision Chain Protocol**
+
 ```
 Human Request → Specialized Agent → Implementation
 ```
@@ -38,6 +40,7 @@ Human Request → Specialized Agent → Implementation
 **Always consult the appropriate specialist before proceeding.**
 
 ### **Authority Matrix (Streamlined 5-Agent System)**
+
 - **backend-developer**: Convex development, serverless functions, PromptWizard integration, architectural decisions
 - **frontend-developer**: Next.js 15/React 19 UI, user experience, responsive design, performance optimization
 - **ai-integration**: Ollama setup, Qwen3:4b optimization, PromptWizard configuration, AI response handling
@@ -50,6 +53,7 @@ Human Request → Specialized Agent → Implementation
 ## 🤖 SUBAGENT INVOCATION PROTOCOL
 
 ### **Mandatory Subagent Usage**
+
 Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
 
 ```bash
@@ -79,9 +83,11 @@ Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
 ## 🚫 ANTI-OVER-ENGINEERING PROTOCOL
 
 ### **KISS Principle Enforcement**
+
 Keep It Simple, Stupid - Every decision must pass the simplicity test.
 
 #### **Intelligent Simplification Rules**
+
 1. **Value-Based Complexity**: Keep advanced features when they provide clear user benefits
 2. **KISS with Intelligence**: Apply simplicity where it improves, not where it limits
 3. **Evidence-Based Decisions**: Use data and user feedback to guide complexity decisions
@@ -89,7 +95,9 @@ Keep It Simple, Stupid - Every decision must pass the simplicity test.
 5. **Quality Over Compliance**: Focus on working quality measures over rigid tool requirements
 
 ### **Enhanced Solution Validation Process**
+
 Before implementing any solution, validate:
+
 1. Does this solve the CURRENT problem with clear user value?
 2. Does this use proven technology patterns and best practices?
 3. Will this solution scale appropriately for the expected usage?
@@ -101,9 +109,11 @@ Before implementing any solution, validate:
 ## 🎮 NO-CODE VIBE DEVELOPMENT APPROACH
 
 ### **Natural Language First Development**
+
 Treat Claude Code as a no-code platform where you describe what you want, not how to build it.
 
 #### **Communication Pattern**
+
 ```bash
 # Good: Natural language requirements
 "Create a prompt optimization endpoint that takes user input and returns improved prompts using PromptWizard"
@@ -113,6 +123,7 @@ Treat Claude Code as a no-code platform where you describe what you want, not ho
 ```
 
 ### **Vibe-Driven Development Principles**
+
 - **Intuitive First**: If it doesn't feel right, it probably isn't
 - **User-Centric**: Always think from the user's perspective
 - **Elegant Simplicity**: Beautiful solutions are usually simple solutions
@@ -124,7 +135,9 @@ Treat Claude Code as a no-code platform where you describe what you want, not ho
 ## 📋 DEVELOPMENT WORKFLOW PROTOCOL
 
 ### **Session Initialization**
+
 Start every Claude Code session with this checklist:
+
 1. Load CLAUDE.md context
 2. Identify primary task and complexity
 3. Select appropriate subagent
@@ -132,7 +145,9 @@ Start every Claude Code session with this checklist:
 5. Begin development with KISS approach
 
 ### **Task Execution Pattern**
+
 Mandatory workflow for every task:
+
 1. **Complexity assessment** - Validate solution simplicity
 2. **Specialized implementation** - Use appropriate sub-agent
 3. **Quality verification** - Ensure standards are met
@@ -142,6 +157,7 @@ Mandatory workflow for every task:
 ## Common Development Commands
 
 ### Backend Development (Convex)
+
 ```bash
 # Install dependencies
 npm install
@@ -160,6 +176,7 @@ npx convex dashboard
 ```
 
 ### Frontend Development (Next.js 15.4.5 + React 19)
+
 ```bash
 # Install dependencies
 npm install
@@ -185,6 +202,7 @@ npx eslint src/ --fix  # ESLint + TypeScript sufficient
 ```
 
 ### Docker Operations
+
 ```bash
 # Start all services (development)
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
@@ -203,6 +221,7 @@ ollama pull qwen3:4b
 ```
 
 ### Convex Operations
+
 ```bash
 # View Convex functions
 npx convex functions list
@@ -268,6 +287,7 @@ Database (Convex)
 ### Database Schema
 
 Primary tables:
+
 - `users` - User authentication and preferences
 - `prompts` - Original and optimized prompt pairs
 - `optimization_sessions` - Processing sessions with metrics
@@ -279,15 +299,18 @@ Primary tables:
 ## 🏗️ INTELLIGENT CODE STRUCTURE APPROACH
 
 ### **Architecture Philosophy**
+
 Use standard Next.js App Router structure enhanced with intelligent organization principles. Apply advanced patterns only when they provide clear user value, following KISS principles selectively rather than blindly.
 
 ### **Core Principles**
+
 1. **Standard Patterns First**: Use proven Next.js App Router conventions
 2. **Value-Based Complexity**: Preserve advanced features when they provide clear user benefits
 3. **Intelligent Simplification**: Apply KISS principles where they improve, not where they limit
 4. **Quality Over Compliance**: Focus on working quality measures over rigid tool compliance
 
 ### **Enhanced Next.js Structure**
+
 ```
 app/                           # Next.js 15 App Router
 ├── (auth)/                    # Route groups for organization
@@ -318,12 +341,14 @@ lib/                          # Utilities and configurations
 ### **Proven Implementation Patterns**
 
 #### **Keep High-Value Features**
+
 - **Dual-mode optimization**: Both single and batch processing (clear user value)
 - **Quality metrics tracking**: Success rates, improvement scores (measurable benefits)
 - **Advanced error handling**: Retry logic, graceful degradation (reliability improvement)
 - **Real-time progress tracking**: WebSocket updates, status indicators (user experience)
 
 #### **Intelligent Technology Choices**
+
 - **Next.js 15 + React 19**: Latest stable versions with performance benefits
 - **Turbopack**: Faster development builds (measurable improvement)
 - **Standard App Router**: Proven patterns over forced complexity
@@ -402,10 +427,12 @@ lib/                          # Utilities and configurations
     │   └── HomePage.tsx
     └── router/
         └── AppRouter.tsx
+
 ```
 
 #### **Backend Structure (Convex/TypeScript)**
 ```
+
 convex/
 ├── shared/                        # Cross-feature shared functions
 │   ├── atoms/                     # Base utilities and primitives
@@ -483,12 +510,14 @@ convex/
 ├── schema.ts                      # Main Convex schema
 ├── _generated/                    # Auto-generated Convex files
 └── convex.config.ts              # Convex configuration
+
 ```
 
 ### **AVSHA Decision Framework**
 
 #### **Component Placement Decision Tree**
 ```
+
 1. Is this component used across multiple features?
    YES → Place in /shared/
    NO  → Place in specific /features/{feature}/
@@ -507,6 +536,7 @@ convex/
 4. Does this need to be tested independently?
    YES → Ensure clear interface boundaries and dependency injection
    NO  → Consider if it should be refactored for better testability
+
 ```
 
 #### **Feature Slice Criteria**
@@ -549,6 +579,7 @@ export const Button: React.FC<ButtonProps> = ({
 ```
 
 #### **For Feature Organisms (Complex Components)**
+
 ```typescript
 // Example: features/optimization/organisms/OptimizeFlow.tsx
 import { PromptEditor } from '../molecules/PromptEditor';
@@ -581,6 +612,7 @@ export const OptimizeFlow: React.FC = () => {
 ### **Integration with Development Workflow**
 
 #### **Sub-Agent Architecture Alignment**
+
 - **frontend-developer**: Responsible for atoms, molecules, and feature-specific components
 - **backend-developer**: Handles API endpoints (pages), services (organisms), and data models
 - **ai-integration**: Manages AI-specific atoms and molecules within optimization feature
@@ -588,6 +620,7 @@ export const OptimizeFlow: React.FC = () => {
 - **performance-optimizer**: Optimizes shared components and critical path organisms
 
 #### **AVSHA Quality Gates**
+
 1. **Atomic Validation**: Each atom has single responsibility and clear interface
 2. **Molecular Composition**: Molecules properly compose atoms without tight coupling
 3. **Organism Boundaries**: Complex components maintain clear dependencies
@@ -597,6 +630,7 @@ export const OptimizeFlow: React.FC = () => {
 7. **Page Integration**: Top-level pages properly integrate all layers
 
 #### **Knowledge Graph Integration**
+
 ```python
 # AVSHA-specific knowledge graph entities
 AVSHA_ENTITIES = {
@@ -621,6 +655,7 @@ AVSHA_ENTITIES = {
 ```
 
 ### **Migration Strategy for Existing Code**
+
 1. **Audit Current Structure**: Map existing components to AVSHA matrix
 2. **Identify Shared Components**: Move cross-feature components to `/shared/`
 3. **Create Feature Boundaries**: Group related functionality into feature slices
@@ -630,6 +665,7 @@ AVSHA_ENTITIES = {
 7. **Validate Architecture**: Ensure each component follows AVSHA principles
 
 ### **AVSHA Success Metrics**
+
 - **Reusability Score**: Percentage of components used across multiple contexts
 - **Feature Cohesion**: Internal coupling vs. external dependencies ratio
 - **Development Velocity**: Time to implement new features using existing components
@@ -646,6 +682,7 @@ AVSHA_ENTITIES = {
 Implement security best practices without over-engineering. Focus on protecting actual sensitive data rather than theoretical threats.
 
 ### **Security Best Practices**
+
 1. **Environment-Based Secrets**: Proper separation of dev/staging/production secrets
 2. **Input Validation**: Comprehensive validation of all user inputs
 3. **Authentication Security**: JWT with proper refresh token handling
@@ -653,12 +690,14 @@ Implement security best practices without over-engineering. Focus on protecting 
 5. **Audit Logging**: Track security events and access patterns
 
 ### **Infisical Services**
-- **Web UI**: http://localhost:8080 - Infisical dashboard for secret management
+
+- **Web UI**: <http://localhost:8080> - Infisical dashboard for secret management
 - **Database**: PostgreSQL with persistent storage
 - **Cache**: Redis for sessions and performance
 - **API**: RESTful API for programmatic access
 
 ### **Management Commands**
+
 ```bash
 # Service Management
 ./infisical-manage.sh start      # Start all services
@@ -678,9 +717,11 @@ Implement security best practices without over-engineering. Focus on protecting 
 ### **AVSHA-Organized Secret Structure**
 
 #### **Feature-Based Secret Organization**
+
 Following our AVSHA framework, secrets are organized by feature:
 
 **Authentication Feature Secrets:**
+
 ```
 Environment: development
 ├── JWT_SECRET_KEY           # JWT token signing key
@@ -691,6 +732,7 @@ Environment: development
 ```
 
 **Optimization Feature Secrets:**
+
 ```
 Environment: development
 ├── OPENAI_API_KEY          # OpenAI API access key
@@ -701,6 +743,7 @@ Environment: development
 ```
 
 **Dashboard Feature Secrets:**
+
 ```
 Environment: development
 ├── ANALYTICS_API_KEY       # Analytics service key
@@ -713,6 +756,7 @@ Environment: development
 ### **Development Workflow**
 
 #### **Initial Setup (One-time)**
+
 ```bash
 # 1. Start Infisical
 ./infisical-manage.sh start
@@ -728,6 +772,7 @@ infisical login --domain=http://localhost:8080
 ```
 
 #### **Daily Development Workflow**
+
 ```bash
 # 1. Ensure Infisical is running
 ./infisical-manage.sh status
@@ -747,6 +792,7 @@ infisical export --env=production --format=dotenv > .env.production
 ### **Integration with Automation Pipeline**
 
 #### **Enhanced security-specialist Sub-Agent**
+
 The security-specialist agent now includes Infisical management:
 
 ```bash
@@ -762,6 +808,7 @@ The security-specialist agent now includes Infisical management:
 ```
 
 #### **Mandatory Secret Management Actions**
+
 Before EVERY commit involving configuration or secrets:
 
 ```bash
@@ -784,6 +831,7 @@ python .claude/scripts/update_knowledge_graph.py
 ### **AVSHA Integration Points**
 
 #### **Shared Components (Future PromptVault)**
+
 Based on Infisical usage, we'll need these AVSHA components:
 
 ```
@@ -803,9 +851,11 @@ shared/
 ```
 
 #### **Feature Integration**
+
 Each feature integrates with Infisical:
 
 **FastAPI Backend Integration:**
+
 ```python
 # app/shared/organisms/secret_loader.py
 import os
@@ -831,6 +881,7 @@ JWT_SECRET_KEY = secrets['jwt_secret']
 Using Infisical teaches us what PromptVault needs:
 
 #### **Essential Features to Replicate**
+
 1. **Web UI**: Simple, clean interface for secret management
 2. **Environment Separation**: Clear dev/staging/prod organization
 3. **CLI Integration**: Command-line tool for automation
@@ -839,6 +890,7 @@ Using Infisical teaches us what PromptVault needs:
 6. **Project Organization**: Group secrets by application/feature
 
 #### **Simplifications for PromptVault**
+
 1. **Single User**: Remove team/organization features
 2. **Local Storage**: File-based instead of database
 3. **Basic Auth**: Master password instead of complex auth
@@ -846,6 +898,7 @@ Using Infisical teaches us what PromptVault needs:
 5. **Git Integration**: Built-in secret scanning and pre-commit hooks
 
 #### **AVSHA Enhancements**
+
 1. **Feature-Based Organization**: Automatic grouping by AVSHA features
 2. **Framework Integration**: Native integration with our automation pipeline
 3. **Component Generation**: Auto-generate secret management UI components
@@ -854,6 +907,7 @@ Using Infisical teaches us what PromptVault needs:
 ### **Security Best Practices (Current)**
 
 #### **Infisical Security Rules**
+
 1. **Emergency Kit**: Always download and safely store the Emergency Kit PDF
 2. **Strong Master Password**: Use a unique, strong password for Infisical admin
 3. **Environment Separation**: Never mix dev/staging/prod secrets
@@ -861,6 +915,7 @@ Using Infisical teaches us what PromptVault needs:
 5. **Access Monitoring**: Review audit logs in Infisical dashboard regularly
 
 #### **Development Security Workflow**
+
 ```bash
 # 1. Daily security check
 ./infisical-manage.sh status
@@ -922,6 +977,7 @@ PROMPTWIZARD_CONFIG = {
 ### **Technology Stack Decision Criteria**
 
 #### **When to Upgrade Technology**
+
 - **Clear Performance Benefits**: Measurable improvements (Turbopack builds, React 19 rendering)
 - **Stability and Support**: Mature release cycles with active maintenance
 - **Developer Experience**: Improved development workflow and debugging
@@ -929,6 +985,7 @@ PROMPTWIZARD_CONFIG = {
 - **Future Proofing**: Aligns with technology direction trends
 
 #### **When to Preserve Advanced Features**
+
 - **User Value Test**: Features that directly improve user experience or outcomes
 - **Measurable Benefits**: Can demonstrate clear improvements through metrics
 - **Maintenance Cost**: Advanced features that don't significantly increase complexity
@@ -937,6 +994,7 @@ PROMPTWIZARD_CONFIG = {
 ### **Integration Quality Standards**
 
 #### **Superior Integration Patterns We've Established**
+
 ```typescript
 // Advanced Error Handling with Retry Logic
 export const optimizeWithRetry = async (prompt: string, maxRetries = 3) => {
@@ -973,6 +1031,7 @@ export const parseAIResponse = (response: string): ParsedResponse => {
 ```
 
 #### **Real-time Progress Tracking Implementation**
+
 ```typescript
 // WebSocket-based progress updates
 export const trackOptimizationProgress = (sessionId: string) => {
@@ -992,12 +1051,14 @@ export const trackOptimizationProgress = (sessionId: string) => {
 #### **Apply KISS Principles Intelligently (Not Blindly)**
 
 **Keep Advanced When:**
+
 - Dual-mode optimization provides clear user choice and value
 - Quality metrics tracking enables data-driven improvements
 - Error recovery systems improve reliability without adding complexity
 - Real-time progress reduces user anxiety and improves perception
 
 **Simplify When:**
+
 - Complex abstractions don't provide proportional benefits
 - Multiple similar components can be consolidated
 - Configuration options overwhelm users without clear use cases
@@ -1006,6 +1067,7 @@ export const trackOptimizationProgress = (sessionId: string) => {
 #### **Framework Compliance vs. Practical Benefits**
 
 **Prioritize:**
+
 1. **Working Quality**: Code that works reliably over code that passes arbitrary style checks
 2. **User Experience**: Features that improve actual user outcomes
 3. **Developer Productivity**: Tools and patterns that enable faster, better development
@@ -1013,6 +1075,7 @@ export const trackOptimizationProgress = (sessionId: string) => {
 5. **Performance**: Measurable improvements in speed, reliability, or resource usage
 
 **De-prioritize:**
+
 1. **Rigid Tool Compliance**: Perfect Prettier formatting over working features
 2. **Architectural Purity**: Complex patterns that don't solve real problems
 3. **Premature Optimization**: Performance work without measured bottlenecks
@@ -1021,6 +1084,7 @@ export const trackOptimizationProgress = (sessionId: string) => {
 ### **Agent Utilization Best Practices**
 
 #### **Streamlined 5-Agent System Benefits**
+
 - **Reduced Communication Overhead**: Fewer handoffs, clearer responsibilities
 - **Enhanced Domain Expertise**: Each agent covers broader, more cohesive domain
 - **Faster Decision Making**: Less bureaucratic processes, more action
@@ -1029,12 +1093,14 @@ export const trackOptimizationProgress = (sessionId: string) => {
 #### **When to Delegate vs. Direct Implementation**
 
 **Delegate to Agents When:**
+
 - Domain-specific expertise required (security, performance, AI integration)
 - Complex architectural decisions needed
 - Best practices consultation required
 - Quality assurance and validation needed
 
 **Direct Implementation When:**
+
 - Simple, straightforward changes within established patterns
 - Minor bug fixes with clear solutions
 - Documentation updates and maintenance tasks
@@ -1045,12 +1111,14 @@ export const trackOptimizationProgress = (sessionId: string) => {
 #### **Superior Current Technology Over Forced Downgrades**
 
 **Evidence-Based Choices:**
+
 - **Next.js 15.4.5**: Latest stable with proven benefits (Turbopack, React 19 support)
 - **React 19.1.0**: Concurrent features, improved hydration, better performance
 - **Qwen3:4b**: Proven working model with optimal size/performance balance
 - **Convex**: Serverless database with real-time features, excellent DX
 
 **Avoid Forced Downgrades:**
+
 - Don't downgrade to older Next.js versions without technical justification
 - Don't use outdated React patterns when modern equivalents are superior
 - Don't choose inferior AI models for theoretical simplicity
@@ -1070,11 +1138,13 @@ export const trackOptimizationProgress = (sessionId: string) => {
 ## 📋 AUTOMATED VERSION CONTROL & KNOWLEDGE GRAPH PROTOCOL
 
 ### **Repository Integration**
-- **GitHub Repository**: https://github.com/mattjutt1/prompt-wizard.git
+
+- **GitHub Repository**: <https://github.com/mattjutt1/prompt-wizard.git>
 - **Branch Strategy**: main (production), develop (integration), feature/* (development)
 - **Commit Convention**: Conventional Commits specification
 
 ### **Mandatory Post-Update Actions**
+
 After EVERY code change, file modification, or task completion, Claude Code MUST execute:
 
 ```bash
@@ -1095,6 +1165,7 @@ python .claude/scripts/update_context_vectors.py
 ```
 
 ### **Knowledge Graph Architecture**
+
 ```python
 # Contextual Knowledge Graph Structure
 KNOWLEDGE_GRAPH = {
@@ -1122,6 +1193,7 @@ KNOWLEDGE_GRAPH = {
 ```
 
 ### **Embedding-Based Context Management**
+
 ```python
 # Context Vector Generation
 def generate_context_embeddings():
@@ -1139,6 +1211,7 @@ def generate_context_embeddings():
 ```
 
 ### **Automated CHANGELOG Management**
+
 ```markdown
 # CHANGELOG.md Format
 ## [Version] - Date
@@ -1160,6 +1233,7 @@ def generate_context_embeddings():
 ```
 
 ### **Git Commit Automation**
+
 ```python
 # Conventional Commit Format
 COMMIT_TYPES = {
@@ -1184,6 +1258,7 @@ def generate_commit_message(changes):
 ## 🧠 CONTEXTUAL KNOWLEDGE GRAPH SYSTEM
 
 ### **Graph Database Schema**
+
 ```json
 {
   "nodes": {
@@ -1203,6 +1278,7 @@ def generate_commit_message(changes):
 ```
 
 ### **Embedding Strategy**
+
 ```python
 # Multi-Modal Embedding Generation
 EMBEDDING_MODELS = {
@@ -1222,6 +1298,7 @@ CONTEXT_DIMENSIONS = {
 ```
 
 ### **Claude Code Optimization Features**
+
 ```python
 # Intelligent Context Retrieval
 def get_relevant_context(query, max_tokens=4000):
@@ -1261,6 +1338,7 @@ def predict_needed_context(current_task):
 ## 🚨 MANDATORY BEHAVIORS
 
 ### **Things Claude Code MUST Always Do**
+
 1. **Consult subagents** for ALL specialized tasks - no exceptions
 2. **Apply KISS principles** to every solution
 3. **Run quality gates** before and after implementation
@@ -1273,6 +1351,7 @@ def predict_needed_context(current_task):
 10. **Validate simplicity** before implementing complexity
 
 ### **Things Claude Code MUST Never Do**
+
 1. **Never bypass streamlined agent hierarchy** - consult appropriate specialist agents
 2. **Never apply rigid simplification blindly** - preserve valuable advanced features
 3. **Never skip quality gates** - maintain enhanced quality standards
@@ -1289,6 +1368,7 @@ def predict_needed_context(current_task):
 ## 🎮 DEVELOPMENT VIBE CHECK
 
 ### **Continuous Vibe Assessment**
+
 Does this feel effortless and natural?
 Are we solving real problems elegantly?
 Is the solution beautifully simple?
@@ -1296,6 +1376,7 @@ Would a new developer smile when seeing this?
 Are we using the full power of our agent team?
 
 ### **Flow State Indicators**
+
 - Subagents working in harmony
 - Code emerging naturally from requirements
 - Quality gates passing automatically

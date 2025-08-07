@@ -10,6 +10,7 @@
 Microsoft's PromptWizard represents a breakthrough in automated prompt optimization, offering a self-evolving framework that transforms vague user inputs into well-engineered prompts through a two-stage optimization process. This comprehensive analysis reveals the exact dataset structure, training methodologies, key datasets, and provides actionable guidance for implementing prompt enhancement capabilities in commercial SaaS applications.
 
 **Key Findings:**
+
 - PromptWizard uses simple JSONL format: `{question, answer}`
 - Two-stage optimization: instruction refinement + joint example optimization
 - Achieves 90.10% on MMLU, 95.4% on GSM8K with 5-60x cost reduction
@@ -38,11 +39,13 @@ Microsoft's PromptWizard represents a breakthrough in automated prompt optimizat
 PromptWizard utilizes a streamlined JSONL (JSON Lines) format optimized for prompt optimization tasks:
 
 **Required Structure:**
+
 ```json
 {"question": "complete question text", "answer": "ground truth response"}
 ```
 
 **Example Training Instance:**
+
 ```json
 {
   "question": "Solve this math problem step by step: If John has 5 apples and gives 2 to his friend, then buys 3 more apples, how many apples does John have now?",
@@ -68,11 +71,13 @@ PromptWizard accommodates three distinct optimization scenarios:
 3. **Scenario 3**: Training data-driven optimization (recommended for commercial use)
 
 **Required Files for Scenario 3:**
+
 - `train.jsonl` - Training question-answer pairs
 - `test.jsonl` - Evaluation dataset
 - `config.yaml` - Optimization parameters
 
 **Minimum Dataset Requirements:**
+
 - Training: 20-50 examples (minimum), 500+ examples (recommended)
 - Testing: 10-20% of training size
 - Quality over quantity: well-crafted examples outperform large noisy datasets
@@ -84,14 +89,16 @@ PromptWizard accommodates three distinct optimization scenarios:
 ### Mathematical Reasoning Datasets
 
 #### GSM8K (Grade School Math 8K)
+
 - **Size**: 8,500 high-quality math word problems
 - **Format**: `{question, answer}`
 - **Download**: `datasets.load_dataset('gsm8k')`
-- **Direct Link**: https://github.com/openai/grade-school-math
+- **Direct Link**: <https://github.com/openai/grade-school-math>
 - **License**: MIT (✅ Commercial friendly)
 - **Fields**: `question`, `answer`
 - **Use Case**: Multi-step arithmetic reasoning, business logic problems
 - **Example**:
+
 ```json
 {
   "question": "Janet's ducks lay 16 eggs per day. She eats 3 for breakfast every morning and bakes 4 into muffins for her friends every day. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?",
@@ -100,15 +107,17 @@ PromptWizard accommodates three distinct optimization scenarios:
 ```
 
 #### MATH Competition Dataset
+
 - **Size**: 12,500 competition-level problems
 - **Format**: `{problem, solution, level, type}`
 - **Download**: `datasets.load_dataset('HuggingFaceTB/MATH')`
-- **Direct Link**: https://github.com/hendrycks/math (⚠️ DMCA restrictions)
+- **Direct Link**: <https://github.com/hendrycks/math> (⚠️ DMCA restrictions)
 - **License**: Restricted due to DMCA takedown
 - **Fields**: `problem`, `solution`, `level` (1-5), `type` (algebra, geometry, etc.)
 - **Use Case**: Advanced mathematical reasoning, complex problem decomposition
 
 #### SVAMP & AQUA-RAT
+
 - **SVAMP**: ~1,000 simple arithmetic problems
 - **AQUA-RAT**: ~100,000 multiple-choice problems with detailed rationales
 - **Download**: `datasets.load_dataset('aqua_rat')`
@@ -118,13 +127,15 @@ PromptWizard accommodates three distinct optimization scenarios:
 ### Instruction-Following Datasets
 
 #### Stanford Alpaca
+
 - **Size**: 52,000 instruction-response pairs
 - **Format**: `{instruction, input, output}`
 - **Download**: `datasets.load_dataset('tatsu-lab/alpaca')`
-- **Direct Link**: https://github.com/tatsu-lab/stanford_alpaca
+- **Direct Link**: <https://github.com/tatsu-lab/stanford_alpaca>
 - **License**: CC BY NC 4.0 (⚠️ Non-commercial only)
 - **Use Case**: General instruction following, task decomposition
 - **Example**:
+
 ```json
 {
   "instruction": "Give three tips for staying healthy.",
@@ -134,14 +145,16 @@ PromptWizard accommodates three distinct optimization scenarios:
 ```
 
 #### WizardLM Evol-Instruct
+
 - **Size**: 70,000+ evolved instructions with increasing complexity
 - **Format**: `{instruction, output}`
 - **Download**: `datasets.load_dataset('WizardLM/WizardLM_evol_instruct_70k')`
-- **Direct Link**: https://github.com/nlpxucan/WizardLM
+- **Direct Link**: <https://github.com/nlpxucan/WizardLM>
 - **License**: Research use (⚠️ Check terms for commercial use)
 - **Use Case**: Complex, evolved instructions with varying difficulty levels
 
 #### ShareGPT Conversations
+
 - **Size**: ~90,000 multi-turn conversations
 - **Format**: `{conversations: [{from, value}]}`
 - **Download**: `datasets.load_dataset('anon8231489123/ShareGPT_Vicuna_unfiltered')`
@@ -152,6 +165,7 @@ PromptWizard accommodates three distinct optimization scenarios:
 ### Chain-of-Thought and Reasoning Datasets
 
 #### CoT Collection
+
 - **Size**: 1.88M rationales across 1,060 tasks
 - **Format**: `{source, rationale, target}`
 - **Download**: `datasets.load_dataset('kaist-ai/CoT-Collection')`
@@ -159,18 +173,20 @@ PromptWizard accommodates three distinct optimization scenarios:
 - **Use Case**: Step-by-step reasoning, explanation generation
 
 #### BigBench Instruction Induction (BBII)
+
 - **Size**: 21 diverse reasoning tasks
 - **Format**: `{inputs, targets, multiple_choice_targets}`
 - **Download**: `datasets.load_dataset('google/bigbench')`
-- **Direct Link**: https://github.com/google/BIG-bench
+- **Direct Link**: <https://github.com/google/BIG-bench>
 - **License**: Apache 2.0 (✅ Commercial friendly)
 - **Use Case**: Instruction induction, task understanding from examples
 
 #### HumanEval Code Generation
+
 - **Size**: 164 Python programming problems
 - **Format**: `{task_id, prompt, canonical_solution, test, entry_point}`
 - **Download**: `datasets.load_dataset('openai_humaneval')`
-- **Direct Link**: https://github.com/openai/human-eval
+- **Direct Link**: <https://github.com/openai/human-eval>
 - **License**: MIT (✅ Commercial friendly)
 - **Use Case**: Code generation evaluation, logical reasoning
 
@@ -183,7 +199,9 @@ PromptWizard accommodates three distinct optimization scenarios:
 PromptWizard's core innovation lies in its two-stage optimization approach that progressively refines prompts:
 
 #### Stage 1: Iterative Instruction Optimization
+
 **Process Flow:**
+
 1. **Initial Prompt**: Start with user-provided or basic prompt
 2. **Mutation Generation**: Create multiple instruction variants through:
    - Paraphrasing with different styles
@@ -198,12 +216,15 @@ PromptWizard's core innovation lies in its two-stage optimization approach that 
 8. **Iteration**: Repeat 3-5 times until convergence
 
 **Key Parameters:**
+
 - `mutate_refine_iterations`: 3-5 (optimal balance of quality vs. cost)
 - `candidate_count`: 5-10 per iteration
 - `evaluation_metric`: Task-specific (accuracy, BLEU, etc.)
 
 #### Stage 2: Joint Instruction and Example Optimization
+
 **Enhanced Process:**
+
 1. **Refined Prompt Input**: Use best prompt from Stage 1
 2. **Example Selection**: Choose representative training examples
 3. **Synthetic Example Generation**: Create additional examples to:
@@ -218,6 +239,7 @@ PromptWizard's core innovation lies in its two-stage optimization approach that 
 ### Technical Implementation Details
 
 #### LLM-as-Judge Evaluation
+
 ```python
 def evaluate_prompt_performance(prompt, examples, target_llm):
     """
@@ -232,6 +254,7 @@ def evaluate_prompt_performance(prompt, examples, target_llm):
 ```
 
 #### Mutation Strategies
+
 - **Semantic Rewording**: Preserve meaning while changing expression
 - **Structure Modification**: Alter prompt organization and flow
 - **Context Addition**: Include relevant background information
@@ -239,6 +262,7 @@ def evaluate_prompt_performance(prompt, examples, target_llm):
 - **Style Adaptation**: Adjust tone and complexity for target audience
 
 #### Feedback Mechanisms
+
 - **Performance-Based**: Direct accuracy/quality measurements
 - **Critique-Driven**: Qualitative analysis of failure modes
 - **Comparative**: Ranking multiple candidates
@@ -259,6 +283,7 @@ def evaluate_prompt_performance(prompt, examples, target_llm):
 PromptWizard deliberately avoids parameter-level fine-tuning for several strategic reasons:
 
 **Advantages of Prompt-Level Optimization:**
+
 - **Model Agnostic**: Works with any LLM (GPT-4, Claude, Qwen, etc.)
 - **Cost Effective**: No GPU training requirements
 - **Rapid Iteration**: Hours vs. days for optimization
@@ -267,6 +292,7 @@ PromptWizard deliberately avoids parameter-level fine-tuning for several strateg
 - **Scalable**: Can optimize multiple tasks simultaneously
 
 **When Traditional Fine-Tuning Makes Sense:**
+
 - Domain-specific terminology requires vocabulary expansion
 - Consistent output format across thousands of queries
 - Regulatory requirements for on-premise model deployment
@@ -281,18 +307,21 @@ PromptWizard deliberately avoids parameter-level fine-tuning for several strateg
 PromptWizard employs comprehensive evaluation across multiple dimensions:
 
 #### Accuracy Metrics
+
 - **Task-Specific Accuracy**: Exact match for math, BLEU for text generation
 - **Balanced Accuracy**: Accounts for class imbalance in classification tasks
 - **Consistency Scoring**: Performance stability across similar examples
 - **Edge Case Handling**: Robustness on challenging or ambiguous inputs
 
 #### Efficiency Metrics
+
 - **API Call Reduction**: 69 calls vs. 2,115+ for competing methods
 - **Token Usage Optimization**: 24K tokens vs. 400K-1,488K for baselines
 - **Time to Optimization**: Minutes vs. hours for traditional approaches
 - **Cost per Task**: $0.05 vs. $2-10+ for alternative methods
 
 #### Quality Metrics
+
 - **Response Coherence**: Logical flow and consistency
 - **Instruction Following**: Adherence to specified requirements
 - **Contextual Appropriateness**: Relevance to task domain
@@ -301,22 +330,26 @@ PromptWizard employs comprehensive evaluation across multiple dimensions:
 ### Benchmark Performance Results
 
 #### Mathematical Reasoning
+
 - **GSM8K**: 95.4% accuracy (vs. 87.1% baseline)
 - **MATH**: Competitive performance on competition-level problems
 - **SVAMP**: 82.3% accuracy (vs. 78.9% baseline)
 - **AQUA-RAT**: 67.2% accuracy (vs. 61.4% baseline)
 
 #### General Instruction Following
+
 - **MMLU**: 90.10% accuracy (record-breaking performance)
 - **BigBench Instruction Induction**: Superior on 16/19 tasks
 - **Ethos**: 89.4% accuracy (vs. 85.2% baseline)
 - **TruthfulQA**: 76.8% accuracy (vs. 72.1% baseline)
 
 #### Code Generation
+
 - **HumanEval**: 78.3% pass@1 (vs. 73.2% baseline)
 - **MBPP**: 71.6% accuracy (vs. 68.9% baseline)
 
 #### Cost-Effectiveness Analysis
+
 | Method | API Calls | Tokens Used | Estimated Cost | Performance Gain |
 |--------|-----------|-------------|----------------|------------------|
 | **PromptWizard** | 69 | 24K | $0.05 | +5.8% average |
@@ -331,6 +364,7 @@ PromptWizard employs comprehensive evaluation across multiple dimensions:
 ### Development Environment Setup
 
 #### Prerequisites
+
 ```bash
 # Install required packages
 pip install datasets huggingface_hub transformers torch
@@ -341,6 +375,7 @@ huggingface-cli login
 ```
 
 #### Repository Setup
+
 ```bash
 # Clone PromptWizard repository
 git clone https://github.com/microsoft/PromptWizard.git
@@ -356,6 +391,7 @@ cp config/default_config.yaml config/custom_config.yaml
 ### Data Preparation Pipeline
 
 #### Step 1: Dataset Collection
+
 ```python
 from datasets import load_dataset
 import json
@@ -389,6 +425,7 @@ with open('data/gsm8k_train.jsonl', 'w') as f:
 ```
 
 #### Step 2: Custom Dataset Creation
+
 ```python
 # Create domain-specific prompt enhancement examples
 custom_examples = [
@@ -409,6 +446,7 @@ with open('data/custom_prompt_enhancement.jsonl', 'w') as f:
 ```
 
 #### Step 3: Configuration Setup
+
 ```yaml
 # config/qwen3_config.yaml
 experiment_name: "qwen3_prompt_enhancement"
@@ -436,6 +474,7 @@ save_intermediate_results: true
 ### Training Process Implementation
 
 #### Step 4: Run PromptWizard Optimization
+
 ```python
 from promptwizard import PromptOptimizer
 
@@ -473,6 +512,7 @@ optimizer.save_results("results/qwen3_optimized_prompt.json")
 ```
 
 #### Step 5: Evaluation and Testing
+
 ```python
 # Evaluate optimized prompt
 test_results = optimizer.evaluate(
@@ -502,6 +542,7 @@ print(f"Performance improvements: {improvement}")
 ### Commercial Deployment
 
 #### Step 6: Production Integration
+
 ```python
 class PromptEnhancer:
     def __init__(self, optimized_prompt, examples):
@@ -542,12 +583,14 @@ enhanced_prompt = enhancer.enhance_user_input(vague_request)
 ### Immediate Use (MIT/Apache 2.0 Licensed)
 
 #### Tier 1: Essential Datasets
+
 1. **GSM8K** - Mathematical reasoning foundation
 2. **HumanEval** - Logical thinking and code generation
 3. **AQUA-RAT** - Structured reasoning with explanations
 4. **BigBench** - Diverse instruction induction tasks
 
 #### Tier 2: Enhancement Datasets
+
 1. **Chain-of-Thought Hub** - Reasoning pattern templates
 2. **Custom SaaS Examples** - Domain-specific prompt transformations
 3. **Business Logic Problems** - Enterprise-specific scenarios
@@ -555,17 +598,20 @@ enhanced_prompt = enhancer.enhance_user_input(vague_request)
 ### Datasets Requiring Caution
 
 #### Research Use Only
+
 - **MATH Competition**: DMCA restrictions limit commercial use
 - **ShareGPT**: Unclear licensing, potential copyright issues
 - **WizardLM**: Academic research license only
 
 #### Non-Commercial Licensed
+
 - **Alpaca**: CC BY NC 4.0 prohibits commercial use
 - **Vicuna Conversations**: Derived from ShareGPT, similar issues
 
 ### Custom Dataset Creation Strategy
 
 #### Phase 1: Core Business Logic (Weeks 1-2)
+
 ```python
 # Focus areas for custom dataset development
 core_categories = [
@@ -582,6 +628,7 @@ total_custom_examples = len(core_categories) * target_examples_per_category
 ```
 
 #### Phase 2: Domain Specialization (Weeks 3-4)
+
 ```python
 # SaaS-specific categories
 saas_categories = [
@@ -594,6 +641,7 @@ saas_categories = [
 ```
 
 #### Phase 3: Advanced Reasoning (Weeks 5-6)
+
 ```python
 # Complex prompt engineering patterns
 advanced_patterns = [
@@ -612,21 +660,24 @@ advanced_patterns = [
 ### Core Prompt Engineering Repositories
 
 #### Microsoft Guidance
-- **Repository**: https://github.com/microsoft/guidance
+
+- **Repository**: <https://github.com/microsoft/guidance>
 - **Purpose**: Structured prompt programming language
 - **Key Features**: Template-based prompt construction, guaranteed parsing
 - **Commercial Use**: Open source, MIT licensed
 - **Integration**: Complementary to PromptWizard for structured outputs
 
 #### Microsoft PromptBase
-- **Repository**: https://github.com/microsoft/promptbase
+
+- **Repository**: <https://github.com/microsoft/promptbase>
 - **Purpose**: Curated collection of prompt engineering resources
 - **Content**: Best practices, examples, evaluation methods
 - **Status**: Archive status, valuable reference material
 - **Use Case**: Learning prompt engineering fundamentals
 
 #### Microsoft Prompt Engineering Guide
-- **Repository**: https://github.com/microsoft/prompt-engineering
+
+- **Repository**: <https://github.com/microsoft/prompt-engineering>
 - **Purpose**: Educational resources and best practices
 - **Content**: Comprehensive guides, examples, case studies
 - **Target Audience**: Developers and prompt engineers
@@ -635,6 +686,7 @@ advanced_patterns = [
 ### Research and Development Tools
 
 #### SAMMO (Structure-Aware Metaprompt Optimization)
+
 - **Paper**: "SAMMO: A general-purpose framework for prompt optimization"
 - **Approach**: Multi-objective optimization with structural transformations
 - **Features**: Symbolic prompt representation, automated search
@@ -642,6 +694,7 @@ advanced_patterns = [
 - **Relationship**: Alternative optimization approach to PromptWizard
 
 #### LMOps Toolkit
+
 - **Purpose**: Large Model Operations and optimization
 - **Components**: Prompt optimization, model evaluation, deployment tools
 - **Status**: Research initiative, various open-source components
@@ -650,7 +703,8 @@ advanced_patterns = [
 ### Complementary Microsoft AI Tools
 
 #### Microsoft Prompty
-- **Repository**: https://github.com/microsoft/prompty
+
+- **Repository**: <https://github.com/microsoft/prompty>
 - **Purpose**: Prompt development and testing framework
 - **Features**: Version control, A/B testing, performance monitoring
 - **Commercial Use**: Production-ready prompt management
@@ -724,6 +778,7 @@ def math_to_promptwizard(math_data):
 ### Appendix C: Configuration Templates
 
 #### Basic Configuration
+
 ```yaml
 # config/basic_config.yaml
 experiment_name: "basic_prompt_optimization"
@@ -745,6 +800,7 @@ evaluation_metric: "accuracy"
 ```
 
 #### Advanced Configuration
+
 ```yaml
 # config/advanced_config.yaml
 experiment_name: "advanced_prompt_optimization"
@@ -854,6 +910,7 @@ class PromptWizardBenchmark:
 #### Common Issues and Solutions
 
 **Issue 1: API Rate Limiting**
+
 ```python
 # Solution: Implement exponential backoff
 import time
@@ -870,6 +927,7 @@ def api_call_with_backoff(api_function, max_retries=5):
 ```
 
 **Issue 2: Memory Issues with Large Datasets**
+
 ```python
 # Solution: Process data in chunks
 def process_large_dataset(dataset_path, chunk_size=1000):
@@ -887,6 +945,7 @@ def process_large_dataset(dataset_path, chunk_size=1000):
 ```
 
 **Issue 3: Inconsistent Results**
+
 ```python
 # Solution: Set random seeds and use temperature=0 for reproducibility
 import random
@@ -910,6 +969,7 @@ def set_reproducible_seeds(seed=42):
 This comprehensive analysis of Microsoft's PromptWizard provides a complete roadmap for implementing automated prompt enhancement in commercial SaaS applications. The framework's innovative two-stage optimization approach, combined with carefully curated training datasets and proven evaluation metrics, offers a practical solution for transforming vague user inputs into well-engineered prompts.
 
 **Key Takeaways:**
+
 1. **Simple but Effective**: JSONL format with just `{question, answer}` pairs
 2. **Commercially Viable**: Multiple MIT/Apache 2.0 licensed datasets available
 3. **Cost-Effective**: 5-60x cost reduction vs. traditional approaches

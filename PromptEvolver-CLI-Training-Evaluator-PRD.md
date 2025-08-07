@@ -1,4 +1,5 @@
 # Product Requirements Document (PRD) – PromptEvolver CLI Training Evaluator
+
 ## Terminal-Based Prompt Optimization & Training Data Pipeline for Individual Developers
 
 ---
@@ -10,6 +11,7 @@ This PRD defines a **practical CLI-based training evaluator** that leverages Mic
 **Mission:** Deliver practical, terminal-accessible prompt evaluation and training data generation for individual developers using local AI models and free cloud infrastructure.
 
 ### Document Metadata
+
 - **Product Name**: PromptEvolver CLI Training Evaluator
 - **Version**: 1.0 (Individual Developer Edition)
 - **Created**: August 5, 2025
@@ -90,6 +92,7 @@ promptevolver local --help      # Local database operations
 ### Phase 1: Training Data Generation Pipeline
 
 **Single Prompt Optimization with Training Metadata:**
+
 ```bash
 # Optimize single prompt with full training context
 promptevolver train optimize \
@@ -119,6 +122,7 @@ promptevolver train optimize-for-training \
 ```
 
 **Training Dataset Generation & Formatting:**
+
 ```bash
 # Generate HuggingFace compatible training dataset
 promptevolver dataset create \
@@ -156,6 +160,7 @@ promptevolver dataset analyze \
 ### Phase 2: Quality Evaluation & Training Metrics
 
 **Training Data Quality Assessment:**
+
 ```bash
 # Evaluate optimization quality for training effectiveness
 promptevolver eval training-quality \
@@ -190,6 +195,7 @@ promptevolver eval performance \
 ### Phase 3: Free Cloud Storage for Training Data
 
 **AWS S3 Free Tier Integration (5GB storage, 20K requests/month):**
+
 ```bash
 # Configure S3 for training data storage
 promptevolver storage config s3 \
@@ -215,6 +221,7 @@ promptevolver storage download \
 ```
 
 **Google Cloud Storage & HuggingFace Integration:**
+
 ```bash
 # Configure Google Cloud Storage (5GB free, 5K operations/month)
 promptevolver storage config gcs \
@@ -241,6 +248,7 @@ promptevolver storage upload-hf \
 ### Phase 4: Local Database & Session Management
 
 **Training Session Management:**
+
 ```bash
 # Initialize training session database
 promptevolver local init \
@@ -273,6 +281,7 @@ promptevolver local stats \
 ## 📊 Training-Focused Data Schemas
 
 ### Training Optimization Result Schema
+
 ```json
 {
   "training_optimization": {
@@ -309,6 +318,7 @@ promptevolver local stats \
 ```
 
 ### HuggingFace Compatible Training Dataset (JSONL)
+
 ```json
 {
   "instruction": "Optimize this prompt for better clarity and effectiveness",
@@ -328,6 +338,7 @@ promptevolver local stats \
 ```
 
 ### Training Session Database Schema
+
 ```sql
 CREATE TABLE training_sessions (
     id INTEGER PRIMARY KEY,
@@ -371,6 +382,7 @@ CREATE TABLE cloud_storage_sync (
 ## 🔧 Technical Implementation Details
 
 ### Click CLI Framework for Training Focus
+
 ```python
 # promptevolver/cli/train.py
 import click
@@ -434,6 +446,7 @@ def batch(input_file, max_concurrent, generate_training_data, output):
 ```
 
 ### PromptWizard Training Integration
+
 ```python
 # promptevolver/core/training_integration.py
 import asyncio
@@ -570,6 +583,7 @@ class PromptWizardTrainingIntegration:
 ```
 
 ### Training Dataset Generator
+
 ```python
 # promptevolver/training/dataset_generator.py
 import json
@@ -672,6 +686,7 @@ class TrainingDatasetGenerator:
 ## 📋 Implementation Roadmap
 
 ### Sprint 1: Core CLI & Training Pipeline (Week 1)
+
 - [ ] Click CLI framework with training-focused commands
 - [ ] PromptWizard 0.2.2 integration with Qwen3 4B for training optimization
 - [ ] Single prompt optimization with training data generation
@@ -679,6 +694,7 @@ class TrainingDatasetGenerator:
 - [ ] Basic JSONL output for training datasets
 
 ### Sprint 2: Batch Processing & Quality Control (Week 2)
+
 - [ ] Batch optimization pipeline with concurrent processing
 - [ ] Training data quality filtering and validation
 - [ ] HuggingFace-compatible dataset formatting
@@ -686,6 +702,7 @@ class TrainingDatasetGenerator:
 - [ ] Local SQLite database for training session management
 
 ### Sprint 3: Cloud Storage & Dataset Management (Week 3)
+
 - [ ] AWS S3 free tier integration with training dataset upload
 - [ ] Google Cloud Storage alternative for dataset backup
 - [ ] HuggingFace Hub integration for dataset sharing
@@ -693,6 +710,7 @@ class TrainingDatasetGenerator:
 - [ ] Quota monitoring and cost optimization for free tiers
 
 ### Sprint 4: Evaluation & Analytics (Week 4)
+
 - [ ] Training data quality evaluation (BLEU, ROUGE, semantic similarity)
 - [ ] Dataset diversity analysis and statistics generation
 - [ ] Cross-validation for training data consistency
@@ -704,6 +722,7 @@ class TrainingDatasetGenerator:
 ## 🔄 Realistic Performance Expectations
 
 ### Qwen3 4B Processing Targets (Individual Developer Hardware)
+
 - **Single Prompt Optimization**: 2-5 minutes per prompt (including quality evaluation)
 - **Batch Processing Throughput**: 5-20 prompts per hour (depending on complexity)
 - **Memory Requirements**: 2.6GB VRAM minimum, 4GB recommended
@@ -711,6 +730,7 @@ class TrainingDatasetGenerator:
 - **Training Data Success Rate**: 60-80% of optimizations suitable for training
 
 ### Free Tier Cloud Storage Utilization
+
 - **AWS S3 Free Tier**: 5GB storage, 20,000 GET requests/month
 - **Google Cloud Storage**: 5GB storage, 5,000 operations/month
 - **HuggingFace Hub**: Unlimited public datasets, 3GB private storage
@@ -719,6 +739,7 @@ class TrainingDatasetGenerator:
 - **Monthly Sync Budget**: Approximately 500-1000 operations
 
 ### Training Data Quality Benchmarks
+
 - **Improvement Threshold**: Minimum 15% improvement for training inclusion
 - **Quality Score Range**: 0.6-0.9 for training-suitable optimizations
 - **Dataset Diversity**: Support 10+ task types (educational, creative, analytical, etc.)
@@ -730,6 +751,7 @@ class TrainingDatasetGenerator:
 ## 📈 Success Metrics & Monitoring
 
 ### Training-Focused Success Metrics
+
 | Metric | Target | Measurement Method | Current Reality Check |
 |--------|--------|-------------------|----------------------|
 | **Training Data Quality** | 70%+ suitable for training | Automated quality scoring | vs aspirational 90%+ |
@@ -739,6 +761,7 @@ class TrainingDatasetGenerator:
 | **CLI Usability** | <5 commands for complete workflow | User experience testing | Terminal-native efficiency |
 
 ### Training Data Quality Monitoring
+
 ```python
 class TrainingDataMonitor:
     def __init__(self):
@@ -800,6 +823,7 @@ class TrainingDataMonitor:
 ## ✅ Success Criteria & Production Readiness
 
 ### Acceptance Testing Framework
+
 - [ ] **Complete CLI Workflow**: All training commands work from prompt to dataset
 - [ ] **PromptWizard Integration**: Successful optimization with Qwen3 4B via Ollama
 - [ ] **Training Data Quality**: Generated datasets improve model performance
@@ -808,6 +832,7 @@ class TrainingDataMonitor:
 - [ ] **Format Compatibility**: Datasets work with HuggingFace Transformers, Unsloth
 
 ### Production Readiness Checklist
+
 - [ ] Comprehensive error handling for network failures and resource constraints
 - [ ] CLI help documentation with complete examples and troubleshooting
 - [ ] Quota monitoring with clear warnings before free tier limits
@@ -822,6 +847,7 @@ class TrainingDataMonitor:
 This PRD establishes a **practical, terminal-driven solution** for individual developers to generate high-quality training datasets using local AI models and free cloud infrastructure. The three-layer architecture provides a sustainable, cost-effective approach to prompt optimization and training data generation.
 
 **Key Differentiators:**
+
 - **Terminal-Native Workflow**: Complete functionality through CLI commands
 - **Training-Focused**: Optimized specifically for generating training datasets
 - **Local AI Processing**: No API costs, full control over PromptWizard + Qwen3 4B
@@ -832,6 +858,7 @@ This PRD establishes a **practical, terminal-driven solution** for individual de
 The system enables individual developers to build and maintain high-quality training datasets without enterprise infrastructure or costs, democratizing access to prompt optimization and model fine-tuning capabilities through a practical, command-line interface.
 
 **Perfect for developers who want to:**
+
 - Generate training data for prompt optimization models
 - Fine-tune local models with quality instruction-tuning datasets
 - Build training pipelines using terminal commands

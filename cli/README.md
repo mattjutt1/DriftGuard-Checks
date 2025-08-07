@@ -50,11 +50,13 @@ python promptevolver_cli/test_example.py
 ## 📖 Usage
 
 ### Check System Health
+
 ```bash
 promptevolver health
 ```
 
 ### Optimize a Single Prompt
+
 ```bash
 # Quick optimization (1 iteration)
 promptevolver optimize "Your prompt here"
@@ -71,6 +73,7 @@ promptevolver optimize "Your prompt here" \
 ```
 
 ### Batch Optimization
+
 ```bash
 # Create a file with prompts (one per line)
 echo "What is the capital of France?" > prompts.txt
@@ -92,12 +95,14 @@ promptevolver batch prompts.txt --output my_results.json
 ## ⚙️ Options
 
 ### Optimize Command
+
 - `--mode`, `-m` - Optimization mode: `quick` (1 iteration) or `advanced` (3 iterations)
 - `--reasoning/--no-reasoning` - Generate expert reasoning (default: enabled)
 - `--expert-identity/--no-expert-identity` - Generate expert identity (default: enabled)
 - `--rounds`, `-r` - Number of mutation rounds (default: 3)
 
 ### Batch Command
+
 - `--output`, `-o` - Output file for results (default: results.json)
 - `--mode`, `-m` - Optimization mode: `quick` or `advanced`
 
@@ -111,6 +116,7 @@ promptevolver health
 ```
 
 **Configuration Testing Status:**
+
 - ✅ Default URL configuration tested
 - ✅ Environment variable override tested
 - ✅ Fallback behavior validated
@@ -119,12 +125,14 @@ promptevolver health
 ## 🏗️ Architecture
 
 This CLI is built with:
+
 - **Click** - Command-line interface framework following 2025 best practices
 - **Rich** - Beautiful terminal output and progress indicators
 - **Requests** - HTTP client for Convex API calls
 - **Python 3.8+** - Modern Python with type hints
 
 The CLI connects directly to your existing Convex actions via HTTP API:
+
 - `actions:checkOllamaHealth` - Health checks
 - `actions:testOptimizationPipeline` - Prompt optimization
 - `actions:optimizePromptWithOllama` - Session-based optimization
@@ -132,6 +140,7 @@ The CLI connects directly to your existing Convex actions via HTTP API:
 ### API Integration
 
 The CLI uses the Convex HTTP API format:
+
 ```python
 POST /api/action
 {
@@ -142,6 +151,7 @@ POST /api/action
 ```
 
 Response format:
+
 ```python
 {
   "status": "success",
@@ -169,6 +179,7 @@ cli/
 ## 🎬 Examples
 
 ### Health Check
+
 ```bash
 $ promptevolver health
 
@@ -180,6 +191,7 @@ Checking PromptWizard Health...
 ```
 
 ### Single Prompt Optimization
+
 ```bash
 $ promptevolver optimize "Write a Python function"
 
@@ -198,6 +210,7 @@ Optimizing Prompt (quick mode)...
 ```
 
 ### Batch Processing
+
 ```bash
 $ promptevolver batch test_prompts.txt
 
@@ -223,6 +236,7 @@ Batch Optimization (quick mode)
 ## 🐛 Troubleshooting (Validated Solutions)
 
 ### API Connection Issues
+
 All API integration has been thoroughly tested. If you encounter issues:
 
 1. **Verified Solutions:**
@@ -237,6 +251,7 @@ All API integration has been thoroughly tested. If you encounter issues:
    - Review `TESTING_FRAMEWORK_IMPLEMENTATION_REPORT.md` for comprehensive validation
 
 ### Missing Dependencies
+
 ```bash
 # Reinstall all tested dependencies
 pip install click requests rich python-dotenv typing-extensions
@@ -248,6 +263,7 @@ pip install pytest pytest-cov pytest-html pytest-json-report pytest-click
 ## 🎯 Current Status: PRODUCTION READY
 
 **Fully Tested & Working Features:**
+
 - ✅ CLI structure and commands (30 tests)
 - ✅ Beautiful terminal interface (tested with real output)
 - ✅ Batch processing logic (integration tested)
@@ -258,6 +274,7 @@ pip install pytest pytest-cov pytest-html pytest-json-report pytest-click
 - ✅ Real Convex integration (14 integration tests)
 
 **Test Validation Evidence:**
+
 - 📊 **114 Total Tests**: Complete system coverage
 - ✅ **100% Success Rate**: All tests passing
 - 🔍 **Real API Testing**: Actual backend validation
@@ -269,6 +286,7 @@ pip install pytest pytest-cov pytest-html pytest-json-report pytest-click
 ## 🎯 Enhancement Roadmap
 
 **Completed Through Testing:**
+
 1. ✅ **API Authentication** - Validated and working
 2. ✅ **Convex Integration** - Real backend communication tested
 3. ✅ **Error Handling** - Comprehensive failure recovery
@@ -276,6 +294,7 @@ pip install pytest pytest-cov pytest-html pytest-json-report pytest-click
 5. ✅ **Quality Assurance** - 114 tests with 100% success rate
 
 **Future Enhancements:**
+
 1. **Additional Output Formats** - CSV, YAML, XML support
 2. **Configuration File Support** - `.promptevolver.yaml` config files
 3. **Result Caching** - Cache optimization results for faster re-runs
@@ -285,12 +304,14 @@ pip install pytest pytest-cov pytest-html pytest-json-report pytest-click
 ## 📊 Testing Evidence
 
 **Comprehensive Test Results:**
+
 - **FINAL_TEST_EXECUTION_RESULTS.json**: 44 initial tests (90.9% success)
 - **FINAL_TEST_FIX_SUMMARY.json**: Systematic fixes achieving 100% success
 - **TESTING_FRAMEWORK_IMPLEMENTATION_REPORT.md**: Complete framework documentation
 - **114 Total Test Cases**: Unit (87) + Integration (27) comprehensive coverage
 
 **Quality Validation:**
+
 - Code quality analysis with 5 tools (pylint, mypy, black, radon, bandit)
 - 80% minimum test coverage with enforcement
 - Automated test execution with evidence generation

@@ -1,25 +1,28 @@
 # 🔧 HuggingFace Space SSH Access Guide
 
-**Space**: https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training
+**Space**: <https://huggingface.co/spaces/unfiltrdfreedom/promptwizard-qwen-training>
 **Developer Mode**: ✅ ENABLED
 **Hardware**: Zero GPU (A10G)
 
 ## SSH Connection (Once Available)
 
 When the Space is running with dev mode, you'll get:
+
 - SSH command like: `ssh user@hostname -p PORT`
 - Password or SSH key
 - VS Code remote connection option
 
-## What We Can Do via SSH:
+## What We Can Do via SSH
 
 ### 1. Check GPU Status
+
 ```bash
 nvidia-smi
 python -c "import torch; print(torch.cuda.is_available())"
 ```
 
 ### 2. Monitor Training Live
+
 ```bash
 # See running processes
 ps aux | grep python
@@ -32,6 +35,7 @@ tail -f training.log
 ```
 
 ### 3. Debug Issues
+
 ```bash
 # Test imports
 python -c "import spaces; print('Spaces module OK')"
@@ -43,6 +47,7 @@ wc -l data/train.jsonl
 ```
 
 ### 4. Run Training Manually
+
 ```bash
 # Activate environment
 source /app/venv/bin/activate
@@ -69,7 +74,7 @@ def test_gpu():
     return "GPU test complete"
 ```
 
-## Files to Check via SSH:
+## Files to Check via SSH
 
 1. **App Status**: `/app/app.py`
 2. **Requirements**: `/app/requirements.txt`
@@ -77,7 +82,7 @@ def test_gpu():
 4. **Logs**: Check for any `.log` files
 5. **GPU Access**: Test if Zero GPU decorator works
 
-## Common SSH Commands:
+## Common SSH Commands
 
 ```bash
 # Check Space environment
@@ -103,9 +108,10 @@ df -h
 free -h
 ```
 
-## Troubleshooting via SSH:
+## Troubleshooting via SSH
 
-### If GPU not available:
+### If GPU not available
+
 ```bash
 # Check if spaces module loaded
 python -c "import spaces; print(dir(spaces))"
@@ -114,7 +120,8 @@ python -c "import spaces; print(dir(spaces))"
 env | grep HARDWARE
 ```
 
-### If training fails:
+### If training fails
+
 ```bash
 # Check Python version
 python --version

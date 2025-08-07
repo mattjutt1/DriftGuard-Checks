@@ -29,11 +29,13 @@ A modern web application that uses AI to optimize your prompts for better result
 ### Installation
 
 1. **Clone and install dependencies**:
+
    ```bash
    npm install
    ```
 
 2. **Set up Ollama and Qwen3-8B**:
+
    ```bash
    # Start Ollama service
    ollama serve
@@ -43,6 +45,7 @@ A modern web application that uses AI to optimize your prompts for better result
    ```
 
 3. **Set up Convex**:
+
    ```bash
    # Login and configure Convex (interactive)
    npx convex dev --configure new
@@ -54,6 +57,7 @@ A modern web application that uses AI to optimize your prompts for better result
    ```
 
 4. **Configure environment variables**:
+
    ```bash
    # Copy example file
    cp .env.local.example .env.local
@@ -63,6 +67,7 @@ A modern web application that uses AI to optimize your prompts for better result
    ```
 
 5. **Start development**:
+
    ```bash
    # Start Next.js dev server
    npm run dev
@@ -85,6 +90,7 @@ A modern web application that uses AI to optimize your prompts for better result
 ## API Health Check
 
 Use the "Check Ollama Health" button to verify:
+
 - ✅ Ollama service is running
 - ✅ Qwen3-8B model is available
 - ✅ API connectivity is working
@@ -117,6 +123,7 @@ src/
 ### Database Schema
 
 The app uses the following main collections:
+
 - **users**: User profiles and preferences
 - **prompts**: Original and optimized prompt pairs
 - **optimizationSessions**: Processing sessions with metrics
@@ -128,11 +135,13 @@ The app uses the following main collections:
 ### Vercel + Convex (Recommended)
 
 1. **Deploy Convex backend**:
+
    ```bash
    npx convex deploy --prod
    ```
 
 2. **Deploy to Vercel**:
+
    ```bash
    # Connect to Vercel and deploy
    vercel --prod
@@ -145,6 +154,7 @@ The app uses the following main collections:
 ### Local Ollama Setup for Production
 
 For production deployments, you'll need to:
+
 1. Set up Ollama on your server
 2. Configure OLLAMA_BASE_URL in your environment
 3. Ensure the Qwen3-8B model is available

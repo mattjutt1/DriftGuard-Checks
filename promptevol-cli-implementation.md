@@ -34,31 +34,37 @@ promptevol-eval init --model qwen3-4b --endpoint http://localhost:11434
 ## Core Commands
 
 ### 1. Initialize System
+
 ```bash
 promptevol-eval init --model qwen3-4b --framework promptwizard
 ```
 
 ### 2. Evaluate Single Prompt
+
 ```bash
 promptevol-eval evaluate "Your prompt here" --standard promptwizard --metrics all
 ```
 
 ### 3. Optimize Prompt
+
 ```bash
 promptevol-eval optimize "Your prompt" --method promptwizard --iterations 5
 ```
 
 ### 4. Run Benchmarks
+
 ```bash
 promptevol-eval benchmark --dataset gsm8k --standard promptwizard
 ```
 
 ### 5. Validate Results
+
 ```bash
 promptevol-eval validate --prompt optimized_prompt.txt --test-set test_data.jsonl
 ```
 
 ### 6. Generate Reports
+
 ```bash
 promptevol-eval report --session session_id --format comprehensive
 ```
@@ -66,18 +72,21 @@ promptevol-eval report --session session_id --format comprehensive
 ## PromptWizard Evaluation Standards
 
 ### Core Metrics (Weighted Scoring)
+
 - **Accuracy (40%)**: Primary performance metric - percentage of correct answers
 - **Efficiency (30%)**: API calls and token usage optimization
 - **Consistency (20%)**: Performance stability across multiple mini-batches
 - **Cost Effectiveness (10%)**: Performance per dollar spent on API calls
 
 ### Evaluation Methodology
+
 - **Mini-batch Evaluation**: 5 training examples per batch (PromptWizard standard)
 - **LLM-as-a-Judge**: Automated quality assessment using natural language criteria
 - **Critique Analysis**: Feedback-driven refinement recommendations
 - **Performance Profiling**: Comparative analysis against baselines
 
 ### Supported Datasets
+
 - **Mathematical Reasoning**: GSM8k, SVAMP, AQUARAT
 - **Instruction Following**: BigBench Instruction Induction (BBII)
 - **General Reasoning**: BigBench Hard (BBH)
@@ -86,6 +95,7 @@ promptevol-eval report --session session_id --format comprehensive
 ## Implementation Details
 
 ### Core Evaluator Class
+
 ```python
 class PromptWizardCompatibleEvaluator:
     def __init__(self, promptevolver_endpoint: str, model_name: str = "qwen3-4b"):
@@ -155,6 +165,7 @@ class PromptWizardCompatibleEvaluator:
 ```
 
 ### Mini-Batch Evaluator
+
 ```python
 class MiniBatchEvaluator:
     def __init__(self, batch_size: int = 5):
@@ -183,6 +194,7 @@ class MiniBatchEvaluator:
 ```
 
 ### LLM-as-Judge Implementation
+
 ```python
 class LLMAsJudgeEvaluator:
     def __init__(self):
@@ -237,6 +249,7 @@ class LLMAsJudgeEvaluator:
 ## Output Formats
 
 ### JSON Format
+
 ```json
 {
   "evaluation_id": "eval_12345",
@@ -266,6 +279,7 @@ class LLMAsJudgeEvaluator:
 ```
 
 ### Table Format
+
 ```
 ┌─────────────────────┬───────────┬──────────────┬─────────────────┐
 │ Metric              │ Score     │ Weight       │ Contribution    │
@@ -282,6 +296,7 @@ class LLMAsJudgeEvaluator:
 ## Configuration Files
 
 ### promptevol_config.yaml
+
 ```yaml
 # PromptWizard-compatible configuration
 evaluation:
@@ -319,6 +334,7 @@ output:
 ## Key Features
 
 ### PromptWizard Compatibility
+
 - ✅ Mini-batch evaluation (5 examples per batch)
 - ✅ LLM-as-a-judge scoring methodology
 - ✅ Critique-driven refinement analysis
@@ -328,6 +344,7 @@ output:
 - ✅ Chain-of-thought effectiveness measurement
 
 ### Integration Advantages
+
 - 🔧 **Zero Additional Cost** - Uses your existing Qwen3-4B deployment
 - 🚀 **Seamless Integration** - Works with your current PromptEvolver setup
 - 📊 **Academic-Grade Reports** - Publication-ready evaluation results
@@ -338,6 +355,7 @@ output:
 ## Usage Examples
 
 ### Basic Evaluation
+
 ```bash
 # Evaluate a single prompt
 promptevol-eval evaluate "Write a professional email to a client" --standard promptwizard
@@ -347,6 +365,7 @@ promptevol-eval optimize "Solve this math problem step by step" --method promptw
 ```
 
 ### Benchmark Testing
+
 ```bash
 # Run GSM8k benchmark
 promptevol-eval benchmark --dataset gsm8k --standard promptwizard --baseline dspy
@@ -356,6 +375,7 @@ promptevol-eval benchmark --dataset custom --path ./my_dataset.jsonl --standard 
 ```
 
 ### Comprehensive Analysis
+
 ```bash
 # Generate detailed report
 promptevol-eval report --session eval_session_123 --format comprehensive --include metrics,graphs,recommendations
@@ -373,6 +393,7 @@ promptevol-eval report --session eval_session_123 --format comprehensive --inclu
 ## Support
 
 For implementation questions or technical support, refer to:
+
 - Microsoft PromptWizard documentation
 - PromptEvolver application logs
 - CLI bridge middleware error handling

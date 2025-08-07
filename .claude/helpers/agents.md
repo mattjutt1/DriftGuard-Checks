@@ -3,6 +3,7 @@
 ## 🤖 SUBAGENT INVOCATION PROTOCOL
 
 ### **Mandatory Subagent Usage**
+
 Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
 
 ```bash
@@ -30,6 +31,7 @@ Claude Code MUST use subagents for ALL specialized tasks. No exceptions.
 ## 🏗️ HIERARCHICAL DECISION FRAMEWORK
 
 ### **Decision Chain Protocol**
+
 ```
 Human Request → Specialized Agent → Implementation
 ```
@@ -37,6 +39,7 @@ Human Request → Specialized Agent → Implementation
 **Always consult the appropriate specialist before proceeding.**
 
 ### **Authority Matrix (Streamlined 5-Agent System)**
+
 - **backend-developer**: Convex development, serverless functions, PromptWizard integration, architectural decisions
 - **frontend-developer**: Next.js 15/React 19 UI, user experience, responsive design, performance optimization
 - **ai-integration**: Ollama setup, Qwen3:4b optimization, PromptWizard configuration, AI response handling
@@ -47,6 +50,7 @@ Human Request → Specialized Agent → Implementation
 ### **Agent Utilization Best Practices**
 
 #### **Streamlined 5-Agent System Benefits**
+
 - **Reduced Communication Overhead**: Fewer handoffs, clearer responsibilities
 - **Enhanced Domain Expertise**: Each agent covers broader, more cohesive domain
 - **Faster Decision Making**: Less bureaucratic processes, more action
@@ -55,18 +59,21 @@ Human Request → Specialized Agent → Implementation
 #### **When to Delegate vs. Direct Implementation**
 
 **Delegate to Agents When:**
+
 - Domain-specific expertise required (security, performance, AI integration)
 - Complex architectural decisions needed
 - Best practices consultation required
 - Quality assurance and validation needed
 
 **Direct Implementation When:**
+
 - Simple, straightforward changes within established patterns
 - Minor bug fixes with clear solutions
 - Documentation updates and maintenance tasks
 - Configuration changes following established procedures
 
 ### **Sub-Agent Architecture Alignment**
+
 - **frontend-developer**: Responsible for atoms, molecules, and feature-specific components
 - **backend-developer**: Handles API endpoints (pages), services (organisms), and data models
 - **ai-integration**: Manages AI-specific atoms and molecules within optimization feature

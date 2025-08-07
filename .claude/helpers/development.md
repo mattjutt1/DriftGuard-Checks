@@ -3,7 +3,9 @@
 ## 📋 DEVELOPMENT WORKFLOW PROTOCOL
 
 ### **Session Initialization**
+
 Start every Claude Code session with this checklist:
+
 1. Load CLAUDE.md context
 2. Identify primary task and complexity
 3. Select appropriate subagent
@@ -11,7 +13,9 @@ Start every Claude Code session with this checklist:
 5. Begin development with KISS approach
 
 ### **Task Execution Pattern**
+
 Mandatory workflow for every task:
+
 1. **Complexity assessment** - Validate solution simplicity
 2. **Specialized implementation** - Use appropriate sub-agent
 3. **Quality verification** - Ensure standards are met
@@ -19,6 +23,7 @@ Mandatory workflow for every task:
 ## Common Development Commands
 
 ### Backend Development (Convex)
+
 ```bash
 # Install dependencies
 npm install
@@ -37,6 +42,7 @@ npx convex dashboard
 ```
 
 ### Frontend Development (Next.js 15.4.5 + React 19)
+
 ```bash
 # Install dependencies
 npm install
@@ -62,6 +68,7 @@ npx eslint src/ --fix  # ESLint + TypeScript sufficient
 ```
 
 ### Docker Operations
+
 ```bash
 # Start all services (development)
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
@@ -80,6 +87,7 @@ ollama pull qwen3:4b
 ```
 
 ### Convex Operations
+
 ```bash
 # View Convex functions
 npx convex functions list
@@ -100,9 +108,11 @@ npx convex run _system/clear --table myTable
 ## 🎮 NO-CODE VIBE DEVELOPMENT APPROACH
 
 ### **Natural Language First Development**
+
 Treat Claude Code as a no-code platform where you describe what you want, not how to build it.
 
 #### **Communication Pattern**
+
 ```bash
 # Good: Natural language requirements
 "Create a prompt optimization endpoint that takes user input and returns improved prompts using PromptWizard"
@@ -112,6 +122,7 @@ Treat Claude Code as a no-code platform where you describe what you want, not ho
 ```
 
 ### **Vibe-Driven Development Principles**
+
 - **Intuitive First**: If it doesn't feel right, it probably isn't
 - **User-Centric**: Always think from the user's perspective
 - **Elegant Simplicity**: Beautiful solutions are usually simple solutions
@@ -121,11 +132,13 @@ Treat Claude Code as a no-code platform where you describe what you want, not ho
 ## 📋 AUTOMATED VERSION CONTROL & KNOWLEDGE GRAPH PROTOCOL
 
 ### **Repository Integration**
-- **GitHub Repository**: https://github.com/mattjutt1/prompt-wizard.git
+
+- **GitHub Repository**: <https://github.com/mattjutt1/prompt-wizard.git>
 - **Branch Strategy**: main (production), develop (integration), feature/* (development)
 - **Commit Convention**: Conventional Commits specification
 
 ### **Mandatory Post-Update Actions**
+
 After EVERY code change, file modification, or task completion, Claude Code MUST execute:
 
 ```bash
@@ -146,6 +159,7 @@ python .claude/scripts/update_context_vectors.py
 ```
 
 ### **Automated CHANGELOG Management**
+
 ```markdown
 # CHANGELOG.md Format
 ## [Version] - Date
@@ -167,6 +181,7 @@ python .claude/scripts/update_context_vectors.py
 ```
 
 ### **Git Commit Automation**
+
 ```python
 # Conventional Commit Format
 COMMIT_TYPES = {
@@ -189,6 +204,7 @@ def generate_commit_message(changes):
 ## 🧠 CONTEXTUAL KNOWLEDGE GRAPH SYSTEM
 
 ### **Knowledge Graph Architecture**
+
 ```python
 # Contextual Knowledge Graph Structure
 KNOWLEDGE_GRAPH = {
@@ -216,6 +232,7 @@ KNOWLEDGE_GRAPH = {
 ```
 
 ### **Graph Database Schema**
+
 ```json
 {
   "nodes": {
@@ -235,6 +252,7 @@ KNOWLEDGE_GRAPH = {
 ```
 
 ### **Embedding Strategy**
+
 ```python
 # Multi-Modal Embedding Generation
 EMBEDDING_MODELS = {
@@ -254,6 +272,7 @@ CONTEXT_DIMENSIONS = {
 ```
 
 ### **Claude Code Optimization Features**
+
 ```python
 # Intelligent Context Retrieval
 def get_relevant_context(query, max_tokens=4000):
@@ -289,6 +308,7 @@ def predict_needed_context(current_task):
 ```
 
 ### **Embedding-Based Context Management**
+
 ```python
 # Context Vector Generation
 def generate_context_embeddings():

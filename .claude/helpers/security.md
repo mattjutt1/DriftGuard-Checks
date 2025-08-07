@@ -7,6 +7,7 @@
 Implement security best practices without over-engineering. Focus on protecting actual sensitive data rather than theoretical threats.
 
 ### **Security Best Practices**
+
 1. **Environment-Based Secrets**: Proper separation of dev/staging/production secrets
 2. **Input Validation**: Comprehensive validation of all user inputs
 3. **Authentication Security**: JWT with proper refresh token handling
@@ -23,12 +24,14 @@ Implement security best practices without over-engineering. Focus on protecting 
 - Docker security best practices
 
 ### **Infisical Services**
-- **Web UI**: http://localhost:8080 - Infisical dashboard for secret management
+
+- **Web UI**: <http://localhost:8080> - Infisical dashboard for secret management
 - **Database**: PostgreSQL with persistent storage
 - **Cache**: Redis for sessions and performance
 - **API**: RESTful API for programmatic access
 
 ### **Management Commands**
+
 ```bash
 # Service Management
 ./infisical-manage.sh start      # Start all services
@@ -48,9 +51,11 @@ Implement security best practices without over-engineering. Focus on protecting 
 ### **AVSHA-Organized Secret Structure**
 
 #### **Feature-Based Secret Organization**
+
 Following our AVSHA framework, secrets are organized by feature:
 
 **Authentication Feature Secrets:**
+
 ```
 Environment: development
 ├── JWT_SECRET_KEY           # JWT token signing key
@@ -61,6 +66,7 @@ Environment: development
 ```
 
 **Optimization Feature Secrets:**
+
 ```
 Environment: development
 ├── OPENAI_API_KEY          # OpenAI API access key
@@ -71,6 +77,7 @@ Environment: development
 ```
 
 **Dashboard Feature Secrets:**
+
 ```
 Environment: development
 ├── ANALYTICS_API_KEY       # Analytics service key
@@ -83,6 +90,7 @@ Environment: development
 ### **Development Workflow**
 
 #### **Initial Setup (One-time)**
+
 ```bash
 # 1. Start Infisical
 ./infisical-manage.sh start
@@ -98,6 +106,7 @@ infisical login --domain=http://localhost:8080
 ```
 
 #### **Daily Development Workflow**
+
 ```bash
 # 1. Ensure Infisical is running
 ./infisical-manage.sh status
@@ -117,6 +126,7 @@ infisical export --env=production --format=dotenv > .env.production
 ### **Integration with Automation Pipeline**
 
 #### **Enhanced security-specialist Sub-Agent**
+
 The security-specialist agent now includes Infisical management:
 
 ```bash
@@ -132,6 +142,7 @@ The security-specialist agent now includes Infisical management:
 ```
 
 #### **Mandatory Secret Management Actions**
+
 Before EVERY commit involving configuration or secrets:
 
 ```bash
@@ -154,6 +165,7 @@ python .claude/scripts/update_knowledge_graph.py
 ### **AVSHA Integration Points**
 
 #### **Shared Components (Future PromptVault)**
+
 Based on Infisical usage, we'll need these AVSHA components:
 
 ```
@@ -173,9 +185,11 @@ shared/
 ```
 
 #### **Feature Integration**
+
 Each feature integrates with Infisical:
 
 **FastAPI Backend Integration:**
+
 ```python
 # app/shared/organisms/secret_loader.py
 import os
@@ -201,6 +215,7 @@ JWT_SECRET_KEY = secrets['jwt_secret']
 Using Infisical teaches us what PromptVault needs:
 
 #### **Essential Features to Replicate**
+
 1. **Web UI**: Simple, clean interface for secret management
 2. **Environment Separation**: Clear dev/staging/prod organization
 3. **CLI Integration**: Command-line tool for automation
@@ -209,6 +224,7 @@ Using Infisical teaches us what PromptVault needs:
 6. **Project Organization**: Group secrets by application/feature
 
 #### **Simplifications for PromptVault**
+
 1. **Single User**: Remove team/organization features
 2. **Local Storage**: File-based instead of database
 3. **Basic Auth**: Master password instead of complex auth
@@ -216,6 +232,7 @@ Using Infisical teaches us what PromptVault needs:
 5. **Git Integration**: Built-in secret scanning and pre-commit hooks
 
 #### **AVSHA Enhancements**
+
 1. **Feature-Based Organization**: Automatic grouping by AVSHA features
 2. **Framework Integration**: Native integration with our automation pipeline
 3. **Component Generation**: Auto-generate secret management UI components
@@ -224,6 +241,7 @@ Using Infisical teaches us what PromptVault needs:
 ### **Security Best Practices (Current)**
 
 #### **Infisical Security Rules**
+
 1. **Emergency Kit**: Always download and safely store the Emergency Kit PDF
 2. **Strong Master Password**: Use a unique, strong password for Infisical admin
 3. **Environment Separation**: Never mix dev/staging/prod secrets
@@ -231,6 +249,7 @@ Using Infisical teaches us what PromptVault needs:
 5. **Access Monitoring**: Review audit logs in Infisical dashboard regularly
 
 #### **Development Security Workflow**
+
 ```bash
 # 1. Daily security check
 ./infisical-manage.sh status
