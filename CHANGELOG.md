@@ -5,6 +5,59 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2025-08-07
+
+### Added
+
+- **Milestone 3 Complete**: Data Pipeline Implementation (Tasks 3.1-3.5)
+  - Task 3.1: normalize_datasets.py - Multi-format data normalization with domain classification
+  - Task 3.2: generate_seed_pairs.py - Ollama-based seed pair generation (611 lines)
+  - Task 3.3: synthesize_pairs.py - Advanced synthetic pair generation
+  - Task 3.4: split_data.py - Stratified train/val/test splitting
+  - Task 3.5: verify_licenses.py - License compliance verification
+
+- **Seed Pair Generation System** (`scripts/generate_seed_pairs.py`)
+  - Direct Ollama integration (avoiding Python 3.13/llama-index issues)
+  - PromptWizard-inspired optimization techniques
+  - Domain classification with confidence scoring
+  - 7-dimensional quality scoring
+  - Expert identity generation
+  - Follow-up question generation
+  - Incremental saving with statistics
+
+- **Synthetic Pair Generation** (`scripts/synthesize_pairs.py`)
+  - Cross-pollination between domains
+  - Interpolation between similar pairs
+  - Advanced mutation strategies
+  - Quality threshold enforcement
+  - Domain distribution balancing
+
+- **Data Splitting System** (`scripts/split_data.py`)
+  - Stratified splitting by domain and quality
+  - Train (70%), Val (15%), Test (15%) splits
+  - Data leakage prevention
+  - Distribution validation
+  - Statistics generation
+
+- **License Verification** (`scripts/verify_licenses.py`)
+  - MIT and Apache 2.0 compatibility checking
+  - Attribution generation
+  - Hash registry for integrity
+  - Comprehensive reporting
+
+### Technical
+
+- **Progress Tracking**: 20 of 102 tasks completed (19.6%)
+- **Data Pipeline**: Complete training data generation system
+- **Ollama Integration**: Direct API without llama-index dependency
+- **Quality Assurance**: Comprehensive validation at each pipeline stage
+
+### Knowledge Graph
+
+- Added data pipeline entities and relationships
+- Updated training system context with data generation framework
+- Framework compliance status: Excellent
+
 ## [0.3.2] - 2025-08-07
 
 ### Added
