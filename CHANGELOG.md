@@ -5,6 +5,36 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2025-08-07
+
+### Added
+
+- **Task 2.1 Completion**: JSON Schema for Engineered Prompts
+  - `schemas/engineered_prompt.schema.json` - Complete JSON Schema for training data validation
+  - `validate_schema.py` - Schema validation script with comprehensive testing
+  - Schema supports 7 domains (Coding, Content, Business, Creative, Technical, Marketing, Academic)
+  - 7-dimensional quality scoring system with detailed metadata
+  - Follow-up questions and expert identity tracking
+  - Version management and extensibility features
+
+- **Framework Alignment Progress**: Proper framework usage implementation
+  - Task-based development workflow initiated
+  - Schema-driven data validation for training system
+  - Foundation for consistent data structures across PromptEvolver 3.0
+
+### Technical
+
+- **Progress Tracking**: Task 2.1 of 102 total development tasks completed (1.2%)
+- **Data Validation**: JSON Schema Draft 2020-12 compliance
+- **Quality Assurance**: Comprehensive validation script with sample data testing
+- **Development Standards**: Proper copyright headers and documentation
+
+### Knowledge Graph
+
+- Added schema validation entities and relationships
+- Updated training system context with proper data structures
+- Framework compliance status: Improving (proper task-based development)
+
 ## [0.3.0] - 2025-08-07
 
 ### Added
