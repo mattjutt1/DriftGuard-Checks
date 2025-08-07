@@ -1,0 +1,370 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://promptevolver.ai/schemas/engineered_prompt.schema.json",
+  "title": "PromptEvolver 3.0 Engineered Prompt Schema",
+  "description": "JSON Schema for engineered prompt training data and API responses in PromptEvolver 3.0 training system",
+  "type": "object",
+  "required": [
+    "originalPrompt",
+    "enhancedPrompt",
+    "domain",
+    "metadata"
+  ],
+  "properties": {
+    "originalPrompt": {
+      "type": "string",
+      "title": "Original Prompt",
+      "description": "The initial user-provided prompt before optimization",
+      "minLength": 10,
+      "maxLength": 4000,
+      "examples": [
+        "Write a summary of the quarterly report",
+        "Create a Python function to sort a list",
+        "Generate marketing copy for our new product"
+      ]
+    },
+    "enhancedPrompt": {
+      "type": "string",
+      "title": "Enhanced Prompt",
+      "description": "The optimized prompt with improved clarity, specificity, and effectiveness",
+      "minLength": 20,
+      "maxLength": 8000,
+      "examples": [
+        "As a business analyst with expertise in financial reporting, create a comprehensive 3-section executive summary of Q3 quarterly report. Include: 1) Key financial metrics (revenue, profit, growth %), 2) Major achievements and challenges, 3) Strategic recommendations for Q4. Use bullet points and maintain professional tone. Target audience: C-suite executives. Length: 500-750 words."
+      ]
+    },
+    "domain": {
+      "type": "string",
+      "title": "Domain Classification",
+      "description": "Primary domain category for the prompt optimization",
+      "enum": [
+        "Analytics",
+        "Coding",
+        "Content",
+        "Cross-Domain"
+      ],
+      "examples": [
+        "Analytics",
+        "Coding",
+        "Content",
+        "Cross-Domain"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "title": "Optimization Metadata",
+      "description": "Additional information about the prompt optimization process",
+      "required": [
+        "qualityScore",
+        "improvementAreas",
+        "processingTimestamp"
+      ],
+      "properties": {
+        "qualityScore": {
+          "type": "object",
+          "title": "Quality Scoring Metrics",
+          "description": "Detailed quality assessment scores for different aspects of the prompt",
+          "required": [
+            "overall",
+            "clarity",
+            "specificity",
+            "engagement",
+            "structure",
+            "completeness",
+            "errorPrevention"
+          ],
+          "properties": {
+            "overall": {
+              "type": "number",
+              "title": "Overall Quality Score",
+              "description": "Composite quality score (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "clarity": {
+              "type": "number",
+              "title": "Clarity Score",
+              "description": "How clear and unambiguous the prompt is (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "specificity": {
+              "type": "number",
+              "title": "Specificity Score",
+              "description": "How specific and detailed the requirements are (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "engagement": {
+              "type": "number",
+              "title": "Engagement Score",
+              "description": "How engaging and motivating the prompt is (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "structure": {
+              "type": "number",
+              "title": "Structure Score",
+              "description": "How well-organized and logically structured the prompt is (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "completeness": {
+              "type": "number",
+              "title": "Completeness Score",
+              "description": "How complete and comprehensive the prompt requirements are (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "errorPrevention": {
+              "type": "number",
+              "title": "Error Prevention Score",
+              "description": "How well the prompt prevents common mistakes and misunderstandings (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0
+            }
+          },
+          "additionalProperties": false
+        },
+        "improvementAreas": {
+          "type": "array",
+          "title": "Areas of Improvement",
+          "description": "List of specific improvements made to the original prompt",
+          "items": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 200
+          },
+          "minItems": 1,
+          "maxItems": 10,
+          "examples": [
+            [
+              "Added specific role context (business analyst)",
+              "Included structured output requirements (3 sections)",
+              "Specified target audience (C-suite executives)",
+              "Added length constraints (500-750 words)",
+              "Enhanced clarity with bullet point format"
+            ]
+          ]
+        },
+        "processingTimestamp": {
+          "type": "integer",
+          "title": "Processing Timestamp",
+          "description": "Unix timestamp when the optimization was processed",
+          "minimum": 1609459200,
+          "examples": [1735689600]
+        },
+        "expertIdentity": {
+          "type": "string",
+          "title": "Expert Identity",
+          "description": "The expert persona or role assigned to enhance the prompt",
+          "minLength": 5,
+          "maxLength": 100,
+          "examples": [
+            "Senior Business Analyst",
+            "Full-Stack Developer",
+            "Marketing Content Specialist",
+            "Data Science Expert"
+          ]
+        },
+        "optimizationConfig": {
+          "type": "object",
+          "title": "Optimization Configuration",
+          "description": "Parameters used during the optimization process",
+          "properties": {
+            "iterations": {
+              "type": "integer",
+              "title": "Number of Iterations",
+              "description": "Number of optimization iterations performed",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 3
+            },
+            "rounds": {
+              "type": "integer",
+              "title": "Number of Rounds",
+              "description": "Number of mutation rounds per iteration",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 3
+            },
+            "temperature": {
+              "type": "number",
+              "title": "Temperature Setting",
+              "description": "AI model temperature for optimization (0.0-1.0)",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "default": 0.7
+            },
+            "generateReasoning": {
+              "type": "boolean",
+              "title": "Generate Reasoning",
+              "description": "Whether to include reasoning explanations in the optimization",
+              "default": true
+            },
+            "generateExpertIdentity": {
+              "type": "boolean",
+              "title": "Generate Expert Identity",
+              "description": "Whether to assign an expert persona for the optimization",
+              "default": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "reasoning": {
+          "type": "string",
+          "title": "Optimization Reasoning",
+          "description": "Detailed explanation of why specific optimizations were made",
+          "minLength": 50,
+          "maxLength": 2000,
+          "examples": [
+            "The original prompt lacked structure and specificity. I enhanced it by adding a clear expert role (business analyst), defining specific output sections, specifying the target audience, and providing format requirements. This transforms a vague request into a precise, actionable prompt that will produce consistent, professional results."
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "followUpQuestions": {
+      "type": "array",
+      "title": "Follow-up Questions",
+      "description": "Suggested questions to further refine or expand the prompt",
+      "items": {
+        "type": "object",
+        "required": ["question", "purpose"],
+        "properties": {
+          "question": {
+            "type": "string",
+            "title": "Follow-up Question",
+            "description": "A relevant follow-up question to improve the prompt",
+            "minLength": 10,
+            "maxLength": 200
+          },
+          "purpose": {
+            "type": "string",
+            "title": "Question Purpose",
+            "description": "The purpose or benefit of asking this follow-up question",
+            "enum": [
+              "clarification",
+              "context",
+              "specificity",
+              "constraints",
+              "audience",
+              "format",
+              "examples",
+              "validation"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 5,
+      "examples": [
+        [
+          {
+            "question": "What specific financial metrics should be highlighted in the summary?",
+            "purpose": "specificity"
+          },
+          {
+            "question": "Are there any sensitive topics that should be handled carefully?",
+            "purpose": "constraints"
+          },
+          {
+            "question": "Would you like the summary formatted as a presentation slide or document?",
+            "purpose": "format"
+          }
+        ]
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "title": "Classification Tags",
+      "description": "Additional tags for categorization and searchability",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$",
+        "minLength": 2,
+        "maxLength": 30
+      },
+      "uniqueItems": true,
+      "minItems": 0,
+      "maxItems": 10,
+      "examples": [
+        [
+          "business-analysis",
+          "financial-reporting",
+          "executive-summary",
+          "quarterly-report"
+        ]
+      ]
+    },
+    "version": {
+      "type": "string",
+      "title": "Schema Version",
+      "description": "Version of the engineered prompt schema",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "default": "1.0",
+      "examples": ["1.0", "1.1", "2.0"]
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "originalPrompt": "Write a summary of the quarterly report",
+      "enhancedPrompt": "As a senior business analyst with expertise in financial reporting, create a comprehensive executive summary of our Q3 quarterly report. Structure your analysis in 3 clear sections: 1) Key Financial Performance (revenue, profit margins, growth percentages with YoY comparisons), 2) Strategic Achievements & Challenges (major wins, obstacles encountered, market impacts), 3) Forward-Looking Recommendations (specific actions for Q4, risk mitigation strategies). Use professional business language with bullet points for clarity. Target audience: C-suite executives and board members. Length: 500-750 words. Include specific data points and avoid generic statements.",
+      "domain": "Analytics",
+      "metadata": {
+        "qualityScore": {
+          "overall": 0.92,
+          "clarity": 0.95,
+          "specificity": 0.90,
+          "engagement": 0.88,
+          "structure": 0.94,
+          "completeness": 0.91,
+          "errorPrevention": 0.89
+        },
+        "improvementAreas": [
+          "Added specific expert role context (senior business analyst)",
+          "Defined structured 3-section output format",
+          "Specified target audience (C-suite executives and board members)",
+          "Included length constraints (500-750 words)",
+          "Added requirement for specific data points",
+          "Enhanced format clarity with bullet point structure"
+        ],
+        "processingTimestamp": 1735689600,
+        "expertIdentity": "Senior Business Analyst",
+        "optimizationConfig": {
+          "iterations": 3,
+          "rounds": 3,
+          "temperature": 0.7,
+          "generateReasoning": true,
+          "generateExpertIdentity": true
+        },
+        "reasoning": "The original prompt was too vague and generic. I transformed it by adding a specific professional role context, creating a clear three-section structure, defining the target audience, and specifying format requirements. These improvements ensure the output will be professional, comprehensive, and tailored for executive decision-making."
+      },
+      "followUpQuestions": [
+        {
+          "question": "Which specific financial metrics are most important for your stakeholders?",
+          "purpose": "specificity"
+        },
+        {
+          "question": "Are there any confidential areas that should be summarized carefully?",
+          "purpose": "constraints"
+        },
+        {
+          "question": "Would you prefer charts/graphs to be described or referenced separately?",
+          "purpose": "format"
+        }
+      ],
+      "tags": [
+        "business-analysis",
+        "financial-reporting",
+        "executive-summary",
+        "quarterly-report",
+        "analytics"
+      ],
+      "version": "1.0"
+    }
+  ],
+  "$comment": "Copyright (c) 2025 Matthew J. Utt. This schema is part of the PromptEvolver 3.0 training system and defines the structure for engineered prompt data used in machine learning training and API responses. Supports Analytics, Coding, Content, and Cross-Domain prompt optimization with comprehensive quality scoring and follow-up question mechanisms."
+}
