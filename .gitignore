@@ -1,3 +1,16 @@
+# PROPRIETARY CODE - CONFIDENTIAL
+# Copyright (c) 2025 Matthew J. Utt. All Rights Reserved.
+
+# Sensitive/Proprietary Data
+training_data/
+model_weights/
+proprietary/
+secrets/
+*.key
+*.pem
+credentials.json
+config.secret.json
+
 # Python
 __pycache__/
 *.py[cod]

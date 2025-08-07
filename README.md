@@ -1,18 +1,35 @@
-# PromptEvolver - AI-Powered Prompt Optimization Platform
+# PromptEvolver 3.0 - AI SaaS Prompt Optimization Platform
 
-🚀 **COMPREHENSIVE TESTING VALIDATED - PRODUCTION READY** 🚀
+🚀 **Production Web Application for Intelligent Prompt Enhancement** 🚀
 
-A complete AI-powered prompt optimization application leveraging Microsoft's PromptWizard framework with Qwen3:4b for self-evolving prompt generation. Includes both web interface and CLI tools with comprehensive testing validation.
+PromptEvolver is an AI-powered SaaS platform that transforms customer prompts into optimized, production-ready versions. Using a custom-trained Qwen3 model with Microsoft's PromptWizard framework, it either delivers enhanced prompts immediately or intelligently asks follow-up questions to gather necessary context.
 
-## Current Status
+## 🎯 Project Goals
 
-### ✅ Recent Major Achievements (August 2025)
+### Primary Objective
 
-- **100% Test Success Rate**: 114 comprehensive tests executed successfully
-- **Complete CLI Implementation**: Beautiful terminal interface with PromptWizard integration
-- **Full Backend Deployment**: Convex serverless backend fully operational
-- **Comprehensive Validation**: Real API endpoint testing completed
-- **Production Ready**: All systems tested and validated
+Build a **complete AI SaaS web application** where customers can:
+
+1. **Input their prompts** - Submit any prompt that needs improvement
+2. **Get intelligent enhancement** - Receive optimized versions using our trained model
+3. **Interactive refinement** - Model asks follow-up questions when context is needed
+4. **Access 95+ templates** - Pre-built templates across 8 categories
+5. **Subscribe to tiers** - Free, Pro ($29), Team ($99), Enterprise (custom)
+
+### Two-Part Implementation
+
+1. **Training Infrastructure** (Current Phase)
+   - Multi-stage training system for Qwen3 model
+   - PromptWizard framework integration
+   - Domain-specific optimization (Analytics, Coding, Content, etc.)
+   - Evaluation and validation framework
+
+2. **Web Application** (Production Phase)
+   - Next.js + Convex real-time platform
+   - 95 professional templates across 8 categories
+   - Subscription management system
+   - Interactive prompt enhancement with follow-up questions
+   - Analytics dashboard and user insights
 
 ### 🎯 Performance Validated
 
