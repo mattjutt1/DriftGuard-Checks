@@ -99,15 +99,9 @@ def health():
     help="Generate expert identity",
 )
 @click.option("--rounds", "-r", type=int, default=3, help="Number of mutation rounds")
-@click.option(
-    "--output", "-o", type=click.Path(path_type=Path), help="Save results to file (JSON format)"
-)
-@click.option(
-    "--interactive", "-i", is_flag=True, help="Interactive mode with step-by-step guidance"
-)
-@click.option(
-    "--show-comparison", is_flag=True, help="Show side-by-side comparison of original vs optimized"
-)
+@click.option("--output", "-o", type=click.Path(path_type=Path), help="Save results to file (JSON format)")
+@click.option("--interactive", "-i", is_flag=True, help="Interactive mode with step-by-step guidance")
+@click.option("--show-comparison", is_flag=True, help="Show side-by-side comparison of original vs optimized")
 def optimize(
     prompt: Optional[str],
     file: Optional[Path],
@@ -131,9 +125,7 @@ def optimize(
         if interactive:
             prompt = Prompt.ask("\n[bold cyan]Enter your prompt to optimize[/bold cyan]")
         else:
-            console.print(
-                "\n[red]Error: Please provide a prompt as argument or use --file option[/red]"
-            )
+            console.print("\n[red]Error: Please provide a prompt as argument or use --file option[/red]")
             raise click.Abort()
 
     if file:
@@ -168,9 +160,7 @@ def optimize(
         domain = domain_choices[int(selection) - 1]
 
     # Display optimization header
-    console.print(
-        f"\n[bold blue]🚀 PromptWizard Optimization ({mode} mode, {domain} domain)[/bold blue]"
-    )
+    console.print(f"\n[bold blue]🚀 PromptWizard Optimization ({mode} mode, {domain} domain)[/bold blue]")
     console.print(Panel(prompt, title="📝 Original Prompt", border_style="dim"))
 
     try:
@@ -212,9 +202,7 @@ def optimize(
             console=console,
         ) as progress:
 
-            main_task = progress.add_task(
-                "🚀 Starting optimization...", total=estimated_time, eta="Calculating..."
-            )
+            main_task = progress.add_task("🚀 Starting optimization...", total=estimated_time, eta="Calculating...")
 
             completed_time = 0
             for step_desc, step_time in steps:
@@ -248,9 +236,7 @@ def optimize(
             processing_time = time.time() - start_time
 
             # Display success header with timing
-            console.print(
-                f"\n✅ [green]Optimization Complete![/green] [dim]({processing_time:.1f}s)[/dim]"
-            )
+            console.print(f"\n✅ [green]Optimization Complete![/green] [dim]({processing_time:.1f}s)[/dim]")
             console.print(Rule(style="green"))
 
             # Side-by-side comparison if requested
@@ -297,9 +283,7 @@ def optimize(
 
             # Save results if output file specified
             if output:
-                _save_optimization_results(
-                    output, prompt, optimization_result, processing_time, mode, domain
-                )
+                _save_optimization_results(output, prompt, optimization_result, processing_time, mode, domain)
                 console.print(f"\n💾 [dim]Results saved to: {output}[/dim]")
 
         else:
@@ -323,9 +307,7 @@ def optimize(
         _display_error_suggestions(console, str(e))
     except Exception as e:
         console.print(f"\n❌ [red]Unexpected error: {str(e)}[/red]")
-        console.print(
-            "\n[yellow]💡 Please try running 'promptevolver health' to check system status[/yellow]"
-        )
+        console.print("\n[yellow]💡 Please try running 'promptevolver health' to check system status[/yellow]")
 
 
 @cli.command()
@@ -356,12 +338,8 @@ def optimize(
     default="general",
     help="Prompt domain for specialized optimization",
 )
-@click.option(
-    "--parallel", "-p", type=int, default=1, help="Number of parallel optimizations (1-5)"
-)
-@click.option(
-    "--continue-on-error", is_flag=True, help="Continue processing even if some prompts fail"
-)
+@click.option("--parallel", "-p", type=int, default=1, help="Number of parallel optimizations (1-5)")
+@click.option("--continue-on-error", is_flag=True, help="Continue processing even if some prompts fail")
 def batch(
     file_path: Path,
     output: Optional[Path],
@@ -400,9 +378,7 @@ def batch(
 
         console.print(f"\n📊 Found {len(prompts)} prompts to optimize")
         if not continue_on_error:
-            console.print(
-                "[yellow]⚠️  Processing will stop on first error (use --continue-on-error to change)[/yellow]"
-            )
+            console.print("[yellow]⚠️  Processing will stop on first error (use --continue-on-error to change)[/yellow]")
 
         results = []
         failed_prompts = []
@@ -417,16 +393,12 @@ def batch(
             console=console,
         ) as progress:
 
-            main_task = progress.add_task(
-                "🚀 Processing batch...", total=len(prompts), stats="Starting..."
-            )
+            main_task = progress.add_task("🚀 Processing batch...", total=len(prompts), stats="Starting...")
 
             for i, prompt in enumerate(prompts, 1):
                 try:
                     # Create enhanced config based on mode and domain
-                    base_config = (
-                        QUICK_MODE_CONFIG.copy() if mode == "quick" else ADVANCED_MODE_CONFIG.copy()
-                    )
+                    base_config = QUICK_MODE_CONFIG.copy() if mode == "quick" else ADVANCED_MODE_CONFIG.copy()
                     domain_config = DOMAIN_CONFIGS.get(domain, {})
                     config = {**base_config, **domain_config, "domain": domain}
 
@@ -443,9 +415,7 @@ def batch(
                         failed_prompts.append((i, prompt, result.get("error", "Unknown error")))
 
                         if not continue_on_error:
-                            console.print(
-                                f"\n❌ [red]Stopping on error at prompt {i}: {result.get('error')}[/red]"
-                            )
+                            console.print(f"\n❌ [red]Stopping on error at prompt {i}: {result.get('error')}[/red]")
                             break
 
                     # Update progress with stats
@@ -471,9 +441,7 @@ def batch(
                     failed_prompts.append((i, prompt, error_msg))
 
                     if not continue_on_error:
-                        console.print(
-                            f"\n❌ [red]Unexpected error at prompt {i}: {error_msg}[/red]"
-                        )
+                        console.print(f"\n❌ [red]Unexpected error at prompt {i}: {error_msg}[/red]")
                         break
 
         # Save results in specified format
@@ -536,18 +504,14 @@ def _display_comparison(console: Console, original: str, result: Dict[str, Any])
     layout.split_row(
         Layout(Panel(original, title="📝 Original", border_style="dim"), name="original"),
         Layout(
-            Panel(
-                result.get("best_prompt", "No result"), title="✨ Optimized", border_style="green"
-            ),
+            Panel(result.get("best_prompt", "No result"), title="✨ Optimized", border_style="green"),
             name="optimized",
         ),
     )
     console.print(layout)
 
 
-def _display_quality_metrics(
-    console: Console, quality_score: float, processing_time: float, mode: str, domain: str
-):
+def _display_quality_metrics(console: Console, quality_score: float, processing_time: float, mode: str, domain: str):
     """Display enhanced quality metrics"""
     # Create metrics table
     metrics_table = Table(title="📊 Quality Metrics", show_header=False, box=None)
@@ -566,15 +530,9 @@ def _display_quality_metrics(
         assessment = "Needs Improvement"
         score_style = "red"
 
-    metrics_table.add_row(
-        "Quality Score", f"[{score_style}]{quality_score:.1f}/100[/{score_style}]", assessment
-    )
-    metrics_table.add_row(
-        "Processing Time", f"{processing_time:.1f}s", "Fast" if processing_time < 10 else "Normal"
-    )
-    metrics_table.add_row(
-        "Mode", mode.title(), "Single iteration" if mode == "quick" else "Multiple iterations"
-    )
+    metrics_table.add_row("Quality Score", f"[{score_style}]{quality_score:.1f}/100[/{score_style}]", assessment)
+    metrics_table.add_row("Processing Time", f"{processing_time:.1f}s", "Fast" if processing_time < 10 else "Normal")
+    metrics_table.add_row("Mode", mode.title(), "Single iteration" if mode == "quick" else "Multiple iterations")
     metrics_table.add_row("Domain", domain.title(), f"Specialized for {domain}")
 
     console.print(metrics_table)
@@ -642,9 +600,7 @@ def _read_prompts_from_file(file_path: Path) -> List[str]:
                 try:
                     data = json.loads(line)
                     # Look for common prompt field names
-                    prompt = (
-                        data.get("prompt") or data.get("text") or data.get("content") or str(data)
-                    )
+                    prompt = data.get("prompt") or data.get("text") or data.get("content") or str(data)
                     prompts.append(prompt)
                 except json.JSONDecodeError:
                     prompts.append(line.strip())
@@ -657,12 +613,7 @@ def _read_prompts_from_file(file_path: Path) -> List[str]:
                     if isinstance(item, str):
                         prompts.append(item)
                     elif isinstance(item, dict):
-                        prompt = (
-                            item.get("prompt")
-                            or item.get("text")
-                            or item.get("content")
-                            or str(item)
-                        )
+                        prompt = item.get("prompt") or item.get("text") or item.get("content") or str(item)
                         prompts.append(prompt)
             elif isinstance(data, dict):
                 prompt = data.get("prompt") or data.get("text") or data.get("content") or str(data)

@@ -17,9 +17,7 @@ class ConvexClient:
     def __init__(self, base_url: str = CONVEX_BASE_URL):
         self.base_url = base_url.rstrip("/")
 
-    def call_http_endpoint(
-        self, endpoint: str, method: str = "GET", data: Dict[str, Any] = None
-    ) -> Dict[str, Any]:
+    def call_http_endpoint(self, endpoint: str, method: str = "GET", data: Dict[str, Any] = None) -> Dict[str, Any]:
         """
         Call a Convex HTTP endpoint
 
@@ -87,19 +85,13 @@ class ConvexClient:
         """Run quick optimization (requires session ID)"""
         # Note: This requires session management which isn't available via HTTP endpoints
         # For now, we'll use the test optimization endpoint
-        raise ConvexError(
-            "Quick optimize requires authenticated session - use optimize_prompt instead"
-        )
+        raise ConvexError("Quick optimize requires authenticated session - use optimize_prompt instead")
 
-    def advanced_optimize(
-        self, session_id: str, max_iterations: Optional[int] = None
-    ) -> Dict[str, Any]:
+    def advanced_optimize(self, session_id: str, max_iterations: Optional[int] = None) -> Dict[str, Any]:
         """Run advanced optimization (requires session ID)"""
         # Note: This requires session management which isn't available via HTTP endpoints
         # For now, we'll use the test optimization endpoint
-        raise ConvexError(
-            "Advanced optimize requires authenticated session - use optimize_prompt instead"
-        )
+        raise ConvexError("Advanced optimize requires authenticated session - use optimize_prompt instead")
 
 
 class ConvexError(Exception):

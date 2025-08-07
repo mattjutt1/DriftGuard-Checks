@@ -174,15 +174,11 @@ class PromptSchemaValidator:
         """Infer domain from prompt content"""
         prompt_lower = prompt.lower()
 
-        if any(
-            word in prompt_lower for word in ["data", "metric", "analysis", "report", "statistics"]
-        ):
+        if any(word in prompt_lower for word in ["data", "metric", "analysis", "report", "statistics"]):
             return "analytics"
         elif any(word in prompt_lower for word in ["code", "function", "bug", "optimize", "api"]):
             return "coding"
-        elif any(
-            word in prompt_lower for word in ["write", "blog", "article", "content", "document"]
-        ):
+        elif any(word in prompt_lower for word in ["write", "blog", "article", "content", "document"]):
             return "content"
         else:
             return "cross_domain"

@@ -112,11 +112,7 @@ class ContextVectorUpdater:
         # Completeness: percentage of files with embeddings
         total_files = len(graph.get("entities", {}).get("files", {}))
         embedded_files = len(
-            [
-                e
-                for e in embeddings.get("embeddings", {})
-                if embeddings["embeddings"][e]["type"] == "file"
-            ]
+            [e for e in embeddings.get("embeddings", {}) if embeddings["embeddings"][e]["type"] == "file"]
         )
 
         if total_files > 0:
@@ -129,11 +125,7 @@ class ContextVectorUpdater:
         # Consistency: all agents have embeddings
         total_agents = len(graph.get("entities", {}).get("agents", {}))
         embedded_agents = len(
-            [
-                e
-                for e in embeddings.get("embeddings", {})
-                if embeddings["embeddings"][e]["type"] == "agent"
-            ]
+            [e for e in embeddings.get("embeddings", {}) if embeddings["embeddings"][e]["type"] == "agent"]
         )
 
         if total_agents > 0:
@@ -165,12 +157,8 @@ class ContextVectorUpdater:
                 "atomic_components": len(avsha_data.get("atomic_components", {})),
                 "feature_slices": len(avsha_data.get("feature_slices", {})),
                 "violations": len(avsha_data.get("architectural_violations", {})),
-                "compliance_score": avsha_data.get("avsha_metrics", {}).get(
-                    "architectural_compliance", 0.0
-                ),
-                "reusability_score": avsha_data.get("avsha_metrics", {}).get(
-                    "reusability_score", 0.0
-                ),
+                "compliance_score": avsha_data.get("avsha_metrics", {}).get("architectural_compliance", 0.0),
+                "reusability_score": avsha_data.get("avsha_metrics", {}).get("reusability_score", 0.0),
             }
 
         # Add recommendations based on context
@@ -199,9 +187,7 @@ class ContextVectorUpdater:
                 )
 
             if violations:
-                summary["recommendations"].append(
-                    f"AVSHA: Fix {len(violations)} architectural violations"
-                )
+                summary["recommendations"].append(f"AVSHA: Fix {len(violations)} architectural violations")
 
             component_dist = avsha_metrics.get("component_distribution", {})
             if component_dist.get("atoms", 0) < 3:
@@ -235,9 +221,7 @@ class ContextVectorUpdater:
         guidance["current_structure"] = {
             "atomic_levels": {},
             "features": list(feature_slices.keys()),
-            "shared_components": len(
-                [c for c in atomic_components.values() if c.get("is_shared", False)]
-            ),
+            "shared_components": len([c for c in atomic_components.values() if c.get("is_shared", False)]),
         }
 
         # Group components by level
@@ -249,14 +233,10 @@ class ContextVectorUpdater:
 
         # Generate patterns and recommendations
         if atomic_components:
-            guidance["patterns"].append(
-                "AVSHA structure detected - continue using atomic hierarchy"
-            )
+            guidance["patterns"].append("AVSHA structure detected - continue using atomic hierarchy")
 
         if feature_slices:
-            guidance["patterns"].append(
-                f"Feature slices organized: {', '.join(feature_slices.keys())}"
-            )
+            guidance["patterns"].append(f"Feature slices organized: {', '.join(feature_slices.keys())}")
 
         # Specific recommendations based on structure
         if avsha_metrics.get("reusability_score", 0) < 0.5:
@@ -265,9 +245,7 @@ class ContextVectorUpdater:
         if len(feature_slices) > 0:
             for feature, data in feature_slices.items():
                 if len(data.get("components", [])) < 5:
-                    guidance["recommendations"].append(
-                        f"Consider expanding {feature} feature with more components"
-                    )
+                    guidance["recommendations"].append(f"Consider expanding {feature} feature with more components")
 
         # Extract violations
         guidance["violations"] = list(violations.keys()) if violations else []
@@ -297,9 +275,7 @@ class ContextVectorUpdater:
         avsha_data = {
             "atomic_components": graph.get("entities", {}).get("atomic_components", {}),
             "feature_slices": graph.get("entities", {}).get("feature_slices", {}),
-            "architectural_violations": graph.get("entities", {}).get(
-                "architectural_violations", {}
-            ),
+            "architectural_violations": graph.get("entities", {}).get("architectural_violations", {}),
             "avsha_metrics": graph.get("avsha_metrics", {}),
         }
 

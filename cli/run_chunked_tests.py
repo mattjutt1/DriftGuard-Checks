@@ -123,9 +123,7 @@ def main():
 
         # Print chunk summary
         status = "✅ PASS" if result["return_code"] == 0 else "❌ FAIL"
-        print(
-            f"{status} {chunk_name}: {result['passed']}/{result['test_count']} passed ({result['duration']:.1f}s)"
-        )
+        print(f"{status} {chunk_name}: {result['passed']}/{result['test_count']} passed ({result['duration']:.1f}s)")
 
         if result["stderr"] and result["stderr"] != "":
             print(f"   ⚠️  Error: {result['stderr'][:100]}")
@@ -135,11 +133,7 @@ def main():
     print(f"   Total Tests: {total_tests}")
     print(f"   Passed: {total_passed}")
     print(f"   Failed: {total_failed}")
-    print(
-        f"   Success Rate: {(total_passed/total_tests*100):.1f}%"
-        if total_tests > 0
-        else "   Success Rate: 0%"
-    )
+    print(f"   Success Rate: {(total_passed/total_tests*100):.1f}%" if total_tests > 0 else "   Success Rate: 0%")
     print(f"   Total Duration: {total_duration:.1f}s")
 
     # Save complete results

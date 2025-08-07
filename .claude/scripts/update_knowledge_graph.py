@@ -327,9 +327,7 @@ class KnowledgeGraphUpdater:
 
         # Perform AVSHA architectural analysis
         print("🏛️ Analyzing AVSHA architecture...")
-        atomic_components, feature_slices, violations = self.analyze_avsha_structure(
-            current_entities
-        )
+        atomic_components, feature_slices, violations = self.analyze_avsha_structure(current_entities)
 
         # Update AVSHA entities
         graph["entities"]["atomic_components"] = atomic_components
@@ -337,9 +335,7 @@ class KnowledgeGraphUpdater:
         graph["entities"]["architectural_violations"] = violations
 
         # Calculate AVSHA metrics
-        avsha_metrics = self.calculate_avsha_metrics(
-            atomic_components, feature_slices, current_entities
-        )
+        avsha_metrics = self.calculate_avsha_metrics(atomic_components, feature_slices, current_entities)
         avsha_metrics["last_assessment"] = datetime.now().isoformat()
         graph["avsha_metrics"] = avsha_metrics
 

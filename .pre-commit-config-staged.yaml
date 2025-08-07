@@ -6,28 +6,28 @@ default_language_version:
 
 repos:
   # STAGE 1: Fast file checks (these complete quickly)
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-json
-      - id: check-toml
-      - id: check-added-large-files
-        args: ['--maxkb=5000']
-      - id: check-merge-conflict
-      - id: detect-private-key
-      - id: mixed-line-ending
-        args: ['--fix=lf']
-      - id: requirements-txt-fixer
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-json
+  - id: check-toml
+  - id: check-added-large-files
+    args: [--maxkb=5000]
+  - id: check-merge-conflict
+  - id: detect-private-key
+  - id: mixed-line-ending
+    args: [--fix=lf]
+  - id: requirements-txt-fixer
 
   # STAGE 2: Python syntax check (fast)
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: check-ast
-      - id: debug-statements
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+  - id: check-ast
+  - id: debug-statements
 
   # STAGE 3: Python formatting (can be slow on many files)
   # Uncomment after Stage 1 & 2 are clean
@@ -78,22 +78,22 @@ repos:
   #       files: '^(cli/|\.claude/scripts/|[^/]+\.py$)'
 
   # YAML formatting
-  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: v2.15.0
-    hooks:
-      - id: pretty-format-yaml
-        args: ['--autofix', '--indent=2']
-        files: '\.(yaml|yml)$'
-        exclude: '^(microsoft-promptwizard/|hf-deployment/|nextjs-app/\.next/)'
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.15.0
+  hooks:
+  - id: pretty-format-yaml
+    args: [--autofix, --indent=2]
+    files: \.(yaml|yml)$
+    exclude: ^(microsoft-promptwizard/|hf-deployment/|nextjs-app/\.next/)
 
   # Markdown linting
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
-    hooks:
-      - id: markdownlint
-        args: ['--fix']
-        files: '\.md$'
-        exclude: '^(microsoft-promptwizard/|hf-deployment/|node_modules/)'
+- repo: https://github.com/igorshubovych/markdownlint-cli
+  rev: v0.45.0
+  hooks:
+  - id: markdownlint
+    args: [--fix]
+    files: \.md$
+    exclude: ^(microsoft-promptwizard/|hf-deployment/|node_modules/)
 
 # Exclude third-party and generated code
 exclude: |

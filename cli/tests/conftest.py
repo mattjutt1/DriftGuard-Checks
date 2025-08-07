@@ -195,18 +195,14 @@ def test_evidence_collector():
     }
 
     def add_result(test_name: str, result: Dict[str, Any]):
-        evidence["test_results"].append(
-            {"test": test_name, "timestamp": time.time(), "result": result}
-        )
+        evidence["test_results"].append({"test": test_name, "timestamp": time.time(), "result": result})
 
     def add_error(test_name: str, error: str):
         evidence["errors"].append({"test": test_name, "timestamp": time.time(), "error": error})
 
     def generate_summary() -> Dict[str, Any]:
         total_tests = len(evidence["test_results"])
-        passed_tests = len(
-            [r for r in evidence["test_results"] if r["result"].get("passed", False)]
-        )
+        passed_tests = len([r for r in evidence["test_results"] if r["result"].get("passed", False)])
 
         return {
             "total_tests": total_tests,

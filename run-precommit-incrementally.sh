@@ -21,11 +21,11 @@ run_with_timeout() {
     local pattern=$1
     local description=$2
     local timeout=${3:-60}  # Default 60 seconds
-    
+
     echo "Processing: $description"
     echo "Pattern: $pattern"
     echo "Timeout: ${timeout}s"
-    
+
     # Find files matching pattern
     files=$(find . -type f -name "$pattern" \
         -not -path "./venv/*" \
@@ -40,14 +40,14 @@ run_with_timeout() {
         -not -path "./.pytest_cache/*" \
         -not -path "./.mypy_cache/*" \
         2>/dev/null | head -50)  # Process 50 files at a time
-    
+
     if [ -z "$files" ]; then
         echo "No files found for pattern: $pattern"
         return
     fi
-    
+
     echo "Found $(echo "$files" | wc -l) files to process (max 50 per batch)"
-    
+
     # Run pre-commit on these files
     echo "$files" | while read -r file; do
         if [ -f "$file" ]; then
@@ -62,7 +62,7 @@ run_with_timeout() {
             fi
         fi
     done
-    
+
     echo "Completed: $description" | tee -a "$LOG_FILE"
     echo ""
 }
@@ -71,7 +71,7 @@ run_with_timeout() {
 echo "STAGE 1: Quick Fixes (whitespace, line endings, EOF)"
 echo "======================================================"
 pre-commit run trailing-whitespace --all-files || true
-pre-commit run end-of-file-fixer --all-files || true  
+pre-commit run end-of-file-fixer --all-files || true
 pre-commit run mixed-line-ending --all-files || true
 echo "Stage 1 complete" | tee -a "$LOG_FILE"
 

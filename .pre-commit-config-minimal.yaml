@@ -6,19 +6,19 @@ default_language_version:
 
 repos:
   # Essential file checks (fast)
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-json
-      - id: check-added-large-files
-        args: ['--maxkb=5000']
-      - id: check-merge-conflict
-      - id: detect-private-key
-      - id: mixed-line-ending
-        args: ['--fix=lf']
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-json
+  - id: check-added-large-files
+    args: [--maxkb=5000]
+  - id: check-merge-conflict
+  - id: detect-private-key
+  - id: mixed-line-ending
+    args: [--fix=lf]
 
 # Exclude directories that shouldn't be checked
 exclude: |

@@ -42,9 +42,7 @@ def run_pytest_with_logging():
         print(f"Running: {' '.join(pytest_cmd)}")
         start_time = time.time()
 
-        result = subprocess.run(
-            pytest_cmd, capture_output=True, text=True, timeout=300  # 5 minute timeout
-        )
+        result = subprocess.run(pytest_cmd, capture_output=True, text=True, timeout=300)  # 5 minute timeout
 
         duration = (time.time() - start_time) * 1000  # Convert to milliseconds
 
@@ -65,9 +63,7 @@ def run_pytest_with_logging():
                         status=test.get("outcome", "unknown"),
                         duration=test.get("duration", 0) * 1000,  # Convert to ms
                         error_message=(
-                            test.get("call", {}).get("longrepr")
-                            if test.get("outcome") == "failed"
-                            else None
+                            test.get("call", {}).get("longrepr") if test.get("outcome") == "failed" else None
                         ),
                     )
                     test_results.append(test_result)
@@ -139,9 +135,7 @@ def run_pytest_with_logging():
 
             print(f"\n✅ Test results logged to Convex backend")
             print(f"   Status: {final_status}")
-            print(
-                f"   Tests: {passed_count} passed, {failed_count} failed, {skipped_count} skipped"
-            )
+            print(f"   Tests: {passed_count} passed, {failed_count} failed, {skipped_count} skipped")
         else:
             print(f"\n⚠️  Failed to log test results to Convex backend")
 

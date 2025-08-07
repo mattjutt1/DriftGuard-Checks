@@ -181,9 +181,7 @@ class EmbeddingGenerator:
             similarity = self.calculate_similarity(target_embedding, entity_data["embedding"])
 
             if similarity >= threshold:
-                similar.append(
-                    {"entity": entity_id, "similarity": similarity, "type": entity_data["type"]}
-                )
+                similar.append({"entity": entity_id, "similarity": similarity, "type": entity_data["type"]})
 
         return sorted(similar, key=lambda x: x["similarity"], reverse=True)
 

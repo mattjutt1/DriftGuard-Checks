@@ -93,10 +93,7 @@ class TestModeConfigurations:
 
     def test_mode_config_differences(self):
         """Test differences between quick and advanced modes"""
-        assert (
-            QUICK_MODE_CONFIG["mutate_refine_iterations"]
-            < ADVANCED_MODE_CONFIG["mutate_refine_iterations"]
-        )
+        assert QUICK_MODE_CONFIG["mutate_refine_iterations"] < ADVANCED_MODE_CONFIG["mutate_refine_iterations"]
 
         # Other values should be the same
         for key in DEFAULT_CONFIG:
@@ -285,10 +282,7 @@ class TestConfigurationMerging:
         final_config = {**base_config, **domain_config, "domain": "academic"}
 
         # Should have mode setting
-        assert (
-            final_config["mutate_refine_iterations"]
-            == ADVANCED_MODE_CONFIG["mutate_refine_iterations"]
-        )
+        assert final_config["mutate_refine_iterations"] == ADVANCED_MODE_CONFIG["mutate_refine_iterations"]
 
         # Should have domain overrides
         for key, value in domain_config.items():
@@ -298,11 +292,7 @@ class TestConfigurationMerging:
         assert final_config["domain"] == "academic"
 
         # Should have all required keys
-        all_keys = (
-            set(DEFAULT_CONFIG.keys())
-            | set(domain_config.keys())
-            | {"mutate_refine_iterations", "domain"}
-        )
+        all_keys = set(DEFAULT_CONFIG.keys()) | set(domain_config.keys()) | {"mutate_refine_iterations", "domain"}
         assert set(final_config.keys()) == all_keys
 
 
@@ -317,9 +307,7 @@ class TestConfigurationValidation:
         # Domain-specific temperatures
         for domain, config in DOMAIN_CONFIGS.items():
             if "temperature" in config:
-                assert (
-                    0.0 <= config["temperature"] <= 2.0
-                ), f"Invalid temperature in {domain} domain"
+                assert 0.0 <= config["temperature"] <= 2.0, f"Invalid temperature in {domain} domain"
 
     def test_positive_integer_values(self):
         """Test that integer configuration values are positive"""
@@ -377,9 +365,7 @@ class TestConfigurationDocumentation:
         task_descriptions = [config["task_description"] for config in DOMAIN_CONFIGS.values()]
 
         # All task descriptions should be different
-        assert len(set(task_descriptions)) == len(
-            task_descriptions
-        ), "Domain task descriptions should be unique"
+        assert len(set(task_descriptions)) == len(task_descriptions), "Domain task descriptions should be unique"
 
         # Should contain domain-specific keywords
         assert "technical" in DOMAIN_CONFIGS["technical"]["task_description"].lower()

@@ -70,10 +70,7 @@ EXPECTED_OPTIMIZATIONS = {
 BATCH_TEST_DATA = {
     "small_batch": ["Summarize this article", "Translate to French", "Write unit tests"],
     "medium_batch": [f"Generate example {i} for testing batch processing" for i in range(1, 11)],
-    "large_batch": [
-        f"Large batch test prompt number {i} with varying complexity and length"
-        for i in range(1, 26)
-    ],
+    "large_batch": [f"Large batch test prompt number {i} with varying complexity and length" for i in range(1, 26)],
 }
 
 CONFIG_TEST_DATA = {

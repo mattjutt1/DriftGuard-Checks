@@ -144,9 +144,7 @@ class MCPTaskOptimizer:
         recommendations.sort(key=lambda x: x["score"], reverse=True)
         return recommendations
 
-    def generate_optimization_report(
-        self, task_text: str, subagent_type: str, description: str
-    ) -> Dict:
+    def generate_optimization_report(self, task_text: str, subagent_type: str, description: str) -> Dict:
         """Generate comprehensive task optimization report"""
         domains = self.identify_task_domains(task_text)
         recommendations = self.recommend_mcp_servers(task_text, domains)
@@ -156,9 +154,7 @@ class MCPTaskOptimizer:
 
         if recommendations:
             top_server = recommendations[0]
-            suggestions.append(
-                f"🎯 Recommended MCP Server: {top_server['server']} (score: {top_server['score']})"
-            )
+            suggestions.append(f"🎯 Recommended MCP Server: {top_server['server']} (score: {top_server['score']})")
             suggestions.append(f"📋 Capabilities: {', '.join(top_server['capabilities'])}")
 
             for reason in top_server["reasons"]:
@@ -196,9 +192,7 @@ class MCPTaskOptimizer:
 
         # Output optimization report
         print("🚀 MCP Task Optimizer Report:")
-        print(
-            f"📊 Task Domains: {', '.join(report['task_domains']) if report['task_domains'] else 'General'}"
-        )
+        print(f"📊 Task Domains: {', '.join(report['task_domains']) if report['task_domains'] else 'General'}")
         print(f"🎯 Optimization Score: {report['optimization_score']}")
 
         if report["recommendations"]:

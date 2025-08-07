@@ -227,14 +227,10 @@ class PromptEnhancementGenerator:
                 vague = random.choice(domain_prompts)
                 # Add some variation to vague prompts
                 if random.random() > 0.5:
-                    vague = (
-                        f"{vague} {random.choice(['quickly', 'for me', 'please', 'now', 'ASAP'])}"
-                    )
+                    vague = f"{vague} {random.choice(['quickly', 'for me', 'please', 'now', 'ASAP'])}"
 
                 enhanced = self.generate_enhanced_prompt(vague, domain)
-                dataset.append(
-                    PromptPair(domain=domain, vague_prompt=vague, enhanced_prompt=enhanced)
-                )
+                dataset.append(PromptPair(domain=domain, vague_prompt=vague, enhanced_prompt=enhanced))
 
         # Add negative examples (20% as per PRD)
         num_negative = int(num_examples * 0.2)
@@ -256,9 +252,7 @@ class PromptEnhancementGenerator:
 
     def save_dataset(self, dataset: List[PromptPair], output_path: str):
         """Save dataset in JSONL format for training"""
-        os.makedirs(
-            os.path.dirname(output_path) if os.path.dirname(output_path) else ".", exist_ok=True
-        )
+        os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else ".", exist_ok=True)
 
         with open(output_path, "w") as f:
             for pair in dataset:

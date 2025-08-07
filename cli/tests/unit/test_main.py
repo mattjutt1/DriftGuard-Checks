@@ -230,9 +230,7 @@ class TestBatchCommand:
     """Test batch processing command"""
 
     @patch("promptevolver_cli.main.client")
-    def test_batch_processing_success(
-        self, mock_client, cli_runner, temp_prompt_file, temp_output_dir
-    ):
+    def test_batch_processing_success(self, mock_client, cli_runner, temp_prompt_file, temp_output_dir):
         """Test successful batch processing"""
         mock_client.optimize_prompt.return_value = {
             "success": True,
@@ -240,9 +238,7 @@ class TestBatchCommand:
         }
 
         output_file = temp_output_dir / "batch_results.json"
-        result = cli_runner.invoke(
-            cli, ["batch", str(temp_prompt_file), "--output", str(output_file)]
-        )
+        result = cli_runner.invoke(cli, ["batch", str(temp_prompt_file), "--output", str(output_file)])
 
         assert result.exit_code == 0
         assert "Batch Optimization Complete" in result.output
@@ -331,9 +327,7 @@ class TestUtilityFunctions:
             "improvements": ["Test improvement"],
         }
 
-        _save_optimization_results(
-            output_file, "Original prompt", result_data, 15.2, "quick", "general"
-        )
+        _save_optimization_results(output_file, "Original prompt", result_data, 15.2, "quick", "general")
 
         assert output_file.exists()
         with open(output_file) as f:

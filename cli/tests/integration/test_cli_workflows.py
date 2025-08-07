@@ -296,15 +296,9 @@ class TestErrorRecoveryWorkflows:
                     },
                 }
 
-                responses.add(
-                    responses.POST, f"{CONVEX_BASE_URL}/optimize", json=success_response, status=200
-                )
-                responses.add(
-                    responses.POST, f"{CONVEX_BASE_URL}/optimize", json=failure_response, status=200
-                )
-                responses.add(
-                    responses.POST, f"{CONVEX_BASE_URL}/optimize", json=success_response, status=200
-                )
+                responses.add(responses.POST, f"{CONVEX_BASE_URL}/optimize", json=success_response, status=200)
+                responses.add(responses.POST, f"{CONVEX_BASE_URL}/optimize", json=failure_response, status=200)
+                responses.add(responses.POST, f"{CONVEX_BASE_URL}/optimize", json=success_response, status=200)
 
                 # Run batch with continue-on-error
                 result = cli_runner.invoke(
@@ -420,15 +414,11 @@ class TestPerformanceWorkflows:
                 ),
             )
 
-        responses.add_callback(
-            responses.POST, f"{CONVEX_BASE_URL}/optimize", callback=quick_response_callback
-        )
+        responses.add_callback(responses.POST, f"{CONVEX_BASE_URL}/optimize", callback=quick_response_callback)
 
         # Test quick mode
         start_time = time.time()
-        quick_result = cli_runner.invoke(
-            cli, ["optimize", "Test prompt for timing", "--mode", "quick"]
-        )
+        quick_result = cli_runner.invoke(cli, ["optimize", "Test prompt for timing", "--mode", "quick"])
         quick_duration = time.time() - start_time
 
         assert quick_result.exit_code == 0
@@ -436,15 +426,11 @@ class TestPerformanceWorkflows:
 
         # Reset responses for advanced mode
         responses.reset()
-        responses.add_callback(
-            responses.POST, f"{CONVEX_BASE_URL}/optimize", callback=advanced_response_callback
-        )
+        responses.add_callback(responses.POST, f"{CONVEX_BASE_URL}/optimize", callback=advanced_response_callback)
 
         # Test advanced mode
         start_time = time.time()
-        advanced_result = cli_runner.invoke(
-            cli, ["optimize", "Test prompt for timing", "--mode", "advanced"]
-        )
+        advanced_result = cli_runner.invoke(cli, ["optimize", "Test prompt for timing", "--mode", "advanced"])
         advanced_duration = time.time() - start_time
 
         assert advanced_result.exit_code == 0
@@ -483,9 +469,7 @@ class TestPerformanceWorkflows:
                     ),
                 )
 
-            responses.add_callback(
-                responses.POST, f"{CONVEX_BASE_URL}/optimize", callback=batch_response_callback
-            )
+            responses.add_callback(responses.POST, f"{CONVEX_BASE_URL}/optimize", callback=batch_response_callback)
 
             # Time batch processing
             start_time = time.time()
@@ -740,9 +724,7 @@ class TestInteractiveWorkflows:
             status=200,
         )
 
-        result = cli_runner.invoke(
-            cli, ["optimize", "Explain this topic clearly", "--show-comparison"]
-        )
+        result = cli_runner.invoke(cli, ["optimize", "Explain this topic clearly", "--show-comparison"])
 
         assert result.exit_code == 0
         assert "Original" in result.output

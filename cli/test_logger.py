@@ -28,9 +28,7 @@ class TestLogger:
     def get_system_metadata(self) -> Dict[str, str]:
         """Collect system metadata for test execution"""
         try:
-            python_version = (
-                f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-            )
+            python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
 
             # Try to get pytest version
             pytest_version = "unknown"
@@ -156,9 +154,7 @@ class TestLogger:
                     print(f"   Execution ID: {result['data']['testExecutionId']}")
                     return True
                 else:
-                    print(
-                        f"❌ Failed to log test execution: {result.get('error', 'Unknown error')}"
-                    )
+                    print(f"❌ Failed to log test execution: {result.get('error', 'Unknown error')}")
                     return False
             else:
                 print(f"❌ HTTP {response.status_code}: {response.text}")

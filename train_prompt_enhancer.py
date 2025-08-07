@@ -88,9 +88,7 @@ class PromptEnhancerTrainer:
         """Print device information"""
         if torch.cuda.is_available():
             logger.info(f"✅ GPU: {torch.cuda.get_device_name(0)}")
-            logger.info(
-                f"   Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f}GB"
-            )
+            logger.info(f"   Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f}GB")
 
             # Clear cache
             torch.cuda.empty_cache()
@@ -191,7 +189,9 @@ class PromptEnhancerTrainer:
 {item.get('output', '')}"""
             else:
                 # Fallback for other formats
-                text = f"Q: {item.get('question', item.get('input', ''))} A: {item.get('answer', item.get('output', ''))}"
+                text = (
+                    f"Q: {item.get('question', item.get('input', ''))} A: {item.get('answer', item.get('output', ''))}"
+                )
 
             formatted_data.append({"text": text})
 
@@ -351,9 +351,7 @@ def main():
         import peft
         import transformers
 
-        logger.info(
-            f"✅ Dependencies: transformers={transformers.__version__}, peft={peft.__version__}"
-        )
+        logger.info(f"✅ Dependencies: transformers={transformers.__version__}, peft={peft.__version__}")
     except ImportError as e:
         logger.error(f"❌ Missing dependency: {e}")
         logger.error("Install with: pip install transformers peft datasets accelerate")

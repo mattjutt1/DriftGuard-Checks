@@ -226,9 +226,7 @@ class TestNetworkResilience:
                 ),
             )
 
-        responses.add_callback(
-            responses.GET, f"{CONVEX_BASE_URL}/health", callback=slow_response_callback
-        )
+        responses.add_callback(responses.GET, f"{CONVEX_BASE_URL}/health", callback=slow_response_callback)
 
         start_time = time.time()
         result = client.check_health()

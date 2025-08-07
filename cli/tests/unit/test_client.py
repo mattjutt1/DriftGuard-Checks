@@ -121,9 +121,7 @@ class TestConvexClient:
             time.sleep(API_TIMEOUT + 1)  # Sleep longer than timeout
             return (200, {}, json.dumps({"status": "success"}))
 
-        responses.add_callback(
-            responses.GET, "https://test.convex.cloud/slow", callback=request_callback
-        )
+        responses.add_callback(responses.GET, "https://test.convex.cloud/slow", callback=request_callback)
 
         with pytest.raises(ConvexError) as exc_info:
             client.call_http_endpoint("/slow", "GET")

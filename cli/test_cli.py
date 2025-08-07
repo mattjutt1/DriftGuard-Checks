@@ -11,9 +11,7 @@ import sys
 def test_installation():
     """Test if the CLI is properly installed"""
     try:
-        result = subprocess.run(
-            ["promptevolver", "--version"], capture_output=True, text=True, timeout=10
-        )
+        result = subprocess.run(["promptevolver", "--version"], capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             print("✅ CLI installation successful")
             print(f"   Version: {result.stdout.strip()}")
@@ -33,9 +31,7 @@ def test_installation():
 def test_help():
     """Test if help commands work"""
     try:
-        result = subprocess.run(
-            ["promptevolver", "--help"], capture_output=True, text=True, timeout=10
-        )
+        result = subprocess.run(["promptevolver", "--help"], capture_output=True, text=True, timeout=10)
         if result.returncode == 0 and "PromptEvolver CLI" in result.stdout:
             print("✅ Help command works")
             return True
@@ -51,9 +47,7 @@ def test_health_command():
     """Test the health command (without actually calling the API)"""
     try:
         # Test that the command exists and shows help
-        result = subprocess.run(
-            ["promptevolver", "health", "--help"], capture_output=True, text=True, timeout=10
-        )
+        result = subprocess.run(["promptevolver", "health", "--help"], capture_output=True, text=True, timeout=10)
         if result.returncode == 0 and "Check Ollama health" in result.stdout:
             print("✅ Health command available")
             return True

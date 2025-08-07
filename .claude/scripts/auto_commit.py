@@ -56,9 +56,7 @@ class AutoCommitter:
 
     def determine_commit_type(self, changes):
         """Determine conventional commit type based on changes"""
-        all_files = (
-            changes["added"] + changes["modified"] + changes["deleted"] + changes["untracked"]
-        )
+        all_files = changes["added"] + changes["modified"] + changes["deleted"] + changes["untracked"]
 
         # Agent-related changes
         if any(".claude/agents/" in f for f in all_files):
@@ -91,10 +89,7 @@ class AutoCommitter:
         """Generate conventional commit message"""
         # Count changes
         total_changes = (
-            len(changes["added"])
-            + len(changes["modified"])
-            + len(changes["deleted"])
-            + len(changes["untracked"])
+            len(changes["added"]) + len(changes["modified"]) + len(changes["deleted"]) + len(changes["untracked"])
         )
 
         # Create description based on type
@@ -150,9 +145,7 @@ Changes:
 
             if result.returncode != 0:
                 # Add remote
-                subprocess.run(
-                    ["git", "remote", "add", "origin", self.repo_url], cwd=self.project_root
-                )
+                subprocess.run(["git", "remote", "add", "origin", self.repo_url], cwd=self.project_root)
                 print(f"Added remote origin: {self.repo_url}")
         except Exception as e:
             print(f"Error setting up git remote: {e}")
@@ -182,9 +175,7 @@ Changes:
             subprocess.run(["git", "add", "."], cwd=self.project_root, check=True)
 
             # Commit with generated message
-            subprocess.run(
-                ["git", "commit", "-m", commit_message], cwd=self.project_root, check=True
-            )
+            subprocess.run(["git", "commit", "-m", commit_message], cwd=self.project_root, check=True)
 
             print(f"✅ Committed changes: {commit_type}({scope})")
 
