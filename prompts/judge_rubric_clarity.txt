@@ -1,0 +1,203 @@
+# PromptEvolver 3.0 - Clarity Dimension Judge Rubric
+# Evaluating prompt clarity and freedom from ambiguity (Score: 0.0-1.0)
+
+## SCORING CRITERIA: CLARITY DIMENSION
+
+### Score: 0.9-1.0 (Exceptional Clarity)
+**Definition**: Crystal clear, unambiguous, immediately understandable without interpretation
+
+**Characteristics**:
+- Every instruction is precise and unambiguous
+- Technical terms are defined or context-appropriate
+- No conflicting or contradictory statements
+- Intent is immediately clear to any reader
+- Language is concise yet complete
+- Zero room for misinterpretation
+
+**Examples**:
+- ✅ "Create a Python function that takes two integers (a, b) and returns their sum as an integer"
+- ✅ "Write a 500-word executive summary for Q3 financial results, focusing on revenue growth and profitability metrics"
+- ✅ "Generate 3 bullet points describing the key benefits of renewable energy, each bullet containing 15-25 words"
+
+**Evidence to Look For**:
+- Specific data types, formats, lengths specified
+- Clear action verbs (create, analyze, generate, summarize)
+- Quantifiable parameters (word counts, number of items)
+- Unambiguous success criteria
+
+### Score: 0.7-0.8 (High Clarity)
+**Definition**: Mostly clear with minor ambiguities that don't significantly impact execution
+
+**Characteristics**:
+- Core intent is clear and well-articulated
+- Minor terms may need interpretation but context provides guidance
+- Overall direction is unambiguous
+- Small areas of potential confusion that experienced users can resolve
+
+**Examples**:
+- ✅ "Create a user-friendly dashboard for sales data with interactive charts"
+- ✅ "Write a comprehensive guide explaining the benefits of cloud computing"
+- ⚠️ "user-friendly" and "comprehensive" need interpretation, but context is sufficient
+
+**Evidence to Look For**:
+- Main objectives clearly stated
+- Most parameters defined
+- Minor subjective terms present but contextually bounded
+- 90%+ of requirements immediately actionable
+
+### Score: 0.5-0.6 (Moderate Clarity)
+**Definition**: Generally clear but requires interpretation or contains notable ambiguities
+
+**Characteristics**:
+- Basic intent is understandable
+- Several terms or requirements need clarification
+- Multiple valid interpretations possible for some elements
+- Requires user experience or domain knowledge to execute well
+
+**Examples**:
+- ⚠️ "Create good documentation for the new feature"
+- ⚠️ "Analyze the data and provide useful insights"
+- ⚠️ "good," "useful" are subjective; scope undefined
+
+**Evidence to Look For**:
+- Core task identifiable but execution details unclear
+- Subjective quality terms without criteria
+- Missing scope boundaries
+- 60-80% of requirements actionable without clarification
+
+### Score: 0.3-0.4 (Low Clarity)
+**Definition**: Somewhat clear but requires significant interpretation or contains major ambiguities
+
+**Characteristics**:
+- Intent can be inferred but isn't explicitly stated
+- Many undefined terms or vague requirements
+- Multiple conflicting interpretations possible
+- Significant guesswork required for execution
+
+**Examples**:
+- ❌ "Make the system better"
+- ❌ "Handle the customer situation appropriately"
+- ❌ "better," "appropriately," "situation" all undefined
+
+**Evidence to Look For**:
+- Vague action words (improve, optimize, handle)
+- Missing critical context or parameters
+- Abstract concepts without concrete definition
+- 30-50% of requirements immediately actionable
+
+### Score: 0.0-0.2 (Poor Clarity)
+**Definition**: Confusing, ambiguous, or unclear; difficult to understand the intent
+
+**Characteristics**:
+- Intent is unclear or indecipherable
+- Contradictory or conflicting instructions
+- Critical information missing
+- Multiple competing interpretations with no clear resolution
+
+**Examples**:
+- ❌ "Do the thing with the data for the users"
+- ❌ "Process everything correctly"
+- ❌ No specific actions, objects, or criteria defined
+
+**Evidence to Look For**:
+- Pronouns without clear referents ("it," "this," "that")
+- Generic action words without objects
+- No measurable criteria or success indicators
+- Less than 30% of requirements actionable
+
+## COMMON CLARITY PITFALLS TO AVOID IN SCORING
+
+### Over-Generous Scoring
+- Don't award high scores for prompts that "could be interpreted" clearly
+- Require actual clarity, not potential clarity
+- Context shouldn't compensate for poor wording
+
+### Under-Generous Scoring
+- Don't penalize domain-appropriate technical terminology
+- Consider the intended audience's expertise level
+- Minor imperfections shouldn't prevent high scores if overall clarity is excellent
+
+### Subjective Bias
+- Focus on objective linguistic clarity, not personal preference
+- Evaluate based on likelihood of consistent interpretation across users
+- Consider cultural and professional context appropriately
+
+## EVALUATION QUESTIONS FOR CLARITY ASSESSMENT
+
+1. **Immediate Understanding**: Can a qualified user understand the intent without re-reading?
+2. **Interpretation Variance**: Would 10 different users interpret this prompt the same way?
+3. **Action Clarity**: Are the required actions specific and unambiguous?
+4. **Parameter Specificity**: Are all necessary parameters, formats, and constraints clearly defined?
+5. **Success Criteria**: Is it clear what constitutes successful completion?
+6. **Context Sufficiency**: Is enough context provided for accurate execution?
+
+## COMPARATIVE EXAMPLES BY SCORE RANGE
+
+### Original → Enhanced Clarity Improvements
+
+**Score 0.3 → 0.9 Transformation**:
+- Before: "Write something about the product"
+- After: "As a marketing content specialist, write a 300-word product description for our new wireless headphones, highlighting 3 key features (sound quality, battery life, comfort), using enthusiastic but professional tone for tech-savvy consumers aged 25-40"
+
+**Score 0.6 → 0.9 Transformation**:
+- Before: "Analyze the sales data and find interesting patterns"
+- After: "As a data analyst, examine Q3 2024 sales data (CSV format) and identify the top 3 revenue patterns by product category, customer segment, and geographic region. Present findings as a structured report with specific percentage changes, statistical significance indicators, and actionable insights for the sales team"
+
+## SCORING CONSISTENCY GUIDELINES
+
+### For Human Reviewers:
+1. Read the prompt once without taking notes
+2. Score initial clarity impression (gut reaction)
+3. Re-read carefully and adjust score based on detailed criteria
+4. Compare against provided examples for calibration
+5. Document 2-3 specific reasons for the assigned score
+
+### For AI Model Self-Evaluation:
+1. Parse prompt for ambiguous terms and undefined parameters
+2. Count specific vs. vague instructions
+3. Identify potential interpretation variations
+4. Calculate clarity percentage based on unambiguous elements
+5. Map percentage to 0.0-1.0 scale using defined thresholds
+
+## DOMAIN-SPECIFIC CLARITY CONSIDERATIONS
+
+### Analytics Domain:
+- Data sources and formats must be specified
+- Statistical measures should be clearly defined
+- Visualization requirements should be explicit
+- Target audience for analysis should be identified
+
+### Coding Domain:
+- Programming languages and frameworks must be specified
+- Input/output formats should be clearly defined
+- Performance and security requirements should be explicit
+- Code style and documentation standards should be clear
+
+### Content Domain:
+- Audience, tone, and style must be specified
+- Format requirements (length, structure) should be clear
+- Brand guidelines and constraints should be explicit
+- Distribution channels and usage context should be defined
+
+### Cross-Domain:
+- All domain boundaries should be explicitly defined
+- Integration requirements must be clear
+- Success criteria across domains should be specified
+- Stakeholder perspectives should be clearly identified
+
+## QUALITY ASSURANCE CHECKLIST
+
+Before finalizing clarity score:
+- [ ] Core intent is immediately understandable
+- [ ] All critical parameters are defined
+- [ ] No contradictory or conflicting instructions
+- [ ] Success criteria are explicit and measurable
+- [ ] Appropriate level of detail for intended audience
+- [ ] Technical terminology is appropriate and consistent
+- [ ] Action steps are specific and actionable
+- [ ] Scope boundaries are clearly established
+
+---
+**Copyright (c) 2025 Matthew J. Utt**
+**PromptEvolver 3.0 Training System - Clarity Rubric**
+**Licensed under MIT License - Compatible with Microsoft PromptWizard Framework**

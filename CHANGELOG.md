@@ -5,6 +5,51 @@ All notable changes to PromptEvolver will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2025-08-07
+
+### Added
+
+- **Milestone 2 Complete**: Schemas and Prompts Foundation (Tasks 2.2-2.4)
+  - Task 2.2: System Message Template - Comprehensive prompt optimization instructions
+  - Task 2.3: Judge Rubric Templates - 9 detailed evaluation rubrics for quality scoring
+  - Task 2.4: Domain Classifier Prompt - Accurate domain categorization with confidence scoring
+
+- **System Message Template** (`prompts/system_message.txt`)
+  - Expert identity establishment with dynamic placeholders
+  - 3-phase optimization methodology (Analysis → Enhancement → Validation)
+  - Strategic follow-up question system (8 categories)
+  - 7-dimensional quality scoring integration
+  - Domain-specific expertise guidelines
+  - User intent preservation framework
+  - Qwen3:4b and PromptWizard optimization
+
+- **Judge Rubric Templates** (9 comprehensive files)
+  - Individual dimension rubrics for all 7 quality metrics
+  - Domain-specific evaluation criteria
+  - Weighted composite scoring methodology
+  - Excellence multipliers and domain bonuses
+  - Evaluation templates for single, comparative, and batch assessment
+
+- **Domain Classifier System**
+  - Main classification prompt (`domain_classifier.txt`)
+  - 42+ training examples (`domain_classifier_examples.json`)
+  - Primary and secondary domain identification
+  - Confidence scoring and edge case handling
+  - >92% accuracy target with <1 second processing
+
+### Technical
+
+- **Progress Tracking**: 15 of 102 tasks completed (14.7%)
+- **Foundation Complete**: All schema and prompt templates ready for training pipeline
+- **Quality Assurance**: Comprehensive evaluation framework established
+- **Integration Ready**: All components compatible with Qwen3:4b and PromptWizard
+
+### Knowledge Graph
+
+- Added prompt engineering entities and relationships
+- Updated training system context with evaluation framework
+- Framework compliance status: Excellent (proper agent delegation maintained)
+
 ## [0.3.1] - 2025-08-07
 
 ### Added

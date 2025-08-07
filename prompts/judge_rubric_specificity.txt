@@ -1,0 +1,289 @@
+# PromptEvolver 3.0 - Specificity Dimension Judge Rubric
+# Evaluating prompt specificity and detailed requirements definition (Score: 0.0-1.0)
+
+## SCORING CRITERIA: SPECIFICITY DIMENSION
+
+### Score: 0.9-1.0 (Exceptional Specificity)
+**Definition**: Highly specific with detailed requirements, parameters, and constraints clearly defined
+
+**Characteristics**:
+- Precise measurements, quantities, and formats specified
+- Detailed parameters for all major elements
+- Specific examples or references provided where helpful
+- Clear boundaries and constraints established
+- Quantifiable success criteria defined
+- Little room for interpretation variation
+
+**Examples**:
+- ✅ "Create a Python function named `calculate_roi` that accepts two float parameters (initial_investment, final_value), returns ROI as a percentage rounded to 2 decimal places, includes type hints, docstring following Google style, and raises ValueError for negative inputs"
+- ✅ "Write a 750-word SEO blog post about sustainable fashion, include exactly 5 subheadings (H2 tags), use keyword 'eco-friendly clothing' 3-4 times, target readability score of 60-70 (Flesch-Kincaid), include 2 external authority links, and optimize for search intent 'sustainable fashion tips'"
+- ✅ "Generate quarterly sales analysis dashboard with: 4 KPI cards (Revenue, Growth %, Deals Closed, Avg Deal Size), line chart showing monthly trends (last 12 months), bar chart by sales rep (top 10), pie chart by product category, color scheme #1f77b4 primary, responsive design for 1920x1080 and 768x1024"
+
+**Evidence to Look For**:
+- Numerical specifications (counts, sizes, percentages, ranges)
+- Format requirements (file types, templates, structures)
+- Technical standards and conventions referenced
+- Specific tools, frameworks, or methodologies mentioned
+- Detailed success criteria with measurable outcomes
+
+### Score: 0.7-0.8 (High Specificity)
+**Definition**: Good specificity with most requirements defined, minor gaps that don't significantly impact execution
+
+**Characteristics**:
+- Most critical parameters are specified
+- Key formats and requirements clearly defined
+- Some minor details left to reasonable interpretation
+- Sufficient detail for consistent execution across users
+- Clear success criteria for main objectives
+
+**Examples**:
+- ✅ "Create a responsive contact form with name, email, message fields, validation, and email notification to admin@company.com"
+- ✅ "Analyze customer satisfaction survey data (CSV file) and create visualization showing satisfaction trends by department with recommendations"
+- ⚠️ Missing specific validation rules, chart types, but core requirements are clear
+
+**Evidence to Look For**:
+- Major parameters specified (80%+)
+- Primary format requirements defined
+- Key constraints and boundaries established
+- Success criteria clear for main deliverables
+- Sufficient detail for professional implementation
+
+### Score: 0.5-0.6 (Moderate Specificity)
+**Definition**: Reasonable specificity with some requirements defined, but significant gaps remain
+
+**Characteristics**:
+- Basic requirements outlined but lack detail
+- Some parameters specified, others left undefined
+- General direction clear but execution details missing
+- Moderate interpretation required for implementation
+- Success criteria present but not comprehensive
+
+**Examples**:
+- ⚠️ "Create a modern website for a restaurant with menu, contact info, and online reservations"
+- ⚠️ "Build a machine learning model to predict customer churn using historical data"
+- ⚠️ Core elements identified but specifics like design style, ML algorithms, performance metrics undefined
+
+**Evidence to Look For**:
+- 50-70% of requirements have specific parameters
+- General framework provided but details missing
+- Some quantifiable elements but many subjective terms
+- Basic success criteria but lack measurable thresholds
+
+### Score: 0.3-0.4 (Low Specificity)
+**Definition**: Some specificity but significant gaps, requires substantial interpretation or assumption
+
+**Characteristics**:
+- Limited specific parameters provided
+- Many critical requirements undefined or vague
+- General intent clear but execution requires guesswork
+- Minimal constraints or boundaries specified
+- Success criteria unclear or overly general
+
+**Examples**:
+- ❌ "Create a good user interface for the application"
+- ❌ "Analyze the data and provide insights about customer behavior"
+- ❌ "good," behavior insights, and analysis scope all undefined
+
+**Evidence to Look For**:
+- Less than 50% of requirements have specific parameters
+- Critical constraints missing (scope, format, timeline)
+- Vague success criteria ("good," "effective," "useful")
+- Significant assumptions required for implementation
+
+### Score: 0.0-0.2 (Poor Specificity)
+**Definition**: Generic or overly broad without specific guidance, parameters, or detailed requirements
+
+**Characteristics**:
+- No specific parameters or requirements provided
+- Extremely broad scope without boundaries
+- All critical details missing
+- No measurable success criteria
+- Requires complete specification by implementer
+
+**Examples**:
+- ❌ "Make the system better"
+- ❌ "Create content"
+- ❌ "Solve the problem"
+- ❌ No scope, format, criteria, or parameters defined
+
+**Evidence to Look For**:
+- No quantifiable requirements
+- No format or structural specifications
+- No constraints or boundaries defined
+- No measurable success criteria
+- Generic action words without specific objects
+
+## SPECIFICITY EVALUATION FRAMEWORK
+
+### Critical Specification Categories
+
+#### 1. Quantitative Parameters
+- **Measurements**: Sizes, counts, percentages, ranges
+- **Limits**: Minimum/maximum values, constraints
+- **Thresholds**: Performance criteria, quality gates
+- **Timelines**: Deadlines, duration, frequency
+
+#### 2. Format Requirements
+- **Structure**: Organization, hierarchy, sections
+- **Style**: Visual design, writing tone, technical approach
+- **Output Format**: File types, templates, frameworks
+- **Standards**: Compliance requirements, conventions
+
+#### 3. Functional Specifications
+- **Features**: Specific capabilities required
+- **Behavior**: Expected interactions and responses
+- **Integration**: Dependencies and interfaces
+- **Performance**: Speed, accuracy, reliability requirements
+
+#### 4. Contextual Details
+- **Audience**: Target users, stakeholders, recipients
+- **Environment**: Platform, tools, deployment context
+- **Constraints**: Resources, limitations, restrictions
+- **Success Metrics**: Measurable outcomes and KPIs
+
+## COMMON SPECIFICITY SCORING PITFALLS
+
+### Over-Generous Scoring
+- Don't assume implied specificity that isn't explicitly stated
+- Avoid filling gaps with "reasonable assumptions"
+- Don't credit general industry knowledge as prompt specificity
+- Require explicit parameters, not inferred requirements
+
+### Under-Generous Scoring
+- Don't penalize appropriate level of abstraction for the domain
+- Consider domain-specific standard practices as implied specificity
+- Account for audience expertise level in requirement detail
+- Recognize when over-specification would be counterproductive
+
+### Domain Context Errors
+- Analytics: Don't expect coding-level specificity for business analysis
+- Coding: Don't expect marketing-level audience targeting for technical specs
+- Content: Don't expect technical implementation details for creative work
+- Cross-Domain: Expect higher specificity to coordinate multiple domains
+
+## EVALUATION QUESTIONS FOR SPECIFICITY ASSESSMENT
+
+1. **Parameter Coverage**: What percentage of critical parameters are explicitly specified?
+2. **Measurement Precision**: Are quantifiable elements given specific values or ranges?
+3. **Format Definition**: Are output formats, structures, and styles clearly defined?
+4. **Success Criteria**: Are success metrics specific and measurable?
+5. **Constraint Clarity**: Are limitations, boundaries, and constraints explicitly stated?
+6. **Implementation Guidance**: Does the prompt provide sufficient detail for consistent execution?
+
+## COMPARATIVE EXAMPLES BY SCORE RANGE
+
+### Specificity Enhancement Transformations
+
+**Score 0.2 → 0.9 Transformation**:
+- Before: "Create a report"
+- After: "Generate a 15-page quarterly business performance report in PDF format with executive summary (2 pages), financial analysis section (5 charts showing revenue, profit, expenses with YoY comparisons), operational metrics dashboard (3 KPI sections), risk assessment matrix (high/medium/low categorization), and strategic recommendations (5 specific action items with timelines and responsible parties). Use company template v2.3, Calibri 11pt font, corporate color scheme (#003366 primary), and include data sources footnotes."
+
+**Score 0.5 → 0.9 Transformation**:
+- Before: "Build a responsive e-commerce website with shopping cart functionality"
+- After: "Develop responsive e-commerce website using React 18, TypeScript, Tailwind CSS framework supporting: product catalog (grid/list views, 12 products per page, filtering by category/price/rating), shopping cart (persistent storage, quantity updates, real-time total calculation), checkout process (3-step: shipping, payment, confirmation), user authentication (email/password, Google OAuth), payment integration (Stripe API), mobile-first design (320px-1920px breakpoints), and product search with autocomplete. Include admin panel for inventory management, order tracking, and sales analytics dashboard."
+
+## SCORING CONSISTENCY GUIDELINES
+
+### Specificity Checklist for Reviewers
+
+**Score 0.9-1.0 Requirements**:
+- [ ] 90%+ of critical parameters explicitly specified
+- [ ] Quantitative measures provided (counts, sizes, percentages)
+- [ ] Format requirements clearly defined
+- [ ] Technical standards and conventions referenced
+- [ ] Success criteria specific and measurable
+- [ ] Constraints and boundaries well-defined
+
+**Score 0.7-0.8 Requirements**:
+- [ ] 70-80% of critical parameters specified
+- [ ] Major format requirements defined
+- [ ] Key constraints established
+- [ ] Success criteria clear for main objectives
+- [ ] Sufficient detail for consistent professional implementation
+
+**Score 0.5-0.6 Requirements**:
+- [ ] 50-70% of requirements have specific parameters
+- [ ] Basic framework provided
+- [ ] Some quantifiable elements present
+- [ ] General success criteria established
+- [ ] Implementation possible with reasonable interpretation
+
+## DOMAIN-SPECIFIC SPECIFICITY STANDARDS
+
+### Analytics Domain Specificity Markers
+**High Specificity (0.8-1.0)**:
+- Data sources, formats, and time periods specified
+- Statistical measures and significance levels defined
+- Visualization types, axes, and formatting detailed
+- Audience and use case for analysis clearly stated
+- Performance metrics and accuracy requirements specified
+
+**Moderate Specificity (0.5-0.7)**:
+- General analysis type and data scope identified
+- Basic output format requirements provided
+- Key metrics or KPIs mentioned
+- General audience context given
+
+### Coding Domain Specificity Markers
+**High Specificity (0.8-1.0)**:
+- Programming languages, frameworks, and versions specified
+- Function signatures, input/output types, and error handling defined
+- Performance requirements, security considerations detailed
+- Code style, documentation, and testing requirements specified
+- Deployment environment and integration requirements defined
+
+**Moderate Specificity (0.5-0.7)**:
+- Programming language and general framework mentioned
+- Basic functionality requirements outlined
+- General performance or security considerations noted
+- Basic code structure or architecture suggested
+
+### Content Domain Specificity Markers
+**High Specificity (0.8-1.0)**:
+- Audience demographics, psychographics, and context specified
+- Tone, style, and voice guidelines detailed
+- Format requirements (length, structure, media) defined
+- SEO, accessibility, and compliance requirements specified
+- Distribution channels and usage context detailed
+
+**Moderate Specificity (0.5-0.7)**:
+- General audience and purpose identified
+- Basic tone and format requirements provided
+- Key messages or topics outlined
+- General distribution context mentioned
+
+### Cross-Domain Specificity Markers
+**High Specificity (0.8-1.0)**:
+- Integration points between domains clearly defined
+- Success criteria for each domain component specified
+- Resource allocation and timeline for each domain detailed
+- Quality standards and review processes for each domain established
+- Stakeholder responsibilities and communication protocols defined
+
+**Moderate Specificity (0.5-0.7)**:
+- Multiple domains identified with basic integration points
+- General success criteria for cross-domain objectives
+- Basic resource and timeline considerations
+- General stakeholder roles identified
+
+## QUALITY ASSURANCE VALIDATION
+
+### Final Specificity Score Validation
+Before confirming score, verify:
+- [ ] Score accurately reflects explicit specification level
+- [ ] Domain-appropriate level of detail considered
+- [ ] No over-crediting for implied or assumed requirements
+- [ ] Comparison against rubric examples completed
+- [ ] Specific evidence documented for score justification
+
+### Evidence Documentation Requirements
+For each specificity score, document:
+1. **Quantified Elements**: List specific numbers, ranges, measurements provided
+2. **Format Specifications**: Note explicit format, style, structure requirements
+3. **Missing Critical Details**: Identify key parameters that remain unspecified
+4. **Domain Alignment**: Confirm specificity level appropriate for domain and audience
+
+---
+**Copyright (c) 2025 Matthew J. Utt**
+**PromptEvolver 3.0 Training System - Specificity Rubric**
+**Licensed under MIT License - Compatible with Microsoft PromptWizard Framework**
