@@ -1,0 +1,53 @@
+Prompt Gate ROI Calculator,,,,
+,,,,
+INPUT PARAMETERS,,,,
+Team Size (developers),10,,(Enter number of developers)
+Average Hourly Cost ($/hour),$75,,(Fully loaded cost including benefits)
+Hours Saved per Developer per Week,4,,(Conservative estimate: 3-5 hours typical)
+Weeks per Year,50,,(Accounting for vacation/holidays)
+,,,,
+CALCULATED ROI,,,,
+Weekly Savings per Developer,"=C4*C5",,=C4*C5
+Total Weekly Team Savings,"=C3*C8",,=C3*C8
+Annual Savings,"=C9*C6",,=C9*C6
+,,,,
+COST ANALYSIS,,,,
+Prompt Gate Annual Cost,$0,,(Runs offline - no API costs)
+Net Annual Savings,"=C10-C12",,=C10-C12
+ROI Percentage,#DIV/0!,,(Infinite ROI - no ongoing costs)
+,,,,
+DETAILED BREAKDOWN,,,,
+Monthly Savings,"=C10/12",,=C10/12
+Daily Savings (business days),"=C9/5",,=C9/5
+Savings per 1000 Lines of AI Code,$50,,(Estimated based on debugging reduction)
+,,,,
+ADDITIONAL BENEFITS (Not Quantified),,,,
+Reduced Production Issues,,,"40-70% fewer AI-related bugs"
+Faster PR Review Cycles,,,"60% reduction in review time"
+Improved Code Quality,,,"Standardized prompt patterns"
+Team Productivity Increase,,,"Less context switching debugging"
+Knowledge Standardization,,,"Best practices captured automatically"
+Compliance & Audit Trail,,,"Full history of prompt quality metrics"
+,,,,
+SENSITIVITY ANALYSIS,,,,
+Conservative Scenario (2 hrs/week),"=C3*2*C4*C6",,=C3*2*C4*C6
+Realistic Scenario (4 hrs/week),"=C3*4*C4*C6",,=C3*4*C4*C6
+Optimistic Scenario (6 hrs/week),"=C3*6*C4*C6",,=C3*6*C4*C6
+,,,,
+PAYBACK CALCULATION,,,,
+Setup Time Investment,2,hours,"One-time 5-minute install + 2hr configuration"
+Setup Cost,"=C31*C4",,=C31*C4
+Payback Time (days),"=C32/C17",,=C32/C17
+,,,,
+COMPARISON TO ALTERNATIVES,,,,
+Manual Code Review Cost (annual),"=C3*2*C4*C6",,"2 hours/week additional review time"
+External AI Tools Cost (annual),$12000,,"Typical API costs for team of 10"
+Total Alternative Costs,"=C36+C37",,=C36+C37
+Prompt Gate Advantage,"=C38-C12",,=C38-C12
+,,,,
+INSTRUCTIONS:,,,,
+"1. Update blue cells with your team's data",,,"Team size, hourly cost, etc."
+"2. Review calculated savings in green cells",,,"Annual and monthly savings"
+"3. Adjust hours saved based on your current AI usage",,,"More AI usage = more savings potential"
+"4. Consider additional benefits beyond quantified savings",,,"Quality improvements, standardization"
+"5. Use sensitivity analysis for different scenarios",,,"Conservative to optimistic estimates"
