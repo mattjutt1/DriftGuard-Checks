@@ -1,0 +1,247 @@
+name: Repository Hygiene
+
+on:
+  schedule:
+  - cron: 0 5 * * 1      # Mondays 05:00 UTC
+  workflow_dispatch:
+    inputs:
+      force_attic_cleanup:
+        description: Force attic cleanup regardless of age
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  audit:
+    name: Generate Repository Audit
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0    # Full history for accurate git log dates
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+
+    - name: Generate repository audit
+      run: |
+        echo "🔍 Running repository orphan audit..."
+        python scripts/repo_orphan_audit.py
+        echo "📊 Audit complete!"
+
+    - name: Upload audit artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: repo-audit-${{ github.run_number }}
+        path: repo_audit/
+        retention-days: 30
+
+    - name: Show audit summary
+      run: |
+        echo "📋 Repository Audit Summary:"
+        head -20 repo_audit/report.md
+
+  size-guard:
+    name: Repository Size Guard
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check for large tracked files
+      run: |
+        echo "🔍 Checking for files larger than 50MB..."
+        large_files_found=0
+
+        # Check each tracked file
+        while IFS= read -r -d '' file; do
+          if [ -f "$file" ]; then
+            size=$(stat -c%s "$file" 2>/dev/null || echo 0)
+            if [ "$size" -gt 52428800 ]; then
+              echo "❌ Large file detected: $file ($(($size / 1024 / 1024)) MB)"
+              large_files_found=1
+            fi
+          fi
+        done < <(git ls-files -z)
+
+        if [ $large_files_found -eq 1 ]; then
+          echo ""
+          echo "💡 Large files detected! Consider:"
+          echo "   - Moving to Git LFS: git lfs track '*.ext' && git add .gitattributes"
+          echo "   - Moving to external storage"
+          echo "   - Compressing or splitting files"
+          exit 1
+        else
+          echo "✅ No large files detected - all files under 50MB limit"
+        fi
+
+    - name: Check attic size and warn
+      run: |
+        if [ -d attic ]; then
+          echo "📂 Attic directories found:"
+          ls -la attic/ || true
+          echo ""
+          echo "📊 Attic disk usage:"
+          du -sh attic/* 2>/dev/null || echo "No attic contents"
+          echo ""
+          echo "⚠️  Note: Attic directories will be auto-cleaned after 14 days"
+        else
+          echo "✅ No attic directories present"
+        fi
+
+  attic-retention:
+    name: Attic Retention Policy
+    runs-on: ubuntu-latest
+    needs: [audit, size-guard]  # Run after audit and size check
+    if: always()  # Run even if previous jobs have warnings
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Setup Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Find old attic directories
+      id: find_attics
+      run: |
+        echo "🔍 Checking for attic directories older than 14 days..."
+
+        old_attics=""
+        current_date=$(date +%s)
+        cutoff_date=$((current_date - 14 * 24 * 3600))  # 14 days ago
+        force_cleanup="${{ github.event.inputs.force_attic_cleanup }}"
+
+        if [ -d attic ]; then
+          for attic_dir in attic/TO_REMOVE_*; do
+            if [ -d "$attic_dir" ]; then
+              # Extract date from directory name (TO_REMOVE_YYYYMMDD)
+              dir_basename=$(basename "$attic_dir")
+              if [[ "$dir_basename" =~ TO_REMOVE_([0-9]{8}) ]]; then
+                attic_date_str="${BASH_REMATCH[1]}"
+
+                # Convert YYYYMMDD to epoch time
+                if command -v date >/dev/null 2>&1; then
+                  attic_date=$(date -d "$attic_date_str" +%s 2>/dev/null || echo 0)
+                else
+                  attic_date=0
+                fi
+
+                # Check if older than 14 days or force cleanup
+                if [ "$force_cleanup" = "true" ] || [ "$attic_date" -lt "$cutoff_date" ] && [ "$attic_date" -ne 0 ]; then
+                  echo "📅 Found old attic: $attic_dir (created: $attic_date_str)"
+                  old_attics="$old_attics $attic_dir"
+                else
+                  echo "🔄 Keeping recent attic: $attic_dir (created: $attic_date_str)"
+                fi
+              else
+                echo "⚠️  Attic directory with unexpected name format: $attic_dir"
+              fi
+            fi
+          done
+        else
+          echo "✅ No attic directory found"
+        fi
+
+        if [ -n "$old_attics" ]; then
+          echo "old_attics_found=true" >> $GITHUB_OUTPUT
+          echo "attics_to_remove<<EOF" >> $GITHUB_OUTPUT
+          echo "$old_attics" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "old_attics_found=false" >> $GITHUB_OUTPUT
+          echo "✅ No old attics found for cleanup"
+        fi
+
+    - name: Create attic cleanup PR
+      if: steps.find_attics.outputs.old_attics_found == 'true'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "🧹 Creating attic cleanup branch..."
+
+        # Create cleanup branch
+        cleanup_date=$(date +%Y%m%d)
+        branch_name="chore/attic-purge-$cleanup_date"
+
+        git checkout -b "$branch_name"
+
+        # Remove old attic directories
+        attics_to_remove="${{ steps.find_attics.outputs.attics_to_remove }}"
+        removed_attics=""
+        total_size_freed=0
+
+        for attic_path in $attics_to_remove; do
+          if [ -d "$attic_path" ]; then
+            # Calculate size before removal
+            attic_size=$(du -sb "$attic_path" 2>/dev/null | cut -f1 || echo 0)
+            total_size_freed=$((total_size_freed + attic_size))
+
+            echo "🗑️  Removing: $attic_path ($(($attic_size / 1024 / 1024)) MB)"
+            rm -rf "$attic_path"
+            removed_attics="$removed_attics\n- $attic_path ($(($attic_size / 1024 / 1024)) MB)"
+          fi
+        done
+
+        # Commit changes if any
+        if ! git diff --quiet; then
+          git add -A
+          git commit -m "chore(attic): purge attics older than 14 days" \
+                     -m "Automated cleanup of old attic directories as per retention policy." \
+                     -m "Removed attics:$removed_attics" \
+                     -m "Total space freed: $(($total_size_freed / 1024 / 1024)) MB" \
+                     -m "This is an automated cleanup following the 14-day attic retention policy." \
+                     -m "All files were safely staged for 14+ days and can be considered safe to delete."
+
+          # Push the branch
+          git push origin "$branch_name"
+
+          # Create PR
+          pr_body="## 🧹 Automated Attic Cleanup"$'\n\n'
+          pr_body+="This PR automatically removes attic directories older than 14 days according to our repository retention policy."$'\n\n'
+          pr_body+="### 📊 Cleanup Summary"$'\n\n'
+          pr_body+="**Removed attics:**$removed_attics"$'\n\n'
+          pr_body+="**Total space freed:** $(($total_size_freed / 1024 / 1024)) MB"$'\n\n'
+          pr_body+="### ✅ Safety Verification"$'\n\n'
+          pr_body+="- All removed attics were staged for 14+ days"$'\n'
+          pr_body+="- Files were moved to attic by previous cleanup operations"$'\n'
+          pr_body+="- This follows the established retention policy"$'\n'
+          pr_body+="- No working files or active code affected"$'\n\n'
+          pr_body+="### 🔄 Automated Process"$'\n\n'
+          pr_body+="This PR was created automatically by the \`repo-hygiene.yml\` workflow."$'\n'
+          pr_body+="Review and merge when ready, or close if manual intervention is needed."$'\n\n'
+          pr_body+="---"$'\n'
+          pr_body+="*Generated by Repository Hygiene automation on $(date)*"
+
+          gh pr create \
+            --title "chore(attic): purge attics older than 14 days" \
+            --body "$pr_body" \
+            --head "$branch_name" \
+            --base "main"
+
+          echo "✅ Created PR for attic cleanup on branch: $branch_name"
+        else
+          echo "⚠️  No changes to commit - attics may have been already cleaned"
+        fi
+
+    - name: Attic cleanup summary
+      if: steps.find_attics.outputs.old_attics_found == 'false'
+      run: |
+        echo "✅ Attic retention check complete - no cleanup needed"
+        echo "📋 Current attic status:"
+        if [ -d attic ]; then
+          ls -la attic/ || echo "Attic directory empty"
+        else
+          echo "No attic directory present"
+        fi
