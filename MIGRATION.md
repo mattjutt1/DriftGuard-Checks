@@ -1,0 +1,1 @@
+Legacy CLI `promptwizard` now forwards to `promptops` (deprecated).
