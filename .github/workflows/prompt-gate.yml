@@ -3,7 +3,7 @@ name: Prompt Gate
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -12,18 +12,22 @@ permissions:
 jobs:
   gate:
     runs-on: ubuntu-latest
+    env:
+      PROMPTOPS_MODE: stub
+      DISABLE_NETWORK: '1'
+
     steps:
     - uses: actions/checkout@v4
 
-      # Soft skip if the label is missing (job still shows up, does nothing)
-    - name: Soft skip if 'prompt-check' label is absent
+      # Soft-skip if the 'prompt-check' label is not present
+    - name: Soft skip if label not present
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       run: |
         echo "prompt-check label not present; soft-skipping."
         echo "### Prompt Gate (skipped)" >> "$GITHUB_STEP_SUMMARY"
         echo "- **Reason:** label not present" >> "$GITHUB_STEP_SUMMARY"
 
-      # All following steps only run when the label IS present
+      # Setup Python 3.12 when the label IS present
     - name: Setup Python 3.12
       if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       uses: actions/setup-python@v5
@@ -36,39 +40,41 @@ jobs:
         python -m pip install -U pip
         cd library && pip install -e .[dev]
 
-    - name: Ensure minimal .promptops.yml exists (for demo repos)
+    - name: Ensure minimal .promptops.yml (demo)
       if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       run: |
-        test -f .promptops.yml || echo -e "threshold: 0.85\ndataset: golden" > .promptops.yml
+        test -f .promptops.yml || printf "threshold: 0.85\ndataset: golden\n" > .promptops.yml
+        echo "Using config:"; sed -n '1,120p' .promptops.yml
 
-    - name: Run Prompt Gate
+      # Run gate but DO NOT fail job here — we'll enforce in the next step
+    - name: Run Prompt Gate (tolerate failure)
       if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
-      env:
-        PROMPTOPS_MODE: stub
-        DISABLE_NETWORK: 1
+      continue-on-error: true
       run: |
+        set -xe
         promptops ci --config .promptops.yml --out results.json
 
-    - name: Write Job Summary
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
+      # ALWAYS write the summary and produce final pass/fail
+    - name: Write summary & enforce
+      if: always() && contains(github.event.pull_request.labels.*.name, 'prompt-check')
       run: |
         python - <<'PY'
-        import json, os
-        r=json.load(open('results.json'))
-        wr=r["metrics"]["win_rate"]; th=r["threshold"]
+        import json, os, sys, pathlib
+        p = pathlib.Path("results.json")
+        if not p.exists():
+            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+                f.write("### Prompt Gate Results\n\n- **Status:** ERROR\n- **Reason:** results.json missing (CI step failed before writing)\n")
+            sys.exit(1)
+        r = json.load(p.open())
+        wr, th = r["metrics"]["win_rate"], r["threshold"]
         status = "PASS" if wr >= th else "FAIL"
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
-            f.write("### Prompt Gate Results\n\n")
-            f.write(f"- **Status:** {status}\n")
-            f.write(f"- **Win rate:** {wr:.2%}\n")
-            f.write(f"- **Threshold:** {th:.2f}\n")
-        if wr < th:
-            # Make the job fail so branch protection blocks merge
-            raise SystemExit(1)
+            f.write(f"### Prompt Gate Results\n\n- **Status:** {status}\n- **Win rate:** {wr:.2%}\n- **Threshold:** {th:.2f}\n")
+        sys.exit(0 if wr >= th else 1)
         PY
 
-    - name: Upload results artifact
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
+    - name: Upload results.json
+      if: always() && contains(github.event.pull_request.labels.*.name, 'prompt-check')
       uses: actions/upload-artifact@v4
       with:
         name: prompt-eval

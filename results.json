@@ -1,0 +1,46 @@
+{
+  "pass": true,
+  "threshold": 0.99,
+  "metrics": {
+    "win_rate": 1.0,
+    "avg_score": 0.8593311178161502,
+    "total_prompts": 3
+  },
+  "details": [
+    {
+      "original": "Write a Python function",
+      "score": 0.8277934643463801,
+      "improved": "[Optimized] Write a Python function",
+      "metrics": {
+        "clarity": 0.9441585954318145,
+        "specificity": 0.7330704506433081,
+        "completeness": 0.9744005607170723
+      },
+      "timestamp": "2025-08-08T15:23:45.331290"
+    },
+    {
+      "original": "Explain machine learning",
+      "score": 0.8745338269356799,
+      "improved": "[Optimized] Explain machine learning",
+      "metrics": {
+        "clarity": 0.7956821216139467,
+        "specificity": 0.9216479132480471,
+        "completeness": 0.7540508407837833
+      },
+      "timestamp": "2025-08-08T15:23:45.331302"
+    },
+    {
+      "original": "Create a REST API",
+      "score": 0.8756660621663905,
+      "improved": "[Optimized] Create a REST API",
+      "metrics": {
+        "clarity": 0.717130323416594,
+        "specificity": 0.9979462757436317,
+        "completeness": 0.9500834016121055
+      },
+      "timestamp": "2025-08-08T15:23:45.331306"
+    }
+  ],
+  "timestamp": "2025-08-08T15:23:45.331316",
+  "config_version": "1.0"
+}
