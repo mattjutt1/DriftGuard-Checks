@@ -1,4 +1,4 @@
-.PHONY: install dev test run clean
+.PHONY: install dev test clean
 
 install:
 	pip install -e .
@@ -8,9 +8,6 @@ dev:
 
 test:
 	pytest -q tests/
-
-run:
-	uvicorn driftguard.main:app --reload --port 8000
 
 clean:
 	rm -rf __pycache__ .pytest_cache *.egg-info
