@@ -3,6 +3,7 @@ name: Prompt Gate
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch: {}
 
 jobs:
   prompt-check:
