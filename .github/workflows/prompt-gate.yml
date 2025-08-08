@@ -1,0 +1,79 @@
+name: Prompt Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch: {}
+
+jobs:
+  prompt-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Soft guard (run only if label present)
+      run: |
+        python - <<'PY'
+        import json, os, sys
+        ev=json.load(open(os.environ['GITHUB_EVENT_PATH']))
+        names=[l['name'] for l in ev['pull_request'].get('labels',[])]
+        if 'prompt-check' not in names:
+            print('Label prompt-check not present; soft-skip.')
+            open('results.json','w').write('{"skipped":true}')
+            sys.exit(0)  # neutral
+        PY
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install PromptOps SDK
+      run: |
+        cd library/
+        pip install -e .
+
+    - name: Run prompt evaluation
+      id: eval
+      env:
+        PROMPTOPS_MODE: stub
+        DISABLE_NETWORK: 1
+      run: |
+        promptops ci --config examples/.promptops.yml --out results.json
+
+    - name: Upload results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: prompt-evaluation-results
+        path: results.json
+
+    - name: Comment on PR
+      if: always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const results = JSON.parse(fs.readFileSync('results.json', 'utf8'));
+
+          const status = results.pass ? '✅ PASSED' : '❌ FAILED';
+          const winRate = (results.metrics.win_rate * 100).toFixed(1);
+          const threshold = (results.threshold * 100).toFixed(1);
+
+          const comment = `## Prompt Evaluation Results
+
+          **Status:** ${status}
+          **Win Rate:** ${winRate}% (threshold: ${threshold}%)
+          **Average Score:** ${results.metrics.avg_score.toFixed(3)}
+          **Total Prompts:** ${results.metrics.total_prompts}
+
+          ${results.pass ? '✅ All prompt quality checks passed!' : '⚠️ Prompt quality below threshold. Please review and improve.'}`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
