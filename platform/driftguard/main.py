@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 
 from .database import get_db_session, create_tables
 from .models import Organization, Project, Prompt, PromptVersion
+from .alerts.slack import notify_slack_sync
 
 # Check offline mode
 PROMPTOPS_MODE = os.getenv("PROMPTOPS_MODE", "production")
@@ -217,6 +218,36 @@ async def get_metrics(db: AsyncSession = Depends(get_db_session)):
         "total_prompts": len(prompt_count.scalars().all()),
         "total_organizations": len(org_count.scalars().all()),
         "timestamp": datetime.utcnow().isoformat(),
+    }
+
+
+# Alert endpoints
+class AlertTest(BaseModel):
+    """Schema for testing alerts."""
+    message: str = Field(..., description="Alert message")
+    severity: str = Field(default="info", description="Alert severity")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional data")
+
+
+@app.post("/api/v1/alerts/test")
+async def test_alert(alert: AlertTest):
+    """Test alert endpoint for Slack notifications."""
+    message_payload = {
+        "text": f"[{alert.severity.upper()}] {alert.message}",
+        "metadata": alert.metadata,
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+    # Use sync wrapper since this is a sync endpoint
+    result = notify_slack_sync(message_payload)
+
+    return {
+        "alert_sent": True,
+        "action_taken": result.get("action", "unknown"),
+        "status": result.get("status", "unknown"),
+        "network_allowed": result.get("network_allowed", False),
+        "webhook_configured": result.get("webhook_configured", False),
+        "result": result
     }
 
 

@@ -1,5 +1,6 @@
 """Test configuration and fixtures."""
 
+import ipaddress
 import os
 import socket
 import tempfile
@@ -14,17 +15,49 @@ from driftguard.database import get_db_session
 from driftguard.models import Base
 
 
-# Block network access during tests
 @pytest.fixture(autouse=True)
-def block_network():
-    """Block all network access during tests."""
-    original_socket = socket.socket
+def block_external_network(monkeypatch):
+    """Block outbound network except loopback. AF_UNIX and socketpair remain allowed."""
+    original_connect = socket.socket.connect
 
-    def mock_socket(*args, **kwargs):
-        raise RuntimeError("Network access blocked during tests")
+    def is_localhost(host: str) -> bool:
+        try:
+            ip = ipaddress.ip_address(host)
+            return ip.is_loopback
+        except ValueError:
+            # Resolve host; allow if any addr is loopback
+            try:
+                infos = socket.getaddrinfo(host, None)
+            except Exception:
+                return False
+            for fam, *_ in infos:
+                try:
+                    for _, _, _, _, sa in [socket.getaddrinfo(host, 80, fam, 0, 0, 0)[0]]:
+                        if fam in (socket.AF_INET, socket.AF_INET6):
+                            ip = ipaddress.ip_address(sa[0])
+                            if ip.is_loopback:
+                                return True
+                except Exception:
+                    continue
+            return False
 
-    with patch('socket.socket', side_effect=mock_socket):
-        yield
+    def guarded_connect(self, address):
+        # address may be (host, port) or other tuple types; allow non-INET families
+        if isinstance(address, tuple) and len(address) >= 1:
+            host = address[0]
+            # Allow obvious loopback names
+            if host in ("localhost",):
+                return original_connect(self, address)
+            # Allow loopback IPs
+            if isinstance(host, str) and is_localhost(host):
+                return original_connect(self, address)
+            # Otherwise block
+            raise RuntimeError("External network blocked during tests")
+        return original_connect(self, address)
+
+    monkeypatch.setattr(socket.socket, "connect", guarded_connect)
+    # Do not patch socketpair/AF_UNIX; asyncio and TestClient can function
+    yield
 
 
 @pytest.fixture
@@ -64,9 +97,46 @@ async def db_session(test_db):
 
 
 @pytest.fixture
-def override_db_dependency(db_session):
+async def override_db_dependency():
     """Override the database dependency for testing."""
     from driftguard.main import app
-    app.dependency_overrides[get_db_session] = lambda: db_session
+
+    # Create temporary database
+    db_fd, db_path = tempfile.mkstemp()
+    test_database_url = f"sqlite+aiosqlite:///{db_path}"
+
+    # Create test engine
+    engine = create_async_engine(
+        test_database_url,
+        poolclass=StaticPool,
+        connect_args={"check_same_thread": False},
+    )
+
+    # Create tables
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    # Create session factory
+    session_factory = async_sessionmaker(engine, class_=AsyncSession)
+
+    # Override dependency to return fresh session for each request
+    async def get_test_session():
+        async with session_factory() as session:
+            try:
+                yield session
+                await session.commit()
+            except Exception:
+                await session.rollback()
+                raise
+            finally:
+                await session.close()
+
+    app.dependency_overrides[get_db_session] = get_test_session
+
     yield
+
+    # Cleanup
     app.dependency_overrides.clear()
+    await engine.dispose()
+    os.close(db_fd)
+    Path(db_path).unlink()

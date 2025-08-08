@@ -1,6 +1,7 @@
 """Simple tests for DriftGuard API without async complexity."""
 
 import os
+import pytest
 from fastapi.testclient import TestClient
 
 # Set offline mode before importing the app
@@ -8,6 +9,7 @@ os.environ["PROMPTOPS_MODE"] = "stub"
 os.environ["DISABLE_NETWORK"] = "1"
 
 from driftguard.main import app
+from driftguard.database import get_db_session
 
 client = TestClient(app)
 
@@ -21,7 +23,16 @@ def test_root_endpoint():
     assert data["service"] == "DriftGuard"
 
 
-def test_register_prompt():
+@pytest.fixture
+def clean_app():
+    """Create a clean app instance with fresh database for each test."""
+    # Clear any existing dependency overrides
+    app.dependency_overrides.clear()
+    return client
+
+
+@pytest.mark.asyncio
+async def test_register_prompt(override_db_dependency):
     """Test prompt registration."""
     prompt_data = {
         "name": "test_prompt",
@@ -37,7 +48,8 @@ def test_register_prompt():
     assert data["status"] == "registered"
 
 
-def test_register_duplicate_prompt_fails():
+@pytest.mark.asyncio
+async def test_register_duplicate_prompt_fails(override_db_dependency):
     """Test registering duplicate prompt version returns 409."""
     prompt_data = {
         "name": "duplicate_test",
