@@ -3,75 +3,73 @@ name: Prompt Gate
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]
-  workflow_dispatch: {}
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
-  prompt-check:
+  gate:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-    - name: Soft guard (run only if label present)
+      # Soft skip if the label is missing (job still shows up, does nothing)
+    - name: Soft skip if 'prompt-check' label is absent
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       run: |
-        python - <<'PY'
-        import json, os, sys
-        ev=json.load(open(os.environ['GITHUB_EVENT_PATH']))
-        names=[l['name'] for l in ev['pull_request'].get('labels',[])]
-        if 'prompt-check' not in names:
-            print('Label prompt-check not present; soft-skip.')
-            open('results.json','w').write('{"skipped":true}')
-            sys.exit(0)  # neutral
-        PY
+        echo "prompt-check label not present; soft-skipping."
+        echo "### Prompt Gate (skipped)" >> "$GITHUB_STEP_SUMMARY"
+        echo "- **Reason:** label not present" >> "$GITHUB_STEP_SUMMARY"
 
-    - name: Setup Python
+      # All following steps only run when the label IS present
+    - name: Setup Python 3.12
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
 
-    - name: Install PromptOps SDK
+    - name: Install PromptOps (editable)
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       run: |
-        cd library/
-        pip install -e .
+        python -m pip install -U pip
+        cd library && pip install -e .[dev]
 
-    - name: Run prompt evaluation
-      id: eval
+    - name: Ensure minimal .promptops.yml exists (for demo repos)
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
+      run: |
+        test -f .promptops.yml || echo -e "threshold: 0.85\ndataset: golden" > .promptops.yml
+
+    - name: Run Prompt Gate
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       env:
         PROMPTOPS_MODE: stub
         DISABLE_NETWORK: 1
       run: |
-        promptops ci --config examples/.promptops.yml --out results.json
+        promptops ci --config .promptops.yml --out results.json
 
-    - name: Upload results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: prompt-evaluation-results
-        path: results.json
-
-    - name: Write Prompt Gate summary
-      if: always()
+    - name: Write Job Summary
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
       run: |
         python - <<'PY'
         import json, os
-        r = json.load(open('results.json'))
-        status = "PASS" if r["metrics"]["win_rate"] >= r["threshold"] else "FAIL"
+        r=json.load(open('results.json'))
+        wr=r["metrics"]["win_rate"]; th=r["threshold"]
+        status = "PASS" if wr >= th else "FAIL"
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
             f.write("### Prompt Gate Results\n\n")
             f.write(f"- **Status:** {status}\n")
-            f.write(f"- **Win rate:** {r['metrics']['win_rate']:.2%}\n")
-            f.write(f"- **Threshold:** {r['threshold']:.2f}\n")
+            f.write(f"- **Win rate:** {wr:.2%}\n")
+            f.write(f"- **Threshold:** {th:.2f}\n")
+        if wr < th:
+            # Make the job fail so branch protection blocks merge
+            raise SystemExit(1)
         PY
 
-    - name: Enforce threshold for branch protection
-      run: |
-        python - <<'PY'
-        import json, sys
-        r = json.load(open('results.json'))
-        if r["metrics"]["win_rate"] < r["threshold"]:
-            print(f"❌ Prompt gate FAILED - Win rate {r['metrics']['win_rate']:.2%} below threshold {r['threshold']:.2f}")
-            sys.exit(1)
-        else:
-            print(f"✅ Prompt gate PASSED - Win rate {r['metrics']['win_rate']:.2%} meets threshold {r['threshold']:.2f}")
-        PY
+    - name: Upload results artifact
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'prompt-check') }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: prompt-eval
+        path: results.json
