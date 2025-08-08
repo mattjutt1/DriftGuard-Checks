@@ -1,0 +1,1 @@
+This file triggers the Prompt Gate workflow for testing real artifacts generation.
