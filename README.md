@@ -1,8 +1,13 @@
-# PromptEvolver 3.0 - AI SaaS Prompt Optimization Platform
+# PromptOps Platform - Prompt Operations for Enterprise CI/CD
 
-🚀 **Production Web Application for Intelligent Prompt Enhancement** 🚀
+🚀 **From Evaluation to Operations: Complete Prompt Lifecycle Management** 🚀
 
-PromptEvolver is an AI-powered SaaS platform that transforms customer prompts into optimized, production-ready versions. Using a custom-trained Qwen3 model with Microsoft's PromptWizard framework, it either delivers enhanced prompts immediately or intelligently asks follow-up questions to gather necessary context.
+This repository contains two complementary surfaces for comprehensive prompt operations:
+
+1. **DriftGuard** (`/platform`): FastAPI service for prompt registry, drift monitoring, and cost/latency budget management
+2. **PromptOps SDK** (`/library`): Lightweight Python package with CLI for local evaluation and CI/CD integration
+
+> **Migration Notice**: We're evolving from PromptWizard (eval-only) to PromptOps (full lifecycle). See [MIGRATION.md](MIGRATION.md) for details.
 
 ## 🎯 Project Goals
 
