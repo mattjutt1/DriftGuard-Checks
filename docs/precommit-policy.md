@@ -4,7 +4,8 @@
 
 **Do NOT use `--no-verify`** for git commits unless explicitly allowed by this policy.
 
-Pre-commit hooks ensure code quality, security, and consistency. They run automatically before each commit to catch issues early.
+Pre-commit hooks ensure code quality, security, and consistency. They run automatically before each commit to catch
+issues early.
 
 ## When Skipping is Allowed
 
@@ -26,7 +27,7 @@ If you must skip pre-commit hooks:
 
 1. **Include justification** in commit message:
 
-   ```
+   ```bash
    fix: critical security patch for API
 
    SKIP_REASON: Production security vulnerability requires immediate deployment.
