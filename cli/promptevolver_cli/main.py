@@ -12,13 +12,11 @@ from typing import Any, Dict, List, Optional
 import click
 from rich.console import Console
 from rich.layout import Layout
-from rich.live import Live
 from rich.panel import Panel
 from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
-from rich.prompt import Confirm, Prompt
+from rich.prompt import Prompt
 from rich.rule import Rule
 from rich.table import Table
-from rich.text import Text
 
 from .client import ConvexClient, ConvexError
 from .config import ADVANCED_MODE_CONFIG, BATCH_DELAY, DOMAIN_CONFIGS, QUICK_MODE_CONFIG
@@ -38,7 +36,6 @@ def cli():
     This CLI connects to your existing Convex backend to provide terminal access
     to prompt optimization features.
     """
-    pass
 
 
 @cli.command()
@@ -463,16 +460,16 @@ def batch(
         table.add_column("Details", style="dim")
 
         table.add_row("Total Prompts", str(len(prompts)), f"From {file_path}")
-        table.add_row("Processed", str(len(results)), f"({len(results)/len(prompts)*100:.1f}%)")
+        table.add_row("Processed", str(len(results)), f"({len(results)/len(prompts) * 100:.1f}%)")
         table.add_row(
             "✅ Successful",
             str(successful),
-            f"({successful/len(results)*100:.1f}% of processed)" if results else "0%",
+            f"({successful/len(results) * 100:.1f}% of processed)" if results else "0%",
         )
         table.add_row(
             "❌ Failed",
             str(failed),
-            f"({failed/len(results)*100:.1f}% of processed)" if results else "0%",
+            f"({failed/len(results) * 100:.1f}% of processed)" if results else "0%",
         )
         table.add_row("⏱️ Total Time", f"{total_time:.1f}s", f"{processing_rate:.1f} prompts/min")
         table.add_row("📁 Output", str(output_file), f"{format.upper()} format")
@@ -530,7 +527,7 @@ def _display_quality_metrics(console: Console, quality_score: float, processing_
         assessment = "Needs Improvement"
         score_style = "red"
 
-    metrics_table.add_row("Quality Score", f"[{score_style}]{quality_score:.1f}/100[/{score_style}]", assessment)
+    metrics_table.add_row("Quality Score", f"[{score_style}]{quality_score:.1f} / 100[/{score_style}]", assessment)
     metrics_table.add_row("Processing Time", f"{processing_time:.1f}s", "Fast" if processing_time < 10 else "Normal")
     metrics_table.add_row("Mode", mode.title(), "Single iteration" if mode == "quick" else "Multiple iterations")
     metrics_table.add_row("Domain", domain.title(), f"Specialized for {domain}")

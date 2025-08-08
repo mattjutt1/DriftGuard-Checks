@@ -10,10 +10,9 @@ from pathlib import Path
 
 import pytest
 import responses
-from click.testing import CliRunner
 from promptevolver_cli.config import CONVEX_BASE_URL
 from promptevolver_cli.main import cli
-from tests.fixtures.sample_prompts import BATCH_TEST_DATA, SAMPLE_PROMPTS
+from tests.fixtures.sample_prompts import BATCH_TEST_DATA
 
 
 class TestCompleteWorkflows:

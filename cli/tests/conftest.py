@@ -6,15 +6,14 @@ import json
 import tempfile
 import time
 from pathlib import Path
-from typing import Any, Dict, List
-from unittest.mock import Mock, patch
+from typing import Any, Dict
+from unittest.mock import Mock
 
 import pytest
 import responses
 from click.testing import CliRunner
 from promptevolver_cli.client import ConvexClient
 from promptevolver_cli.config import CONVEX_BASE_URL, DEFAULT_CONFIG
-from promptevolver_cli.main import cli
 
 
 @pytest.fixture

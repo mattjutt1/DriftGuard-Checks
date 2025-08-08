@@ -7,7 +7,6 @@ import json
 from unittest.mock import Mock, patch
 
 import pytest
-import requests
 import responses
 from promptevolver_cli.client import ConvexClient, ConvexError
 from promptevolver_cli.config import API_TIMEOUT, CONVEX_BASE_URL

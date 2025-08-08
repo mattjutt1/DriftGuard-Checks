@@ -25,21 +25,25 @@ pip install pandas jsonschema tqdm pyarrow numpy
 ### Usage
 
 #### Basic Usage
+
 ```bash
 python normalize_datasets.py input_file.csv
 ```
 
 #### With Custom Output Prefix
+
 ```bash
 python normalize_datasets.py data.jsonl --output-prefix "training_data"
 ```
 
 #### With Batch Processing
+
 ```bash
 python normalize_datasets.py large_dataset.parquet --batch-size 500
 ```
 
 #### Full Options
+
 ```bash
 python normalize_datasets.py input.csv \
   --output-prefix "custom_name" \
@@ -53,11 +57,14 @@ python normalize_datasets.py input.csv \
 ### Supported Input Formats
 
 #### CSV Files
+
 Expected columns (flexible naming):
+
 - `original_prompt`, `originalPrompt`, `original`, `input`, `prompt`, `question`, `weak_prompt`
 - `enhanced_prompt`, `enhancedPrompt`, `enhanced`, `output`, `improved`, `answer`, `strong_prompt`
 
 #### JSON Files
+
 ```json
 [
   {
@@ -68,13 +75,16 @@ Expected columns (flexible naming):
 ```
 
 #### JSONL Files
+
 ```jsonl
 {"original_prompt": "Debug issue", "enhanced_prompt": "As a senior developer..."}
 {"original_prompt": "Write newsletter", "enhanced_prompt": "As a content specialist..."}
 ```
 
 #### TXT Files
+
 Supports various delimiters:
+
 - `\n---\n` (triple dash separator)
 - `\n##\n` (double hash separator)
 - `\n\n\n` (triple newline separator)
@@ -82,6 +92,7 @@ Supports various delimiters:
 - Alternating lines (fallback)
 
 #### Parquet Files
+
 Standard pandas-compatible parquet files with appropriate columns.
 
 ### Output Format
@@ -230,13 +241,14 @@ The normalized datasets are ready for use with:
 #### Support
 
 For issues or questions:
+
 1. Check the logs in `logs/` directory
-2. Review the statistics report for error details  
+2. Review the statistics report for error details
 3. Verify input format matches expected patterns
 4. Test with smaller datasets to isolate issues
 
 ---
 
-*Copyright (c) 2025 Matthew J. Utt*  
-*Licensed under MIT License*  
+*Copyright (c) 2025 Matthew J. Utt*
+*Licensed under MIT License*
 *Compatible with Microsoft PromptWizard Framework*

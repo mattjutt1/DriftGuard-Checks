@@ -8,8 +8,8 @@ This directory contains JSON schemas for the PromptEvolver 3.0 training system.
 
 **Purpose**: Defines the structure for engineered prompt training data and API responses in PromptEvolver 3.0.
 
-**Schema Version**: 1.0  
-**JSON Schema Draft**: 2020-12  
+**Schema Version**: 1.0
+**JSON Schema Draft**: 2020-12
 **Copyright**: Matthew J. Utt 2025
 
 ### Supported Domains
@@ -22,6 +22,7 @@ This directory contains JSON schemas for the PromptEvolver 3.0 training system.
 ### Key Features
 
 #### Quality Scoring (7 Dimensions)
+
 - **Clarity**: How clear and unambiguous the prompt is (0.0-1.0)
 - **Specificity**: How specific and detailed the requirements are (0.0-1.0)
 - **Engagement**: How engaging and motivating the prompt is (0.0-1.0)
@@ -31,7 +32,9 @@ This directory contains JSON schemas for the PromptEvolver 3.0 training system.
 - **Overall**: Composite quality score (0.0-1.0)
 
 #### Follow-up Questions Mechanism
+
 Supports up to 5 follow-up questions with purpose classification:
+
 - `clarification`: Questions to clarify ambiguous requirements
 - `context`: Questions to understand the broader context
 - `specificity`: Questions to make requirements more specific
@@ -42,6 +45,7 @@ Supports up to 5 follow-up questions with purpose classification:
 - `validation`: Questions about success criteria
 
 #### Metadata Tracking
+
 - Processing timestamps
 - Expert identity assignment
 - Optimization configuration parameters
@@ -51,6 +55,7 @@ Supports up to 5 follow-up questions with purpose classification:
 ### Usage
 
 #### Validation
+
 Use the provided validation script:
 
 ```bash
@@ -59,6 +64,7 @@ python validate_schema.py
 ```
 
 #### Integration
+
 Import the schema in your application:
 
 ```python
@@ -104,16 +110,17 @@ validator.validate(your_data)
 
 ### Schema Validation Results
 
-✅ **All validation tests pass**  
-✅ **7 quality metric dimensions**  
-✅ **4 supported domains**  
-✅ **5 follow-up question types**  
-✅ **Comprehensive examples included**  
+✅ **All validation tests pass**
+✅ **7 quality metric dimensions**
+✅ **4 supported domains**
+✅ **5 follow-up question types**
+✅ **Comprehensive examples included**
 ✅ **Ready for production use**
 
 ### Integration Points
 
 This schema integrates with:
+
 - PromptEvolver 3.0 training pipeline
 - Convex database schema
 - API response formatting
@@ -123,6 +130,7 @@ This schema integrates with:
 ### Versioning
 
 The schema includes version tracking to support future evolution:
+
 - **v1.0**: Initial release with core functionality
 - Future versions will maintain backward compatibility
 
