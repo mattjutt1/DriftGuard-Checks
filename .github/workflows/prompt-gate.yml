@@ -53,45 +53,25 @@ jobs:
     - name: Write Prompt Gate summary
       if: always()
       run: |
-        python3 - <<'PY'
-        import json
-        import os
-        import sys
-
-        try:
-            with open('results.json', 'r') as f:
-                results = json.load(f)
-        except FileNotFoundError:
-            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
-                f.write("### 🔇 Prompt Gate Skipped\n\n")
-                f.write("The `prompt-check` label is not present on this PR. Add the label to enable prompt evaluation.\n\n")
-                f.write("This workflow runs offline with no API costs.\n")
-            sys.exit(0)
-
-        if results.get("skipped", False):
-            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
-                f.write("### 🔇 Prompt Gate Skipped\n\n")
-                f.write("The `prompt-check` label is not present on this PR. Add the label to enable prompt evaluation.\n\n")
-                f.write("This workflow runs offline with no API costs.\n")
-            sys.exit(0)
-
-        # Process normal results
-        status = "✅ PASSED" if results["pass"] else "❌ FAILED"
-        win_rate = results["metrics"]["win_rate"]
-        threshold = results["threshold"]
-        prompt_count = results["metrics"].get("total_prompts", 0)
-        avg_score = results["metrics"].get("avg_score", 0)
-        simulated_cost = prompt_count * 0.002
-
+        python - <<'PY'
+        import json, os
+        r = json.load(open('results.json'))
+        status = "PASS" if r["metrics"]["win_rate"] >= r["threshold"] else "FAIL"
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
             f.write("### Prompt Gate Results\n\n")
             f.write(f"- **Status:** {status}\n")
-            f.write(f"- **Win Rate:** {win_rate:.1%} (threshold: {threshold:.1%})\n")
-            f.write(f"- **Prompts Tested:** {prompt_count}\n")
-            f.write(f"- **Average Score:** {avg_score:.3f}\n")
-            f.write(f"- **Simulated Cost:** ${simulated_cost:.4f}\n\n")
-            f.write("📊 [View detailed results](../actions/runs/" + os.environ["GITHUB_RUN_ID"] + ") • ")
-            f.write("📁 [Download artifacts](../actions/runs/" + os.environ["GITHUB_RUN_ID"] + "#artifacts)\n\n")
-            f.write("This evaluation ran offline with no actual API costs. ")
-            f.write("To enable real LLM providers, see the [setup guide](https://github.com/mattjutt1/prompt-wizard#llm-provider-configuration-offline-by-default).\n")
+            f.write(f"- **Win rate:** {r['metrics']['win_rate']:.2%}\n")
+            f.write(f"- **Threshold:** {r['threshold']:.2f}\n")
+        PY
+
+    - name: Enforce threshold for branch protection
+      run: |
+        python - <<'PY'
+        import json, sys
+        r = json.load(open('results.json'))
+        if r["metrics"]["win_rate"] < r["threshold"]:
+            print(f"❌ Prompt gate FAILED - Win rate {r['metrics']['win_rate']:.2%} below threshold {r['threshold']:.2f}")
+            sys.exit(1)
+        else:
+            print(f"✅ Prompt gate PASSED - Win rate {r['metrics']['win_rate']:.2%} meets threshold {r['threshold']:.2f}")
         PY

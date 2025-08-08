@@ -87,7 +87,7 @@ jobs:
         # Extract key metrics for PR comment
         if [ -f "results.json" ]; then
           # Parse results using jq or python
-          python3 - <<'PY' 2>&1 | tee -a $GITHUB_OUTPUT
+          python - <<'PY'
           import json
           import sys
           import os
@@ -142,45 +142,15 @@ jobs:
     - name: Write Prompt Gate summary
       if: always()
       run: |
-        python3 - <<'PY'
-        import json
-        import os
-        import sys
-
-        try:
-            with open('results.json', 'r') as f:
-                results = json.load(f)
-        except FileNotFoundError:
-            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
-                f.write("### 🔇 Prompt Gate Skipped\n\n")
-                f.write("No results.json file generated. Check workflow configuration.\n")
-            sys.exit(0)
-
-        if results.get("skipped", False):
-            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
-                f.write("### 🔇 Prompt Gate Skipped\n\n")
-                f.write("Evaluation skipped based on configuration.\n")
-            sys.exit(0)
-
-        # Process normal results
-        status = "✅ PASSED" if results["pass"] else "❌ FAILED"
-        win_rate = results["metrics"]["win_rate"]
-        threshold = results["threshold"]
-        prompt_count = results["metrics"].get("total_prompts", 0)
-        avg_score = results["metrics"].get("avg_score", 0)
-        simulated_cost = prompt_count * 0.002
-
+        python - <<'PY'
+        import json, os
+        r = json.load(open('results.json'))
+        status = "PASS" if r["metrics"]["win_rate"] >= r["threshold"] else "FAIL"
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
             f.write("### Prompt Gate Results\n\n")
             f.write(f"- **Status:** {status}\n")
-            f.write(f"- **Win Rate:** {win_rate:.1%} (threshold: {threshold:.1%})\n")
-            f.write(f"- **Prompts Tested:** {prompt_count}\n")
-            f.write(f"- **Average Score:** {avg_score:.3f}\n")
-            f.write(f"- **Simulated Cost:** ${simulated_cost:.4f}\n\n")
-            f.write("📊 [View detailed results](../actions/runs/" + os.environ["GITHUB_RUN_ID"] + ") • ")
-            f.write("📁 [Download artifacts](../actions/runs/" + os.environ["GITHUB_RUN_ID"] + "#artifacts)\n\n")
-            f.write("This evaluation ran offline with no actual API costs. ")
-            f.write("To enable real LLM providers, see the [setup guide](https://github.com/mattjutt1/prompt-wizard#llm-provider-configuration-offline-by-default).\n")
+            f.write(f"- **Win rate:** {r['metrics']['win_rate']:.2%}\n")
+            f.write(f"- **Threshold:** {r['threshold']:.2f}\n")
         PY
 
     - name: Set final status
