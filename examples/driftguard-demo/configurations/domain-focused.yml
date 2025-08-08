@@ -1,0 +1,135 @@
+# Domain-Focused Configuration (80% threshold)
+# Customized for specific domains with relevant test prompts
+
+version: '1.0'
+threshold: 0.80
+model: mock
+
+# Frontend Development Focus
+test_prompts:
+- |
+  Create a React component library with these specifications:
+
+  **Component Requirements:**
+  - Reusable Button, Input, Modal, and Card components
+  - TypeScript interfaces for all props
+  - Consistent design system with theme support
+  - Responsive design for mobile and desktop
+  - Accessibility compliance (WCAG 2.1 AA)
+
+  **Technical Implementation:**
+  - Styled-components or emotion for CSS-in-JS
+  - Storybook documentation with interactive examples
+  - Unit tests using React Testing Library
+  - Bundle size optimization with tree-shaking
+  - NPM package configuration for distribution
+
+  **Design System:**
+  - Color palette with semantic naming (primary, secondary, accent)
+  - Typography scale with font weights and sizes
+  - Spacing system using consistent increments
+  - Component variants (sizes: sm, md, lg; styles: outline, filled)
+
+  Include setup instructions and contribution guidelines for team adoption.
+
+- |
+  Implement a data visualization dashboard using D3.js with these features:
+
+  **Chart Types Needed:**
+  - Line charts for time series data (sales trends, user growth)
+  - Bar charts for categorical comparisons (revenue by region)
+  - Scatter plots for correlation analysis (price vs demand)
+  - Interactive filters and zoom functionality
+
+  **Data Integration:**
+  - REST API integration with loading states
+  - Real-time updates using WebSocket connections
+  - Data transformation and aggregation on frontend
+  - Error handling for failed API requests
+
+  **User Experience:**
+  - Responsive design that works on tablets and mobile
+  - Export functionality (PNG, SVG, PDF)
+  - Tooltip interactions with detailed information
+  - Keyboard navigation support
+
+  Provide modular architecture that allows adding new chart types easily.
+
+- |
+  Build a Progressive Web App (PWA) for offline-first functionality:
+
+  **PWA Features:**
+  - Service worker implementation for caching strategies
+  - Offline data synchronization with conflict resolution
+  - Push notifications for important updates
+  - App shell architecture for fast loading
+  - Installation prompts and app manifest configuration
+
+  **Offline Capabilities:**
+  - Cache critical resources (HTML, CSS, JS, images)
+  - Store user data locally (IndexedDB or localStorage)
+  - Queue actions when offline and sync when online
+  - Optimistic UI updates with rollback on failure
+
+  **Performance Optimization:**
+  - Code splitting and lazy loading for routes
+  - Image optimization with WebP format support
+  - Critical CSS inlining for above-the-fold content
+  - Lighthouse performance score >90
+
+  Include deployment configuration for HTTPS requirement and CDN optimization.
+
+  # Backend Development Examples
+- |
+  Design a GraphQL API with subscriptions for real-time features:
+
+  **Schema Design:**
+  - Type definitions for User, Post, Comment entities
+  - Queries for pagination, filtering, and searching
+  - Mutations for CRUD operations with input validation
+  - Subscriptions for real-time updates (new posts, comments)
+
+  **Implementation Details:**
+  - Apollo Server with Express.js integration
+  - DataLoader for efficient database queries (N+1 problem)
+  - Authentication and authorization middleware
+  - Rate limiting and query complexity analysis
+
+  **Real-time Features:**
+  - WebSocket connections for subscription management
+  - Redis pub/sub for horizontal scaling
+  - Connection management and cleanup
+  - Error handling and retry logic for subscriptions
+
+  Include schema documentation and example client queries.
+
+  # DevOps/Infrastructure Examples
+- |
+  Create a monitoring and alerting system for microservices:
+
+  **Metrics Collection:**
+  - Prometheus configuration for scraping service metrics
+  - Custom metrics for business KPIs (orders, revenue, errors)
+  - Distributed tracing with Jaeger for request flows
+  - Log aggregation with structured logging (ELK stack)
+
+  **Alerting Rules:**
+  - SLA-based alerts (latency >200ms, error rate >1%)
+  - Resource utilization thresholds (CPU, memory, disk)
+  - Business metric anomalies (revenue drops, user activity)
+  - Dead man's switch for monitoring system health
+
+  **Visualization:**
+  - Grafana dashboards for different audiences (dev, ops, business)
+  - Service dependency maps with health indicators
+  - SLA tracking and historical performance trends
+  - Mobile-friendly dashboards for on-call engineers
+
+  Include runbook templates and escalation procedures.
+
+# Notes for Domain-Focused Configuration:
+# - 80% threshold maintains good quality standards
+# - Test prompts are specific to target domain (frontend, backend, devops)
+# - Evaluates domain-specific knowledge and best practices
+# - Can be customized further by replacing test prompts with organization-specific examples
+# - Suitable for teams working primarily in one technology stack or domain

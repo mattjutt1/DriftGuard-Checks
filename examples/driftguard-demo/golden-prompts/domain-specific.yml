@@ -1,0 +1,205 @@
+# Domain-Specific Prompts
+# These prompts test evaluation across different technical and business domains
+
+domains:
+
+  software_development:
+  - title: Full-Stack Feature Implementation
+    description: Complete feature development with frontend, backend, and database
+    content: |
+      Implement a user notification system for a React/Node.js application with these specifications:
+
+      **Frontend Requirements (React):**
+      - Real-time notification bell icon with unread count
+      - Dropdown list showing last 10 notifications
+      - Mark as read/unread functionality
+      - Toast notifications for real-time updates
+      - Responsive design for mobile and desktop
+
+      **Backend Requirements (Node.js/Express):**
+      - REST API endpoints: GET /notifications, POST /notifications, PUT /notifications/:id/read
+      - WebSocket integration for real-time delivery
+      - User preference management (email, push, in-app)
+      - Notification templates with variable substitution
+
+      **Database Schema (PostgreSQL):**
+      - Notifications table with user_id, type, title, message, read_at, created_at
+      - User preferences table for notification settings
+      - Proper indexing for performance (expecting 1M+ notifications)
+
+      **Additional Requirements:**
+      - Unit and integration tests (>90% coverage)
+      - Error handling and validation
+      - Rate limiting to prevent spam
+      - Email integration for critical notifications
+
+      Provide: Complete implementation with all files, tests, and deployment configuration.
+    quality_score: 0.94
+
+  - title: Code Review Automation Tool
+    description: Static analysis tool with custom rules and reporting
+    content: |
+      Create a Python-based code review tool that analyzes pull requests with these features:
+
+      **Analysis Capabilities:**
+      - AST parsing for Python, JavaScript, and TypeScript
+      - Custom rule engine (complexity, naming conventions, security patterns)
+      - Integration with existing linters (ESLint, Pylint, TypeScript compiler)
+      - Git diff analysis to focus on changed code only
+
+      **Reporting Features:**
+      - Generate HTML reports with code highlighting
+      - Export to SARIF format for GitHub integration
+      - Severity levels (error, warning, info) with customizable thresholds
+      - Historical trend tracking and metrics dashboard
+
+      **CI/CD Integration:**
+      - GitHub Actions workflow that runs on PR events
+      - Comment on PRs with findings summary
+      - Block merging if critical issues found
+      - Performance benchmarking (should complete in <5 minutes for 1000-file repos)
+
+      Include: Plugin architecture for custom rules, configuration management, and comprehensive test suite.
+    quality_score: 0.89
+
+  data_science:
+  - title: A/B Testing Analysis Framework
+    description: Statistical framework for experiment analysis and reporting
+    content: |
+      Build a Python framework for A/B testing analysis with these specifications:
+
+      **Statistical Methods:**
+      - Power analysis and sample size calculations
+      - Multiple testing correction (Bonferroni, Benjamini-Hochberg)
+      - Bayesian and frequentist approaches
+      - Sequential testing with early stopping rules
+
+      **Data Processing:**
+      - Integration with common data sources (PostgreSQL, BigQuery, S3)
+      - Automated outlier detection and data quality checks
+      - User randomization and segment analysis
+      - Metric calculation with confidence intervals
+
+      **Reporting and Visualization:**
+      - Automated experiment reports with statistical summaries
+      - Interactive dashboards using Plotly/Dash
+      - Business impact calculations (revenue, conversion rates)
+      - Statistical significance testing with effect size reporting
+
+      **Requirements:**
+      - Handle experiments with 100K+ users and multiple metrics
+      - Support for different experiment types (two-tailed, one-tailed, multi-arm)
+      - Integration with experiment tracking platforms (Optimizely, LaunchDarkly)
+      - Comprehensive unit tests with mock data generators
+
+      Expected: Complete package with CLI interface, web dashboard, and API endpoints.
+    quality_score: 0.91
+
+  devops_infrastructure:
+  - title: Kubernetes Multi-Cluster Management
+    description: Production-grade Kubernetes management with GitOps
+    content: |
+      Design a Kubernetes multi-cluster management solution with these requirements:
+
+      **Cluster Management:**
+      - Automated cluster provisioning using Terraform (AWS EKS, GCP GKE, Azure AKS)
+      - Cluster lifecycle management (upgrades, node scaling, patching)
+      - Cross-cluster networking with service mesh (Istio)
+      - Disaster recovery with automated failover between regions
+
+      **GitOps Deployment:**
+      - ArgoCD configuration for multi-cluster deployments
+      - Environment promotion pipeline (dev → staging → production)
+      - Application versioning and rollback capabilities
+      - Configuration drift detection and automatic remediation
+
+      **Monitoring and Observability:**
+      - Prometheus/Grafana stack with custom dashboards
+      - Distributed tracing with Jaeger
+      - Log aggregation with ELK stack or similar
+      - Cost monitoring and optimization recommendations
+
+      **Security and Compliance:**
+      - Pod Security Policies and admission controllers
+      - Secret management with external providers (AWS Secrets Manager, Vault)
+      - Network policies and RBAC configurations
+      - Compliance scanning (CIS benchmarks, security policies)
+
+      Provide: Complete infrastructure as code, monitoring configurations, and operational runbooks.
+    quality_score: 0.88
+
+  machine_learning:
+  - title: MLOps Pipeline for Model Deployment
+    description: Production ML pipeline with monitoring and retraining
+    content: |
+      Create an end-to-end MLOps pipeline for deploying and managing ML models with these specifications:
+
+      **Model Training Pipeline:**
+      - Automated data preprocessing and feature engineering
+      - Hyperparameter tuning with Optuna or similar framework
+      - Model versioning and experiment tracking with MLflow
+      - Automated model validation and testing (data drift, model performance)
+
+      **Deployment Infrastructure:**
+      - Containerized model serving with FastAPI and Docker
+      - Horizontal auto-scaling based on request load
+      - A/B testing framework for model comparisons
+      - Blue-green deployments with automatic rollback on performance degradation
+
+      **Monitoring and Alerting:**
+      - Real-time model performance monitoring (accuracy, latency, throughput)
+      - Data drift detection with statistical tests
+      - Feature store integration for consistent data access
+      - Automated retraining triggers based on performance thresholds
+
+      **Requirements:**
+      - Support for scikit-learn, XGBoost, and PyTorch models
+      - Handle 10K+ predictions per minute with <100ms latency
+      - Integration with cloud ML platforms (AWS SageMaker, GCP AI Platform)
+      - Comprehensive logging and audit trail for model decisions
+
+      Include: Complete pipeline code, infrastructure templates, and operational documentation.
+    quality_score: 0.93
+
+  cybersecurity:
+  - title: Security Incident Response Automation
+    description: Automated threat detection and response system
+    content: |
+      Build a security incident response automation system with these capabilities:
+
+      **Threat Detection:**
+      - SIEM integration (Splunk, Elastic Security) with custom detection rules
+      - Behavioral analysis for anomaly detection (unusual login patterns, data access)
+      - Threat intelligence feeds integration (MISP, commercial feeds)
+      - Machine learning models for zero-day attack detection
+
+      **Automated Response:**
+      - Playbook execution engine for common incident types
+      - Automated containment actions (user account suspension, network isolation)
+      - Evidence collection and forensic data preservation
+      - Communication workflows with security team and stakeholders
+
+      **Case Management:**
+      - Incident tracking system with NIST framework alignment
+      - Evidence chain of custody management
+      - Automated report generation for compliance (SOX, HIPAA, GDPR)
+      - Integration with ticketing systems (ServiceNow, Jira)
+
+      **Requirements:**
+      - Process 100K+ security events per minute
+      - Sub-second response time for critical alerts
+      - Support for hybrid cloud and on-premises environments
+      - Comprehensive audit logging and tamper-evident storage
+
+      Expected: Complete system with API documentation, security controls, and incident playbooks.
+    quality_score: 0.90
+
+# Domain Quality Indicators:
+# ✅ **Domain Expertise**: Uses appropriate terminology and concepts
+# ✅ **Technical Depth**: Covers implementation details and architecture
+# ✅ **Industry Standards**: References relevant frameworks and best practices
+# ✅ **Scalability Requirements**: Includes performance and capacity specifications
+# ✅ **Integration Points**: Describes connections with existing systems
+# ✅ **Compliance Needs**: Addresses regulatory and security requirements
+# ✅ **Operational Concerns**: Includes monitoring, maintenance, and troubleshooting
+# ✅ **Success Metrics**: Defines measurable outcomes and acceptance criteria

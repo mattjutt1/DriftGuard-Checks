@@ -50,30 +50,48 @@ jobs:
         name: prompt-evaluation-results
         path: results.json
 
-    - name: Comment on PR
+    - name: Write Prompt Gate summary
       if: always()
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const fs = require('fs');
-          const results = JSON.parse(fs.readFileSync('results.json', 'utf8'));
+      run: |
+        python3 - <<'PY'
+        import json
+        import os
+        import sys
 
-          const status = results.pass ? '✅ PASSED' : '❌ FAILED';
-          const winRate = (results.metrics.win_rate * 100).toFixed(1);
-          const threshold = (results.threshold * 100).toFixed(1);
+        try:
+            with open('results.json', 'r') as f:
+                results = json.load(f)
+        except FileNotFoundError:
+            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+                f.write("### 🔇 Prompt Gate Skipped\n\n")
+                f.write("The `prompt-check` label is not present on this PR. Add the label to enable prompt evaluation.\n\n")
+                f.write("This workflow runs offline with no API costs.\n")
+            sys.exit(0)
 
-          const comment = `## Prompt Evaluation Results
+        if results.get("skipped", False):
+            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+                f.write("### 🔇 Prompt Gate Skipped\n\n")
+                f.write("The `prompt-check` label is not present on this PR. Add the label to enable prompt evaluation.\n\n")
+                f.write("This workflow runs offline with no API costs.\n")
+            sys.exit(0)
 
-          **Status:** ${status}
-          **Win Rate:** ${winRate}% (threshold: ${threshold}%)
-          **Average Score:** ${results.metrics.avg_score.toFixed(3)}
-          **Total Prompts:** ${results.metrics.total_prompts}
+        # Process normal results
+        status = "✅ PASSED" if results["pass"] else "❌ FAILED"
+        win_rate = results["metrics"]["win_rate"]
+        threshold = results["threshold"]
+        prompt_count = results["metrics"].get("total_prompts", 0)
+        avg_score = results["metrics"].get("avg_score", 0)
+        simulated_cost = prompt_count * 0.002
 
-          ${results.pass ? '✅ All prompt quality checks passed!' : '⚠️ Prompt quality below threshold. Please review and improve.'}`;
-
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: comment
-          });
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+            f.write("### Prompt Gate Results\n\n")
+            f.write(f"- **Status:** {status}\n")
+            f.write(f"- **Win Rate:** {win_rate:.1%} (threshold: {threshold:.1%})\n")
+            f.write(f"- **Prompts Tested:** {prompt_count}\n")
+            f.write(f"- **Average Score:** {avg_score:.3f}\n")
+            f.write(f"- **Simulated Cost:** ${simulated_cost:.4f}\n\n")
+            f.write("📊 [View detailed results](../actions/runs/" + os.environ["GITHUB_RUN_ID"] + ") • ")
+            f.write("📁 [Download artifacts](../actions/runs/" + os.environ["GITHUB_RUN_ID"] + "#artifacts)\n\n")
+            f.write("This evaluation ran offline with no actual API costs. ")
+            f.write("To enable real LLM providers, see the [setup guide](https://github.com/mattjutt1/prompt-wizard#llm-provider-configuration-offline-by-default).\n")
+        PY

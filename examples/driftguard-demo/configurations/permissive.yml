@@ -1,0 +1,94 @@
+# Permissive Configuration (70% threshold)
+# Use this for teams learning prompt engineering or in early development phases
+
+version: '1.0'
+threshold: 0.70  # More forgiving threshold for learning environments
+model: mock
+test_prompts:
+  # Mix of quality levels with more basic examples that should still pass
+- |
+  Write a Python function to process a CSV file with customer data.
+
+  Requirements:
+  - Read CSV file with pandas
+  - Clean the data (remove duplicates, handle missing values)
+  - Calculate summary statistics (average age, total purchases)
+  - Export results to JSON format
+
+  Include error handling for file not found and invalid data formats.
+  Add docstring with example usage.
+
+- |
+  Create a REST API endpoint for user registration.
+
+  Specifications:
+  - Accept POST requests with email, password, and name
+  - Validate email format and password strength (8+ chars)
+  - Hash password before storing in database
+  - Return success message or error details
+  - Include rate limiting (5 requests per minute)
+
+  Use Express.js and include basic tests.
+
+- |
+  Design a responsive navigation menu for a website.
+
+  Features needed:
+  - Mobile hamburger menu that slides out on small screens
+  - Desktop horizontal menu with hover effects
+  - Active page highlighting
+  - Dropdown submenu support
+  - Accessibility features (keyboard navigation, screen reader support)
+
+  Provide HTML, CSS, and basic JavaScript implementation.
+
+- |
+  Explain how to set up a CI/CD pipeline for a Node.js application.
+
+  Cover these steps:
+  1. Source control integration (GitHub)
+  2. Automated testing (Jest unit tests)
+  3. Build process (npm build)
+  4. Deployment to cloud platform (Heroku or similar)
+  5. Environment variables and secrets management
+
+  Include sample configuration files and troubleshooting tips.
+
+- |
+  Write SQL queries for an e-commerce database.
+
+  Tables: users, orders, products, order_items
+
+  Queries needed:
+  1. Find top 5 best-selling products this month
+  2. Calculate total revenue by product category
+  3. List customers with more than 5 orders
+  4. Find products that haven't been ordered in 90 days
+
+  Include sample data structure and explain query optimization.
+
+- |
+  Create a React component for displaying user profiles.
+
+  Component should:
+  - Accept user data as props (name, email, avatar, bio)
+  - Show placeholder image if avatar is missing
+  - Handle loading and error states
+  - Be responsive for mobile and desktop
+  - Include PropTypes for type checking
+
+  Provide component code and basic styling with CSS modules.
+
+  # Some simpler examples that should still pass at 70% threshold
+- Write a function to calculate the area of a circle. Include input validation and return appropriate error messages for invalid inputs.
+
+- Create a simple contact form with HTML and JavaScript that validates email addresses and shows success/error messages to users.
+
+- Explain how to use Git branches for feature development. Include commands for creating, switching, merging, and deleting branches.
+
+# Configuration Notes for Permissive Mode:
+# - 70% threshold allows good but not perfect prompts to pass
+# - Includes simpler examples suitable for learning environments
+# - More forgiving for junior developers or teams new to prompt engineering
+# - Balances learning with maintaining some quality standards
+# - Good for iterative improvement and building prompt writing skills
