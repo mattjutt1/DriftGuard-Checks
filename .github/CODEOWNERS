@@ -1,0 +1,16 @@
+# GitHub CODEOWNERS - Require review on critical infrastructure
+
+# Repository hygiene and automation workflows
+.github/workflows/*   @mattjutt1
+
+# Repository audit and cleanup scripts
+scripts/*             @mattjutt1
+
+# Configuration files that affect builds and CI
+.gitignore            @mattjutt1
+.gitattributes        @mattjutt1
+.pre-commit-config.yaml @mattjutt1
+
+# Documentation for repository processes
+repo_audit/           @mattjutt1
+attic/                @mattjutt1
