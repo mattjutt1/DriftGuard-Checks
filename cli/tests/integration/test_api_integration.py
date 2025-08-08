@@ -5,13 +5,11 @@ Tests real API interactions, error scenarios, and resilience
 
 import json
 import time
-from unittest.mock import patch
 
 import pytest
 import responses
 from promptevolver_cli.client import ConvexClient, ConvexError
 from promptevolver_cli.config import API_TIMEOUT, CONVEX_BASE_URL
-from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 
 class TestConvexAPIIntegration:
@@ -61,16 +59,16 @@ class TestConvexAPIIntegration:
                 "data": {
                     "success": True,
                     "result": {
-                        "best_prompt": "You are a senior data scientist with expertise in machine learning and statistical analysis. Please provide a comprehensive explanation of the machine learning concept, including theoretical foundations, practical applications, and real-world examples. Structure your response to build understanding progressively from basic principles to advanced implementations.",
+                        "best_prompt": "You are a senior data scientist with expertise in machine learning and statistical analysis. Please provide a comprehensive explanation of the machine learning concept, including theoretical foundations, practical applications, and real - world examples. Structure your response to build understanding progressively from basic principles to advanced implementations.",
                         "quality_score": 94.2,
                         "processing_time": 3.7,
                         "expert_profile": "Senior Data Scientist specializing in ML education and statistical analysis",
                         "improvements": [
-                            "Added senior-level expertise context",
+                            "Added senior - level expertise context",
                             "Specified comprehensive explanation requirements",
                             "Included theoretical and practical components",
                             "Added progressive learning structure",
-                            "Enhanced with real-world application focus",
+                            "Enhanced with real - world application focus",
                         ],
                         "metadata": {
                             "iterations_performed": 3,
@@ -118,8 +116,8 @@ class TestConvexAPIIntegration:
                 "error": "Rate limit exceeded. Too many requests in short period.",
                 "error_code": "RATE_LIMIT_EXCEEDED",
                 "retry_after": 60,
-                "current_usage": "150 requests/hour",
-                "limit": "100 requests/hour",
+                "current_usage": "150 requests / hour",
+                "limit": "100 requests / hour",
             },
             status=429,
         )
@@ -161,7 +159,7 @@ class TestConvexAPIIntegration:
             f"{CONVEX_BASE_URL}/health",
             body="This is not valid JSON",
             status=200,
-            content_type="application/json",
+            content_type="application / json",
         )
 
         with pytest.raises(ConvexError):
@@ -193,11 +191,11 @@ class TestConvexAPIIntegration:
 
 
 class TestNetworkResilience:
-    """Test network-related resilience and error handling"""
+    """Test network - related resilience and error handling"""
 
     def test_connection_timeout(self):
         """Test connection timeout handling"""
-        client = ConvexClient("https://nonexistent-convex-server.invalid")
+        client = ConvexClient("https://nonexistent - convex - server.invalid")
 
         with pytest.raises(ConvexError) as exc_info:
             client.check_health()
@@ -298,7 +296,7 @@ class TestConfigurationIntegration:
 
     @responses.activate
     def test_domain_specific_optimization(self):
-        """Test optimization with domain-specific configurations"""
+        """Test optimization with domain - specific configurations"""
         client = ConvexClient()
 
         # Test technical domain
@@ -515,9 +513,9 @@ class TestConcurrentRequestHandling:
                     "data": {
                         "success": True,
                         "result": {
-                            "best_prompt": f"Concurrent optimization result {i+1}",
+                            "best_prompt": f"Concurrent optimization result {i + 1}",
                             "quality_score": 80.0 + i,
-                            "request_id": f"req_{i+1}",
+                            "request_id": f"req_{i + 1}",
                         },
                     },
                 },
@@ -527,14 +525,14 @@ class TestConcurrentRequestHandling:
         # Make multiple requests
         results = []
         for i in range(5):
-            result = client.optimize_prompt(f"Test prompt {i+1}", {"domain": "general"})
+            result = client.optimize_prompt(f"Test prompt {i + 1}", {"domain": "general"})
             results.append(result)
 
         # Verify all requests succeeded
         assert len(results) == 5
         for i, result in enumerate(results):
             assert result["success"] is True
-            assert result["result"]["request_id"] == f"req_{i+1}"
+            assert result["result"]["request_id"] == f"req_{i + 1}"
 
     @responses.activate
     def test_request_ordering_and_state(self):

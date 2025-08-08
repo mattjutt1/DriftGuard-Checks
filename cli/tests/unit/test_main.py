@@ -5,15 +5,16 @@ Tests CLI argument parsing, command execution, and output formatting
 
 import json
 import tempfile
-import time
 from pathlib import Path
-from unittest.mock import Mock, mock_open, patch
+from unittest.mock import patch
 
 import pytest
-from click.testing import CliRunner
 from promptevolver_cli.client import ConvexError
-from promptevolver_cli.main import _display_quality_metrics, _save_optimization_results, cli
-from tests.fixtures.sample_prompts import CONFIG_TEST_DATA, SAMPLE_PROMPTS
+from promptevolver_cli.main import (
+    _display_quality_metrics,
+    _save_optimization_results,
+    cli,
+)
 
 
 class TestCLIBasics:
@@ -313,7 +314,6 @@ class TestUtilityFunctions:
 
         _display_quality_metrics(console, 85.5, 12.3, "advanced", "technical")
 
-        captured = capsys.readouterr()
         # Note: Rich output testing is complex, so we just check it doesn't crash
         assert True  # Function executed without error
 

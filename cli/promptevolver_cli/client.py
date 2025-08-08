@@ -3,7 +3,6 @@ Convex HTTP Client for PromptEvolver CLI
 Simple client to interact with existing Convex actions via HTTP
 """
 
-import time
 from typing import Any, Dict, Optional
 
 import requests
@@ -96,5 +95,3 @@ class ConvexClient:
 
 class ConvexError(Exception):
     """Exception raised for Convex API errors"""
-
-    pass

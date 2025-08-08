@@ -6,8 +6,6 @@ Automatically updates the contextual knowledge graph after code changes
 
 import hashlib
 import json
-import os
-import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -97,9 +95,9 @@ class KnowledgeGraphUpdater:
         feature_slices = {}
         violations = {}
 
-        # Define AVSHA patterns
-        atomic_levels = ["atoms", "molecules", "organisms", "templates", "pages"]
-        expected_features = ["authentication", "optimization", "dashboard"]
+        # Define AVSHA patterns (used for analysis)
+        # atomic_levels = ["atoms", "molecules", "organisms", "templates", "pages"]
+        # expected_features = ["authentication", "optimization", "dashboard"]
 
         # Analyze file structure for AVSHA compliance
         for file_path, file_data in entities["files"].items():
@@ -351,7 +349,7 @@ class KnowledgeGraphUpdater:
         self.save_graph(graph)
 
         # Print results
-        print(f"✅ Knowledge graph updated:")
+        print("✅ Knowledge graph updated:")
         print(
             f"   📁 Files: {len(changes['added'])} added, {len(changes['modified'])} modified, {len(changes['deleted'])} deleted"
         )

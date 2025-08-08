@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+#!/usr / bin / env python3
 """
 PromptEvolver CLI Main Module
-Simple Click-based CLI for prompt optimization using existing Convex backend
+Simple Click - based CLI for prompt optimization using existing Convex backend
 """
 
 import json
@@ -12,13 +12,17 @@ from typing import Any, Dict, List, Optional
 import click
 from rich.console import Console
 from rich.layout import Layout
-from rich.live import Live
 from rich.panel import Panel
-from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
-from rich.prompt import Confirm, Prompt
+from rich.progress import (
+    BarColumn,
+    Progress,
+    SpinnerColumn,
+    TaskProgressColumn,
+    TextColumn,
+)
+from rich.prompt import Prompt
 from rich.rule import Rule
 from rich.table import Table
-from rich.text import Text
 
 from .client import ConvexClient, ConvexError
 from .config import ADVANCED_MODE_CONFIG, BATCH_DELAY, DOMAIN_CONFIGS, QUICK_MODE_CONFIG
@@ -33,12 +37,11 @@ client = ConvexClient()
 @click.version_option(version="0.1.0")
 def cli():
     """
-    PromptEvolver CLI - Terminal-based prompt optimization using Microsoft PromptWizard
+    PromptEvolver CLI - Terminal - based prompt optimization using Microsoft PromptWizard
 
     This CLI connects to your existing Convex backend to provide terminal access
     to prompt optimization features.
     """
-    pass
 
 
 @cli.command()
@@ -59,10 +62,10 @@ def health():
             progress.update(task, description="Health check complete")
 
         if result.get("available"):
-            console.print(f"\n✅ [green]Service Available[/green]")
+            console.print("\n✅ [green]Service Available[/green]")
             console.print(f"🤖 Model: {result.get('model', 'Unknown')}")
         else:
-            console.print(f"\n❌ [red]Service Unavailable[/red]")
+            console.print("\n❌ [red]Service Unavailable[/red]")
             if result.get("error"):
                 console.print(f"Error: {result['error']}")
 
@@ -92,16 +95,16 @@ def health():
     default="general",
     help="Prompt domain for specialized optimization",
 )
-@click.option("--reasoning/--no-reasoning", default=True, help="Generate expert reasoning")
+@click.option("--reasoning/--no - reasoning", default=True, help="Generate expert reasoning")
 @click.option(
-    "--expert-identity/--no-expert-identity",
+    "--expert - identity/--no - expert - identity",
     default=True,
     help="Generate expert identity",
 )
 @click.option("--rounds", "-r", type=int, default=3, help="Number of mutation rounds")
 @click.option("--output", "-o", type=click.Path(path_type=Path), help="Save results to file (JSON format)")
-@click.option("--interactive", "-i", is_flag=True, help="Interactive mode with step-by-step guidance")
-@click.option("--show-comparison", is_flag=True, help="Show side-by-side comparison of original vs optimized")
+@click.option("--interactive", "-i", is_flag=True, help="Interactive mode with step - by - step guidance")
+@click.option("--show - comparison", is_flag=True, help="Show side - by - side comparison of original vs optimized")
 def optimize(
     prompt: Optional[str],
     file: Optional[Path],
@@ -130,7 +133,7 @@ def optimize(
 
     if file:
         try:
-            with open(file, "r", encoding="utf-8") as f:
+            with open(file, "r", encoding="utf - 8") as f:
                 prompt = f.read().strip()
             console.print(f"\n[dim]📄 Loaded prompt from: {file}[/dim]")
         except Exception as e:
@@ -167,7 +170,7 @@ def optimize(
         # Create optimization configuration based on mode and domain
         base_config = QUICK_MODE_CONFIG.copy() if mode == "quick" else ADVANCED_MODE_CONFIG.copy()
 
-        # Apply domain-specific configuration
+        # Apply domain - specific configuration
         domain_config = DOMAIN_CONFIGS.get(domain, {})
         config = {**base_config, **domain_config}
 
@@ -239,7 +242,7 @@ def optimize(
             console.print(f"\n✅ [green]Optimization Complete![/green] [dim]({processing_time:.1f}s)[/dim]")
             console.print(Rule(style="green"))
 
-            # Side-by-side comparison if requested
+            # Side - by - side comparison if requested
             if show_comparison:
                 _display_comparison(console, prompt, optimization_result)
             else:
@@ -338,8 +341,8 @@ def optimize(
     default="general",
     help="Prompt domain for specialized optimization",
 )
-@click.option("--parallel", "-p", type=int, default=1, help="Number of parallel optimizations (1-5)")
-@click.option("--continue-on-error", is_flag=True, help="Continue processing even if some prompts fail")
+@click.option("--parallel", "-p", type=int, default=1, help="Number of parallel optimizations (1 - 5)")
+@click.option("--continue - on - error", is_flag=True, help="Continue processing even if some prompts fail")
 def batch(
     file_path: Path,
     output: Optional[Path],
@@ -361,7 +364,7 @@ def batch(
         output_file = Path(f"batch_results.{format}")
 
     # Validate parallel setting
-    parallel = max(1, min(5, parallel))  # Clamp between 1-5
+    parallel = max(1, min(5, parallel))  # Clamp between 1 - 5
 
     console.print(f"\n[bold blue]📦 Batch Optimization ({mode} mode, {domain} domain)[/bold blue]")
     console.print(f"📄 Input: {file_path} → 📝 Output: {output_file} ({format.upper()})")
@@ -378,7 +381,9 @@ def batch(
 
         console.print(f"\n📊 Found {len(prompts)} prompts to optimize")
         if not continue_on_error:
-            console.print("[yellow]⚠️  Processing will stop on first error (use --continue-on-error to change)[/yellow]")
+            console.print(
+                "[yellow]⚠️  Processing will stop on first error (use --continue - on - error to change)[/yellow]"
+            )
 
         results = []
         failed_prompts = []
@@ -463,18 +468,18 @@ def batch(
         table.add_column("Details", style="dim")
 
         table.add_row("Total Prompts", str(len(prompts)), f"From {file_path}")
-        table.add_row("Processed", str(len(results)), f"({len(results)/len(prompts)*100:.1f}%)")
+        table.add_row("Processed", str(len(results)), f"({len(results) / len(prompts) * 100:.1f}%)")
         table.add_row(
             "✅ Successful",
             str(successful),
-            f"({successful/len(results)*100:.1f}% of processed)" if results else "0%",
+            f"({successful / len(results) * 100:.1f}% of processed)" if results else "0%",
         )
         table.add_row(
             "❌ Failed",
             str(failed),
-            f"({failed/len(results)*100:.1f}% of processed)" if results else "0%",
+            f"({failed / len(results) * 100:.1f}% of processed)" if results else "0%",
         )
-        table.add_row("⏱️ Total Time", f"{total_time:.1f}s", f"{processing_rate:.1f} prompts/min")
+        table.add_row("⏱️ Total Time", f"{total_time:.1f}s", f"{processing_rate:.1f} prompts / min")
         table.add_row("📁 Output", str(output_file), f"{format.upper()} format")
 
         console.print(table)
@@ -499,7 +504,7 @@ def batch(
 
 
 def _display_comparison(console: Console, original: str, result: Dict[str, Any]):
-    """Display side-by-side comparison of original vs optimized prompt"""
+    """Display side - by - side comparison of original vs optimized prompt"""
     layout = Layout()
     layout.split_row(
         Layout(Panel(original, title="📝 Original", border_style="dim"), name="original"),
@@ -581,7 +586,7 @@ def _save_optimization_results(
         "metadata": {"version": "0.1.0", "optimization_engine": "PromptWizard"},
     }
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    with open(output_path, "w", encoding="utf - 8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
@@ -589,7 +594,7 @@ def _read_prompts_from_file(file_path: Path) -> List[str]:
     """Read prompts from file with support for different formats"""
     prompts = []
 
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(file_path, "r", encoding="utf - 8") as f:
         content = f.read()
 
     # Try to detect format
@@ -619,7 +624,7 @@ def _read_prompts_from_file(file_path: Path) -> List[str]:
                 prompt = data.get("prompt") or data.get("text") or data.get("content") or str(data)
                 prompts.append(prompt)
         except json.JSONDecodeError:
-            # Fall back to line-by-line
+            # Fall back to line - by - line
             prompts = [line.strip() for line in content.split("\n") if line.strip()]
     else:
         # Plain text format - one prompt per line
@@ -661,7 +666,7 @@ def _format_batch_result(
 def _save_batch_results(output_file: Path, results: List[Dict[str, Any]], format: str):
     """Save batch results in specified format"""
     if format == "json":
-        with open(output_file, "w", encoding="utf-8") as f:
+        with open(output_file, "w", encoding="utf - 8") as f:
             json.dump(
                 {
                     "metadata": {
@@ -679,14 +684,14 @@ def _save_batch_results(output_file: Path, results: List[Dict[str, Any]], format
             )
 
     elif format == "jsonl":
-        with open(output_file, "w", encoding="utf-8") as f:
+        with open(output_file, "w", encoding="utf - 8") as f:
             for result in results:
                 f.write(json.dumps(result, ensure_ascii=False) + "\n")
 
     elif format == "csv":
         import csv
 
-        with open(output_file, "w", newline="", encoding="utf-8") as f:
+        with open(output_file, "w", newline="", encoding="utf - 8") as f:
             if results:
                 fieldnames = [
                     "index",
@@ -703,15 +708,15 @@ def _save_batch_results(output_file: Path, results: List[Dict[str, Any]], format
                     writer.writerow(row)
 
     elif format == "txt":
-        with open(output_file, "w", encoding="utf-8") as f:
+        with open(output_file, "w", encoding="utf - 8") as f:
             f.write("PromptEvolver Batch Results\n")
             f.write("=" * 50 + "\n\n")
             for i, result in enumerate(results, 1):
                 f.write(f"Result {i}:\n")
                 f.write(f"Original: {result['original_prompt']}\n")
                 if result.get("success"):
-                    f.write(f"Optimized: {result.get('optimized_prompt', 'N/A')}\n")
-                    f.write(f"Quality Score: {result.get('quality_score', 'N/A')}\n")
+                    f.write(f"Optimized: {result.get('optimized_prompt', 'N / A')}\n")
+                    f.write(f"Quality Score: {result.get('quality_score', 'N / A')}\n")
                 else:
                     f.write(f"Error: {result.get('error', 'Unknown error')}\n")
                 f.write("\n" + "-" * 40 + "\n\n")

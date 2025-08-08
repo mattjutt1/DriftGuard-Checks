@@ -86,7 +86,7 @@ repos:
   - id: markdownlint
     args: [--fix]
     files: \.md$
-    exclude: ^(microsoft-promptwizard/|hf-deployment/|node_modules/)
+    exclude: ^(microsoft-promptwizard/|hf-deployment/|node_modules/|docs/sales/)
 
 # Exclude third-party and generated code
 exclude: |
