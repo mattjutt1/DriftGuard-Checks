@@ -96,3 +96,7 @@ pytest --cov=driftguard tests/
 ### Platform Metrics
 
 - `GET /api/v1/metrics` - Platform usage and health metrics
+
+## Workflow Testing
+
+The prompt-check label triggers automated quality gates.
