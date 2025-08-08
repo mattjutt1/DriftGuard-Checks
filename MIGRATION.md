@@ -2,22 +2,29 @@
 
 ## Overview
 
-We're evolving from a CLI-based prompt evaluation tool to a comprehensive Prompt Operations platform with two surfaces:
+We're evolving from a CLI-based prompt evaluation tool to a comprehensive
+Prompt Operations platform with two surfaces:
 
-1. **DriftGuard** (Platform): FastAPI service for prompt registry, drift monitoring, and budget management
-2. **PromptOps SDK** (Library): Lightweight Python package with CLI for local evaluation and CI/CD
+1. **DriftGuard** (Platform): FastAPI service for prompt registry, drift
+   monitoring, and budget management
+2. **PromptOps SDK** (Library): Lightweight Python package with CLI for local
+   evaluation and CI/CD
 
 ## Why the Pivot?
 
-- **ROI Focus**: Workflow, compliance, and cost control deliver measurable business value
-- **Market Differentiation**: Eval-only tools commoditize; Prompt Ops creates a moat
-- **Enterprise Ready**: CI/CD gates, drift monitoring, and budget controls meet enterprise needs
+- **ROI Focus**: Workflow, compliance, and cost control deliver measurable
+  business value
+- **Market Differentiation**: Eval-only tools commoditize; Prompt Ops creates
+  a moat
+- **Enterprise Ready**: CI/CD gates, drift monitoring, and budget controls
+  meet enterprise needs
 
 ## Migration Steps
 
 ### For CLI Users
 
-The `promptwizard` command is deprecated but still works with a warning. Migrate to `promptops`:
+The `promptwizard` command is deprecated but still works with a warning.
+Migrate to `promptops`:
 
 ```bash
 # Old (deprecated)
