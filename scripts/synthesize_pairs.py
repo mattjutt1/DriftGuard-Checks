@@ -71,11 +71,11 @@ class SynthesizedPair:
 
 class OllamaClient:
     """Simple Ollama client for synthesis operations"""
-    
+
     def __init__(self):
         self.base_url = OLLAMA_CONFIG["base_url"]
         self.model = OLLAMA_CONFIG["model"]
-        
+
     def generate(self, prompt: str, temperature: float = 0.8) -> str:
         """Generate response from Ollama"""
         try:
@@ -97,21 +97,21 @@ class OllamaClient:
 
 class PairSynthesizer:
     """Main synthesizer for creating additional training pairs"""
-    
+
     def __init__(self):
         self.client = OllamaClient()
         self.seed_pairs = []
         self.synthesized_pairs = []
         self.output_dir = Path(__file__).parent.parent / "data" / "processed" / "synthesized_pairs"
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        
+
     def load_seed_pairs(self, seed_dir: Optional[Path] = None) -> List[Dict]:
         """Load seed pairs from generate_seed_pairs.py output"""
         if seed_dir is None:
             seed_dir = Path(__file__).parent.parent / "data" / "processed" / "seed_pairs"
-        
+
         all_pairs = []
-        
+
         # Load all JSON files from seed directory
         for json_file in seed_dir.glob("*.json"):
             if "stats" not in json_file.name:  # Skip statistics files
@@ -120,16 +120,16 @@ class PairSynthesizer:
                     if isinstance(pairs, list):
                         all_pairs.extend(pairs)
                     logger.info(f"Loaded {len(pairs)} pairs from {json_file.name}")
-        
+
         self.seed_pairs = all_pairs
         logger.info(f"Total seed pairs loaded: {len(self.seed_pairs)}")
         return all_pairs
-    
+
     def cross_pollinate(self, pair1: Dict, pair2: Dict) -> Optional[SynthesizedPair]:
         """Cross-pollinate two pairs from different domains"""
         if pair1['domain'] == pair2['domain']:
             return None  # Skip same-domain pairs for cross-pollination
-        
+
         prompt = f"""Cross-pollinate these two optimized prompts to create a hybrid:
 
 Domain 1: {pair1['domain']}
@@ -142,23 +142,23 @@ Create a new prompt that combines elements from both domains effectively.
 The result should be innovative yet practical.
 
 Hybrid Prompt:"""
-        
+
         hybrid = self.client.generate(prompt, temperature=0.8)
         if not hybrid:
             return None
-        
+
         # Generate a weak version for training
         weak_prompt = self.generate_weak_version(hybrid)
-        
+
         # Calculate quality scores
         quality_scores = self.calculate_quality_scores(hybrid)
-        
+
         return SynthesizedPair(
             original_prompt=weak_prompt,
             enhanced_prompt=hybrid,
             domain="Cross-Domain",
             synthesis_method="cross_pollination",
-            source_pairs=[str(pair1.get('metadata', {}).get('timestamp', '')), 
+            source_pairs=[str(pair1.get('metadata', {}).get('timestamp', '')),
                          str(pair2.get('metadata', {}).get('timestamp', ''))],
             quality_scores=quality_scores,
             metadata={
@@ -166,7 +166,7 @@ Hybrid Prompt:"""
                 "source_domains": [pair1['domain'], pair2['domain']]
             }
         )
-    
+
     def interpolate(self, pair1: Dict, pair2: Dict) -> Optional[SynthesizedPair]:
         """Interpolate between two similar pairs"""
         prompt = f"""Interpolate between these two enhanced prompts to create a balanced version:
@@ -178,26 +178,26 @@ Create a prompt that captures the best of both while being unique.
 The result should be coherent and effective.
 
 Interpolated Prompt:"""
-        
+
         interpolated = self.client.generate(prompt, temperature=0.7)
         if not interpolated:
             return None
-        
+
         # Generate weak version
         weak_prompt = self.generate_weak_version(interpolated)
-        
+
         # Determine domain
         domain = pair1['domain'] if pair1['domain'] == pair2['domain'] else "Cross-Domain"
-        
+
         # Calculate quality scores
         quality_scores = self.calculate_quality_scores(interpolated)
-        
+
         return SynthesizedPair(
             original_prompt=weak_prompt,
             enhanced_prompt=interpolated,
             domain=domain,
             synthesis_method="interpolation",
-            source_pairs=[str(pair1.get('metadata', {}).get('timestamp', '')), 
+            source_pairs=[str(pair1.get('metadata', {}).get('timestamp', '')),
                          str(pair2.get('metadata', {}).get('timestamp', ''))],
             quality_scores=quality_scores,
             metadata={
@@ -205,7 +205,7 @@ Interpolated Prompt:"""
                 "interpolation_weight": 0.5
             }
         )
-    
+
     def advanced_mutation(self, pair: Dict) -> Optional[SynthesizedPair]:
         """Apply advanced mutations to create variations"""
         mutation_strategies = [
@@ -215,9 +215,9 @@ Interpolated Prompt:"""
             "Add performance metrics and success criteria",
             "Integrate real-world context and applications"
         ]
-        
+
         strategy = random.choice(mutation_strategies)
-        
+
         prompt = f"""Apply this advanced mutation strategy to create a variation:
 
 Strategy: {strategy}
@@ -227,17 +227,17 @@ Create a sophisticated variation that applies this strategy effectively.
 The result should be significantly improved while maintaining clarity.
 
 Mutated Prompt:"""
-        
+
         mutated = self.client.generate(prompt, temperature=0.9)
         if not mutated:
             return None
-        
+
         # Generate weak version
         weak_prompt = self.generate_weak_version(mutated)
-        
+
         # Calculate quality scores
         quality_scores = self.calculate_quality_scores(mutated)
-        
+
         return SynthesizedPair(
             original_prompt=weak_prompt,
             enhanced_prompt=mutated,
@@ -251,7 +251,7 @@ Mutated Prompt:"""
             },
             reasoning=f"Applied strategy: {strategy}"
         )
-    
+
     def generate_weak_version(self, enhanced_prompt: str) -> str:
         """Generate a weak version of an enhanced prompt for training"""
         prompt = f"""Simplify this enhanced prompt to create a weak, vague version:
@@ -265,10 +265,10 @@ Create a simplified version that:
 - Reduces clarity
 
 Weak Version (1-2 sentences):"""
-        
+
         weak = self.client.generate(prompt, temperature=0.6)
         return weak if weak else "Help me with this task"
-    
+
     def calculate_quality_scores(self, prompt: str) -> Dict[str, float]:
         """Calculate quality scores for synthesized prompt"""
         scores = {
@@ -280,7 +280,7 @@ Weak Version (1-2 sentences):"""
             "errorPrevention": random.uniform(0.6, 0.9),
             "overall": 0.0
         }
-        
+
         # More sophisticated scoring based on prompt characteristics
         if len(prompt) > 200:
             scores["completeness"] = min(1.0, scores["completeness"] + 0.1)
@@ -288,63 +288,63 @@ Weak Version (1-2 sentences):"""
             scores["structure"] = min(1.0, scores["structure"] + 0.1)
         if any(word in prompt.lower() for word in ["must", "should", "ensure", "verify"]):
             scores["clarity"] = min(1.0, scores["clarity"] + 0.1)
-        
+
         scores["overall"] = sum(v for k, v in scores.items() if k != "overall") / 6
-        
+
         return scores
-    
+
     def ensure_domain_distribution(self, pairs: List[SynthesizedPair]) -> List[SynthesizedPair]:
         """Ensure synthesized pairs match target domain distribution"""
         current_dist = {}
         for pair in pairs:
             current_dist[pair.domain] = current_dist.get(pair.domain, 0) + 1
-        
+
         total = len(pairs)
         if total == 0:
             return pairs
-        
+
         # Calculate current percentages
         current_pct = {k: v/total for k, v in current_dist.items()}
-        
+
         # Log distribution
         logger.info("Current domain distribution:")
         for domain, pct in current_pct.items():
             target = SYNTHESIS_CONFIG["target_distribution"].get(domain, 0)
             logger.info(f"  {domain}: {pct:.1%} (target: {target:.1%})")
-        
+
         # Adjust if needed (by generating more of underrepresented domains)
         needed = {}
         for domain, target_pct in SYNTHESIS_CONFIG["target_distribution"].items():
             current = current_pct.get(domain, 0)
             if current < target_pct - 0.05:  # 5% tolerance
                 needed[domain] = int((target_pct - current) * total)
-        
+
         if needed:
             logger.info(f"Generating additional pairs for balance: {needed}")
             # Generate additional pairs for underrepresented domains
             # (Implementation would go here)
-        
+
         return pairs
-    
+
     def synthesize_batch(self, count: int = 100) -> List[SynthesizedPair]:
         """Synthesize a batch of training pairs"""
         if not self.seed_pairs:
             self.load_seed_pairs()
-        
+
         if len(self.seed_pairs) < 2:
             logger.error("Not enough seed pairs for synthesis")
             return []
-        
+
         synthesized = []
-        
+
         # Calculate counts for each method
         cross_count = int(count * SYNTHESIS_CONFIG["cross_pollination_ratio"])
         interp_count = int(count * SYNTHESIS_CONFIG["interpolation_ratio"])
         mutation_count = count - cross_count - interp_count
-        
+
         logger.info(f"Synthesis plan: {cross_count} cross-pollination, "
                    f"{interp_count} interpolation, {mutation_count} mutation")
-        
+
         # Cross-pollination
         for _ in tqdm(range(cross_count), desc="Cross-pollinating"):
             for attempt in range(SYNTHESIS_CONFIG["max_synthesis_attempts"]):
@@ -353,7 +353,7 @@ Weak Version (1-2 sentences):"""
                 if result and result.quality_scores["overall"] >= SYNTHESIS_CONFIG["quality_threshold"]:
                     synthesized.append(result)
                     break
-        
+
         # Interpolation
         for _ in tqdm(range(interp_count), desc="Interpolating"):
             for attempt in range(SYNTHESIS_CONFIG["max_synthesis_attempts"]):
@@ -362,7 +362,7 @@ Weak Version (1-2 sentences):"""
                 if result and result.quality_scores["overall"] >= SYNTHESIS_CONFIG["quality_threshold"]:
                     synthesized.append(result)
                     break
-        
+
         # Advanced mutation
         for _ in tqdm(range(mutation_count), desc="Mutating"):
             for attempt in range(SYNTHESIS_CONFIG["max_synthesis_attempts"]):
@@ -371,42 +371,42 @@ Weak Version (1-2 sentences):"""
                 if result and result.quality_scores["overall"] >= SYNTHESIS_CONFIG["quality_threshold"]:
                     synthesized.append(result)
                     break
-        
+
         # Ensure domain distribution
         synthesized = self.ensure_domain_distribution(synthesized)
-        
+
         self.synthesized_pairs.extend(synthesized)
         return synthesized
-    
+
     def save_synthesized_pairs(self, pairs: List[SynthesizedPair], suffix: str = "final"):
         """Save synthesized pairs to JSON files"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # Convert to dict format
         pairs_dict = [asdict(pair) for pair in pairs]
-        
+
         # Save all pairs
         output_file = self.output_dir / f"synthesized_pairs_{timestamp}_{suffix}.json"
         with open(output_file, 'w') as f:
             json.dump(pairs_dict, f, indent=2)
         logger.info(f"Saved {len(pairs)} synthesized pairs to {output_file}")
-        
+
         # Save by domain
         domain_pairs = {}
         for pair in pairs:
             if pair.domain not in domain_pairs:
                 domain_pairs[pair.domain] = []
             domain_pairs[pair.domain].append(asdict(pair))
-        
+
         for domain, domain_data in domain_pairs.items():
             domain_file = self.output_dir / f"{domain.lower()}_synthesized_{timestamp}.json"
             with open(domain_file, 'w') as f:
                 json.dump(domain_data, f, indent=2)
             logger.info(f"Saved {len(domain_data)} {domain} pairs")
-        
+
         # Save statistics
         self.save_statistics(pairs, timestamp)
-    
+
     def save_statistics(self, pairs: List[SynthesizedPair], timestamp: str):
         """Save synthesis statistics"""
         stats = {
@@ -417,17 +417,17 @@ Weak Version (1-2 sentences):"""
             "average_quality_scores": {},
             "configuration": SYNTHESIS_CONFIG
         }
-        
+
         # Calculate method distribution
         for pair in pairs:
             method = pair.synthesis_method
             stats["synthesis_methods"][method] = stats["synthesis_methods"].get(method, 0) + 1
-        
+
         # Calculate domain distribution
         for pair in pairs:
             domain = pair.domain
             stats["domain_distribution"][domain] = stats["domain_distribution"].get(domain, 0) + 1
-        
+
         # Calculate average quality scores
         if pairs:
             score_sums = {}
@@ -436,10 +436,10 @@ Weak Version (1-2 sentences):"""
                     if metric not in score_sums:
                         score_sums[metric] = 0
                     score_sums[metric] += score
-            
+
             for metric, total in score_sums.items():
                 stats["average_quality_scores"][metric] = round(total / len(pairs), 3)
-        
+
         # Save statistics
         stats_file = self.output_dir / f"synthesis_stats_{timestamp}.json"
         with open(stats_file, 'w') as f:
@@ -449,41 +449,41 @@ Weak Version (1-2 sentences):"""
 def main():
     """Main execution function"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Synthesize additional training pairs")
-    parser.add_argument("--count", type=int, default=100, 
+    parser.add_argument("--count", type=int, default=100,
                        help="Number of pairs to synthesize")
-    parser.add_argument("--seed-dir", type=str, 
+    parser.add_argument("--seed-dir", type=str,
                        help="Directory containing seed pairs")
     parser.add_argument("--quality-threshold", type=float, default=0.7,
                        help="Minimum quality score threshold")
-    
+
     args = parser.parse_args()
-    
+
     # Update config if args provided
     if args.quality_threshold:
         SYNTHESIS_CONFIG["quality_threshold"] = args.quality_threshold
-    
+
     # Initialize synthesizer
     synthesizer = PairSynthesizer()
-    
+
     # Load seed pairs
     seed_dir = Path(args.seed_dir) if args.seed_dir else None
     synthesizer.load_seed_pairs(seed_dir)
-    
+
     if not synthesizer.seed_pairs:
         logger.error("No seed pairs found. Run generate_seed_pairs.py first.")
         return
-    
+
     # Synthesize pairs
     logger.info(f"Starting synthesis of {args.count} pairs...")
     synthesized = synthesizer.synthesize_batch(args.count)
-    
+
     # Save results
     synthesizer.save_synthesized_pairs(synthesized)
-    
+
     logger.info(f"✅ Successfully synthesized {len(synthesized)} training pairs")
-    
+
     # Print sample
     if synthesized:
         print("\n" + "="*80)

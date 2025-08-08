@@ -45,7 +45,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class BenchmarkTask:
     """Definition of a benchmark task."""
-    
+
     name: str
     description: str
     dataset_path: str
@@ -59,7 +59,7 @@ class BenchmarkTask:
 @dataclass
 class BenchmarkConfig:
     """Configuration for benchmark suite."""
-    
+
     output_dir: str = "./benchmark_results"
     models_to_compare: List[str] = field(default_factory=list)
     baseline_model: Optional[str] = None
@@ -75,7 +75,7 @@ class BenchmarkConfig:
 
 class StandardBenchmarks:
     """Collection of standard benchmark tasks."""
-    
+
     @staticmethod
     def get_standard_tasks() -> List[BenchmarkTask]:
         """Get list of standard benchmark tasks."""
@@ -145,12 +145,12 @@ class StandardBenchmarks:
                 difficulty="medium"
             )
         ]
-    
+
     @staticmethod
     def create_synthetic_benchmark(name: str, num_samples: int = 100) -> List[Dict]:
         """Create synthetic benchmark data for testing."""
         np.random.seed(42)
-        
+
         templates = {
             "clarity": [
                 "Make a thing that does stuff",
@@ -171,7 +171,7 @@ class StandardBenchmarks:
                 "Imagine scenario"
             ]
         }
-        
+
         enhanced_templates = {
             "clarity": [
                 "Develop a web application that enables user authentication and data management",
@@ -192,81 +192,81 @@ class StandardBenchmarks:
                 "Imagine alternative history scenarios with plausible technological developments"
             ]
         }
-        
+
         data = []
         for _ in range(num_samples):
             category = np.random.choice(list(templates.keys()))
             original = np.random.choice(templates[category])
             enhanced = np.random.choice(enhanced_templates[category])
-            
+
             data.append({
                 "original_prompt": original,
                 "enhanced_prompt": enhanced,
                 "domain": category,
                 "quality_score": np.random.uniform(0.6, 0.95)
             })
-        
+
         return data
 
 
 class BenchmarkMetrics:
     """Advanced metrics for benchmark evaluation."""
-    
+
     def __init__(self):
         """Initialize metrics calculators."""
         self.base_metrics = PromptEvaluationMetrics()
-    
+
     def calculate_clarity_score(self, text: str) -> float:
         """Calculate clarity score based on readability metrics."""
         # Simplified Flesch Reading Ease adaptation
         sentences = text.split('.')
         words = text.split()
         syllables = sum([self._count_syllables(word) for word in words])
-        
+
         if len(sentences) == 0 or len(words) == 0:
             return 0.0
-        
+
         avg_sentence_length = len(words) / len(sentences)
         avg_syllables_per_word = syllables / len(words)
-        
+
         # Modified Flesch score normalized to 0-1
         score = 206.835 - 1.015 * avg_sentence_length - 84.6 * avg_syllables_per_word
         normalized_score = max(0, min(1, score / 100))
-        
+
         return normalized_score
-    
+
     def calculate_specificity_score(self, original: str, optimized: str) -> float:
         """Calculate how much more specific the optimized prompt is."""
         # Count specific terms and details
         original_terms = set(original.lower().split())
         optimized_terms = set(optimized.lower().split())
-        
+
         # More terms generally means more specific
         term_increase = len(optimized_terms) / (len(original_terms) + 1)
-        
+
         # Check for numbers, proper nouns (simplified)
         specificity_markers = sum([
-            1 for word in optimized.split() 
+            1 for word in optimized.split()
             if word[0].isupper() or any(char.isdigit() for char in word)
         ])
-        
+
         specificity = min(1.0, (term_increase * 0.5 + specificity_markers * 0.1))
         return specificity
-    
+
     def calculate_information_gain(self, original: str, optimized: str) -> float:
         """Calculate information gain from original to optimized."""
         original_info = set(original.lower().split())
         optimized_info = set(optimized.lower().split())
-        
+
         new_info = optimized_info - original_info
         preserved_info = original_info & optimized_info
-        
+
         if len(original_info) == 0:
             return 0.0
-        
+
         gain = (len(new_info) + len(preserved_info)) / len(original_info)
         return min(1.0, gain)
-    
+
     def calculate_technical_terms(self, text: str) -> float:
         """Calculate density of technical terms."""
         technical_keywords = {
@@ -275,12 +275,12 @@ class BenchmarkMetrics:
             'service', 'endpoint', 'schema', 'optimization', 'performance',
             'scalability', 'reliability', 'security', 'encryption', 'authentication'
         }
-        
+
         words = text.lower().split()
         technical_count = sum(1 for word in words if word in technical_keywords)
-        
+
         return technical_count / (len(words) + 1)
-    
+
     def calculate_instruction_clarity(self, text: str) -> float:
         """Calculate clarity of instructions."""
         # Check for action verbs and clear directives
@@ -289,58 +289,58 @@ class BenchmarkMetrics:
             'write', 'generate', 'analyze', 'evaluate', 'optimize',
             'configure', 'setup', 'install', 'deploy', 'test'
         }
-        
+
         words = text.lower().split()
         has_action = any(word in action_verbs for word in words)
-        
+
         # Check for clear structure
         has_steps = any(marker in text for marker in ['1.', '2.', 'first', 'then', 'finally'])
-        
+
         # Check for specificity
         has_specifics = len(words) > 10
-        
+
         score = (has_action * 0.4 + has_steps * 0.3 + has_specifics * 0.3)
         return score
-    
+
     def calculate_actionability(self, text: str) -> float:
         """Calculate how actionable the prompt is."""
         actionable_patterns = [
             'create', 'build', 'implement', 'must', 'should',
             'need to', 'required', 'ensure', 'verify', 'test'
         ]
-        
+
         text_lower = text.lower()
         actionability = sum(1 for pattern in actionable_patterns if pattern in text_lower)
-        
+
         return min(1.0, actionability / 5)
-    
+
     def calculate_context_similarity(self, original: str, optimized: str) -> float:
         """Calculate semantic similarity between original and optimized."""
         # Simplified version - in production, use embeddings
         original_words = set(original.lower().split())
         optimized_words = set(optimized.lower().split())
-        
+
         if not original_words:
             return 0.0
-        
+
         overlap = original_words & optimized_words
         similarity = len(overlap) / len(original_words)
-        
+
         return similarity
-    
+
     def calculate_information_retention(self, original: str, optimized: str) -> float:
         """Calculate how much original information is retained."""
         original_concepts = set(original.lower().split())
         optimized_concepts = set(optimized.lower().split())
-        
+
         if not original_concepts:
             return 1.0
-        
+
         retained = original_concepts & optimized_concepts
         retention = len(retained) / len(original_concepts)
-        
+
         return retention
-    
+
     def calculate_ambiguity_score(self, text: str) -> float:
         """Calculate ambiguity level (lower is better)."""
         ambiguous_terms = {
@@ -348,53 +348,53 @@ class BenchmarkMetrics:
             'maybe', 'possibly', 'might', 'could', 'probably',
             'various', 'several', 'some', 'many', 'few'
         }
-        
+
         words = text.lower().split()
         ambiguity_count = sum(1 for word in words if word in ambiguous_terms)
-        
+
         # Invert score (less ambiguity is better)
         ambiguity = 1.0 - min(1.0, ambiguity_count / (len(words) + 1))
         return ambiguity
-    
+
     def _count_syllables(self, word: str) -> int:
         """Count syllables in a word (simplified)."""
         vowels = "aeiouAEIOU"
         syllable_count = 0
         previous_was_vowel = False
-        
+
         for char in word:
             is_vowel = char in vowels
             if is_vowel and not previous_was_vowel:
                 syllable_count += 1
             previous_was_vowel = is_vowel
-        
+
         # Ensure at least one syllable
         return max(1, syllable_count)
 
 
 class BenchmarkRunner:
     """Main benchmark runner class."""
-    
+
     def __init__(self, config: BenchmarkConfig):
         """Initialize benchmark runner."""
         self.config = config
         self.metrics_calculator = BenchmarkMetrics()
         self.results = {}
-        
+
         # Create output directory
         self.output_dir = Path(config.output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Set random seed
         np.random.seed(config.seed)
         torch.manual_seed(config.seed)
-    
-    def run_benchmark_task(self, 
+
+    def run_benchmark_task(self,
                           model_path: str,
                           task: BenchmarkTask) -> Dict[str, Any]:
         """Run a single benchmark task on a model."""
         logger.info(f"Running benchmark '{task.name}' on model: {model_path}")
-        
+
         # Load or create benchmark data
         if Path(task.dataset_path).exists():
             with open(task.dataset_path, 'r') as f:
@@ -403,14 +403,14 @@ class BenchmarkRunner:
             # Create synthetic data for testing
             logger.warning(f"Dataset not found, creating synthetic data for {task.name}")
             data = StandardBenchmarks.create_synthetic_benchmark(
-                task.name, 
+                task.name,
                 task.max_samples or 100
             )
-        
+
         # Limit samples if specified
         if self.config.max_samples_per_task:
             data = data[:self.config.max_samples_per_task]
-        
+
         # Create evaluator
         eval_config = EvaluationConfig(
             model_path=model_path,
@@ -419,9 +419,9 @@ class BenchmarkRunner:
             batch_size=self.config.batch_size,
             device=self.config.device
         )
-        
+
         evaluator = ModelEvaluator(eval_config)
-        
+
         # Run evaluation
         results = {
             'task_name': task.name,
@@ -431,96 +431,96 @@ class BenchmarkRunner:
             'num_samples': len(data),
             'metrics': {}
         }
-        
+
         # Generate predictions
         predictions = []
         references = []
         originals = []
-        
+
         for sample in tqdm(data, desc=f"Evaluating {task.name}"):
             original = sample.get('original_prompt', '')
             reference = sample.get('enhanced_prompt', '')
-            
+
             prediction = evaluator.generate_optimization(original)
-            
+
             predictions.append(prediction)
             references.append(reference)
             originals.append(original)
-        
+
         # Calculate metrics based on task requirements
         for metric_name in task.metrics:
             if metric_name == "rouge_l":
                 scores = evaluator.metrics.calculate_rouge(predictions, references)
                 results['metrics'][metric_name] = scores.get('rougeL_f1', 0)
-            
+
             elif metric_name == "rouge_2":
                 scores = evaluator.metrics.calculate_rouge(predictions, references)
                 results['metrics'][metric_name] = scores.get('rouge2_f1', 0)
-            
+
             elif metric_name == "bert_score":
                 scores = evaluator.metrics.calculate_bert_score(predictions, references)
                 results['metrics'][metric_name] = scores.get('bert_score_f1', 0)
-            
+
             elif metric_name == "clarity_score":
-                scores = [self.metrics_calculator.calculate_clarity_score(pred) 
+                scores = [self.metrics_calculator.calculate_clarity_score(pred)
                          for pred in predictions]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "specificity_score":
                 scores = [self.metrics_calculator.calculate_specificity_score(orig, pred)
                          for orig, pred in zip(originals, predictions)]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "information_gain":
                 scores = [self.metrics_calculator.calculate_information_gain(orig, pred)
                          for orig, pred in zip(originals, predictions)]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "diversity":
                 results['metrics'][metric_name] = evaluator.metrics.calculate_diversity(predictions)
-            
+
             elif metric_name == "fluency":
                 scores = [evaluator.metrics.calculate_fluency_score(pred) for pred in predictions]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "technical_terms":
-                scores = [self.metrics_calculator.calculate_technical_terms(pred) 
+                scores = [self.metrics_calculator.calculate_technical_terms(pred)
                          for pred in predictions]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "instruction_clarity":
                 scores = [self.metrics_calculator.calculate_instruction_clarity(pred)
                          for pred in predictions]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "actionability":
                 scores = [self.metrics_calculator.calculate_actionability(pred)
                          for pred in predictions]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "context_similarity":
                 scores = [self.metrics_calculator.calculate_context_similarity(orig, pred)
                          for orig, pred in zip(originals, predictions)]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "information_retention":
                 scores = [self.metrics_calculator.calculate_information_retention(orig, pred)
                          for orig, pred in zip(originals, predictions)]
                 results['metrics'][metric_name] = np.mean(scores)
-            
+
             elif metric_name == "ambiguity_score":
                 scores = [self.metrics_calculator.calculate_ambiguity_score(pred)
                          for pred in predictions]
                 results['metrics'][metric_name] = np.mean(scores)
-        
+
         # Calculate aggregate score for the task
         if results['metrics']:
             results['aggregate_score'] = np.mean(list(results['metrics'].values()))
         else:
             results['aggregate_score'] = 0.0
-        
+
         return results
-    
+
     def run_all_benchmarks(self) -> Dict[str, Any]:
         """Run all benchmark tasks on all models."""
         all_results = {
@@ -534,18 +534,18 @@ class BenchmarkRunner:
             'task_summaries': {},
             'comparisons': {}
         }
-        
+
         # Get benchmark tasks
         if not self.config.benchmark_tasks:
             self.config.benchmark_tasks = StandardBenchmarks.get_standard_tasks()
-        
+
         # Run benchmarks for each model
         for model_path in self.config.models_to_compare:
             model_name = Path(model_path).name
             all_results['model_results'][model_name] = []
-            
+
             logger.info(f"Benchmarking model: {model_name}")
-            
+
             # Run each benchmark task
             for task in self.config.benchmark_tasks:
                 try:
@@ -557,9 +557,9 @@ class BenchmarkRunner:
                         'task_name': task.name,
                         'error': str(e)
                     })
-            
+
             # Calculate model summary
-            valid_results = [r for r in all_results['model_results'][model_name] 
+            valid_results = [r for r in all_results['model_results'][model_name]
                            if 'aggregate_score' in r]
             if valid_results:
                 all_results['model_results'][model_name].append({
@@ -569,30 +569,30 @@ class BenchmarkRunner:
                         'tasks_failed': len(self.config.benchmark_tasks) - len(valid_results)
                     }
                 })
-        
+
         # Generate task summaries
         for task in self.config.benchmark_tasks:
             task_name = task.name
             all_results['task_summaries'][task_name] = {}
-            
+
             for model_name, results in all_results['model_results'].items():
                 task_result = next((r for r in results if r.get('task_name') == task_name), None)
                 if task_result and 'aggregate_score' in task_result:
                     all_results['task_summaries'][task_name][model_name] = task_result['aggregate_score']
-        
+
         # Generate comparisons
         if len(self.config.models_to_compare) > 1:
             all_results['comparisons'] = self.generate_comparisons(all_results)
-        
+
         # Save results
         self.save_results(all_results)
-        
+
         # Generate visualizations if enabled
         if self.config.enable_visualization:
             self.generate_visualizations(all_results)
-        
+
         return all_results
-    
+
     def generate_comparisons(self, results: Dict[str, Any]) -> Dict[str, Any]:
         """Generate model comparisons."""
         comparisons = {
@@ -600,68 +600,68 @@ class BenchmarkRunner:
             'best_per_task': {},
             'statistical_tests': {}
         }
-        
+
         # Find best overall model
         model_scores = {}
         for model_name in self.config.models_to_compare:
             model_key = Path(model_name).name
             if model_key in results['model_results']:
-                summary = next((r.get('summary') for r in results['model_results'][model_key] 
+                summary = next((r.get('summary') for r in results['model_results'][model_key]
                               if 'summary' in r), None)
                 if summary:
                     model_scores[model_key] = summary['avg_score']
-        
+
         if model_scores:
             comparisons['best_overall'] = max(model_scores, key=model_scores.get)
-        
+
         # Find best model per task
         for task_name, task_scores in results['task_summaries'].items():
             if task_scores:
                 comparisons['best_per_task'][task_name] = max(task_scores, key=task_scores.get)
-        
+
         # Statistical significance tests (if baseline exists)
         if self.config.baseline_model:
             baseline_name = Path(self.config.baseline_model).name
-            
+
             for model_path in self.config.models_to_compare:
                 if model_path == self.config.baseline_model:
                     continue
-                
+
                 model_name = Path(model_path).name
-                
+
                 # Collect scores for comparison
                 baseline_scores = []
                 model_scores = []
-                
+
                 for task_name in results['task_summaries']:
                     if baseline_name in results['task_summaries'][task_name]:
                         baseline_scores.append(results['task_summaries'][task_name][baseline_name])
                     if model_name in results['task_summaries'][task_name]:
                         model_scores.append(results['task_summaries'][task_name][model_name])
-                
+
                 if baseline_scores and model_scores and len(baseline_scores) == len(model_scores):
                     # Paired t-test
                     t_stat, p_value = stats.ttest_rel(model_scores, baseline_scores)
-                    
+
                     comparisons['statistical_tests'][f"{model_name}_vs_{baseline_name}"] = {
                         't_statistic': float(t_stat),
                         'p_value': float(p_value),
                         'significant': p_value < 0.05,
                         'mean_improvement': float(np.mean(model_scores) - np.mean(baseline_scores))
                     }
-        
+
         return comparisons
-    
+
     def run_ablation_study(self, model_path: str) -> Dict[str, Any]:
         """Run ablation study on model components."""
         logger.info(f"Running ablation study on {model_path}")
-        
+
         ablation_results = {
             'model': Path(model_path).name,
             'components': {},
             'impact_analysis': {}
         }
-        
+
         # Define ablation configurations
         ablation_configs = [
             {
@@ -685,7 +685,7 @@ class BenchmarkRunner:
                 'modify': lambda x: x
             }
         ]
-        
+
         # Run benchmark with each ablation
         base_task = BenchmarkTask(
             name="ablation_test",
@@ -694,52 +694,52 @@ class BenchmarkRunner:
             metrics=["rouge_l", "bert_score", "clarity_score"],
             max_samples=50
         )
-        
+
         # Get baseline performance
         baseline_results = self.run_benchmark_task(model_path, base_task)
         ablation_results['baseline'] = baseline_results['aggregate_score']
-        
+
         # Run ablations
         for config in ablation_configs:
             # This is a placeholder - actual ablation would modify model behavior
             ablated_results = self.run_benchmark_task(model_path, base_task)
-            
+
             ablation_results['components'][config['name']] = {
                 'description': config['description'],
                 'score': ablated_results['aggregate_score'],
                 'impact': baseline_results['aggregate_score'] - ablated_results['aggregate_score']
             }
-        
+
         # Analyze impact
         impacts = [comp['impact'] for comp in ablation_results['components'].values()]
         ablation_results['impact_analysis'] = {
-            'most_important': max(ablation_results['components'], 
+            'most_important': max(ablation_results['components'],
                                  key=lambda x: ablation_results['components'][x]['impact']),
             'least_important': min(ablation_results['components'],
                                   key=lambda x: ablation_results['components'][x]['impact']),
             'avg_impact': np.mean(impacts),
             'total_impact': sum(impacts)
         }
-        
+
         return ablation_results
-    
+
     def generate_visualizations(self, results: Dict[str, Any]):
         """Generate benchmark visualizations."""
         # Set style
         sns.set_style("whitegrid")
-        
+
         # Create figure with subplots
         fig = plt.figure(figsize=(20, 12))
-        
+
         # 1. Model comparison across tasks
         ax1 = plt.subplot(2, 3, 1)
         model_names = []
         task_names = list(results['task_summaries'].keys())
-        
+
         for model_path in self.config.models_to_compare:
             model_name = Path(model_path).name
             model_names.append(model_name)
-        
+
         # Create matrix for heatmap
         score_matrix = []
         for model_name in model_names:
@@ -748,19 +748,19 @@ class BenchmarkRunner:
                 score = results['task_summaries'][task_name].get(model_name, 0)
                 model_scores.append(score)
             score_matrix.append(model_scores)
-        
+
         if score_matrix:
-            sns.heatmap(score_matrix, annot=True, fmt='.3f', 
+            sns.heatmap(score_matrix, annot=True, fmt='.3f',
                        xticklabels=task_names, yticklabels=model_names,
                        cmap='YlOrRd', ax=ax1)
             ax1.set_title('Model Performance Across Tasks')
             ax1.set_xlabel('Benchmark Task')
             ax1.set_ylabel('Model')
-        
+
         # 2. Overall model comparison
         ax2 = plt.subplot(2, 3, 2)
         model_avg_scores = []
-        
+
         for model_name in model_names:
             if model_name in results['model_results']:
                 summary = next((r.get('summary') for r in results['model_results'][model_name]
@@ -769,7 +769,7 @@ class BenchmarkRunner:
                     model_avg_scores.append(summary['avg_score'])
                 else:
                     model_avg_scores.append(0)
-        
+
         if model_avg_scores:
             bars = ax2.bar(range(len(model_names)), model_avg_scores)
             ax2.set_xticks(range(len(model_names)))
@@ -777,82 +777,82 @@ class BenchmarkRunner:
             ax2.set_ylabel('Average Score')
             ax2.set_title('Overall Model Performance')
             ax2.set_ylim(0, 1)
-            
+
             # Add value labels on bars
             for bar, score in zip(bars, model_avg_scores):
                 height = bar.get_height()
                 ax2.text(bar.get_x() + bar.get_width()/2., height,
                         f'{score:.3f}', ha='center', va='bottom')
-        
+
         # 3. Task difficulty analysis
         ax3 = plt.subplot(2, 3, 3)
         difficulty_scores = {'easy': [], 'medium': [], 'hard': []}
-        
+
         for task in self.config.benchmark_tasks:
             if task.name in results['task_summaries']:
                 task_scores = list(results['task_summaries'][task.name].values())
                 if task_scores:
                     difficulty_scores[task.difficulty].append(np.mean(task_scores))
-        
+
         if any(scores for scores in difficulty_scores.values()):
             bp = ax3.boxplot([difficulty_scores[d] for d in ['easy', 'medium', 'hard']],
                             labels=['Easy', 'Medium', 'Hard'])
             ax3.set_ylabel('Score')
             ax3.set_title('Performance by Task Difficulty')
             ax3.set_ylim(0, 1)
-        
+
         # 4. Metric distribution
         ax4 = plt.subplot(2, 3, 4)
         all_metrics = defaultdict(list)
-        
+
         for model_name, model_results in results['model_results'].items():
             for task_result in model_results:
                 if 'metrics' in task_result:
                     for metric_name, value in task_result['metrics'].items():
                         all_metrics[metric_name].append(value)
-        
+
         if all_metrics:
             metric_names = list(all_metrics.keys())[:6]  # Limit to 6 metrics for visibility
             metric_values = [all_metrics[m] for m in metric_names]
-            
+
             bp = ax4.boxplot(metric_values, labels=metric_names)
             ax4.set_xticklabels(metric_names, rotation=45, ha='right')
             ax4.set_ylabel('Score')
             ax4.set_title('Metric Distribution Across All Tests')
             ax4.set_ylim(0, 1)
-        
+
         # 5. Domain performance
         ax5 = plt.subplot(2, 3, 5)
         domain_scores = defaultdict(list)
-        
+
         for task in self.config.benchmark_tasks:
             if task.name in results['task_summaries']:
                 task_scores = list(results['task_summaries'][task.name].values())
                 if task_scores:
                     domain_scores[task.domain].append(np.mean(task_scores))
-        
+
         if domain_scores:
             domains = list(domain_scores.keys())
             scores = [np.mean(domain_scores[d]) for d in domains]
-            
+
             bars = ax5.bar(range(len(domains)), scores)
             ax5.set_xticks(range(len(domains)))
             ax5.set_xticklabels(domains, rotation=45, ha='right')
             ax5.set_ylabel('Average Score')
             ax5.set_title('Performance by Domain')
             ax5.set_ylim(0, 1)
-        
+
         # 6. Improvement over baseline (if applicable)
         if self.config.baseline_model and 'statistical_tests' in results.get('comparisons', {}):
             ax6 = plt.subplot(2, 3, 6)
-            
+
             improvements = []
             model_labels = []
-            
+
             for test_name, test_results in results['comparisons']['statistical_tests'].items():
                 model_labels.append(test_name.split('_vs_')[0])
                 improvements.append(test_results['mean_improvement'])
-            
+
             if improvements:
                 colors = ['green' if imp > 0 else 'red' for imp in improvements]
                 bars = ax6.bar(range(len(model_labels)), improvements, color=colors)
@@ -861,120 +861,120 @@ class BenchmarkRunner:
                 ax6.set_ylabel('Mean Improvement')
                 ax6.set_title('Improvement Over Baseline')
                 ax6.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
-                
+
                 # Add significance markers
                 for i, (bar, test_name) in enumerate(zip(bars, results['comparisons']['statistical_tests'].keys())):
                     if results['comparisons']['statistical_tests'][test_name]['significant']:
                         ax6.text(bar.get_x() + bar.get_width()/2., bar.get_height(),
                                 '*', ha='center', va='bottom' if bar.get_height() > 0 else 'top',
                                 fontsize=14, fontweight='bold')
-        
+
         plt.tight_layout()
-        
+
         # Save figure
         viz_path = self.output_dir / f"benchmark_visualizations_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
         plt.savefig(viz_path, dpi=150, bbox_inches='tight')
         logger.info(f"Visualizations saved to {viz_path}")
-        
+
         plt.close()
-    
+
     def save_results(self, results: Dict[str, Any]):
         """Save benchmark results."""
         # Save as JSON
         results_path = self.output_dir / f"benchmark_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(results_path, 'w') as f:
             json.dump(results, f, indent=2, default=str)
-        
+
         logger.info(f"Results saved to {results_path}")
-        
+
         # Generate markdown report
         self.generate_markdown_report(results)
-    
+
     def generate_markdown_report(self, results: Dict[str, Any]):
         """Generate markdown benchmark report."""
         report_path = self.output_dir / f"benchmark_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-        
+
         with open(report_path, 'w') as f:
             f.write("# PromptEvolver 3.0 - Benchmark Report\n\n")
             f.write(f"**Generated**: {results['metadata']['timestamp']}\n\n")
-            
+
             # Executive Summary
             f.write("## Executive Summary\n\n")
-            
+
             if 'comparisons' in results and results['comparisons'].get('best_overall'):
                 f.write(f"**Best Overall Model**: {results['comparisons']['best_overall']}\n\n")
-            
+
             # Model Results
             f.write("## Model Performance\n\n")
-            
+
             for model_name, model_results in results['model_results'].items():
                 f.write(f"### {model_name}\n\n")
-                
+
                 # Find summary
                 summary = next((r.get('summary') for r in model_results if 'summary' in r), None)
                 if summary:
                     f.write(f"- **Average Score**: {summary['avg_score']:.4f}\n")
                     f.write(f"- **Tasks Completed**: {summary['tasks_completed']}\n")
                     f.write(f"- **Tasks Failed**: {summary['tasks_failed']}\n\n")
-                
+
                 # Task details
                 f.write("| Task | Domain | Difficulty | Score |\n")
                 f.write("|------|--------|------------|-------|\n")
-                
+
                 for task_result in model_results:
                     if 'task_name' in task_result and 'aggregate_score' in task_result:
                         f.write(f"| {task_result['task_name']} | "
                                f"{task_result['domain']} | "
                                f"{task_result['difficulty']} | "
                                f"{task_result['aggregate_score']:.4f} |\n")
-                
+
                 f.write("\n")
-            
+
             # Task Summaries
             f.write("## Task Performance Comparison\n\n")
-            
+
             if results['task_summaries']:
                 # Create comparison table
                 task_names = list(results['task_summaries'].keys())
                 model_names = list(list(results['task_summaries'].values())[0].keys())
-                
+
                 f.write("| Task |")
                 for model_name in model_names:
                     f.write(f" {model_name} |")
                 f.write("\n")
-                
+
                 f.write("|------|")
                 for _ in model_names:
                     f.write("--------|")
                 f.write("\n")
-                
+
                 for task_name in task_names:
                     f.write(f"| {task_name} |")
                     for model_name in model_names:
                         score = results['task_summaries'][task_name].get(model_name, 0)
                         f.write(f" {score:.4f} |")
                     f.write("\n")
-                
+
                 f.write("\n")
-            
+
             # Statistical Tests
             if 'comparisons' in results and 'statistical_tests' in results['comparisons']:
                 f.write("## Statistical Significance\n\n")
-                
+
                 for test_name, test_results in results['comparisons']['statistical_tests'].items():
                     f.write(f"### {test_name}\n\n")
                     f.write(f"- **t-statistic**: {test_results['t_statistic']:.4f}\n")
                     f.write(f"- **p-value**: {test_results['p_value']:.4f}\n")
                     f.write(f"- **Significant**: {'Yes' if test_results['significant'] else 'No'}\n")
                     f.write(f"- **Mean Improvement**: {test_results['mean_improvement']:.4f}\n\n")
-        
+
         logger.info(f"Markdown report saved to {report_path}")
 
 
 def main():
     """Main entry point for benchmark suite."""
     parser = argparse.ArgumentParser(description="Run PromptEvolver benchmark suite")
-    
+
     parser.add_argument(
         "--models",
         nargs="+",
@@ -1008,7 +1008,7 @@ def main():
     parser.add_argument(
         "--tasks",
         nargs="+",
-        choices=["clarity", "specificity", "creative", "technical", "instruction", 
+        choices=["clarity", "specificity", "creative", "technical", "instruction",
                 "context", "length", "ambiguity", "all"],
         default=["all"],
         help="Benchmark tasks to run"
@@ -1029,9 +1029,9 @@ def main():
         default=1,
         help="Number of parallel workers"
     )
-    
+
     args = parser.parse_args()
-    
+
     # Prepare benchmark tasks
     if "all" in args.tasks:
         benchmark_tasks = StandardBenchmarks.get_standard_tasks()
@@ -1047,12 +1047,12 @@ def main():
             "length": "length_optimization",
             "ambiguity": "ambiguity_reduction"
         }
-        
+
         benchmark_tasks = [
-            task for task in all_tasks 
+            task for task in all_tasks
             if any(task.name == task_map.get(t) for t in args.tasks if t != "all")
         ]
-    
+
     # Create configuration
     config = BenchmarkConfig(
         output_dir=args.output_dir,
@@ -1065,30 +1065,30 @@ def main():
         enable_visualization=not args.no_viz,
         parallel_workers=args.parallel
     )
-    
+
     # Run benchmarks
     runner = BenchmarkRunner(config)
     results = runner.run_all_benchmarks()
-    
+
     # Run ablation study if requested
     if args.ablation and args.models:
         ablation_results = runner.run_ablation_study(args.models[0])
-        
+
         # Save ablation results
         ablation_path = Path(args.output_dir) / f"ablation_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(ablation_path, 'w') as f:
             json.dump(ablation_results, f, indent=2)
-        
+
         logger.info(f"Ablation results saved to {ablation_path}")
-    
+
     # Print summary
     print("\n" + "=" * 80)
     print("BENCHMARK SUITE COMPLETE")
     print("=" * 80)
-    
+
     if 'comparisons' in results and results['comparisons'].get('best_overall'):
         print(f"Best Overall Model: {results['comparisons']['best_overall']}")
-    
+
     print(f"\nResults saved to: {args.output_dir}")
 
 

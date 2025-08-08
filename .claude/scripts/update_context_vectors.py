@@ -5,7 +5,6 @@ Updates context vectors for Claude Code CLI optimization
 """
 
 import json
-import os
 from datetime import datetime, timedelta
 from pathlib import Path
 

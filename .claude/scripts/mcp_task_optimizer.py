@@ -5,7 +5,6 @@ Automatically checks available MCP servers and suggests best tools for the task 
 """
 
 import json
-import re
 import sys
 from typing import Dict, List, Optional, Tuple
 

@@ -3,7 +3,6 @@
 Simple test script to verify CLI installation and basic functionality
 """
 
-import os
 import subprocess
 import sys
 
