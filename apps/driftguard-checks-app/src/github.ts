@@ -48,7 +48,7 @@ async function retryOnce<T>(fn: () => Promise<T>, delayMs: number = 2000): Promi
     return await fn();
   } catch (error: unknown) {
     const errorMsg = getErrorMessage(error);
-    
+
     // Only retry on rate limit or 5xx errors
     if (errorMsg.includes('rate limit') || errorMsg.includes('500') || errorMsg.includes('502') || errorMsg.includes('503')) {
       console.log(`Retrying after ${delayMs}ms due to: ${errorMsg}`);
@@ -82,7 +82,7 @@ export async function listWorkflowRunsByHeadSha(
     );
     return response.data.workflow_runs;
   };
-  
+
   return retryOnce(fn);
 }
 
@@ -108,7 +108,7 @@ export async function listArtifactsForRun(
     );
     return response.data.artifacts;
   };
-  
+
   return retryOnce(fn);
 }
 
@@ -133,17 +133,17 @@ export async function downloadArtifactAndExtractResults(
       }),
       10000
     );
-    
+
     // Convert ArrayBuffer to Buffer for Node.js
     const buffer = Buffer.from(response.data as ArrayBuffer);
-    
+
     // Create a readable stream from the buffer
     const stream = Readable.from(buffer);
-    
+
     // Extract results.json from zip in memory
     return new Promise<EvaluationResult | null>((resolve, reject) => {
       let foundResults = false;
-      
+
       stream
         .pipe(unzipper.Parse())
         .on('entry', async (entry: any) => {
@@ -152,14 +152,14 @@ export async function downloadArtifactAndExtractResults(
               const content = await entry.buffer();
               const results = JSON.parse(content.toString());
               foundResults = true;
-              
+
               // Handle both direct and nested win_rate
               const evaluation: EvaluationResult = {
                 win_rate: results.win_rate ?? results.metrics?.win_rate ?? 0,
                 threshold: results.threshold ?? 0.85,
                 metrics: results.metrics
               };
-              
+
               resolve(evaluation);
             } catch (err) {
               reject(new Error(`Failed to parse results.json: ${getErrorMessage(err)}`));
@@ -178,7 +178,7 @@ export async function downloadArtifactAndExtractResults(
         });
     });
   };
-  
+
   return retryOnce(fn);
 }
 
@@ -203,7 +203,7 @@ export async function createCheckRun(
     );
     return response.data.id;
   };
-  
+
   return retryOnce(fn);
 }
 
@@ -229,7 +229,7 @@ export async function updateCheckRun(
       10000
     );
   };
-  
+
   return retryOnce(fn);
 }
 
@@ -256,7 +256,7 @@ export async function listCheckRunsForRef(
     );
     return response.data.check_runs;
   };
-  
+
   return retryOnce(fn);
 }
 
@@ -272,22 +272,22 @@ export async function getLatestEvaluation(
   try {
     // Get workflow runs for this SHA
     const runs = await listWorkflowRunsByHeadSha(octokit, owner, repo, head_sha);
-    
+
     if (runs.length === 0) {
       return { evaluation: null, runId: null, runUrl: null };
     }
-    
+
     // Try runs in order (most recent first)
     for (const run of runs) {
       if (run.status !== 'completed') continue;
-      
+
       try {
         // Get artifacts for this run
         const artifacts = await listArtifactsForRun(octokit, owner, repo, run.id);
-        
+
         // Find the evaluation artifact
         const evalArtifact = artifacts.find(a => a.name === 'prompt-evaluation-results');
-        
+
         if (evalArtifact) {
           // Download and extract results
           const evaluation = await downloadArtifactAndExtractResults(
@@ -296,7 +296,7 @@ export async function getLatestEvaluation(
             repo,
             evalArtifact.id
           );
-          
+
           if (evaluation) {
             return {
               evaluation,
@@ -310,7 +310,7 @@ export async function getLatestEvaluation(
         // Continue to next run
       }
     }
-    
+
     return { evaluation: null, runId: null, runUrl: null };
   } catch (error) {
     console.error(`Failed to get latest evaluation: ${getErrorMessage(error)}`);

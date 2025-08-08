@@ -2,9 +2,9 @@
 
 /**
  * Smoke test for DriftGuard Checks App
- * 
+ *
  * Usage: PR_NUMBER=12 npm run smoke
- * 
+ *
  * This script:
  * 1. Resolves PR number from PR_NUMBER env
  * 2. Lists check-runs for the PR head SHA
@@ -26,7 +26,7 @@ async function main() {
 
   // Get GitHub token from environment or .env file
   let token = process.env.GITHUB_TOKEN;
-  
+
   if (!token) {
     // Try to read from .env file
     const envPath = path.join(__dirname, '..', '.env');
@@ -83,21 +83,21 @@ async function main() {
 
       // Get the most recent prompt-check
       const latestCheck = promptChecks[0];
-      
+
       console.log('📊 Latest prompt-check:');
       console.log(`  ID: ${latestCheck.id}`);
       console.log(`  Status: ${latestCheck.status}`);
       console.log(`  Conclusion: ${latestCheck.conclusion || 'N/A'}`);
       console.log(`  Created: ${new Date(latestCheck.created_at).toLocaleString()}`);
-      
+
       if (latestCheck.completed_at) {
         console.log(`  Completed: ${new Date(latestCheck.completed_at).toLocaleString()}`);
       }
-      
+
       if (latestCheck.details_url) {
         console.log(`  Details: ${latestCheck.details_url}`);
       }
-      
+
       if (latestCheck.output) {
         console.log(`\n📄 Output:`);
         console.log(`  Title: ${latestCheck.output.title}`);
