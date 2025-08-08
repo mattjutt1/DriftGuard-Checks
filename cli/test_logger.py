@@ -4,14 +4,12 @@ Simple CLI Test Result Submission Utility for PromptEvolver
 Submits test execution data to Convex backend via HTTP API
 """
 
-import json
 import os
 import platform
 import subprocess
 import sys
 import time
 import uuid
-from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 import requests

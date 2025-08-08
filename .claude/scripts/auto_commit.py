@@ -4,9 +4,7 @@ Auto-commit Script for PromptEvolver
 Automatically commits changes with conventional commit messages
 """
 
-import os
 import subprocess
-from datetime import datetime
 from pathlib import Path
 
 

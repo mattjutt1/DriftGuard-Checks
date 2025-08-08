@@ -2,7 +2,7 @@
 # This runs hooks in stages - start with fast ones, add slower ones over time
 
 default_language_version:
-  python: python3
+  python: python3.12
 
 repos:
   # STAGE 1: Fast file checks (these complete quickly)
@@ -91,8 +91,10 @@ repos:
 # Exclude third-party and generated code
 exclude: |
   (?x)^(
+    attic/.*|
     microsoft-promptwizard/.*|
     hf-deployment/.*|
+    docs/sales/.*|
     venv/.*|
     \.venv/.*|
     node_modules/.*|
