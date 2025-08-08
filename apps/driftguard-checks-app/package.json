@@ -1,0 +1,32 @@
+{
+  "name": "driftguard-checks-app",
+  "version": "1.0.0",
+  "description": "GitHub App for creating check runs on PRs for prompt evaluation",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "probot run --port 3000",
+    "build": "tsc",
+    "start": "probot run",
+    "test": "jest"
+  },
+  "dependencies": {
+    "probot": "^12.3.3",
+    "@types/node": "^18.15.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0"
+  },
+  "engines": {
+    "node": ">= 18.0.0"
+  },
+  "keywords": [
+    "probot",
+    "github-app",
+    "checks",
+    "prompt-evaluation"
+  ],
+  "license": "MIT"
+}
