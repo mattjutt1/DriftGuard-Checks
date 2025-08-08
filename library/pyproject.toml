@@ -1,0 +1,12 @@
+[project]
+name = "promptops"
+version = "0.1.0"
+dependencies = ["pyyaml"]
+[project.optional-dependencies]
+dev = ["pytest","mypy","ruff"]
+[project.scripts]
+promptops = "promptops.cli:main"
+promptwizard = "promptops.legacy_alias:main"
+[build-system]
+requires = ["setuptools","wheel"]
+build-backend = "setuptools.build_meta"

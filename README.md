@@ -1,8 +1,51 @@
-# PromptEvolver 3.0 - AI SaaS Prompt Optimization Platform
+# PromptOps Platform - Prompt Operations for Enterprise CI/CD
 
-🚀 **Production Web Application for Intelligent Prompt Enhancement** 🚀
+🚀 **From Evaluation to Operations: Complete Prompt Lifecycle Management** 🚀
 
-PromptEvolver is an AI-powered SaaS platform that transforms customer prompts into optimized, production-ready versions. Using a custom-trained Qwen3 model with Microsoft's PromptWizard framework, it either delivers enhanced prompts immediately or intelligently asks follow-up questions to gather necessary context.
+This repository contains two complementary surfaces for comprehensive prompt operations:
+
+1. **DriftGuard** (`/platform`): FastAPI service for prompt registry, drift
+   monitoring, and cost/latency budget management
+2. **PromptOps SDK** (`/library`): Lightweight Python package with CLI for
+   local evaluation and CI/CD integration
+
+> **Migration Notice**: We're evolving from PromptWizard (eval-only) to
+> PromptOps (full lifecycle). See [MIGRATION.md](MIGRATION.md) for details.
+
+## 🔧 Environment Configuration
+
+### Offline Mode Controls (Default)
+
+The platform operates in **offline-first mode** by default with these
+environment variables:
+
+```bash
+# Core offline mode (default values)
+PROMPTOPS_MODE=stub              # Use stub implementations, no real LLM calls
+DISABLE_NETWORK=1                # Block external network access during operations
+
+# Optional: Enable network for specific features
+ALLOW_NETWORK=1                  # Allow network access (overrides DISABLE_NETWORK)
+SLACK_WEBHOOK_URL=https://...    # Slack webhook URL for notifications
+```
+
+### Network Access Policy
+
+- **Default**: All operations run offline with stub implementations
+- **Slack Notifications**: Only enabled when **both** `ALLOW_NETWORK=1` AND
+  `SLACK_WEBHOOK_URL` are set
+- **Testing**: Selective network blocking allows local sockets while blocking
+  external requests
+- **Production**: Set appropriate flags in GitHub repository secrets
+
+### GitHub Secrets Configuration
+
+To enable Slack notifications in CI/CD workflows:
+
+1. Go to **Repository → Settings → Secrets and variables → Actions**
+2. Add secrets:
+   - `SLACK_WEBHOOK_URL`: Your Slack webhook URL
+   - `ALLOW_NETWORK`: Set to `1` to enable network access
 
 ## 🎯 Project Goals
 
@@ -11,7 +54,8 @@ PromptEvolver is an AI-powered SaaS platform that transforms customer prompts in
 Build a **complete AI SaaS web application** where customers can:
 
 1. **Input their prompts** - Submit any prompt that needs improvement
-2. **Get intelligent enhancement** - Receive optimized versions using our trained model
+2. **Get intelligent enhancement** - Receive optimized versions using our
+   trained model
 3. **Interactive refinement** - Model asks follow-up questions when context is needed
 4. **Access 95+ templates** - Pre-built templates across 8 categories
 5. **Subscribe to tiers** - Free, Pro ($29), Team ($99), Enterprise (custom)
@@ -117,7 +161,7 @@ npx convex dev       # Convex backend
 | Health Check | <5s | ✅ Tested | Real connectivity validation |
 | Prompt Optimization | 60-120s | ✅ Tested | Varies by prompt complexity |
 | Model Loading | 10-30s | ✅ Tested | First-time startup |
-| Batch Processing | 2-5min | ✅ Tested | Multiple prompts with progress tracking |
+| Batch Processing | 2-5min | ✅ Tested | Multiple prompts with tracking |
 | CLI Commands | <1s | ✅ Tested | All CLI operations validated |
 | API Responses | <200ms | ✅ Tested | Excluding AI processing time |
 
@@ -125,7 +169,7 @@ npx convex dev       # Convex backend
 
 ### Current Architecture (Development Only)
 
-```
+```text
 Next.js Frontend (localhost:3000)
     ↓
 Convex Actions (serverless)
