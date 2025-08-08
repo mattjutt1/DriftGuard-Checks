@@ -3,7 +3,6 @@
 Demo script to showcase CLI enhancements
 """
 import subprocess
-import sys
 
 
 def run_demo():

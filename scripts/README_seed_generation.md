@@ -16,15 +16,19 @@ This script integrates Microsoft's PromptWizard framework to generate high-quali
 ## Requirements
 
 ### Dependencies
+
 ```bash
 pip install jsonschema tqdm pyyaml aiohttp
 ```
 
 ### Optional: PromptWizard Framework
+
 The script automatically detects if Microsoft PromptWizard is available. If not found, it uses a standalone generation mode with Ollama.
 
 ### Optional: Ollama Setup
+
 For local generation, ensure Ollama is running with Qwen2.5:7B model:
+
 ```bash
 ollama pull qwen2.5:7b
 ollama serve
@@ -33,26 +37,31 @@ ollama serve
 ## Usage
 
 ### Generate pairs for a specific domain
+
 ```bash
 python scripts/generate_seed_pairs.py --domain Analytics --count 100
 ```
 
 ### Generate pairs for all domains
+
 ```bash
 python scripts/generate_seed_pairs.py --all-domains --pairs-per-domain 50
 ```
 
 ### Resume from checkpoint
+
 ```bash
 python scripts/generate_seed_pairs.py --resume --domain Coding --count 200
 ```
 
 ### Custom configuration
+
 ```bash
 python scripts/generate_seed_pairs.py --config-path configs/my_config.yaml --domain Content
 ```
 
 ### Disable checkpointing
+
 ```bash
 python scripts/generate_seed_pairs.py --domain Analytics --no-checkpoint
 ```
@@ -73,6 +82,7 @@ python scripts/generate_seed_pairs.py --domain Analytics --no-checkpoint
 ## Output Structure
 
 ### Generated Files
+
 ```
 data/generated/
 ├── analytics/
@@ -91,7 +101,9 @@ data/generated/
 ```
 
 ### Output Format
+
 Each generated file follows this structure:
+
 ```json
 {
   "metadata": {
@@ -127,6 +139,7 @@ Each generated file follows this structure:
 ## Quality Assurance
 
 ### Quality Metrics
+
 - **Overall Quality Score**: Composite score (0.0-1.0)
 - **Clarity**: How clear and unambiguous the prompt is
 - **Specificity**: Level of detail and precision
@@ -136,6 +149,7 @@ Each generated file follows this structure:
 - **Error Prevention**: How well it prevents mistakes
 
 ### Validation Criteria
+
 - Enhanced prompt must be at least 1.2x longer than original
 - Overall quality score must be ≥0.65
 - Must pass JSON schema validation
@@ -145,12 +159,13 @@ Each generated file follows this structure:
 ## Configuration
 
 ### PromptWizard Configuration
+
 The script uses a YAML configuration file compatible with Microsoft PromptWizard:
 
 ```yaml
 prompt_technique_name: "critique_n_refine"
 mutate_refine_iterations: 3
-mutation_rounds: 3  
+mutation_rounds: 3
 temperature: 0.7
 generate_reasoning: true
 generate_expert_identity: true
@@ -159,16 +174,19 @@ generate_expert_identity: true
 See `configs/promptwizard_example.yaml` for a complete example.
 
 ### Default Configuration
+
 If no configuration file is specified, the script creates a default configuration optimized for prompt pair generation.
 
 ## Testing
 
 Run the test script to verify functionality:
+
 ```bash
 python test_seed_generation.py
 ```
 
 This tests:
+
 - Basic generator initialization
 - Domain classification
 - Weak prompt generation
@@ -179,6 +197,7 @@ This tests:
 ## Integration with PromptEvolver
 
 The generated pairs are compatible with:
+
 - **Training Pipeline**: Direct input to model training
 - **Data Processing**: Seamless integration with normalize_datasets.py
 - **Schema Validation**: Full compliance with engineered_prompt.schema.json
@@ -187,6 +206,7 @@ The generated pairs are compatible with:
 ## Performance
 
 Typical performance metrics:
+
 - **Generation Rate**: 10-30 pairs per minute (with Ollama)
 - **Success Rate**: 85-95% valid pairs
 - **Quality Scores**: Average 0.75-0.85 overall quality
@@ -195,6 +215,7 @@ Typical performance metrics:
 ## Error Handling
 
 The script includes comprehensive error handling:
+
 - **Network Errors**: Automatic retry with exponential backoff
 - **Generation Failures**: Graceful fallback and error logging
 - **Validation Errors**: Detailed validation failure reports
@@ -204,6 +225,7 @@ The script includes comprehensive error handling:
 ## Logging
 
 Detailed logging includes:
+
 - Generation progress and statistics
 - Quality metrics and validation results
 - Error details and troubleshooting information
@@ -226,20 +248,24 @@ Log files are saved to `logs/generate_seed_pairs_YYYYMMDD_HHMMSS.log`
 ### Common Issues
 
 **PromptWizard not found**
+
 - This is expected - the script will use standalone mode
 - Install PromptWizard if you want the full framework integration
 
 **Ollama connection errors**
+
 - Ensure Ollama is running: `ollama serve`
 - Verify model is available: `ollama list`
 - Check port accessibility: `curl http://localhost:11434/api/tags`
 
 **Generation failures**
+
 - Check model compatibility and resource availability
 - Review error logs for specific failure reasons
 - Try reducing batch size or generation count
 
 **Quality validation failures**
+
 - Review quality thresholds in configuration
 - Check that enhanced prompts are significantly improved
 - Verify schema compliance
@@ -253,6 +279,6 @@ Log files are saved to `logs/generate_seed_pairs_YYYYMMDD_HHMMSS.log`
 
 ## License
 
-Copyright (c) 2025 Matthew J. Utt  
-Licensed under MIT License  
+Copyright (c) 2025 Matthew J. Utt
+Licensed under MIT License
 Compatible with Microsoft PromptWizard Framework

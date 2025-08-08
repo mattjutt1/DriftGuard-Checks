@@ -6,8 +6,6 @@ Automatically updates the contextual knowledge graph after code changes
 
 import hashlib
 import json
-import os
-import subprocess
 from datetime import datetime
 from pathlib import Path
 

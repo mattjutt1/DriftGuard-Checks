@@ -5,7 +5,6 @@ Generates sample prompts, configurations, and expected responses
 
 import json
 import random
-import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
