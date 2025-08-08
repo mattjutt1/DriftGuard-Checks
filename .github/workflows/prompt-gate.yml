@@ -56,20 +56,60 @@ jobs:
       with:
         script: |
           const fs = require('fs');
+
+          // Handle skipped case
+          if (!fs.existsSync('results.json')) {
+            const comment = `## 🔇 Prompt Gate Skipped
+
+            The \`prompt-check\` label is not present on this PR. Add the label to enable prompt evaluation.
+
+            [Learn more about Prompt Gate](../actions/runs/${context.runId})`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+            return;
+          }
+
           const results = JSON.parse(fs.readFileSync('results.json', 'utf8'));
 
+          // Handle skipped case from soft guard
+          if (results.skipped) {
+            const comment = `## 🔇 Prompt Gate Skipped
+
+            The \`prompt-check\` label is not present on this PR. Add the label to enable prompt evaluation.
+
+            <sub>This workflow runs offline with no API costs. [View setup guide →](https://github.com/mattjutt1/prompt-wizard#prompt-gate-for-github)</sub>`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+            return;
+          }
+
           const status = results.pass ? '✅ PASSED' : '❌ FAILED';
+          const statusIcon = results.pass ? '✅' : '❌';
           const winRate = (results.metrics.win_rate * 100).toFixed(1);
           const threshold = (results.threshold * 100).toFixed(1);
 
-          const comment = `## Prompt Evaluation Results
+          // Calculate simulated cost (mock pricing for demonstration)
+          const promptCount = results.metrics.total_prompts || 0;
+          const simulatedCost = (promptCount * 0.002).toFixed(4);
 
-          **Status:** ${status}
-          **Win Rate:** ${winRate}% (threshold: ${threshold}%)
-          **Average Score:** ${results.metrics.avg_score.toFixed(3)}
-          **Total Prompts:** ${results.metrics.total_prompts}
-
-          ${results.pass ? '✅ All prompt quality checks passed!' : '⚠️ Prompt quality below threshold. Please review and improve.'}`;
+          const comment = statusIcon + ' Prompt Gate Results\n\n' +
+            '**Status:** ' + status + '\n' +
+            '**Win Rate:** ' + winRate + '% (threshold: ' + threshold + '%)\n' +
+            '**Prompts Tested:** ' + promptCount + '\n' +
+            '**Average Score:** ' + (results.metrics.avg_score ? results.metrics.avg_score.toFixed(3) : 'N/A') + '\n' +
+            '**Simulated Cost:** $' + simulatedCost + '\n\n' +
+            '[📊 View detailed results](../actions/runs/' + context.runId + ') • [📁 Download artifacts](../actions/runs/' + context.runId + '#artifacts)\n\n' +
+            'This evaluation ran offline with no actual API costs. To enable real LLM providers, see the [setup guide](https://github.com/mattjutt1/prompt-wizard#llm-provider-configuration-offline-by-default).';
 
           github.rest.issues.createComment({
             issue_number: context.issue.number,

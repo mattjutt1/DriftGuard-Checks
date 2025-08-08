@@ -1,0 +1,125 @@
+# Strict Configuration (90% threshold)
+# Use this for teams with high quality standards and experienced prompt writers
+
+version: '1.0'
+threshold: 0.90  # Only excellent prompts pass
+model: mock
+test_prompts:
+  # Only high-quality examples that demonstrate excellence
+- |
+  You are a senior software architect. Design a microservices architecture for a high-traffic e-commerce platform with these requirements:
+
+  **Business Context:**
+  - Handle 1M+ daily active users during peak seasons
+  - Support global deployment across 5 regions
+  - 99.99% uptime SLA with sub-100ms response times
+  - PCI-DSS compliance for payment processing
+
+  **Technical Requirements:**
+  1. Service decomposition strategy with clear domain boundaries
+  2. API gateway with authentication, rate limiting, and circuit breakers
+  3. Event-driven architecture using Apache Kafka for service communication
+  4. Database per service with polyglot persistence (PostgreSQL, MongoDB, Redis)
+  5. Distributed caching strategy with cache invalidation patterns
+  6. Monitoring and observability with Prometheus, Grafana, and distributed tracing
+
+  **Deliverables:**
+  - Service dependency map with data flow diagrams
+  - API specifications (OpenAPI 3.0) for inter-service communication
+  - Database schemas with migration strategies
+  - Infrastructure as Code (Terraform) for AWS deployment
+  - CI/CD pipeline design with automated testing and deployment
+  - Disaster recovery procedures with RTO/RPO objectives
+
+  **Constraints:**
+  - Maximum 200ms latency for critical user journeys
+  - Auto-scaling capabilities for traffic spikes (10x normal load)
+  - Zero-downtime deployments with blue-green strategy
+  - Cost optimization with reserved instances and spot pricing
+
+  Include security considerations, performance benchmarks, and operational runbooks.
+
+- |
+  Create a comprehensive React Native testing strategy for a fintech mobile application with these specifications:
+
+  **Application Context:**
+  - Banking app handling sensitive financial data
+  - iOS and Android platforms with shared codebase (95%+)
+  - Real-time features (push notifications, live transaction updates)
+  - Biometric authentication and multi-factor security
+
+  **Testing Requirements:**
+  1. **Unit Testing (>95% coverage):**
+     - Jest configuration with custom matchers for financial calculations
+     - Mock strategies for external APIs (banks, payment processors)
+     - Snapshot testing for UI components with theme variations
+     - Property-based testing for mathematical operations
+
+  2. **Integration Testing:**
+     - API integration tests with real backend services
+     - Database integration with transaction rollback strategies
+     - Push notification testing with mock APNs/FCM services
+     - Biometric authentication testing on simulators and real devices
+
+  3. **End-to-End Testing:**
+     - Detox configuration for both iOS and Android
+     - Critical user journeys (login, transfers, bill payments)
+     - Cross-device synchronization testing
+     - Performance testing under different network conditions
+
+  4. **Security Testing:**
+     - Penetration testing for authentication flows
+     - Data encryption validation in transit and at rest
+     - Jailbreak/root detection testing
+     - API security testing with OWASP guidelines
+
+  **Deliverables:**
+  - Complete test suite with configuration files
+  - CI/CD pipeline integration (GitHub Actions)
+  - Device farm setup for automated testing
+  - Performance benchmarking and monitoring
+  - Security compliance validation procedures
+
+- |
+  Design a machine learning feature pipeline for real-time fraud detection with these specifications:
+
+  **Business Requirements:**
+  - Process 50K+ transactions per minute with <100ms decision latency
+  - Achieve <0.1% false positive rate while catching >95% of fraudulent transactions
+  - Support multiple transaction types (credit card, ACH, wire transfers)
+  - Adapt to new fraud patterns within 24 hours of detection
+
+  **Technical Architecture:**
+  1. **Data Pipeline:**
+     - Real-time feature engineering using Apache Kafka Streams
+     - Feature store with online/offline serving (Feast or custom)
+     - Historical data processing with Apache Spark for model training
+     - Data quality monitoring with automated anomaly detection
+
+  2. **Model Development:**
+     - Ensemble approach combining multiple algorithms (XGBoost, neural networks, isolation forests)
+     - Online learning capabilities for concept drift adaptation
+     - Model versioning and A/B testing framework
+     - Explainability features for regulatory compliance (SHAP, LIME)
+
+  3. **Production Deployment:**
+     - Containerized model serving with Kubernetes auto-scaling
+     - Model monitoring with performance degradation alerts
+     - Circuit breaker patterns for model failures
+     - Gradual rollout strategies for model updates
+
+  **Expected Outputs:**
+  - Complete MLOps pipeline with infrastructure as code
+  - Model training and evaluation frameworks
+  - Real-time serving infrastructure with monitoring
+  - Compliance documentation for regulatory review
+  - Performance benchmarks and optimization strategies
+
+  Include data privacy considerations (PII handling, right to explanation) and regulatory compliance requirements.
+
+# Configuration Notes for Strict Mode:
+# - 90% threshold means only exceptional prompts pass
+# - Test prompts are comprehensive with detailed requirements
+# - Suitable for teams with senior engineers and high standards
+# - May result in more false negatives for decent but not exceptional prompts
+# - Best for critical systems where prompt quality directly impacts outcomes

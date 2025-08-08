@@ -1,0 +1,189 @@
+# Prompt Gate for GitHub - One-File Installer
+# Copy this file to .github/workflows/prompt-gate.yml in your repository
+#
+# This workflow runs offline by default (no API calls or costs)
+# Requires a .promptops.yml config file in your repo root
+#
+# To customize: Edit the threshold value below or add Slack notifications
+
+name: Prompt Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, labeled, unlabeled]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to test (optional)'
+        required: false
+        type: string
+
+env:
+  # OFFLINE MODE - No external API calls, no costs incurred
+  PROMPTOPS_MODE: stub
+  DISABLE_NETWORK: 1
+
+  # Optional: Add these to repository secrets to enable Slack notifications
+  # ALLOW_NETWORK: 1
+  # SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+jobs:
+  prompt-gate:
+    name: Prompt Gate
+    runs-on: ubuntu-latest
+
+    # Skip if PR doesn't have 'prompt-check' label (soft requirement)
+    if: contains(github.event.pull_request.labels.*.name, 'prompt-check') || github.event_name == 'workflow_dispatch'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install PromptOps
+      run: |
+        # Install from the prompt-wizard library (adjust path if needed)
+        if [ -f "library/pyproject.toml" ]; then
+          pip install -e library/
+        else
+          # Fallback: install from PyPI (when available)
+          pip install promptops
+        fi
+
+    - name: Verify installation
+      run: |
+        promptops --version
+        echo "✅ PromptOps CLI installed successfully"
+
+    - name: Check for config file
+      run: |
+        if [ ! -f ".promptops.yml" ]; then
+          echo "❌ Missing .promptops.yml config file"
+          echo ""
+          echo "Create a .promptops.yml file in your repo root with:"
+          echo "version: '1.0'"
+          echo "threshold: 0.80"
+          echo "model: 'mock'"
+          echo "test_prompts:"
+          echo "  - 'Write a function to calculate fibonacci'"
+          echo "  - 'Explain quantum computing'"
+          echo ""
+          exit 1
+        fi
+        echo "✅ Found .promptops.yml config file"
+
+    - name: Run Prompt Gate evaluation
+      id: evaluation
+      run: |
+        echo "🔍 Running prompt evaluation..."
+
+        # Run the evaluation and save results
+        promptops ci --config .promptops.yml --out results.json --verbose
+
+        # Extract key metrics for PR comment
+        if [ -f "results.json" ]; then
+          # Parse results using jq or python
+          python3 -c "
+          import json
+          import sys
+
+          try:
+              with open('results.json', 'r') as f:
+                  results = json.load(f)
+
+              # Extract metrics
+              win_rate = results.get('metrics', {}).get('win_rate', 0.0)
+              threshold = results.get('config', {}).get('threshold', 0.8)
+              passed = results.get('pass', False)
+
+              # Calculate simulated cost (for demonstration)
+              prompt_count = len(results.get('test_prompts', []))
+              simulated_cost = prompt_count * 0.002  # USD per prompt (mock pricing)
+
+              # Set GitHub Actions outputs
+              print(f'win_rate={win_rate}')
+              print(f'threshold={threshold}')
+              print(f'passed={str(passed).lower()}')
+              print(f'simulated_cost={simulated_cost:.4f}')
+              print(f'prompt_count={prompt_count}')
+
+              # Also save to environment for next step
+              with open('$GITHUB_ENV', 'a') as env_file:
+                  env_file.write(f'PROMPT_WIN_RATE={win_rate}\n')
+                  env_file.write(f'PROMPT_THRESHOLD={threshold}\n')
+                  env_file.write(f'PROMPT_PASSED={str(passed).lower()}\n')
+                  env_file.write(f'PROMPT_COST={simulated_cost:.4f}\n')
+                  env_file.write(f'PROMPT_COUNT={prompt_count}\n')
+
+          except Exception as e:
+              print(f'Error parsing results: {e}')
+              sys.exit(1)
+          " 2>&1 | tee -a $GITHUB_OUTPUT
+        else
+          echo "❌ No results.json file generated"
+          exit 1
+        fi
+
+    - name: Upload results artifact
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: prompt-gate-results
+        path: |
+          results.json
+          .promptops.yml
+        retention-days: 30
+
+    - name: Create PR comment
+      if: github.event_name == 'pull_request'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Create a concise PR comment with results
+        if [ "$PROMPT_PASSED" == "true" ]; then
+          status_icon="✅"
+          status_text="PASSED"
+          status_color="28a745"
+        else
+          status_icon="❌"
+          status_text="FAILED"
+          status_color="d73a49"
+        fi
+
+        # Format win rate as percentage
+        win_rate_pct=$(python3 -c "print(f'{float(\"$PROMPT_WIN_RATE\") * 100:.1f}%')")
+        threshold_pct=$(python3 -c "print(f'{float(\"$PROMPT_THRESHOLD\") * 100:.1f}%')")
+
+        comment_body="## ${status_icon} Prompt Gate Results
+
+**Status:** ${status_text}  
+**Win Rate:** ${win_rate_pct} (threshold: ${threshold_pct})  
+**Prompts Tested:** ${PROMPT_COUNT}  
+**Simulated Cost:** \$${PROMPT_COST}
+
+[📊 View detailed results](../actions/runs/${{ github.run_id }})
+
+This evaluation ran offline with no actual API costs. To enable real LLM providers, see the [setup guide](https://github.com/mattjutt1/prompt-wizard#llm-provider-configuration-offline-by-default)."
+
+        # Post comment using GitHub CLI
+        gh pr comment ${{ github.event.pull_request.number }} --body "$comment_body"
+
+    - name: Set final status
+      run: |
+        if [ "$PROMPT_PASSED" == "true" ]; then
+          echo "🎉 Prompt Gate PASSED - Win rate ${PROMPT_WIN_RATE} meets threshold ${PROMPT_THRESHOLD}"
+          exit 0
+        else
+          echo "💥 Prompt Gate FAILED - Win rate ${PROMPT_WIN_RATE} below threshold ${PROMPT_THRESHOLD}"
+          echo ""
+          echo "Tips to improve your prompts:"
+          echo "- Add more specific context and examples"
+          echo "- Use clear, structured language"
+          echo "- Define expected output format"
+          echo "- Test with edge cases"
+          exit 1
+        fi

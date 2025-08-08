@@ -1,0 +1,6 @@
+# Placeholder for actions-tab.png
+# Real screenshot should show:
+# - GitHub Actions tab with list of workflow runs
+# - "Prompt Gate" workflows with various statuses (success, failure, in progress)
+# - Workflow run timestamps and commit information  
+# - Filter and search options for workflows

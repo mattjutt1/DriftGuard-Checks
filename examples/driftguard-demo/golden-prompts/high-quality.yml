@@ -1,0 +1,152 @@
+# High-Quality Prompts (Should Pass >80% Threshold)
+# These prompts demonstrate best practices and should consistently score well
+
+prompts:
+- title: Comprehensive React Component Testing
+  description: Detailed requirements for testing a React component with all edge cases
+  content: |
+    You are a senior software engineer. Write a comprehensive unit test for a React component that:
+
+    Requirements:
+    1. Tests all props variations and edge cases
+    2. Includes accessibility testing with jest-axe
+    3. Tests user interaction flows (click, hover, keyboard)
+    4. Validates proper error handling and loading states
+    5. Uses React Testing Library best practices
+
+    Component: A SearchInput component with debounced search, loading indicator, and error states.
+
+    Expected output: Complete test file with multiple describe blocks, proper setup/teardown, and clear test descriptions.
+
+    Example test structure:
+    ```javascript
+    describe('SearchInput Component', () => {
+      describe('Basic Rendering', () => { /* tests */ });
+      describe('User Interactions', () => { /* tests */ });
+      describe('Error Handling', () => { /* tests */ });
+      describe('Accessibility', () => { /* tests */ });
+    });
+    ```
+  quality_score: 0.92
+
+- title: REST API Documentation
+  description: Comprehensive API documentation with OpenAPI specification
+  content: |
+    Create a detailed API documentation for a REST endpoint that manages user authentication tokens.
+
+    Context: JWT-based authentication system for a financial application
+
+    Requirements:
+    1. OpenAPI 3.0 specification format
+    2. Include all HTTP methods (POST for login, DELETE for logout, GET for validation)
+    3. Comprehensive request/response schemas with examples
+    4. Error response documentation (400, 401, 403, 429, 500)
+    5. Rate limiting information (10 requests per minute)
+    6. Security considerations and token expiration details
+
+    Endpoint: /api/v1/auth/tokens
+
+    Include examples for:
+    - Successful login with valid credentials
+    - Failed login attempts with various error scenarios
+    - Token refresh workflows
+    - Logout and token invalidation
+  quality_score: 0.89
+
+- title: Database Schema Design with Constraints
+  description: Complete database design with relationships and business rules
+  content: |
+    Design a PostgreSQL database schema for a multi-tenant SaaS application with the following requirements:
+
+    Business Context: Project management tool for agencies managing client projects
+
+    Core Entities:
+    1. Tenants (organizations) with subscription tiers
+    2. Users with role-based permissions (admin, manager, member)
+    3. Projects with phases, tasks, and time tracking
+    4. Clients with multiple projects and billing information
+    5. Time entries with approval workflows
+
+    Requirements:
+    1. Complete DDL with proper data types and constraints
+    2. Indexing strategy for performance (expecting 100K+ projects)
+    3. Row-level security for multi-tenant isolation
+    4. Audit trails for sensitive operations
+    5. Business rule enforcement via check constraints
+    6. Migration scripts for initial setup
+
+    Include:
+    - Entity relationship diagram (textual description)
+    - Performance considerations and query patterns
+    - Data retention and archiving strategy
+    - Sample queries for common operations
+  quality_score: 0.95
+
+- title: Machine Learning Model Evaluation Framework
+  description: Comprehensive ML model evaluation with multiple metrics and validation
+  content: |
+    Create a Python framework for evaluating machine learning models with the following specifications:
+
+    Context: Multi-class text classification for customer support ticket routing
+
+    Requirements:
+    1. Support for multiple model types (sklearn, transformers, custom)
+    2. Comprehensive metrics: accuracy, precision, recall, F1, AUC-ROC, confusion matrix
+    3. Cross-validation with stratified folds (k=5)
+    4. Statistical significance testing for model comparison
+    5. Visualization of results (ROC curves, precision-recall curves, confusion matrices)
+    6. Performance profiling (inference time, memory usage)
+    7. Bias detection across different customer segments
+
+    Data: Labeled support tickets (50K samples, 12 categories, imbalanced classes)
+
+    Expected Output:
+    - Modular Python package with clear interfaces
+    - Comprehensive evaluation report generation
+    - Integration with MLflow for experiment tracking
+    - Unit tests with mock data
+    - Example usage with sample models
+
+    Include error handling for edge cases and detailed logging for debugging.
+  quality_score: 0.91
+
+- title: DevOps Pipeline with Security Integration
+  description: Secure CI/CD pipeline with comprehensive testing and deployment
+  content: |
+    Design a GitHub Actions CI/CD pipeline for a Node.js microservice with these requirements:
+
+    Application Context: Payment processing microservice handling sensitive financial data
+
+    Pipeline Stages:
+    1. **Security Scanning**: SAST, dependency vulnerability checks, secrets detection
+    2. **Quality Gates**: Unit tests (>90% coverage), integration tests, linting
+    3. **Build & Package**: Docker image with multi-stage build, vulnerability scanning
+    4. **Staging Deployment**: Deploy to staging environment with smoke tests
+    5. **Production Deployment**: Blue-green deployment with rollback capability
+
+    Security Requirements:
+    - No secrets in repository (use GitHub secrets and external key management)
+    - Image signing and verification
+    - Runtime security monitoring integration
+    - Compliance audit trail (SOX, PCI DSS)
+
+    Expected Deliverables:
+    - Complete GitHub Actions workflow files (.yml)
+    - Dockerfile with security best practices
+    - Deployment manifests (Kubernetes)
+    - Monitoring and alerting configuration
+    - Rollback procedures and disaster recovery
+    - Documentation for operations team
+
+    Include performance benchmarks and cost optimization strategies.
+  quality_score: 0.88
+
+# Quality Indicators Present in High-Quality Prompts:
+# ✅ Specific context and background information
+# ✅ Clear, numbered requirements with measurable criteria
+# ✅ Expected output format and structure defined
+# ✅ Concrete examples and sample code/structure provided
+# ✅ Edge cases and error handling considerations
+# ✅ Performance, security, and scalability requirements
+# ✅ Integration points and technical constraints specified
+# ✅ Success criteria and validation methods included

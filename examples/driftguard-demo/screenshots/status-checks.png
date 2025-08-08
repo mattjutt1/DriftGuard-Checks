@@ -1,0 +1,6 @@
+# Placeholder for status-checks.png  
+# Real screenshot should show:
+# - Status checks selection dropdown in branch protection
+# - "Prompt Gate" check selected and marked as required
+# - Other available status checks in the dropdown list
+# - Search/filter functionality for finding checks

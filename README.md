@@ -29,9 +29,35 @@ ALLOW_NETWORK=1                  # Allow network access (overrides DISABLE_NETWO
 SLACK_WEBHOOK_URL=https://...    # Slack webhook URL for notifications
 ```
 
+### LLM Provider Configuration (OFFLINE by Default)
+
+The platform includes LLM provider adapters that are **disabled by default** for security and cost control:
+
+```bash
+# Provider Access Control (all providers disabled by default)
+PROMPTOPS_MODE=stub              # Required: Disables all real providers
+ALLOW_NETWORK=0                  # Required: Blocks outbound HTTP requests
+OPENAI_API_KEY=                  # Optional: Only needed when providers enabled
+ANTHROPIC_API_KEY=               # Optional: Only needed when providers enabled
+
+# TO ENABLE PROVIDERS (not recommended for CI/CD):
+# PROMPTOPS_MODE=production
+# ALLOW_NETWORK=1
+# OPENAI_API_KEY=sk-...
+# ANTHROPIC_API_KEY=sk-ant-...
+```
+
+**⚠️ Important**:
+
+- All providers are **OFFLINE BY DEFAULT** - no accidental API calls
+- CI/CD runs with stub implementations - no real costs incurred
+- Enable providers only when explicitly needed for production use
+- Budget limits and cost tracking available when providers are enabled
+
 ### Network Access Policy
 
 - **Default**: All operations run offline with stub implementations
+- **LLM Providers**: Disabled unless BOTH `PROMPTOPS_MODE=production` AND `ALLOW_NETWORK=1` AND API keys present
 - **Slack Notifications**: Only enabled when **both** `ALLOW_NETWORK=1` AND
   `SLACK_WEBHOOK_URL` are set
 - **Testing**: Selective network blocking allows local sockets while blocking
@@ -116,6 +142,58 @@ Build a **complete AI SaaS web application** where customers can:
 - **AI**: Local Ollama + Qwen3:4b model
 - **Build**: Turbopack for development
 - **Styling**: Tailwind CSS
+- **LLM Providers**: OpenAI & Anthropic adapters (offline by default)
+- **Budget Management**: SQLite-based cost tracking with pricing simulation
+- **Response Caching**: Content-hash based caching with TTL support
+- **CLI**: Rich terminal interface with budget/cache management
+
+## 🚀 Prompt Gate for GitHub - 5-Minute Setup
+
+### Add Prompt Quality Gates to Any Repository
+
+**Prompt Gate** runs automated prompt evaluation on every pull request, helping teams maintain high prompt quality standards. Runs **offline by default** with zero API costs.
+
+#### Quick Setup (5 Steps)
+
+1. **Copy the workflow file**
+
+   ```bash
+   curl -o .github/workflows/prompt-gate.yml https://raw.githubusercontent.com/mattjutt1/prompt-wizard/main/examples/prompt-gate.min.yml
+   ```
+
+2. **Create config file** in your repository root:
+
+   ```bash
+   cat > .promptops.yml << 'EOF'
+   version: '1.0'
+   threshold: 0.80
+   model: 'mock'
+   test_prompts:
+     - 'Write a function to calculate fibonacci numbers'
+     - 'Explain quantum computing in simple terms'
+   EOF
+   ```
+
+3. **Enable branch protection** (GitHub web interface):
+   - Go to **Settings → Branches → Add rule**
+   - Check **"Require status checks to pass before merging"**
+   - Select **"Prompt Gate"** from the status checks list
+
+4. **Test with a PR**:
+
+   ```bash
+   git checkout -b test-prompt-gate
+   echo "# Test" > test.md && git add test.md && git commit -m "test: prompt gate setup"
+   git push -u origin test-prompt-gate
+   ```
+
+5. **Add the `prompt-check` label** to your PR and watch Prompt Gate evaluate your prompts!
+
+**✅ That's it!** Your repository now has automated prompt quality gates with zero ongoing costs.
+
+📖 **[Full Installation Guide](docs/install.md)** | 🔧 **[Advanced Configuration](docs/install.md#advanced-configuration)** | ❓ **[Troubleshooting](docs/install.md#troubleshooting)**
+
+---
 
 ## Quick Start (Local Development Only)
 
@@ -149,10 +227,39 @@ npx convex dev       # Convex backend
 
 ### Usage
 
+#### Web Interface
+
 1. Navigate to <http://localhost:3000>
 2. Enter a prompt for optimization
 3. Wait 60-120 seconds for processing
 4. Review the "optimized" result
+
+#### CLI Interface
+
+```bash
+# Install the PromptOps CLI
+cd library
+pip install -e .
+
+# Basic evaluation
+promptops eval "Your prompt here"
+
+# CI/CD integration
+promptops ci --config .promptops.yml --out results.json
+
+# Budget management (requires provider setup)
+promptops budget set --limit 50.0 --org myorg --project myproject
+promptops budget status --org myorg --project myproject
+promptops budget report --days 30
+
+# Cache management
+promptops cache stats
+promptops cache clear --expired
+promptops cache cleanup --max-size 1000
+
+# Initialize configuration
+promptops init
+```
 
 ## Performance Metrics (Validated Through Testing)
 

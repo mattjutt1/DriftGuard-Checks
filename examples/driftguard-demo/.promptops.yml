@@ -1,0 +1,112 @@
+version: '1.0'
+threshold: 0.80
+model: mock
+test_prompts:
+  # High-Quality Prompts (Should Pass >80%)
+- |
+  You are a senior software engineer. Write a comprehensive unit test for a React component that:
+
+  Requirements:
+  1. Tests all props variations and edge cases
+  2. Includes accessibility testing with jest-axe
+  3. Tests user interaction flows (click, hover, keyboard)
+  4. Validates proper error handling and loading states
+  5. Uses React Testing Library best practices
+
+  Component: A SearchInput component with debounced search, loading indicator, and error states.
+
+  Expected output: Complete test file with multiple describe blocks, proper setup/teardown, and clear test descriptions.
+
+  Example test structure:
+  ```javascript
+  describe('SearchInput Component', () => {
+    describe('Basic Rendering', () => { /* tests */ });
+    describe('User Interactions', () => { /* tests */ });
+    describe('Error Handling', () => { /* tests */ });
+    describe('Accessibility', () => { /* tests */ });
+  });
+  ```
+
+- |
+  Create a detailed API documentation for a REST endpoint that manages user authentication tokens.
+
+  Context: JWT-based authentication system for a financial application
+
+  Requirements:
+  1. OpenAPI 3.0 specification format
+  2. Include all HTTP methods (POST for login, DELETE for logout, GET for validation)
+  3. Comprehensive request/response schemas with examples
+  4. Error response documentation (400, 401, 403, 429, 500)
+  5. Rate limiting information (10 requests per minute)
+  6. Security considerations and token expiration details
+
+  Endpoint: /api/v1/auth/tokens
+
+  Include examples for:
+  - Successful login with valid credentials
+  - Failed login attempts with various error scenarios
+  - Token refresh workflows
+  - Logout and token invalidation
+
+  # Medium-Quality Prompts (Boundary Cases ~80%)
+- |
+  Write a Python function to calculate Fibonacci numbers using dynamic programming.
+
+  Requirements:
+  - Handle edge cases (n=0, n=1, negative numbers)
+  - Include docstring with complexity analysis
+  - Add type hints
+  - Provide usage examples
+
+  Expected: Efficient implementation with O(n) time complexity.
+
+- |
+  Explain quantum computing concepts for a technical audience.
+
+  Cover: Qubits, superposition, entanglement, quantum gates
+  Format: Clear explanations with analogies where helpful
+  Length: Comprehensive but concise (500-800 words)
+  Include: Practical applications and current limitations
+
+  # Low-Quality Prompts (Should Fail <80%)
+- Write some code
+
+- Make this better
+
+- Create a function that does stuff with data and returns something useful
+
+- |
+  I need help with my project. It's not working right and I think there might be
+  some issues but I'm not sure what. Can you fix it?
+
+  # Edge Cases (Testing System Boundaries)
+- Fix bug.
+
+- |
+  Create a comprehensive enterprise-grade microservices architecture with event-driven patterns, CQRS implementation, distributed caching strategies, advanced monitoring and observability, automated deployment pipelines, service mesh configuration, database sharding approaches, security hardening measures, performance optimization techniques, disaster recovery procedures, compliance frameworks, and scalability planning for handling millions of concurrent users while maintaining sub-100ms response times across all services with 99.99% uptime guarantees and full audit trails for regulatory compliance in highly regulated industries.
+
+- |
+  λ f x y → (f x y) ∘ (g ∘ h) where g = curry(uncurry(id)) and h = flip const
+  Implement this in Haskell with proper type signatures and explain the category theory.
+
+  # Domain-Specific Examples
+- |
+  Generate SQL queries for a complex analytics dashboard that shows:
+
+  Context: E-commerce database with tables: users, orders, products, order_items, categories
+
+  Analytics needed:
+  1. Monthly revenue trends with year-over-year comparison
+  2. Top 10 products by revenue in each category
+  3. Customer lifetime value calculation
+  4. Cart abandonment rates by product category
+  5. Seasonal sales patterns with statistical significance testing
+
+  Requirements:
+  - Optimize for performance (expect millions of records)
+  - Include proper indexing recommendations
+  - Handle edge cases (null values, date ranges)
+  - Provide execution time estimates
+  - Format output for dashboard consumption (JSON structure)
+
+  Expected: Multiple optimized SQL queries with explanations and performance considerations.
