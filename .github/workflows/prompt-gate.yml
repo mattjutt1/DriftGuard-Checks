@@ -6,14 +6,23 @@ on:
 
 jobs:
   prompt-check:
-    # Only run if PR has 'prompt-check' label
-    if: contains(toJson(github.event.pull_request.labels), 'prompt-check')
-
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Soft guard (run only if label present)
+      run: |
+        python - <<'PY'
+        import json, os, sys
+        ev=json.load(open(os.environ['GITHUB_EVENT_PATH']))
+        names=[l['name'] for l in ev['pull_request'].get('labels',[])]
+        if 'prompt-check' not in names:
+            print('Label prompt-check not present; soft-skip.')
+            open('results.json','w').write('{"skipped":true}')
+            sys.exit(0)  # neutral
+        PY
 
     - name: Setup Python
       uses: actions/setup-python@v4
