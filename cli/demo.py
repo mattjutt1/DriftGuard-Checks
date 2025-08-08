@@ -3,7 +3,6 @@
 Demo script to showcase CLI enhancements
 """
 import subprocess
-import sys
 
 
 def run_demo():
@@ -59,7 +58,7 @@ def run_demo():
     for i, example in enumerate(examples, 1):
         print(f"  {i}. {example}")
 
-    print(f"\n🎉 CLI Enhancement Complete!")
+    print("\n🎉 CLI Enhancement Complete!")
     print("All 17 tests pass, maintaining backward compatibility.")
     print("Ready for PromptWizard integration once backend is deployed.")
 

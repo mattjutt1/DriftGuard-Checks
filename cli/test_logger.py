@@ -4,14 +4,12 @@ Simple CLI Test Result Submission Utility for PromptEvolver
 Submits test execution data to Convex backend via HTTP API
 """
 
-import json
 import os
 import platform
 import subprocess
 import sys
 import time
 import uuid
-from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 import requests
@@ -36,7 +34,7 @@ class TestLogger:
                 result = subprocess.run(["pytest", "--version"], capture_output=True, text=True)
                 if result.returncode == 0:
                     pytest_version = result.stdout.strip().split("\n")[0].split()[-1]
-            except:
+            except (subprocess.SubprocessError, IndexError):
                 pass
 
             return {

@@ -191,7 +191,7 @@ Build a **complete AI SaaS web application** where customers can:
 
 **✅ That's it!** Your repository now has automated prompt quality gates with zero ongoing costs.
 
-📖 **[Full Installation Guide](docs/install.md)** | 🔧 **[Advanced Configuration](docs/install.md#advanced-configuration)** | ❓ **[Troubleshooting](docs/install.md#troubleshooting)**
+📖 **[5-Minute Quickstart Guide](docs/quickstart.md)** | 🔧 **[Full Installation Guide](docs/install.md)** | 🛡️ **[Branch Protection Setup](docs/branch_protection.md)** | ❓ **[Troubleshooting](docs/install.md#troubleshooting)**
 
 ---
 

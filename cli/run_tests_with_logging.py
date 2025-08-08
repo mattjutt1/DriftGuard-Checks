@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr / bin / env python3
 """
 Enhanced Test Runner with Convex Logging Integration
 Runs existing tests and submits results to Convex backend
@@ -35,8 +35,8 @@ def run_pytest_with_logging():
             "tests/",
             "-v",
             "--tb=short",
-            "--json-report",
-            "--json-report-file=test_results.json",
+            "--json - report",
+            "--json - report - file=test_results.json",
         ]
 
         print(f"Running: {' '.join(pytest_cmd)}")
@@ -46,7 +46,7 @@ def run_pytest_with_logging():
 
         duration = (time.time() - start_time) * 1000  # Convert to milliseconds
 
-        print(f"\n📊 Test execution completed in {duration/1000:.2f}s")
+        print(f"\n📊 Test execution completed in {duration / 1000:.2f}s")
         print(f"Return code: {result.returncode}")
 
         # Parse pytest JSON output if available
@@ -77,7 +77,7 @@ def run_pytest_with_logging():
         # Create summary API call log
         api_calls.append(
             logger.create_api_call_log(
-                endpoint="/pytest-run",
+                endpoint="/pytest - run",
                 method="POST",
                 status_code=200 if result.returncode == 0 else 500,
                 response_time=duration,
@@ -109,7 +109,7 @@ def run_pytest_with_logging():
         # Submit to Convex
         success = logger.submit_test_execution(
             test_type="integration",
-            test_suite="prompt-wizard-pytest",
+            test_suite="prompt - wizard - pytest",
             environment="development",
             test_results=test_results,
             api_calls=api_calls,
@@ -133,11 +133,11 @@ def run_pytest_with_logging():
             final_status = "passed" if result.returncode == 0 else "failed"
             logger.update_test_status(final_status, final_results)
 
-            print(f"\n✅ Test results logged to Convex backend")
+            print("\n✅ Test results logged to Convex backend")
             print(f"   Status: {final_status}")
             print(f"   Tests: {passed_count} passed, {failed_count} failed, {skipped_count} skipped")
         else:
-            print(f"\n⚠️  Failed to log test results to Convex backend")
+            print("\n⚠️  Failed to log test results to Convex backend")
 
         return result.returncode == 0
 
@@ -150,7 +150,7 @@ def run_pytest_with_logging():
 
         logger.submit_test_execution(
             test_type="integration",
-            test_suite="prompt-wizard-pytest",
+            test_suite="prompt - wizard - pytest",
             environment="development",
             test_results=[],
             api_calls=[],
@@ -172,7 +172,7 @@ def run_pytest_with_logging():
 
         logger.submit_test_execution(
             test_type="integration",
-            test_suite="prompt-wizard-pytest",
+            test_suite="prompt - wizard - pytest",
             environment="development",
             test_results=[],
             api_calls=[],
@@ -194,8 +194,8 @@ def parse_pytest_text_output(output: str, logger: TestLogger) -> list:
         line = line.strip()
 
         # Look for test result lines like:
-        # tests/test_client.py::test_config_loading PASSED
-        # tests/test_client.py::test_invalid_config FAILED
+        # tests / test_client.py::test_config_loading PASSED
+        # tests / test_client.py::test_invalid_config FAILED
         if "::" in line and any(status in line for status in ["PASSED", "FAILED", "SKIPPED"]):
             parts = line.split()
             if len(parts) >= 2:
@@ -274,7 +274,7 @@ def run_simple_cli_tests():
         # Submit results
         logger.submit_test_execution(
             test_type="cli",
-            test_suite="prompt-wizard-cli-tests",
+            test_suite="prompt - wizard - cli - tests",
             environment="development",
             test_results=test_results,
         )

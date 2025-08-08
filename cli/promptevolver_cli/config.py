@@ -3,7 +3,6 @@ Configuration settings for PromptEvolver CLI
 """
 
 import os
-from typing import Optional
 
 # Convex deployment URL - can be overridden with environment variable
 CONVEX_BASE_URL = os.getenv("CONVEX_URL", "https://enchanted-rooster-257.convex.site")

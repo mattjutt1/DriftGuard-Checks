@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr / bin / env python3
 """
 Chunked Test Runner - Bypasses timeout by running tests in small batches
 """
@@ -13,14 +13,14 @@ def run_test_chunk(test_pattern, chunk_name):
     start_time = time.time()
 
     cmd = [
-        "./test_env/bin/python",
+        "./test_env / bin / python",
         "-m",
         "pytest",
         test_pattern,
         "-v",
         "--tb=short",
-        "--json-report",
-        f"--json-report-file=chunk_{chunk_name}.json",
+        "--json - report",
+        f"--json - report - file=chunk_{chunk_name}.json",
     ]
 
     print(f"🧪 Running {chunk_name} tests: {test_pattern}")
@@ -31,7 +31,7 @@ def run_test_chunk(test_pattern, chunk_name):
             capture_output=True,
             text=True,
             timeout=45,  # 45 second timeout per chunk
-            cwd="/home/matt/prompt-wizard/cli",
+            cwd="/home / matt / prompt - wizard / cli",
         )
 
         duration = time.time() - start_time
@@ -50,7 +50,7 @@ def run_test_chunk(test_pattern, chunk_name):
                         test_count = data["summary"].get("total", 0)
                         passed = data["summary"].get("passed", 0)
                         failed = data["summary"].get("failed", 0)
-            except:
+            except (json.JSONDecodeError, KeyError, ValueError):
                 pass
 
         return {
@@ -96,11 +96,11 @@ def main():
 
     # Define test chunks
     test_chunks = [
-        ("tests/unit/test_client.py", "unit_client"),
-        ("tests/unit/test_config.py", "unit_config"),
-        ("tests/unit/test_main.py", "unit_main"),
-        ("tests/integration/test_api_integration.py", "integration_api"),
-        ("tests/integration/test_cli_workflows.py", "integration_cli"),
+        ("tests / unit / test_client.py", "unit_client"),
+        ("tests / unit / test_config.py", "unit_config"),
+        ("tests / unit / test_main.py", "unit_main"),
+        ("tests / integration / test_api_integration.py", "integration_api"),
+        ("tests / integration / test_cli_workflows.py", "integration_cli"),
     ]
 
     results = []
@@ -129,11 +129,11 @@ def main():
             print(f"   ⚠️  Error: {result['stderr'][:100]}")
 
     print("=" * 60)
-    print(f"📊 FINAL RESULTS:")
+    print("📊 FINAL RESULTS:")
     print(f"   Total Tests: {total_tests}")
     print(f"   Passed: {total_passed}")
     print(f"   Failed: {total_failed}")
-    print(f"   Success Rate: {(total_passed/total_tests*100):.1f}%" if total_tests > 0 else "   Success Rate: 0%")
+    print(f"   Success Rate: {(total_passed / total_tests * 100):.1f}%" if total_tests > 0 else "   Success Rate: 0%")
     print(f"   Total Duration: {total_duration:.1f}s")
 
     # Save complete results
@@ -151,7 +151,7 @@ def main():
     with open("complete_chunked_results.json", "w") as f:
         json.dump(final_results, f, indent=2)
 
-    print(f"✅ Results saved to complete_chunked_results.json")
+    print("✅ Results saved to complete_chunked_results.json")
 
     return total_failed == 0
 

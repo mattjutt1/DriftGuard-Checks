@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
+#!/usr / bin / env python3
 """
 Context Vector Update Script for PromptEvolver
 Updates context vectors for Claude Code CLI optimization
 """
 
 import json
-import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -86,7 +85,7 @@ class ContextVectorUpdater:
         framework_indicators = {
             "fastapi": ["fastapi", "uvicorn"],
             "react": ["react", "jsx", "tsx"],
-            "docker": ["dockerfile", "docker-compose"],
+            "docker": ["dockerfile", "docker - compose"],
             "pytest": ["pytest", "test_"],
         }
 
@@ -151,7 +150,7 @@ class ContextVectorUpdater:
             "avsha_status": {},
         }
 
-        # Add AVSHA-specific context if available
+        # Add AVSHA - specific context if available
         if avsha_data:
             summary["avsha_status"] = {
                 "atomic_components": len(avsha_data.get("atomic_components", {})),
@@ -171,7 +170,7 @@ class ContextVectorUpdater:
         if len(session_context["active_agents"]) < 3:
             summary["recommendations"].append("Consider activating more specialized agents")
 
-        # Add AVSHA-specific recommendations
+        # Add AVSHA - specific recommendations
         if avsha_data:
             avsha_metrics = avsha_data.get("avsha_metrics", {})
             violations = avsha_data.get("architectural_violations", {})
@@ -203,7 +202,7 @@ class ContextVectorUpdater:
         return summary
 
     def extract_avsha_guidance(self, graph):
-        """Extract AVSHA-specific guidance and patterns"""
+        """Extract AVSHA - specific guidance and patterns"""
         guidance = {
             "current_structure": {},
             "recommendations": [],
@@ -270,7 +269,7 @@ class ContextVectorUpdater:
         patterns = self.extract_architectural_patterns(graph)
         metrics = self.calculate_quality_metrics(graph, embeddings)
 
-        # Extract AVSHA-specific guidance
+        # Extract AVSHA - specific guidance
         avsha_guidance = self.extract_avsha_guidance(graph)
         avsha_data = {
             "atomic_components": graph.get("entities", {}).get("atomic_components", {}),
@@ -296,7 +295,7 @@ class ContextVectorUpdater:
             "avsha_guidance": avsha_guidance,
             "claude_optimization": {
                 "high_priority_context": [
-                    f"Architecture: AVSHA (Atomic Vertical Slice Hybrid)",
+                    "Architecture: AVSHA (Atomic Vertical Slice Hybrid)",
                     (
                         f"Active agents: {', '.join([a['name'] for a in session_context['active_agents']])}"
                         if session_context["active_agents"]
@@ -312,10 +311,10 @@ class ContextVectorUpdater:
                     f"AVSHA Compliance: {summary.get('avsha_status', {}).get('compliance_score', 0.0):.2f}",
                 ],
                 "context_hints": [
-                    "Use /agents command to access specialized sub-agents",
-                    "Framework enforces KISS principles and anti-over-engineering",
+                    "Use /agents command to access specialized sub - agents",
+                    "Framework enforces KISS principles and anti - over - engineering",
                     "Follow AVSHA: Atomic Design + Vertical Slice Architecture",
-                    "Structure: shared/ for reusable, features/ for domain-specific",
+                    "Structure: shared/ for reusable, features/ for domain - specific",
                     "Atomic levels: atoms → molecules → organisms → templates → pages",
                     "All changes must update knowledge graph and embeddings",
                     "Conventional commits required for version control",
@@ -338,7 +337,7 @@ class ContextVectorUpdater:
             json.dump(context_vectors, f, indent=2)
 
         # Print comprehensive results
-        print(f"✅ Context vectors updated with AVSHA analysis:")
+        print("✅ Context vectors updated with AVSHA analysis:")
         print(f"   📊 Quality score: {summary['quality_score']:.2f}")
         if "avsha_status" in summary:
             avsha_status = summary["avsha_status"]
