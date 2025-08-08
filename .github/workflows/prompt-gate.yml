@@ -27,6 +27,9 @@ jobs:
 
     - name: Run prompt evaluation
       id: eval
+      env:
+        PROMPTOPS_MODE: stub
+        DISABLE_NETWORK: 1
       run: |
         promptops ci --config examples/.promptops.yml --out results.json
 

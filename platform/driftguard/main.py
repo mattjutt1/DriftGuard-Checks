@@ -1,10 +1,23 @@
 """DriftGuard FastAPI application."""
 
-from typing import Dict, List, Optional, Any
+import os
+from typing import Optional, Any, Dict
 from datetime import datetime
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from pydantic import BaseModel, Field
-import uuid
+
+from .database import get_db_session, create_tables
+from .models import Organization, Project, Prompt, PromptVersion
+
+# Check offline mode
+PROMPTOPS_MODE = os.getenv("PROMPTOPS_MODE", "production")
+DISABLE_NETWORK = os.getenv("DISABLE_NETWORK", "0").lower() in ("1", "true", "yes")
+ALLOW_NETWORK = os.getenv("ALLOW_NETWORK", "0").lower() in ("1", "true", "yes")
+
+if PROMPTOPS_MODE != "stub" and DISABLE_NETWORK and not ALLOW_NETWORK:
+    raise RuntimeError("PROMPTOPS_MODE is not 'stub' but network is disabled. Set ALLOW_NETWORK=1 to override.")
 
 app = FastAPI(
     title="DriftGuard",
@@ -12,10 +25,11 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# In-memory store
-prompt_registry: Dict[str, Dict] = {}
-drift_checks: List[Dict] = []
-budgets: Dict[str, Dict] = {}
+
+@app.on_event("startup")
+async def startup():
+    """Create tables on startup."""
+    await create_tables()
 
 
 class PromptRegistration(BaseModel):
@@ -55,66 +69,114 @@ async def root():
 
 
 @app.post("/api/v1/prompts", status_code=201)
-async def register_prompt(prompt: PromptRegistration):
+async def register_prompt(prompt: PromptRegistration, db: AsyncSession = Depends(get_db_session)):
     """Register a new prompt in the registry."""
-    prompt_id = f"{prompt.name}:{prompt.version}"
+    # Create default org and project for now (simplified)
+    org_result = await db.execute(select(Organization).where(Organization.slug == "default"))
+    org = org_result.scalar_one_or_none()
+    if not org:
+        org = Organization(name="Default Organization", slug="default")
+        db.add(org)
+        await db.flush()
 
-    if prompt_id in prompt_registry:
+    project_result = await db.execute(
+        select(Project).where(Project.slug == "default", Project.organization_id == org.id)
+    )
+    project = project_result.scalar_one_or_none()
+    if not project:
+        project = Project(
+            organization_id=org.id,
+            name="Default Project",
+            slug="default"
+        )
+        db.add(project)
+        await db.flush()
+
+    # Create or get prompt
+    prompt_result = await db.execute(
+        select(Prompt).where(Prompt.name == prompt.name, Prompt.project_id == project.id)
+    )
+    db_prompt = prompt_result.scalar_one_or_none()
+    if not db_prompt:
+        db_prompt = Prompt(project_id=project.id, name=prompt.name)
+        db.add(db_prompt)
+        await db.flush()
+
+    # Check if version exists
+    version_result = await db.execute(
+        select(PromptVersion).where(
+            PromptVersion.prompt_id == db_prompt.id,
+            PromptVersion.version == prompt.version
+        )
+    )
+    if version_result.scalar_one_or_none():
         raise HTTPException(status_code=409, detail="Prompt version already exists")
 
-    prompt_registry[prompt_id] = {
-        "id": str(uuid.uuid4()),
-        "name": prompt.name,
-        "version": prompt.version,
-        "template": prompt.template,
-        "metadata": prompt.metadata,
-        "created_at": datetime.utcnow().isoformat(),
-        "drift_checks": [],
-    }
+    # Create new version
+    prompt_version = PromptVersion(
+        prompt_id=db_prompt.id,
+        version=prompt.version,
+        template=prompt.template,
+        meta=prompt.metadata,
+    )
+    db.add(prompt_version)
+    await db.flush()
 
-    return {"id": prompt_registry[prompt_id]["id"], "status": "registered"}
+    return {"id": prompt_version.id, "status": "registered"}
 
 
 @app.get("/api/v1/prompts")
 async def list_prompts(
     name: Optional[str] = Query(None, description="Filter by prompt name"),
     limit: int = Query(100, ge=1, le=1000),
+    db: AsyncSession = Depends(get_db_session)
 ):
     """List registered prompts."""
-    results = []
-    for prompt_id, prompt_data in prompt_registry.items():
-        if name and prompt_data["name"] != name:
-            continue
-        results.append(prompt_data)
-        if len(results) >= limit:
-            break
+    query = select(PromptVersion).join(Prompt)
+    if name:
+        query = query.where(Prompt.name == name)
+    query = query.limit(limit)
 
-    return {"prompts": results, "total": len(results)}
+    result = await db.execute(query)
+    versions = result.scalars().all()
+
+    prompts = []
+    for version in versions:
+        prompts.append({
+            "id": version.id,
+            "name": version.prompt.name,
+            "version": version.version,
+            "template": version.template,
+            "metadata": version.meta,
+            "created_at": version.created_at.isoformat(),
+        })
+
+    return {"prompts": prompts, "total": len(prompts)}
 
 
 @app.get("/api/v1/prompts/{prompt_id}")
-async def get_prompt(prompt_id: str):
-    """Get details of a specific prompt."""
-    if prompt_id not in prompt_registry:
+async def get_prompt(prompt_id: int, db: AsyncSession = Depends(get_db_session)):
+    """Get details of a specific prompt version."""
+    result = await db.execute(select(PromptVersion).where(PromptVersion.id == prompt_id))
+    version = result.scalar_one_or_none()
+
+    if not version:
         raise HTTPException(status_code=404, detail="Prompt not found")
 
-    return prompt_registry[prompt_id]
+    return {
+        "id": version.id,
+        "name": version.prompt.name,
+        "version": version.version,
+        "template": version.template,
+        "metadata": version.meta,
+        "created_at": version.created_at.isoformat(),
+    }
 
 
 @app.post("/api/v1/drift/check")
 async def check_drift(check: DriftCheck):
-    """Submit a drift check result."""
-    drift_checks.append(check.model_dump())
-
-    # Update prompt registry with latest drift check
-    prompt_key = f"{check.prompt_id}:{check.version}"
-    if prompt_key in prompt_registry:
-        prompt_registry[prompt_key]["drift_checks"].append({
-            "drift_score": check.drift_score,
-            "timestamp": check.timestamp.isoformat(),
-        })
-
-    # Mock analysis - in production, this would trigger alerts
+    """Submit a drift check result (stub for now)."""
+    # Mock analysis - would be implemented with database
     alert_triggered = check.drift_score > 0.3
 
     return {
@@ -129,39 +191,31 @@ async def get_drift_history(
     prompt_id: Optional[str] = None,
     limit: int = Query(100, ge=1, le=1000),
 ):
-    """Get drift check history."""
-    results = drift_checks
-    if prompt_id:
-        results = [d for d in results if d["prompt_id"] == prompt_id]
-
-    return {"checks": results[:limit], "total": len(results)}
+    """Get drift check history (stub for now)."""
+    return {"checks": [], "total": 0}
 
 
 @app.post("/api/v1/budgets")
 async def set_budget(budget: Budget):
-    """Set cost/latency budget for a prompt."""
-    budget_key = budget.prompt_id
-    budgets[budget_key] = budget.model_dump()
-
+    """Set cost/latency budget for a prompt (stub for now)."""
     return {"status": "budget_set", "prompt_id": budget.prompt_id}
 
 
 @app.get("/api/v1/budgets/{prompt_id}")
 async def get_budget(prompt_id: str):
-    """Get budget configuration for a prompt."""
-    if prompt_id not in budgets:
-        raise HTTPException(status_code=404, detail="Budget not found")
-
-    return budgets[prompt_id]
+    """Get budget configuration for a prompt (stub for now)."""
+    raise HTTPException(status_code=404, detail="Budget not found")
 
 
 @app.get("/api/v1/metrics")
-async def get_metrics():
+async def get_metrics(db: AsyncSession = Depends(get_db_session)):
     """Get platform metrics."""
+    org_count = await db.execute(select(Organization))
+    prompt_count = await db.execute(select(Prompt))
+
     return {
-        "total_prompts": len(prompt_registry),
-        "total_drift_checks": len(drift_checks),
-        "active_budgets": len(budgets),
+        "total_prompts": len(prompt_count.scalars().all()),
+        "total_organizations": len(org_count.scalars().all()),
         "timestamp": datetime.utcnow().isoformat(),
     }
 

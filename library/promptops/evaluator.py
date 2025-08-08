@@ -1,10 +1,19 @@
 """Core evaluation logic for PromptOps."""
 
+import os
 import random
 from typing import Dict, Any, List
 from datetime import datetime
 
 from .config import Config
+
+# Check offline mode
+PROMPTOPS_MODE = os.getenv("PROMPTOPS_MODE", "production")
+DISABLE_NETWORK = os.getenv("DISABLE_NETWORK", "0").lower() in ("1", "true", "yes")
+ALLOW_NETWORK = os.getenv("ALLOW_NETWORK", "0").lower() in ("1", "true", "yes")
+
+if PROMPTOPS_MODE != "stub" and DISABLE_NETWORK and not ALLOW_NETWORK:
+    raise RuntimeError("PROMPTOPS_MODE is not 'stub' but network is disabled. Set ALLOW_NETWORK=1 to override.")
 
 
 class Evaluator:
