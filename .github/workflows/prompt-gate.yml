@@ -2,12 +2,12 @@ name: Prompt Gate
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
 
 jobs:
   prompt-check:
     # Only run if PR has 'prompt-check' label
-    if: contains(github.event.pull_request.labels.*.name, 'prompt-check')
+    if: contains(toJson(github.event.pull_request.labels), 'prompt-check')
 
     runs-on: ubuntu-latest
 
