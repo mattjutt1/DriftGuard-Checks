@@ -5,13 +5,11 @@ Tests real API interactions, error scenarios, and resilience
 
 import json
 import time
-from unittest.mock import patch
 
 import pytest
 import responses
 from promptevolver_cli.client import ConvexClient, ConvexError
 from promptevolver_cli.config import API_TIMEOUT, CONVEX_BASE_URL
-from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 
 class TestConvexAPIIntegration:

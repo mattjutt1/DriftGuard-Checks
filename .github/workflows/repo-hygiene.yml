@@ -1,0 +1,153 @@
+name: Repository Hygiene
+
+on:
+  schedule:
+  - cron: 0 6 * * 1      # Weekly on Mondays at 6 AM UTC
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0    # Full history for audit
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Run repository audit
+      run: |
+        echo "Repository Audit Analysis"
+        echo "========================"
+
+        # Basic stats
+        echo "## Repository Statistics"
+        echo "- Total files: $(find . -type f | wc -l)"
+        echo "- Repository size: $(du -sh . | cut -f1)"
+        echo "- Git objects: $(git count-objects -v)"
+
+        # Large files
+        echo -e "\n## Large Files (>10MB)"
+        find . -type f -size +10M -exec ls -lh {} \; | head -20 || true
+
+        # Zero-reference analysis
+        echo -e "\n## Potential Orphans"
+        echo "Files that may not be referenced anywhere:"
+
+        # Simple orphan detection
+        for file in $(find . -name "*.py" -o -name "*.md" -o -name "*.json" | head -50); do
+          if [ -f "$file" ] && ! git log --oneline -1 -- "$file" > /dev/null 2>&1; then
+            echo "- $file (no git history)"
+          fi
+        done
+
+    - name: Upload audit results
+      uses: actions/upload-artifact@v4
+      with:
+        name: repository-audit
+        path: |
+          repo_audit/
+          .git/objects/info/
+
+  size-guard:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Check repository size
+      run: |
+        echo "Repository Size Guard"
+        echo "===================="
+
+        # Calculate sizes
+        total_size=$(du -sb . | cut -f1)
+        total_mb=$((total_size / 1024 / 1024))
+
+        echo "Total repository size: ${total_mb} MB"
+
+        # Size limits
+        if [ $total_mb -gt 2000 ]; then
+          echo "⚠️ WARNING: Repository size (${total_mb}MB) exceeds 2GB limit"
+          exit 1
+        elif [ $total_mb -gt 1000 ]; then
+          echo "⚠️ WARNING: Repository size (${total_mb}MB) approaching 1GB threshold"
+        else
+          echo "✅ Repository size is within acceptable limits"
+        fi
+
+        # Check for individual large files
+        echo -e "\n## Files over 50MB (LFS candidates)"
+        find . -type f -size +50M -exec ls -lh {} \; || echo "No files over 50MB found"
+
+  attic-retention:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Analyze attic directory
+      run: |
+        echo "Attic Retention Analysis"
+        echo "======================"
+
+        # Check attic directory
+        if [ -d "attic" ]; then
+          echo "Found attic directory"
+          attic_size=$(du -sh attic/ | cut -f1)
+          echo "Attic size: $attic_size"
+
+          # Count files in attic
+          attic_files=$(find attic/ -type f | wc -l)
+          echo "Files in attic: $attic_files"
+
+          # Check for TO_REMOVE markers
+          if find attic/ -name "TO_REMOVE_*" -type d | grep -q .; then
+            echo -e "\n## Directories marked for removal:"
+            find attic/ -name "TO_REMOVE_*" -type d | while read dir; do
+              size=$(du -sh "$dir" | cut -f1)
+              echo "- $dir ($size)"
+            done
+          fi
+
+          # Age analysis
+          echo -e "\n## Attic age analysis"
+          if [ $attic_files -gt 0 ]; then
+            oldest=$(find attic/ -type f -printf '%T+ %p\n' | sort | head -1 | cut -d' ' -f1)
+            newest=$(find attic/ -type f -printf '%T+ %p\n' | sort -r | head -1 | cut -d' ' -f1)
+            echo "Oldest file: $oldest"
+            echo "Newest file: $newest"
+          fi
+        else
+          echo "No attic directory found"
+        fi
+
+        # Check for other cleanup candidates
+        echo -e "\n## Other cleanup candidates"
+        echo "Cache directories:"
+        find . -type d -name "__pycache__" -o -name ".pytest_cache" -o -name "node_modules" -o -name ".next" | head -10 || echo "None found"
+
+    - name: Generate retention recommendations
+      run: |
+        echo -e "\n## Retention Recommendations"
+        echo "Based on analysis, consider:"
+        echo "1. Remove TO_REMOVE_* directories if older than 30 days"
+        echo "2. Archive cache directories not in .gitignore"
+        echo "3. Move large unused files to Git LFS"
+        echo "4. Clean up orphaned configuration files"
