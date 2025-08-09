@@ -9,7 +9,7 @@ services:
     npm ci --include=dev
     npm run build
   startCommand: |
-    npm run start
+    node ./dist/index.js
   envVars:
   - key: NODE_ENV
     value: production
