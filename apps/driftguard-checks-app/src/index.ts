@@ -1,4 +1,5 @@
-import { Probot } from 'probot';
+import express from 'express';
+import { createNodeMiddleware, createProbot, Probot } from 'probot';
 import { Readable } from 'stream';
 import * as unzipper from 'unzipper';
 
@@ -346,24 +347,8 @@ async function extractEvaluationFromRun(context: any, runId: number): Promise<{
   }
 }
 
-// Main Probot app export (using 2025 best practices with getRouter)
-export = (app: Probot, { getRouter }: { getRouter: (path?: string) => any }) => {
-  // Get Express router with app-specific prefix
-  const router = getRouter('/driftguard-checks');
-
-  // Add health endpoint following 2025 best practices
-  router.get('/health', (_req: any, res: any) => {
-    res.status(200).json(getHealthData());
-  });
-
-  // Add Render health check endpoint
-  router.get('/probot', (_req: any, res: any) => {
-    res.status(200).json({
-      status: 'ok',
-      message: 'DriftGuard Checks is running',
-      timestamp: new Date().toISOString()
-    });
-  });
+// Probot app function (extracted for createNodeMiddleware)
+function probotApp(app: Probot) {
 
   // Handle pull_request events (opened, synchronize)
   app.on(['pull_request.opened', 'pull_request.synchronize'], async (context) => {
@@ -406,9 +391,7 @@ export = (app: Probot, { getRouter }: { getRouter: (path?: string) => any }) => 
   });
 
   console.log('🚀 DriftGuard Checks app started');
-  console.log('Port:', process.env.PORT || 10000);
   console.log('Webhook URL:', process.env.WEBHOOK_PROXY_URL || 'Not configured');
-  console.log('Health endpoints: /driftguard-checks/health and /driftguard-checks/probot');
 
   logEvent({ evt: 'startup', stage: 'initialized' });
 
@@ -430,4 +413,41 @@ export = (app: Probot, { getRouter }: { getRouter: (path?: string) => any }) => 
       eventCount: appState.eventCount
     });
   }, 5 * 60 * 1000); // 5 minutes
-};
+}
+
+// Express server setup with createNodeMiddleware (Evidence-based Probot v14 pattern)
+const app = express();
+const port = parseInt(process.env.PORT || '3000', 10);
+
+// Add health endpoints BEFORE Probot middleware (critical order)
+app.get('/health', (_req, res) => {
+  res.status(200).json(getHealthData());
+});
+
+app.get('/probot', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'DriftGuard Checks is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Add Probot webhook middleware using correct async pattern
+app.use('/api/github/webhooks', async (req, res, next) => {
+  try {
+    const middleware = await createNodeMiddleware(probotApp, {
+      probot: createProbot()
+    });
+    return middleware(req, res, next);
+  } catch (error) {
+    console.error('Webhook middleware error:', error);
+    next(error);
+  }
+});
+
+// Start Express server
+app.listen(port, () => {
+  console.log(`Express server listening on port ${port}`);
+  console.log('Health endpoints: /health and /probot');
+  console.log('GitHub webhooks: /api/github/webhooks');
+});

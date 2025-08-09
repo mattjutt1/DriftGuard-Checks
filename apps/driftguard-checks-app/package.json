@@ -5,21 +5,23 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "probot run ./dist/index.js",
+    "start": "node ./dist/index.js",
     "start:dev": "PROBOT_LOG_LEVEL=debug PORT=3001 NODE_OPTIONS='-r ts-node/register' probot run ./src/index.ts",
     "start:pm2": "pm2 start ecosystem.config.cjs",
     "smoke": "node scripts/smoke-test.js"
   },
   "dependencies": {
-    "probot": "^14.0.2",
     "@octokit/rest": "^20.0.0",
+    "express": "^5.1.0",
+    "probot": "^14.0.2",
     "unzipper": "^0.10.14"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
+    "@types/express": "^5.0.3",
     "@types/node": "^20.0.0",
     "@types/unzipper": "^0.10.7",
-    "ts-node": "^10.9.0"
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
