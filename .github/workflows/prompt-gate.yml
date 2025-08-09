@@ -37,11 +37,13 @@ jobs:
 
     - name: Run prompt evaluation
       id: eval
+      continue-on-error: true
       env:
         PROMPTOPS_MODE: stub
         DISABLE_NETWORK: 1
       run: |
-        promptops ci --config examples/.promptops.yml --out results.json
+        test -f .promptops.yml || echo -e "threshold: 0.85\ndataset: golden" > .promptops.yml
+        promptops ci --config .promptops.yml --out results.json
 
     - name: Upload results
       if: always()
@@ -65,13 +67,21 @@ jobs:
         PY
 
     - name: Enforce threshold for branch protection
+      if: always()
       run: |
         python - <<'PY'
-        import json, sys
-        r = json.load(open('results.json'))
-        if r["metrics"]["win_rate"] < r["threshold"]:
-            print(f"❌ Prompt gate FAILED - Win rate {r['metrics']['win_rate']:.2%} below threshold {r['threshold']:.2f}")
+        import json, sys, pathlib, os
+        p = pathlib.Path("results.json")
+        if not p.exists():
+            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+                f.write("### Prompt Gate Results\n\n- **Status:** ERROR\n- **Reason:** results.json missing (CI step failed before writing)\n")
+            print("❌ Prompt gate ERROR - results.json missing")
+            sys.exit(1)
+        r = json.load(p.open())
+        wr, th = r["metrics"]["win_rate"], r["threshold"]
+        if wr < th:
+            print(f"❌ Prompt gate FAILED - Win rate {wr:.2%} below threshold {th:.2f}")
             sys.exit(1)
         else:
-            print(f"✅ Prompt gate PASSED - Win rate {r['metrics']['win_rate']:.2%} meets threshold {r['threshold']:.2f}")
+            print(f"✅ Prompt gate PASSED - Win rate {wr:.2%} meets threshold {th:.2f}")
         PY
