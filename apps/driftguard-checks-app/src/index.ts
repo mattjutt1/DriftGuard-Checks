@@ -1,7 +1,7 @@
 import { Probot } from 'probot';
-import { Readable } from 'stream';
+import { Readable } from 'node:stream';
 import * as unzipper from 'unzipper';
-import * as http from 'http';
+import * as http from 'node:http';
 
 // Helper function as specified in requirements
 function errMsg(e: unknown): string {
@@ -350,7 +350,7 @@ async function extractEvaluationFromRun(context: any, runId: number): Promise<{
 // Main Probot app export
 export = (app: Probot) => {
   // Health endpoint - Simple HTTP server approach
-  const healthServer = http.createServer((req, res) => {
+  const healthServer = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
     if (req.url === '/health') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(getHealthData()));
