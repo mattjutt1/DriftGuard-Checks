@@ -1,7 +1,7 @@
 import { Probot } from 'probot';
-import * as crypto from 'crypto';
 import { Readable } from 'stream';
 import * as unzipper from 'unzipper';
+import * as http from 'http';
 
 // Helper function as specified in requirements
 function errMsg(e: unknown): string {
@@ -20,7 +20,9 @@ class BoundedMap<K, V> extends Map<K, V> {
   set(key: K, value: V): this {
     if (this.size >= this.maxSize) {
       const firstKey = this.keys().next().value;
-      this.delete(firstKey);
+      if (firstKey !== undefined) {
+        this.delete(firstKey);
+      }
     }
     return super.set(key, value);
   }
@@ -54,6 +56,11 @@ function logEvent(data: {
   winRate?: number;
   threshold?: number;
   error?: string;
+  memMB?: number;
+  uptime?: number;
+  smee?: string;
+  lastEventAt?: string | null;
+  eventCount?: number;
 }) {
   const logEntry = {
     timestamp: new Date().toISOString(),
@@ -232,13 +239,13 @@ async function getLatestEvaluation(context: any, sha: string, preferredRunId?: s
     }
 
     // Sort runs by created_at descending to get latest first (as fixed in previous session)
-    const sortedRuns = runs.data.workflow_runs.sort((a, b) =>
+    const sortedRuns = runs.data.workflow_runs.sort((a: any, b: any) =>
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     );
 
     // If we have a preferred run ID, try that first
     if (preferredRunId) {
-      const preferredRun = sortedRuns.find(run => run.id.toString() === preferredRunId);
+      const preferredRun = sortedRuns.find((run: any) => run.id.toString() === preferredRunId);
       if (preferredRun) {
         const evaluation = await extractEvaluationFromRun(context, preferredRun.id);
         if (evaluation) {
@@ -302,7 +309,7 @@ async function extractEvaluationFromRun(context: any, runId: number): Promise<{
     const zipBuffer = Buffer.from(download.data as ArrayBuffer);
     const readable = Readable.from([zipBuffer]);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       readable
         .pipe(unzipper.Parse())
         .on('entry', (entry: any) => {
@@ -342,10 +349,20 @@ async function extractEvaluationFromRun(context: any, runId: number): Promise<{
 
 // Main Probot app export
 export = (app: Probot) => {
-  // Health endpoint
-  const router = app.route('/health');
-  router.get('/health', (req, res) => {
-    res.json(getHealthData());
+  // Health endpoint - Simple HTTP server approach
+  const healthServer = http.createServer((req, res) => {
+    if (req.url === '/health') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(getHealthData()));
+    } else {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('Not Found');
+    }
+  });
+
+  const healthPort = parseInt(process.env.HEALTH_PORT || '3002', 10);
+  healthServer.listen(healthPort, () => {
+    console.log(`Health endpoint listening on http://localhost:${healthPort}/health`);
   });
 
   // Handle pull_request events (opened, synchronize)
@@ -384,7 +401,7 @@ export = (app: Probot) => {
 
   // Log app startup
   app.on('installation.created', async (context) => {
-    context.log.info('App installed!', context.payload.installation);
+    context.log.info('App installed!');
     logEvent({ evt: 'installation', action: 'created' });
   });
 
@@ -393,4 +410,23 @@ export = (app: Probot) => {
   console.log('Webhook URL:', process.env.WEBHOOK_PROXY_URL || 'Not configured');
 
   logEvent({ evt: 'startup', stage: 'initialized' });
+
+  // Cron health logging - emit status every 5 minutes
+  setInterval(() => {
+    const uptime = Math.floor((Date.now() - appState.startTime.getTime()) / 1000);
+    const memoryUsage = process.memoryUsage();
+    const memMB = Math.round(memoryUsage.rss / 1024 / 1024);
+
+    // Simple smee connection check (if webhook proxy URL is configured, assume connected)
+    const smeeStatus = process.env.WEBHOOK_PROXY_URL ? 'connected' : 'disconnected';
+
+    logEvent({
+      evt: 'health',
+      memMB,
+      uptime,
+      smee: smeeStatus,
+      lastEventAt: appState.lastEventAt?.toISOString() || null,
+      eventCount: appState.eventCount
+    });
+  }, 5 * 60 * 1000); // 5 minutes
 };
