@@ -1,0 +1,28 @@
+services:
+- type: web
+  name: driftguard-checks
+  rootDir: apps/driftguard-checks-app
+  env: node
+  plan: starter
+  autoDeploy: true
+  buildCommand: |
+    npm ci
+    npm run build
+  startCommand: |
+    npm run start
+  envVars:
+  - key: NODE_ENV
+    value: production
+  - key: APP_ID
+    sync: false
+  - key: WEBHOOK_SECRET
+    sync: false
+  - key: PRIVATE_KEY
+    sync: false
+  - key: APP_URL
+    sync: false
+  healthCheckPath: /probot
+  headers:
+  - path: /*
+    name: X-Frame-Options
+    value: DENY

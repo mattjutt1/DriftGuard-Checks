@@ -2,13 +2,13 @@
   "name": "driftguard-checks-app",
   "version": "1.0.0",
   "description": "GitHub App for prompt evaluation check runs",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "dev": "PROBOT_LOG_LEVEL=debug PORT=3001 node -r ts-node/register ./src/index.ts",
-    "start": "node lib/index.js",
+    "build": "tsc -p tsconfig.json",
+    "start": "probot run ./dist/index.js",
+    "start:dev": "PROBOT_LOG_LEVEL=debug PORT=3001 NODE_OPTIONS='-r ts-node/register' probot run ./src/index.ts",
     "start:pm2": "pm2 start ecosystem.config.cjs",
-    "smoke:pr": "node scripts/smoke-test.js"
+    "smoke": "node scripts/smoke-test.js"
   },
   "dependencies": {
     "probot": "^14.0.2",
