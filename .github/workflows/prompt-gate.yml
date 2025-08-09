@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  prompt-check:
+  prompt-gate-ci:
     runs-on: ubuntu-latest
 
     steps:
