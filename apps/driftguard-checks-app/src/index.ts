@@ -1,7 +1,7 @@
 import { Probot } from 'probot';
-import { Readable } from 'node:stream';
+import { Readable } from 'stream';
 import * as unzipper from 'unzipper';
-import * as http from 'node:http';
+import * as http from 'http';
 
 // Helper function as specified in requirements
 function errMsg(e: unknown): string {
