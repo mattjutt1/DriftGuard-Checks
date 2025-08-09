@@ -1,0 +1,186 @@
+ROLE: You are my DevOps copilot for the repository mattjutt1/prompt-wizard. Act directly on the codebase I have locally. Assume I can paste any commands you give me and supply secrets when prompted. Work sequentially; after each part, print a short HEARTBEAT with exactly what I must copy/paste next.
+
+CONTEXT (do not redo):
+
+Actions job is already renamed to prompt-gate-ci. Branch protection requires only prompt-check.
+
+App slug: driftguard-checks-matt. Local Probot app lives at apps/driftguard-checks-app/.
+
+I run locally with Smee. I have working APP_ID, WEBHOOK_SECRET, PRIVATE_KEY_PATH, WEBHOOK_PROXY_URL.
+
+Demo PRs: #12 (should PASS), #13 (should FAIL).
+
+GOAL
+Make the GitHub App the single source of truth for prompt-check and rock-solid:
+
+Add workflow_run.completed handling (read artifact → update check).
+
+Make artifact selection latest-first (already partially fixed, keep it).
+
+Add health endpoint + structured logs + bounded in-memory caches.
+
+Run under PM2 so it survives smee hiccups/crashes and restarts on boot.
+
+Keep port + smee consistent (3001).
+
+Prove with PR #12 PASS and PR #13 FAIL, then print the last 30 log lines + check run table.
+
+PART A — Code hardening (one commit)
+In apps/driftguard-checks-app/src/index.ts:
+
+Subscribe to workflow_run.completed and route it to the same handler used for pull_request.*, but keyed by PR head SHA and run id.
+
+Ensure workflow runs are sorted by created_at desc before artifact lookups.
+
+When multiple artifacts exist, pick prompt-evaluation-results by exact name, else first JSON in any artifact zip as fallback, but fail closed if parsing fails.
+
+Add a /health GET that returns JSON: {status, uptime, memory, rateLimit?, lastEventAt}.
+
+Logging: context.log.info/warn/error but also emit a line-per-event JSON to stdout with fields {evt, sha, runId, action, stage, result, winRate, threshold}.
+
+Bound in-memory maps to 1000 entries (drop oldest on insert).
+
+Add npm scripts and PM2:
+
+npm run build → tsc
+
+npm run dev → PROBOT_LOG_LEVEL=debug PORT=3001 node -r ts-node/register ./src/index.ts
+
+npm run start:pm2 → start compiled lib/index.js via PM2 on port 3001
+
+Create ecosystem.config.cjs for PM2 (name: driftguard-checks, watch disabled, env from .env)
+
+Keep everything TypeScript-strict. Use a helper:
+
+ts
+Copy
+Edit
+function errMsg(e: unknown): string {
+  return e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e);
+}
+Don’t remove the existing handlers; just consolidate through a single handleSha(sha) function that:
+
+creates/updates the prompt-check run → in_progress
+
+fetches latest Actions run + artifact → compute pass/fail
+
+updates check to success/failure with a clear markdown summary + details_url to the Actions run
+
+Deliverables (commit message):
+feat(app): add workflow_run.completed handler, health endpoint, structured logs, PM2 config
+
+HEARTBEAT A (print):
+
+The unified diff you applied.
+
+Exact commands I must run to build.
+
+PART B — Process supervision + smee alignment
+Ensure .env has (don’t print secrets; just check and tell me if missing):
+
+ini
+Copy
+Edit
+PORT=3001
+WEBHOOK_PROXY_URL=https://smee.io/…   # existing value
+Commands for me to run (print them exactly):
+
+bash
+Copy
+Edit
+cd ~/prompt-wizard/apps/driftguard-checks-app
+npm ci
+npm run build
+
+# install pm2 once if needed
+which pm2 >/dev/null || npm i -g pm2
+
+# stop any old node/probot
+pkill -f "probot .*driftguard-checks-app" 2>/dev/null || true
+pkill -f "node .*driftguard-checks-app" 2>/dev/null || true
+
+# start supervised
+pm2 start ecosystem.config.cjs --name driftguard-checks
+pm2 save
+pm2 status driftguard-checks
+curl -s http://127.0.0.1:3001/health | jq .
+Confirm the smee proxy shows connected in the PM2 logs.
+
+HEARTBEAT B (print):
+
+What pm2 status should show (one line).
+
+What /health sample JSON should look like.
+
+PART C — PASS/FAIL verification on demo PRs
+Give me exact commands to retrigger both PRs, then wait/poll and print proof:
+
+bash
+Copy
+Edit
+cd ~/prompt-wizard
+# retrigger
+gh pr checkout 12 && git commit --allow-empty -m "ci: trigger App (PASS demo)" && git push
+gh pr checkout 13 && git commit --allow-empty -m "ci: trigger App (FAIL demo)" && git push
+
+# wait until Actions finish (loop up to 12×5s)
+for PR in 12 13; do
+  for i in {1..12}; do
+    state=$(gh pr checks $PR --json status -q .status || echo "")
+    [[ "$state" == "COMPLETED" ]] && break
+    sleep 5
+  done
+done
+
+# list check runs for each PR head sha
+OWNER=$(gh repo view --json owner -q .owner.login)
+REPO=$(gh repo view --json name -q .name)
+for PR in 12 13; do
+  SHA=$(gh pr view "$PR" --json headRefOid -q .headRefOid)
+  echo "--- PR #$PR (SHA: ${SHA:0:8})"
+  gh api repos/$OWNER/$REPO/commits/$SHA/check-runs \
+    --jq '.check_runs[] | {name, app: .app.slug, status, conclusion, details_url}'
+done
+Required outcome:
+
+PR #12 shows an App check prompt-check success with details_url to the latest Actions run.
+
+PR #13 shows an App check prompt-check failure with details_url to the latest Actions run.
+
+The Actions job prompt-gate-ci may also be present (its result can differ; branch protection keys only on the App check).
+
+HEARTBEAT C (print):
+
+Two “Run URLs” (one per PR) and the last 30 Probot log lines (structured) surrounding each update.
+
+The JSON tables from the gh api … check-runs calls.
+
+PART D — Make it production-ish (quick wins)
+Add a readme section “Operating the App locally with PM2”.
+
+Add a smoke script: npm run smoke:pr -- 12 that prints latest app check for a PR with conclusion + details_url (use the existing scripts/smoke-test.js as a base).
+
+Add a cron health log (PM2 or node interval) that emits one JSON line every 5 minutes: {evt:"health", memMB, uptime, smee:"connected|disconnected"}.
+
+Deliverables:
+
+Commit: docs(app): add local ops guide + smoke script
+
+HEARTBEAT D: One-liner showing npm run smoke:pr -- 12 output.
+
+GUARANTEES & GUARDRAILS
+Do not change branch protection (it already requires prompt-check only).
+
+Keep offline defaults; no network calls except GitHub API via App creds and Smee.
+
+Do not delete or rewrite history.
+
+If anything fails, print a DIAGNOSIS block with:
+
+the exact failing step,
+
+the command to fetch more logs,
+
+the minimal patch to recover,
+
+then stop.
