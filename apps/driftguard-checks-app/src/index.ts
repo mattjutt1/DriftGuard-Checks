@@ -1,7 +1,6 @@
 import { Probot } from 'probot';
 import { Readable } from 'stream';
 import * as unzipper from 'unzipper';
-import * as http from 'http';
 
 // Helper function as specified in requirements
 function errMsg(e: unknown): string {
@@ -347,22 +346,23 @@ async function extractEvaluationFromRun(context: any, runId: number): Promise<{
   }
 }
 
-// Main Probot app export
-export = (app: Probot) => {
-  // Health endpoint - Simple HTTP server approach
-  const healthServer = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
-    if (req.url === '/health') {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(getHealthData()));
-    } else {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end('Not Found');
-    }
+// Main Probot app export (using 2025 best practices with getRouter)
+export = (app: Probot, { getRouter }: { getRouter: (path?: string) => any }) => {
+  // Get Express router with app-specific prefix
+  const router = getRouter('/driftguard-checks');
+
+  // Add health endpoint following 2025 best practices
+  router.get('/health', (_req: any, res: any) => {
+    res.status(200).json(getHealthData());
   });
 
-  const healthPort = parseInt(process.env.HEALTH_PORT || '3002', 10);
-  healthServer.listen(healthPort, () => {
-    console.log(`Health endpoint listening on http://localhost:${healthPort}/health`);
+  // Add Render health check endpoint
+  router.get('/probot', (_req: any, res: any) => {
+    res.status(200).json({
+      status: 'ok',
+      message: 'DriftGuard Checks is running',
+      timestamp: new Date().toISOString()
+    });
   });
 
   // Handle pull_request events (opened, synchronize)
@@ -406,8 +406,9 @@ export = (app: Probot) => {
   });
 
   console.log('🚀 DriftGuard Checks app started');
-  console.log('Port:', process.env.PORT || 3001);
+  console.log('Port:', process.env.PORT || 10000);
   console.log('Webhook URL:', process.env.WEBHOOK_PROXY_URL || 'Not configured');
+  console.log('Health endpoints: /driftguard-checks/health and /driftguard-checks/probot');
 
   logEvent({ evt: 'startup', stage: 'initialized' });
 
