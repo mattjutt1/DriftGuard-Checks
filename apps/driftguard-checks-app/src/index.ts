@@ -2,6 +2,7 @@ import express from 'express';
 import { createNodeMiddleware, createProbot, Probot } from 'probot';
 import { Readable } from 'stream';
 import * as unzipper from 'unzipper';
+import { addEvaluationToApp } from './simple-evaluation';
 
 // Helper function as specified in requirements
 function errMsg(e: unknown): string {
@@ -351,6 +352,9 @@ async function extractEvaluationFromRun(context: any, runId: number): Promise<{
 function probotApp(app: Probot) {
 
   // Handle pull_request events (opened, synchronize)
+  // Add simple evaluation to the app
+  addEvaluationToApp(app);
+  
   app.on(['pull_request.opened', 'pull_request.synchronize'], async (context) => {
     appState.lastEventAt = new Date();
     appState.eventCount++;

@@ -4,7 +4,7 @@
   "description": "GitHub App for prompt evaluation check runs",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc",
     "start": "node ./dist/index-integrated.js",
     "start:dev": "PROBOT_LOG_LEVEL=debug PORT=3001 NODE_OPTIONS='-r ts-node/register' probot run ./src/index-integrated.ts",
     "start:pm2": "pm2 start ecosystem.config.cjs",
