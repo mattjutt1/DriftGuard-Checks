@@ -1,0 +1,75 @@
+# Gitleaks Configuration File
+# Custom rules for DriftGuard project
+
+title = "DriftGuard Secret Scanner Config"
+
+[extend]
+# Use the default gitleaks config and extend it
+useDefault = true
+
+[allowlist]
+# Files and paths to ignore
+paths = [
+    '''node_modules''',
+    '''dist''',
+    '''build''',
+    '''coverage''',
+    '''\.git''',
+    '''vendor''',
+    '''\.vscode''',
+    '''\.idea''',
+    '''attic''',
+    '''test''',
+    '''tests''',
+    '''__pycache__''',
+    '''.*\.min\.js$''',
+    '''.*\.min\.css$''',
+    '''package-lock.json''',
+    '''yarn.lock''',
+    '''Pipfile.lock''',
+    '''poetry.lock''',
+]
+
+# Allow these specific files (they're examples or documentation)
+files = [
+    '''\.env\.example$''',
+    '''\.env\.template$''',
+    '''\.env\.sample$''',
+    '''README\.md$''',
+    '''SECURITY.*\.md$''',
+    '''.*\.md$''',
+]
+
+# Additional patterns to ignore (for known false positives)
+regexes = [
+    '''example_secret''',
+    '''your[-_]?secret[-_]?here''',
+    '''test[-_]?secret''',
+    '''dummy[-_]?secret''',
+    '''fake[-_]?api[-_]?key''',
+    '''placeholder''',
+    '''xxx+''',
+    '''generate[-_]?new[-_]?secret''',
+]
+
+# Additional custom rules for your project
+[[rules]]
+id = "github-app-private-key"
+description = "GitHub App Private Key"
+regex = '''-----BEGIN RSA PRIVATE KEY-----'''
+tags = ["key", "github"]
+severity = "HIGH"
+
+[[rules]]
+id = "webhook-secret"
+description = "Webhook Secret (32+ chars)"
+regex = '''(?i)(webhook[_-]?secret|hook[_-]?secret)\s*[=:]\s*['\"]?([a-f0-9]{32,})['\"]?'''
+tags = ["secret", "webhook"]
+severity = "MEDIUM"
+
+[[rules]]
+id = "render-api-key"
+description = "Render.com API Key"
+regex = '''(?i)render[_-]?api[_-]?key\s*[=:]\s*['\"]?([a-zA-Z0-9]{32,})['\"]?'''
+tags = ["key", "render"]
+severity = "HIGH"
