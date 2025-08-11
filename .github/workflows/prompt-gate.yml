@@ -31,6 +31,17 @@ jobs:
               f.write(f"pass={'true' if ok else 'false'}\n")
           PY
 
+      - name: Compute PR head SHA (not the merge SHA)
+        id: prsha
+        run: |
+          python - <<'PY'
+          import json, os
+          ev=json.load(open(os.environ['GITHUB_EVENT_PATH']))
+          sha = ev['pull_request']['head']['sha']
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"sha={sha}\n")
+          PY
+
       - name: Run gate checks (placeholder)
         if: steps.decide.outputs.pass == 'true'
         run: |
@@ -42,12 +53,12 @@ jobs:
           echo "driftguard label missing; failing gate"
           exit 1
 
-      - name: Publish required status context
+      - name: Publish required legacy status on PR HEAD
         if: always()
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO:  ${{ github.repository }}
-          SHA:   ${{ github.sha }}
+          TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+          REPO:   ${{ github.repository }}
+          SHA:    ${{ steps.prsha.outputs.sha }}
           RUNURL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           state="failure"
