@@ -1,0 +1,3 @@
+[submodule "hf-deployment"]
+    path = hf-deployment
+    url = https://github.com/REAL_OWNER/REAL_REPO.git
