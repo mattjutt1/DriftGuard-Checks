@@ -1,0 +1,40 @@
+# Minimal pre-commit configuration for initial setup
+# This runs only essential checks that are fast and won't timeout
+
+default_language_version:
+  python: python3
+
+repos:
+  # Essential file checks (fast)
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-json
+  - id: check-added-large-files
+    args: [--maxkb=5000]
+  - id: check-merge-conflict
+  - id: detect-private-key
+  - id: mixed-line-ending
+    args: [--fix=lf]
+
+# Exclude directories that shouldn't be checked
+exclude: |
+  (?x)^(
+    microsoft-promptwizard/.*|
+    hf-deployment/.*|
+    venv/.*|
+    \.venv/.*|
+    node_modules/.*|
+    nextjs-app/node_modules/.*|
+    nextjs-app/\.next/.*|
+    \.git/.*|
+    __pycache__/.*|
+    \.pytest_cache/.*|
+    \.mypy_cache/.*|
+    build/.*|
+    dist/.*|
+    .*\.egg-info/.*
+  )$

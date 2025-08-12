@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "domain": "Content",
+    "record_count": 1,
+    "generation_timestamp": 1754586655,
+    "schema_version": "1.0",
+    "source": "test_normalization"
+  },
+  "records": [
+    {
+      "originalPrompt": "Write marketing copy for our new product",
+      "enhancedPrompt": "As a senior marketing copywriter with expertise in conversion optimization, create compelling marketing copy for our new SaaS productivity tool. Structure your copy as follows: 1) Attention-grabbing headline (8-12 words max), 2) Problem-focused subheadline that resonates with pain points, 3) Three key benefits with specific outcomes, 4) Social proof section with customer testimonials, 5) Clear value proposition with pricing context, 6) Strong call-to-action with urgency elements. Target audience: busy professionals aged 25-45 in knowledge work. Tone: professional yet conversational, benefit-focused, urgency-driven. Include power words and conversion-optimized phrases. Length: 300-400 words total.",
+      "domain": "Content",
+      "metadata": {
+        "qualityScore": {
+          "overall": 0.75,
+          "clarity": 0.73,
+          "specificity": 0.72,
+          "engagement": 0.76,
+          "structure": 0.74,
+          "completeness": 0.71,
+          "errorPrevention": 0.7
+        },
+        "improvementAreas": [
+          "Added comprehensive detail and specificity",
+          "Added professional role context",
+          "Increased specificity and precision",
+          "Defined target audience clearly",
+          "Specified output format requirements",
+          "Added length and constraint specifications"
+        ],
+        "processingTimestamp": 1754586655,
+        "expertIdentity": "Content Specialist",
+        "optimizationConfig": {
+          "iterations": 3,
+          "rounds": 3,
+          "temperature": 0.7,
+          "generateReasoning": true,
+          "generateExpertIdentity": true
+        },
+        "reasoning": "Prompt enhanced for content domain with improved clarity, specificity, and structure."
+      },
+      "followUpQuestions": [],
+      "tags": [
+        "content",
+        "normalized",
+        "training-data"
+      ],
+      "version": "1.0"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Requirements for local training on RTX 2080
+# torch installed separately with CUDA support
+transformers
+datasets
+peft
+accelerate
+bitsandbytes  # For 4-bit quantization
+tensorboard
+tqdm
+sentencepiece
+protobuf
+einops

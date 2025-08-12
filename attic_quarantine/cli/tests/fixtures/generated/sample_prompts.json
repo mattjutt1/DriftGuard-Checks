@@ -1,0 +1,62 @@
+[
+  {
+    "prompt": "Write a story about business",
+    "id": 1
+  },
+  {
+    "prompt": "Design a workflow that is maintainable",
+    "id": 2
+  },
+  {
+    "prompt": "Summarize user feedback in key findings",
+    "id": 3
+  },
+  {
+    "prompt": "Write a guide about business",
+    "id": 4
+  },
+  {
+    "prompt": "Debug this C++ performance problem",
+    "id": 5
+  },
+  {
+    "prompt": "Analyze performance metrics and provide visualization",
+    "id": 6
+  },
+  {
+    "prompt": "Debug this Python logic bug",
+    "id": 7
+  },
+  {
+    "prompt": "Create a proposal for marketing",
+    "id": 8
+  },
+  {
+    "prompt": "Translate legal contract to SQL",
+    "id": 9
+  },
+  {
+    "prompt": "Create a strategy for training",
+    "id": 10
+  },
+  {
+    "prompt": "Translate user manual to SQL",
+    "id": 11
+  },
+  {
+    "prompt": "Optimize API for usability",
+    "id": 12
+  },
+  {
+    "prompt": "Debug this C++ memory leak",
+    "id": 13
+  },
+  {
+    "prompt": "Optimize database for security",
+    "id": 14
+  },
+  {
+    "prompt": "Optimize API for usability",
+    "id": 15
+  }
+]

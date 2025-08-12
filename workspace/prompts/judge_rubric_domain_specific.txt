@@ -1,0 +1,313 @@
+# PromptEvolver 3.0 - Domain-Specific Evaluation Criteria
+# Specialized evaluation guidelines for Analytics, Coding, Content, and Cross-Domain prompts
+
+## DOMAIN CLASSIFICATION GUIDELINES
+
+### Primary Domain Identification
+
+#### Analytics Domain
+**Key Indicators**:
+- Data analysis, statistical analysis, business intelligence
+- Metrics, KPIs, reporting, dashboards, visualization
+- Research, surveys, market analysis, customer insights
+- Financial analysis, performance measurement, forecasting
+
+**Example Keywords**: analyze, data, metrics, report, dashboard, insights, statistics, trends, patterns, performance, ROI, KPI
+
+#### Coding Domain
+**Key Indicators**:
+- Software development, programming, system architecture
+- Database design, API development, security implementation
+- Testing, debugging, deployment, DevOps, infrastructure
+- Technical specifications, frameworks, libraries, tools
+
+**Example Keywords**: code, develop, build, system, database, API, security, test, deploy, framework, architecture, performance
+
+#### Content Domain
+**Key Indicators**:
+- Writing, marketing, communications, creative work
+- Brand messaging, social media, documentation, training
+- User experience copy, educational content, presentations
+- Blog posts, articles, scripts, creative campaigns
+
+**Example Keywords**: write, content, copy, message, brand, marketing, communication, audience, engagement, creative, story
+
+#### Cross-Domain
+**Key Indicators**:
+- Projects involving multiple specialized areas
+- System integration requiring diverse expertise
+- Complex initiatives spanning technical, creative, and analytical components
+- Strategic projects requiring coordination across domains
+
+**Example Keywords**: integrate, coordinate, comprehensive, system-wide, multi-faceted, strategic, holistic, cross-functional
+
+## ANALYTICS DOMAIN EVALUATION CRITERIA
+
+### Domain-Specific Excellence Markers
+
+#### Data Foundation Excellence
+- **Data Source Specification**: Clear identification of data sources, formats, quality expectations
+- **Statistical Rigor**: Appropriate statistical methods, confidence levels, significance testing
+- **Time Period Definition**: Specific date ranges, comparison periods, seasonal considerations
+- **Sample Size Considerations**: Power analysis, margin of error, representativeness validation
+
+#### Analysis Framework Excellence
+- **Methodology Clarity**: Specific analytical approaches (regression, clustering, time series, etc.)
+- **Business Context Integration**: Clear connection between analysis and business decisions
+- **Stakeholder Alignment**: Appropriate level of detail for intended audience
+- **Actionable Insights Focus**: Analysis designed to drive specific decisions or actions
+
+#### Visualization and Reporting Excellence
+- **Chart Type Appropriateness**: Optimal visualization choices for data types and insights
+- **Dashboard Design Principles**: User experience, navigation, drill-down capabilities
+- **Executive Summary Quality**: High-level insights accessible to non-technical stakeholders
+- **Documentation Standards**: Methodology documentation, data dictionary, assumptions
+
+### Analytics-Specific Scoring Adjustments
+
+#### Enhanced Specificity Weight (23% vs 18% standard)
+**Rationale**: Analytics requires precise parameters for consistent, valid results
+**Evidence Required**:
+- Specific statistical methods and parameters defined
+- Clear data quality and validation criteria
+- Quantified performance metrics and success thresholds
+- Detailed methodology and reproducibility specifications
+
+#### Enhanced Error Prevention Weight (18% vs 15% standard)
+**Rationale**: Data integrity and statistical validity are critical for business decisions
+**Evidence Required**:
+- Data validation and quality assurance protocols
+- Statistical assumption checking and validation procedures
+- Bias prevention and sampling methodology safeguards
+- Cross-validation and sensitivity analysis requirements
+
+#### Reduced Engagement Weight (12% vs 15% standard)
+**Rationale**: Analytics work is primarily professional/technical with less need for inspirational framing
+**Acceptable Engagement Level**: Professional respect for expertise, clear business context, meaningful impact statement
+
+### Analytics Domain Mastery Indicators (+0.05 bonus eligibility)
+- Advanced statistical techniques appropriately applied
+- Sophisticated experimental design or causal inference methods
+- Machine learning or predictive modeling with proper validation
+- Complex business intelligence architecture or data pipeline design
+- Advanced visualization techniques or interactive dashboard capabilities
+
+### Common Analytics Pitfalls to Avoid
+- **Statistical Misapplication**: Using inappropriate tests or methods for data type/distribution
+- **Correlation vs Causation**: Claiming causal relationships without proper experimental design
+- **Sample Bias**: Inadequate consideration of sampling methodology and representativeness
+- **Overfitting Risk**: Complex models without proper validation and generalization testing
+- **Business Disconnect**: Technically sound analysis that doesn't address business questions
+
+## CODING DOMAIN EVALUATION CRITERIA
+
+### Domain-Specific Excellence Markers
+
+#### Technical Architecture Excellence
+- **System Design Quality**: Appropriate design patterns, scalability considerations, maintainability
+- **Security Implementation**: Comprehensive security measures, vulnerability prevention, compliance
+- **Performance Optimization**: Efficient algorithms, resource management, load handling capabilities
+- **Integration Architecture**: Clean APIs, microservices design, data flow management
+
+#### Code Quality Excellence
+- **Standards Compliance**: Industry best practices, coding conventions, documentation requirements
+- **Testing Strategy**: Comprehensive testing pyramid (unit, integration, end-to-end)
+- **Error Handling**: Graceful failure management, logging, monitoring, recovery procedures
+- **Maintainability**: Clean code principles, refactoring considerations, technical debt management
+
+#### Development Process Excellence
+- **Version Control**: Git workflow, branching strategy, code review requirements
+- **CI/CD Pipeline**: Automated testing, deployment, rollback capabilities, environment management
+- **Documentation**: API documentation, system architecture, deployment procedures, troubleshooting
+- **Monitoring and Observability**: Logging, metrics, alerting, performance monitoring
+
+### Coding-Specific Scoring Adjustments
+
+#### Enhanced Error Prevention Weight (23% vs 15% standard)
+**Rationale**: Security vulnerabilities and system failures have high impact and cost
+**Evidence Required**:
+- Comprehensive security measures and vulnerability prevention
+- Input validation, output sanitization, authentication/authorization protocols
+- Error handling, logging, monitoring, and recovery procedures
+- Testing requirements including security testing and performance validation
+
+#### Enhanced Specificity Weight (23% vs 18% standard)
+**Rationale**: Technical precision prevents ambiguity and ensures consistent implementation
+**Evidence Required**:
+- Specific technology versions, framework choices, dependency management
+- Detailed functional and non-functional requirements
+- Clear architectural patterns, design principles, integration specifications
+- Performance benchmarks, security standards, compliance requirements
+
+#### Reduced Engagement Weight (7% vs 15% standard)
+**Rationale**: Technical work motivation comes from challenge and mastery rather than inspirational language
+**Acceptable Engagement Level**: Technical challenge acknowledgment, system impact, professional growth
+
+#### Reduced Completeness Weight (9% vs 16% standard)
+**Rationale**: Experienced developers can infer some technical details and make appropriate implementation choices
+**Acceptable Completeness Level**: Core requirements with flexibility for technical decision-making
+
+### Coding Domain Mastery Indicators (+0.05 bonus eligibility)
+- Expert-level architectural patterns and system design principles
+- Advanced security implementations beyond basic requirements
+- Sophisticated performance optimization techniques and monitoring
+- Complex system integration with multiple services/platforms
+- Innovative use of cutting-edge technologies or development practices
+
+### Common Coding Pitfalls to Avoid
+- **Security Oversights**: Missing authentication, authorization, input validation, or encryption
+- **Scalability Blindness**: Designs that work for small scale but fail under load
+- **Technology Mismatch**: Choosing inappropriate tools or frameworks for requirements
+- **Testing Gaps**: Insufficient testing strategy or missing critical test cases
+- **Documentation Neglect**: Inadequate documentation for maintenance and troubleshooting
+
+## CONTENT DOMAIN EVALUATION CRITERIA
+
+### Domain-Specific Excellence Markers
+
+#### Audience Connection Excellence
+- **Audience Definition**: Clear demographics, psychographics, needs analysis, context understanding
+- **Message Relevance**: Content aligned with audience interests, pain points, and goals
+- **Engagement Optimization**: Compelling hooks, emotional resonance, call-to-action effectiveness
+- **Accessibility Consideration**: Inclusive language, readability, cultural sensitivity
+
+#### Creative and Strategic Excellence
+- **Brand Alignment**: Consistent voice, tone, values, and messaging with brand identity
+- **Content Strategy**: Clear content goals, distribution strategy, performance measurement
+- **Creative Innovation**: Original approaches, compelling narratives, memorable execution
+- **Format Optimization**: Appropriate medium, length, structure for content type and platform
+
+#### Quality and Effectiveness Excellence
+- **Editorial Standards**: Grammar, style, fact-checking, proofreading, approval workflow
+- **SEO and Discoverability**: Search optimization, keyword strategy, metadata optimization
+- **Conversion Focus**: Clear goals, success metrics, user action facilitation
+- **Legal and Compliance**: Copyright, trademark, privacy, advertising standard compliance
+
+### Content-Specific Scoring Adjustments
+
+#### Enhanced Engagement Weight (25% vs 15% standard)
+**Rationale**: Content success depends heavily on motivating audience action and emotional connection
+**Evidence Required**:
+- Compelling value proposition and audience benefit articulation
+- Emotional engagement techniques and persuasive elements
+- Clear motivation for audience to consume, share, or act on content
+- Creative approaches that differentiate from standard content
+
+#### Enhanced Clarity Weight (25% vs 20% standard)
+**Rationale**: Content must communicate clearly to diverse audiences with varying expertise levels
+**Evidence Required**:
+- Simple, accessible language appropriate for target audience
+- Clear structure and flow that guides reader comprehension
+- Unambiguous calls-to-action and next steps
+- Jargon-free communication or appropriate definitions provided
+
+#### Reduced Specificity Weight (13% vs 18% standard)
+**Rationale**: Creative content often benefits from flexibility and creative interpretation
+**Acceptable Specificity Level**: Clear objectives and constraints with creative freedom for execution
+
+#### Reduced Error Prevention Weight (10% vs 15% standard)
+**Rationale**: Content errors are typically less critical than technical or analytical failures
+**Acceptable Error Prevention Level**: Basic quality controls, fact-checking, brand compliance
+
+### Content Domain Mastery Indicators (+0.05 bonus eligibility)
+- Advanced audience psychology and persuasion techniques
+- Sophisticated brand storytelling and narrative development
+- Multi-channel content strategy with integrated campaign elements
+- Advanced SEO/SEM optimization and performance measurement
+- Creative innovation that pushes content boundaries while achieving business objectives
+
+### Common Content Pitfalls to Avoid
+- **Audience Mismatch**: Content that doesn't resonate with intended audience
+- **Brand Inconsistency**: Messaging that conflicts with established brand voice or values
+- **Legal Compliance Issues**: Copyright infringement, misleading claims, privacy violations
+- **Poor Call-to-Action**: Weak or missing guidance for desired audience behavior
+- **Format Mismatch**: Content format inappropriate for distribution channel or audience preference
+
+## CROSS-DOMAIN EVALUATION CRITERIA
+
+### Domain-Specific Excellence Markers
+
+#### Integration Architecture Excellence
+- **Scope Definition**: Clear boundaries and responsibilities for each domain component
+- **Dependency Management**: Well-defined interfaces and interaction protocols between domains
+- **Quality Standards Coordination**: Consistent quality criteria across different domain requirements
+- **Risk Assessment**: Comprehensive identification of domain-specific and integration risks
+
+#### Project Coordination Excellence
+- **Communication Protocols**: Clear processes for cross-domain collaboration and decision-making
+- **Timeline Integration**: Coordinated scheduling that accounts for domain dependencies and critical paths
+- **Resource Management**: Appropriate allocation of domain expertise and cross-functional resources
+- **Stakeholder Alignment**: Management of diverse stakeholder needs across different domain areas
+
+#### Systems Thinking Excellence
+- **Holistic Perspective**: Understanding of how domain components create synergistic outcomes
+- **Complexity Management**: Effective strategies for managing inherent complexity of multi-domain work
+- **Trade-off Analysis**: Sophisticated evaluation of competing priorities across domains
+- **Scalability Considerations**: Design that accommodates growth and evolution across all domains
+
+### Cross-Domain-Specific Scoring Adjustments
+
+#### Enhanced Completeness Weight (24% vs 16% standard)
+**Rationale**: Multiple domains require comprehensive specification to prevent gaps and conflicts
+**Evidence Required**:
+- Detailed requirements for each domain component
+- Clear integration points and dependency mapping
+- Comprehensive success criteria spanning all domains
+- Complete resource allocation and timeline coordination
+
+#### Enhanced Structure Weight (22% vs 16% standard)
+**Rationale**: Complex multi-domain work requires exceptional organization for comprehension and coordination
+**Evidence Required**:
+- Clear hierarchical organization of domain components
+- Logical flow that facilitates cross-domain understanding
+- Well-defined phases and milestone coordination
+- Effective information architecture for diverse stakeholders
+
+#### Reduced Clarity Weight (15% vs 20% standard)
+**Rationale**: Multi-domain complexity may inherently reduce absolute clarity while still being well-organized
+**Acceptable Clarity Level**: Clear within complexity constraints, well-structured complexity management
+
+#### Reduced Engagement Weight (9% vs 15% standard)
+**Rationale**: Cross-domain work is typically professional coordination rather than inspirational
+**Acceptable Engagement Level**: Professional respect, clear value proposition, coordination motivation
+
+### Cross-Domain Mastery Indicators (+0.05 bonus eligibility)
+- Sophisticated systems thinking and integration architecture
+- Advanced project management and coordination strategies
+- Innovative approaches to managing cross-domain complexity
+- Strategic alignment techniques that optimize across competing priorities
+- Holistic quality frameworks that ensure excellence across all domains
+
+### Common Cross-Domain Pitfalls to Avoid
+- **Domain Silos**: Treating domain components as independent rather than integrated
+- **Integration Gaps**: Missing or poorly defined interfaces between domain components
+- **Complexity Overwhelm**: Allowing complexity to create confusion rather than managing it effectively
+- **Resource Conflicts**: Inadequate planning for competing domain resource needs
+- **Quality Inconsistency**: Different standards applied across domains creating integration issues
+
+## DOMAIN SCORING VALIDATION
+
+### Domain Classification Verification
+Before applying domain-specific criteria:
+1. **Primary Domain Confirmation**: Verify correct domain classification using keyword analysis and requirement assessment
+2. **Cross-Domain Assessment**: Determine if multiple domains are substantially involved
+3. **Complexity Evaluation**: Assess whether domain-specific adjustments are appropriate
+4. **Audience Consideration**: Confirm domain classification matches intended user and use case
+
+### Domain Excellence Recognition
+- **Mastery Bonus Eligibility**: Look for advanced techniques and sophisticated approaches specific to the domain
+- **Innovation Recognition**: Identify creative or novel approaches within domain best practices
+- **Professional Standards**: Ensure domain-specific quality meets or exceeds professional benchmarks
+- **Best Practice Integration**: Recognize integration of current industry best practices and standards
+
+### Cross-Domain Coordination Assessment
+For prompts involving multiple domains:
+- **Integration Quality**: Evaluate how well different domain requirements are coordinated
+- **Balance Achievement**: Assess whether appropriate attention is given to each domain
+- **Synergy Creation**: Look for ways the multi-domain approach creates value beyond sum of parts
+- **Complexity Management**: Evaluate effectiveness of strategies for managing inherent complexity
+
+---
+**Copyright (c) 2025 Matthew J. Utt**
+**PromptEvolver 3.0 Training System - Domain-Specific Evaluation Criteria**
+**Licensed under MIT License - Compatible with Microsoft PromptWizard Framework**

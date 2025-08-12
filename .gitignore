@@ -6,6 +6,7 @@ training_data/
 model_weights/
 proprietary/
 secrets/
+.private/
 *.key
 *.pem
 credentials.json

@@ -1,0 +1,96 @@
+# Infisical Self-hosted Docker Compose for PromptEvolver Development
+# Based on official Infisical production configuration
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database for Infisical
+  infisical-db:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+    - POSTGRES_USER=${INFISICAL_DB_USER:-infisical}
+    - POSTGRES_PASSWORD=${INFISICAL_DB_PASSWORD:-infisical}
+    - POSTGRES_DB=${INFISICAL_DB_NAME:-infisical}
+    volumes:
+    - infisical_db_data:/var/lib/postgresql/data
+    networks:
+    - infisical-network
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and sessions
+  infisical-redis:
+    image: redis:7-alpine
+    restart: always
+    networks:
+    - infisical-network
+    volumes:
+    - infisical_redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Infisical Backend
+  infisical-backend:
+    image: infisical/infisical:latest
+    restart: always
+    depends_on:
+      infisical-db:
+        condition: service_healthy
+      infisical-redis:
+        condition: service_healthy
+    environment:
+      # Core Configuration
+    - NODE_ENV=production
+    - PORT=4000
+    - DB_CONNECTION_URI=postgres://${INFISICAL_DB_USER:-infisical}:${INFISICAL_DB_PASSWORD:-infisical}@infisical-db:5432/${INFISICAL_DB_NAME:-infisical}
+    - REDIS_URL=redis://infisical-redis:6379
+
+      # Security Keys (CHANGE THESE!)
+    - ENCRYPTION_KEY=${INFISICAL_ENCRYPTION_KEY}
+    - AUTH_SECRET=${INFISICAL_AUTH_SECRET}
+    - JWT_SIGNUP_SECRET=${INFISICAL_JWT_SIGNUP_SECRET}
+    - JWT_REFRESH_SECRET=${INFISICAL_JWT_REFRESH_SECRET}
+    - JWT_AUTH_SECRET=${INFISICAL_JWT_AUTH_SECRET}
+
+      # Site Configuration
+    - SITE_URL=${INFISICAL_SITE_URL:-http://localhost:8080}
+    - INVITE_FROM_EMAIL=${INVITE_FROM_EMAIL:-admin@promptevolver.local}
+    - TRUST_PROXY=true
+
+      # Email Configuration (Optional for development)
+    - SMTP_HOST=${SMTP_HOST:-}
+    - SMTP_PORT=${SMTP_PORT:-587}
+    - SMTP_USERNAME=${SMTP_USERNAME:-}
+    - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+    - SMTP_FROM_ADDRESS=${SMTP_FROM_ADDRESS:-noreply@promptevolver.local}
+    - SMTP_FROM_NAME=${SMTP_FROM_NAME:-PromptEvolver Infisical}
+
+    networks:
+    - infisical-network
+    ports:
+    - 8080:4000
+    volumes:
+    - ./infisical-data:/app/data
+    healthcheck:
+      test: [CMD, wget, --no-verbose, --tries=1, --spider, http://localhost:4000/api/status]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  infisical_db_data:
+    driver: local
+  infisical_redis_data:
+    driver: local
+
+networks:
+  infisical-network:
+    driver: bridge

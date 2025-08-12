@@ -1,5 +1,4 @@
 name: Prompt Gate
-
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]

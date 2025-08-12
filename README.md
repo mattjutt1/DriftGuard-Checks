@@ -1,348 +1,426 @@
-# PromptOps Platform - Prompt Operations for Enterprise CI/CD
+# Gitleaks
 
-🚀 **From Evaluation to Operations: Complete Prompt Lifecycle Management** 🚀
-
-This repository contains two complementary surfaces for comprehensive prompt operations:
-
-1. **DriftGuard** (`/platform`): FastAPI service for prompt registry, drift
-   monitoring, and cost/latency budget management
-2. **PromptOps SDK** (`/library`): Lightweight Python package with CLI for
-   local evaluation and CI/CD integration
-
-> **Migration Notice**: We're evolving from PromptWizard (eval-only) to
-> PromptOps (full lifecycle). See [MIGRATION.md](MIGRATION.md) for details.
-
-## 🔧 Environment Configuration
-
-### Offline Mode Controls (Default)
-
-The platform operates in **offline-first mode** by default with these
-environment variables:
-
-```bash
-# Core offline mode (default values)
-PROMPTOPS_MODE=stub              # Use stub implementations, no real LLM calls
-DISABLE_NETWORK=1                # Block external network access during operations
-
-# Optional: Enable network for specific features
-ALLOW_NETWORK=1                  # Allow network access (overrides DISABLE_NETWORK)
-SLACK_WEBHOOK_URL=https://...    # Slack webhook URL for notifications
+```
+┌─○───┐
+│ │╲  │
+│ │ ○ │
+│ ○ ░ │
+└─░───┘
 ```
 
-### LLM Provider Configuration (OFFLINE by Default)
+<p align="left">
+  <p align="left">
+	  <a href="https://github.com/zricethezav/gitleaks/actions/workflows/test.yml">
+		  <img alt="Github Test" src="https://github.com/zricethezav/gitleaks/actions/workflows/test.yml/badge.svg">
+	  </a>
+	  <a href="https://hub.docker.com/r/zricethezav/gitleaks">
+		  <img src="https://img.shields.io/docker/pulls/zricethezav/gitleaks.svg" />
+	  </a>
+	  <a href="https://github.com/zricethezav/gitleaks-action">
+        	<img alt="gitleaks badge" src="https://img.shields.io/badge/protected%20by-gitleaks-blue">
+    	 </a>
+	  <a href="https://twitter.com/intent/follow?screen_name=zricethezav">
+		  <img src="https://img.shields.io/twitter/follow/zricethezav?label=Follow%20zricethezav&style=social&color=blue" alt="Follow @zricethezav" />
+	  </a>
+  </p>
+</p>
 
-The platform includes LLM provider adapters that are **disabled by default** for security and cost control:
+### Join our Discord! [![Discord](https://img.shields.io/discord/1102689410522284044.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/8Hzbrnkr7E)
 
-```bash
-# Provider Access Control (all providers disabled by default)
-PROMPTOPS_MODE=stub              # Required: Disables all real providers
-ALLOW_NETWORK=0                  # Required: Blocks outbound HTTP requests
-OPENAI_API_KEY=                  # Optional: Only needed when providers enabled
-ANTHROPIC_API_KEY=               # Optional: Only needed when providers enabled
+Gitleaks is a SAST tool for **detecting** and **preventing** hardcoded secrets like passwords, api keys, and tokens in git repos. Gitleaks is an **easy-to-use, all-in-one solution** for detecting secrets, past or present, in your code.
 
-# TO ENABLE PROVIDERS (not recommended for CI/CD):
-# PROMPTOPS_MODE=production
-# ALLOW_NETWORK=1
-# OPENAI_API_KEY=sk-...
-# ANTHROPIC_API_KEY=sk-ant-...
+```
+➜  ~/code(master) gitleaks detect --source . -v
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+
+Finding:     "export BUNDLE_ENTERPRISE__CONTRIBSYS__COM=cafebabe:deadbeef",
+Secret:      cafebabe:deadbeef
+RuleID:      sidekiq-secret
+Entropy:     2.609850
+File:        cmd/generate/config/rules/sidekiq.go
+Line:        23
+Commit:      cd5226711335c68be1e720b318b7bc3135a30eb2
+Author:      John
+Email:       john@users.noreply.github.com
+Date:        2022-08-03T12:31:40Z
+Fingerprint: cd5226711335c68be1e720b318b7bc3135a30eb2:cmd/generate/config/rules/sidekiq.go:sidekiq-secret:23
 ```
 
-**⚠️ Important**:
+## Getting Started
 
-- All providers are **OFFLINE BY DEFAULT** - no accidental API calls
-- CI/CD runs with stub implementations - no real costs incurred
-- Enable providers only when explicitly needed for production use
-- Budget limits and cost tracking available when providers are enabled
+Gitleaks can be installed using Homebrew, Docker, or Go. Gitleaks is also available in binary form for many popular platforms and OS types on the [releases page](https://github.com/zricethezav/gitleaks/releases). In addition, Gitleaks can be implemented as a pre-commit hook directly in your repo or as a GitHub action using [Gitleaks-Action](https://github.com/gitleaks/gitleaks-action).
 
-### Network Access Policy
+### Installing
 
-- **Default**: All operations run offline with stub implementations
-- **LLM Providers**: Disabled unless BOTH `PROMPTOPS_MODE=production` AND `ALLOW_NETWORK=1` AND API keys present
-- **Slack Notifications**: Only enabled when **both** `ALLOW_NETWORK=1` AND
-  `SLACK_WEBHOOK_URL` are set
-- **Testing**: Selective network blocking allows local sockets while blocking
-  external requests
-- **Production**: Set appropriate flags in GitHub repository secrets
+```bash
+# MacOS
+brew install gitleaks
 
-### GitHub Secrets Configuration
+# Docker (DockerHub)
+docker pull zricethezav/gitleaks:latest
+docker run -v ${path_to_host_folder_to_scan}:/path zricethezav/gitleaks:latest [COMMAND] --source="/path" [OPTIONS]
 
-To enable Slack notifications in CI/CD workflows:
+# Docker (ghcr.io)
+docker pull ghcr.io/gitleaks/gitleaks:latest
+docker run -v ${path_to_host_folder_to_scan}:/path ghcr.io/gitleaks/gitleaks:latest [COMMAND] --source="/path" [OPTIONS]
 
-1. Go to **Repository → Settings → Secrets and variables → Actions**
-2. Add secrets:
-   - `SLACK_WEBHOOK_URL`: Your Slack webhook URL
-   - `ALLOW_NETWORK`: Set to `1` to enable network access
+# From Source
+git clone https://github.com/gitleaks/gitleaks.git
+cd gitleaks
+make build
+```
 
-## 🎯 Project Goals
+### GitHub Action
 
-### Primary Objective
+Check out the official [Gitleaks GitHub Action](https://github.com/gitleaks/gitleaks-action)
 
-Build a **complete AI SaaS web application** where customers can:
+```
+name: gitleaks
+on: [pull_request, push, workflow_dispatch]
+jobs:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
+```
 
-1. **Input their prompts** - Submit any prompt that needs improvement
-2. **Get intelligent enhancement** - Receive optimized versions using our
-   trained model
-3. **Interactive refinement** - Model asks follow-up questions when context is needed
-4. **Access 95+ templates** - Pre-built templates across 8 categories
-5. **Subscribe to tiers** - Free, Pro ($29), Team ($99), Enterprise (custom)
+### Pre-Commit
 
-### Two-Part Implementation
+1. Install pre-commit from https://pre-commit.com/#install
+2. Create a `.pre-commit-config.yaml` file at the root of your repository with the following content:
 
-1. **Training Infrastructure** (Current Phase)
-   - Multi-stage training system for Qwen3 model
-   - PromptWizard framework integration
-   - Domain-specific optimization (Analytics, Coding, Content, etc.)
-   - Evaluation and validation framework
-
-2. **Web Application** (Production Phase)
-   - Next.js + Convex real-time platform
-   - 95 professional templates across 8 categories
-   - Subscription management system
-   - Interactive prompt enhancement with follow-up questions
-   - Analytics dashboard and user insights
-
-### 🎯 Performance Validated
-
-- **Processing Time**: 60-120 seconds per optimization (validated through testing)
-- **Architecture**: Hybrid local/cloud deployment with Convex backend
-- **AI Model**: Qwen3:4b (2.6GB) with Microsoft PromptWizard framework
-- **Test Coverage**: 114 test cases across unit and integration layers
-
-### 🔧 Fully Operational Components
-
-- **Web Interface**: Next.js 15.4.5 + React 19.1.0 with real-time progress
-- **CLI Tool**: Beautiful terminal interface with batch processing
-- **Backend**: Convex serverless functions with Ollama integration
-- **Testing Framework**: Comprehensive test suite with 100% success rate
-- **Error Handling**: Advanced retry logic and graceful degradation
-
-## What's Fully Implemented
-
-✅ **Production-Ready Systems**
-
-- Complete web-based prompt optimization interface
-- Professional CLI with 12+ optimization options
-- Real-time progress tracking and quality metrics
-- Comprehensive error handling and recovery
-- Batch processing capabilities
-- Session history and analytics
-
-✅ **Validated Through Testing**
-
-- 114 test cases covering all functionality
-- Real API endpoint validation
-- Error scenario testing and recovery
-- Performance and throughput validation
-- Security and configuration testing
-
-## Technology Stack
-
-- **Frontend**: Next.js 15.4.5 + React 19.1.0
-- **Backend**: Convex (serverless database)
-- **AI**: Local Ollama + Qwen3:4b model
-- **Build**: Turbopack for development
-- **Styling**: Tailwind CSS
-- **LLM Providers**: OpenAI & Anthropic adapters (offline by default)
-- **Budget Management**: SQLite-based cost tracking with pricing simulation
-- **Response Caching**: Content-hash based caching with TTL support
-- **CLI**: Rich terminal interface with budget/cache management
-
-## 🚀 Prompt Gate for GitHub - 5-Minute Setup
-
-### Add Prompt Quality Gates to Any Repository
-
-**Prompt Gate** runs automated prompt evaluation on every pull request, helping teams maintain high prompt quality standards. Runs **offline by default** with zero API costs.
-
-#### Quick Setup (5 Steps)
-
-1. **Copy the workflow file**
-
-   ```bash
-   curl -o .github/workflows/prompt-gate.yml https://raw.githubusercontent.com/mattjutt1/prompt-wizard/main/examples/prompt-gate.min.yml
+   ```
+   repos:
+     - repo: https://github.com/gitleaks/gitleaks
+       rev: v8.16.1
+       hooks:
+         - id: gitleaks
    ```
 
-2. **Create config file** in your repository root:
+   for a [native execution of GitLeaks](https://github.com/zricethezav/gitleaks/releases) or use the [`gitleaks-docker` pre-commit ID](https://github.com/zricethezav/gitleaks/blob/master/.pre-commit-hooks.yaml) for executing GitLeaks using the [official Docker images](#docker)
 
-   ```bash
-   cat > .promptops.yml << 'EOF'
-   version: '1.0'
-   threshold: 0.80
-   model: 'mock'
-   test_prompts:
-     - 'Write a function to calculate fibonacci numbers'
-     - 'Explain quantum computing in simple terms'
-   EOF
-   ```
+3. Auto-update the config to the latest repos' versions by executing `pre-commit autoupdate`
+4. Install with `pre-commit install`
+5. Now you're all set!
 
-3. **Enable branch protection** (GitHub web interface):
-   - Go to **Settings → Branches → Add rule**
-   - Check **"Require status checks to pass before merging"**
-   - Select **"Prompt Gate"** from the status checks list
-
-4. **Test with a PR**:
-
-   ```bash
-   git checkout -b test-prompt-gate
-   echo "# Test" > test.md && git add test.md && git commit -m "test: prompt gate setup"
-   git push -u origin test-prompt-gate
-   ```
-
-5. **Add the `prompt-check` label** to your PR and watch Prompt Gate evaluate your prompts!
-
-**✅ That's it!** Your repository now has automated prompt quality gates with zero ongoing costs.
-
-📖 **[Full Installation Guide](docs/install.md)** | 🔧 **[Advanced Configuration](docs/install.md#advanced-configuration)** | ❓ **[Troubleshooting](docs/install.md#troubleshooting)**
-
----
-
-## Quick Start (Local Development Only)
-
-### Prerequisites
-
-1. Node.js 18+
-2. Ollama installed locally
-3. Qwen3:4b model downloaded
-
-### Setup
-
-```bash
-# Clone repository
-git clone https://github.com/mattjutt1/prompt-wizard.git
-cd prompt-wizard
-
-# Install Ollama model
-ollama pull qwen3:4b
-
-# Start Ollama service
-ollama serve
-
-# Install dependencies
-cd nextjs-app
-npm install
-
-# Start development servers
-npm run dev          # Next.js frontend
-npx convex dev       # Convex backend
+```
+➜ git commit -m "this commit contains a secret"
+Detect hardcoded secrets.................................................Failed
 ```
 
-### Usage
+Note: to disable the gitleaks pre-commit hook you can prepend `SKIP=gitleaks` to the commit command
+and it will skip running gitleaks
 
-#### Web Interface
-
-1. Navigate to <http://localhost:3000>
-2. Enter a prompt for optimization
-3. Wait 60-120 seconds for processing
-4. Review the "optimized" result
-
-#### CLI Interface
-
-```bash
-# Install the PromptOps CLI
-cd library
-pip install -e .
-
-# Basic evaluation
-promptops eval "Your prompt here"
-
-# CI/CD integration
-promptops ci --config .promptops.yml --out results.json
-
-# Budget management (requires provider setup)
-promptops budget set --limit 50.0 --org myorg --project myproject
-promptops budget status --org myorg --project myproject
-promptops budget report --days 30
-
-# Cache management
-promptops cache stats
-promptops cache clear --expired
-promptops cache cleanup --max-size 1000
-
-# Initialize configuration
-promptops init
+```
+➜ SKIP=gitleaks git commit -m "skip gitleaks check"
+Detect hardcoded secrets................................................Skipped
 ```
 
-## Performance Metrics (Validated Through Testing)
+## Usage
 
-| Operation | Time | Test Status | Notes |
-|-----------|------|-------------|-------|
-| Health Check | <5s | ✅ Tested | Real connectivity validation |
-| Prompt Optimization | 60-120s | ✅ Tested | Varies by prompt complexity |
-| Model Loading | 10-30s | ✅ Tested | First-time startup |
-| Batch Processing | 2-5min | ✅ Tested | Multiple prompts with tracking |
-| CLI Commands | <1s | ✅ Tested | All CLI operations validated |
-| API Responses | <200ms | ✅ Tested | Excluding AI processing time |
+```
+Usage:
+  gitleaks [command]
 
-## Architecture Notes
+Available Commands:
+  completion  generate the autocompletion script for the specified shell
+  detect      detect secrets in code
+  help        Help about any command
+  protect     protect secrets in code
+  version     display gitleaks version
 
-### Current Architecture (Development Only)
+Flags:
+  -b, --baseline-path string       path to baseline with issues that can be ignored
+  -c, --config string              config file path
+                                   order of precedence:
+                                   1. --config/-c
+                                   2. env var GITLEAKS_CONFIG
+                                   3. (--source/-s)/.gitleaks.toml
+                                   If none of the three options are used, then gitleaks will use the default config
+      --exit-code int              exit code when leaks have been encountered (default 1)
+  -h, --help                       help for gitleaks
+  -l, --log-level string           log level (trace, debug, info, warn, error, fatal) (default "info")
+      --max-target-megabytes int   files larger than this will be skipped
+      --no-color                   turn off color for verbose output
+      --no-banner                  suppress banner
+      --redact                     redact secrets from logs and stdout
+  -f, --report-format string       output format (json, csv, junit, sarif) (default "json")
+  -r, --report-path string         report file
+  -s, --source string              path to source (default ".")
+  -v, --verbose                    show verbose output from scan
 
-```text
-Next.js Frontend (localhost:3000)
-    ↓
-Convex Actions (serverless)
-    ↓
-Ollama API (localhost:11434)
-    ↓
-Qwen3:4b Model (local)
+Use "gitleaks [command] --help" for more information about a command.
 ```
 
-### Production Deployment Architecture
+### Commands
 
-- **Hybrid Architecture**: Convex cloud backend + local AI processing
-- **Scalable Model Deployment**: 2.6GB Qwen3:4b optimized for efficiency
-- **Advanced Error Handling**: Comprehensive retry logic and graceful degradation
-- **Real-time Monitoring**: Health checking and performance metrics
-- **CLI Integration**: Professional terminal interface for power users
+There are two commands you will use to detect secrets; `detect` and `protect`.
 
-## Version History
+#### Detect
 
-- **v0.1.15** (August 2025): **Production Ready Release**
-  - ✅ 114 comprehensive tests implemented and passed
-  - ✅ Complete CLI with PromptWizard integration
-  - ✅ Professional terminal UI with batch processing
-  - ✅ Real API validation and error handling
-  - ✅ 100% test success rate through systematic fixes
-  - ✅ Convex backend fully deployed and operational
-  - ✅ Advanced error recovery and retry logic
+The `detect` command is used to scan repos, directories, and files. This command can be used on developer machines and in CI environments.
 
-- **v0.1.0**: Initial development foundation
-  - Basic Ollama integration
-  - Simple UI implementation
-  - Local development setup
+When running `detect` on a git repository, gitleaks will parse the output of a `git log -p` command (you can see how this executed
+[here](https://github.com/zricethezav/gitleaks/blob/7240e16769b92d2a1b137c17d6bf9d55a8562899/git/git.go#L17-L25)).
+[`git log -p` generates patches](https://git-scm.com/docs/git-log#_generating_patch_text_with_p) which gitleaks will use to detect secrets.
+You can configure what commits `git log` will range over by using the `--log-opts` flag. `--log-opts` accepts any option for `git log -p`.
+For example, if you wanted to run gitleaks on a range of commits you could use the following command: `gitleaks detect --source . --log-opts="--all commitA..commitB"`.
+See the `git log` [documentation](https://git-scm.com/docs/git-log) for more information.
 
-## Contributing
+You can scan files and directories by using the `--no-git` option.
 
-This is a fully tested, production-ready application. Recent achievements include:
+If you want to run only specific rules you can do so by using the `--enable-rule` option (with a rule ID as a parameter), this flag can be used multiple times. For example: `--enable-rule=atlassian-api-token` will only apply that rule. You can find a list of rules [here](config/gitleaks.toml).
 
-✅ **Already Implemented:**
+#### Protect
 
-1. Hybrid cloud/local architecture with Convex backend
-2. Complete PromptWizard framework integration
-3. Advanced error handling and retry logic
-4. Production-optimized performance
-5. Comprehensive testing framework (114 tests)
+The `protect` command is used to scan uncommitted changes in a git repo. This command should be used on developer machines in accordance with
+[shifting left on security](https://cloud.google.com/architecture/devops/devops-tech-shifting-left-on-security).
+When running `protect` on a git repository, gitleaks will parse the output of a `git diff` command (you can see how this executed
+[here](https://github.com/zricethezav/gitleaks/blob/7240e16769b92d2a1b137c17d6bf9d55a8562899/git/git.go#L48-L49)). You can set the
+`--staged` flag to check for changes in commits that have been `git add`ed. The `--staged` flag should be used when running Gitleaks
+as a pre-commit.
 
-🔧 **Future Enhancements:**
+**NOTE**: the `protect` command can only be used on git repos, running `protect` on files or directories will result in an error message.
 
-1. Additional AI model support
-2. Enhanced UI/UX features
-3. Advanced analytics and reporting
-4. API rate limiting and optimization
-5. Extended batch processing capabilities
+### Creating a baseline
 
-## License
+When scanning large repositories or repositories with a long history, it can be convenient to use a baseline. When using a baseline,
+gitleaks will ignore any old findings that are present in the baseline. A baseline can be any gitleaks report. To create a gitleaks report, run gitleaks with the `--report-path` parameter.
 
-MIT License - See LICENSE file for details
+```
+gitleaks detect --report-path gitleaks-report.json # This will save the report in a file called gitleaks-report.json
+```
 
-## Test Validation Summary
+Once as baseline is created it can be applied when running the detect command again:
 
-**Comprehensive Testing Completed (August 2025):**
+```
+gitleaks detect --baseline-path gitleaks-report.json --report-path findings.json
+```
 
-- 🎯 **114 Total Tests**: Complete coverage across all systems
-- ✅ **100% Success Rate**: All tests passing after systematic fixes
-- 🔍 **Real API Testing**: Actual endpoint validation completed
-- 🛡️ **Error Recovery**: Comprehensive failure scenario testing
-- ⚡ **Performance Validation**: Timing and throughput verified
-- 📊 **Quality Metrics**: Test-driven development approach
+After running the detect command with the --baseline-path parameter, report output (findings.json) will only contain new issues.
 
-**Ready for Production Deployment** with comprehensive validation and testing evidence.
+### Verify Findings
+
+You can verify a finding found by gitleaks using a `git log` command.
+Example output:
+
+```
+Finding:     aws_secret="AKIAIMNOJVGFDXXXE4OA"
+RuleID:      aws-access-token
+Secret       AKIAIMNOJVGFDXXXE4OA
+Entropy:     3.65
+File:        checks_test.go
+Line:        37
+Commit:      ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29
+Author:      Zachary Rice
+Email:       z@email.com
+Date:        2018-01-28T17:39:00Z
+Fingerprint: ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29:checks_test.go:aws-access-token:37
+```
+
+We can use the following format to verify the leak:
+
+```
+git log -L {StartLine,EndLine}:{File} {Commit}
+```
+
+So in this example it would look like:
+
+```
+git log -L 37,37:checks_test.go ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29
+```
+
+Which gives us:
+
+```
+commit ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29
+Author: zricethezav <thisispublicanyways@gmail.com>
+Date:   Sun Jan 28 17:39:00 2018 -0500
+
+    [update] entropy check
+
+diff --git a/checks_test.go b/checks_test.go
+--- a/checks_test.go
++++ b/checks_test.go
+@@ -28,0 +37,1 @@
++               "aws_secret= \"AKIAIMNOJVGFDXXXE4OA\"":          true,
+
+```
+
+## Pre-Commit hook
+
+You can run Gitleaks as a pre-commit hook by copying the example `pre-commit.py` script into
+your `.git/hooks/` directory.
+
+## Configuration
+
+Gitleaks offers a configuration format you can follow to write your own secret detection rules:
+
+```toml
+# Title for the gitleaks configuration file.
+title = "Gitleaks title"
+
+# Extend the base (this) configuration. When you extend a configuration
+# the base rules take precedence over the extended rules. I.e., if there are
+# duplicate rules in both the base configuration and the extended configuration
+# the base rules will override the extended rules.
+# Another thing to know with extending configurations is you can chain together
+# multiple configuration files to a depth of 2. Allowlist arrays are appended
+# and can contain duplicates.
+# useDefault and path can NOT be used at the same time. Choose one.
+[extend]
+# useDefault will extend the base configuration with the default gitleaks config:
+# https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml
+useDefault = true
+# or you can supply a path to a configuration. Path is relative to where gitleaks
+# was invoked, not the location of the base config.
+path = "common_config.toml"
+
+# An array of tables that contain information that define instructions
+# on how to detect secrets
+[[rules]]
+
+# Unique identifier for this rule
+id = "awesome-rule-1"
+
+# Short human readable description of the rule.
+description = "awesome rule 1"
+
+# Golang regular expression used to detect secrets. Note Golang's regex engine
+# does not support lookaheads.
+regex = '''one-go-style-regex-for-this-rule'''
+
+# Golang regular expression used to match paths. This can be used as a standalone rule or it can be used
+# in conjunction with a valid `regex` entry.
+path = '''a-file-path-regex'''
+
+# Array of strings used for metadata and reporting purposes.
+tags = ["tag","another tag"]
+
+# Int used to extract secret from regex match and used as the group that will have
+# its entropy checked if `entropy` is set.
+secretGroup = 3
+
+# Float representing the minimum shannon entropy a regex group must have to be considered a secret.
+entropy = 3.5
+
+# Keywords are used for pre-regex check filtering. Rules that contain
+# keywords will perform a quick string compare check to make sure the
+# keyword(s) are in the content being scanned. Ideally these values should
+# either be part of the idenitifer or unique strings specific to the rule's regex
+# (introduced in v8.6.0)
+keywords = [
+  "auth",
+  "password",
+  "token",
+]
+
+# You can include an allowlist table for a single rule to reduce false positives or ignore commits
+# with known/rotated secrets
+[rules.allowlist]
+description = "ignore commit A"
+commits = [ "commit-A", "commit-B"]
+paths = [
+  '''go\.mod''',
+  '''go\.sum'''
+]
+# note: (rule) regexTarget defaults to check the _Secret_ in the finding.
+# if regexTarget is not specified then _Secret_ will be used.
+# Acceptable values for regexTarget are "match" and "line"
+regexTarget = "match"
+regexes = [
+  '''process''',
+  '''getenv''',
+]
+# note: stopwords targets the extracted secret, not the entire regex match
+# like 'regexes' does. (stopwords introduced in 8.8.0)
+stopwords = [
+  '''client''',
+  '''endpoint''',
+]
+
+
+# This is a global allowlist which has a higher order of precedence than rule-specific allowlists.
+# If a commit listed in the `commits` field below is encountered then that commit will be skipped and no
+# secrets will be detected for said commit. The same logic applies for regexes and paths.
+[allowlist]
+description = "global allow list"
+commits = [ "commit-A", "commit-B", "commit-C"]
+paths = [
+  '''gitleaks\.toml''',
+  '''(.*?)(jpg|gif|doc)'''
+]
+
+# note: (global) regexTarget defaults to check the _Secret_ in the finding.
+# if regexTarget is not specified then _Secret_ will be used.
+# Acceptable values for regexTarget are "match" and "line"
+regexTarget = "match"
+
+regexes = [
+  '''219-09-9999''',
+  '''078-05-1120''',
+  '''(9[0-9]{2}|666)-\d{2}-\d{4}''',
+]
+# note: stopwords targets the extracted secret, not the entire regex match
+# like 'regexes' does. (stopwords introduced in 8.8.0)
+stopwords = [
+  '''client''',
+  '''endpoint''',
+]
+```
+
+Refer to the default [gitleaks config](https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml) for examples or follow the [contributing guidelines](https://github.com/gitleaks/gitleaks/blob/master/CONTRIBUTING.md) if you would like to contribute to the default configuration. Additionally, you can check out [this gitleaks blog post](https://blog.gitleaks.io/stop-leaking-secrets-configuration-2-3-aeed293b1fbf) which covers advanced configuration setups.
+
+### Additional Configuration
+
+#### gitleaks:allow
+
+If you are knowingly committing a test secret that gitleaks will catch you can add a `gitleaks:allow` comment to that line which will instruct gitleaks
+to ignore that secret. Ex:
+
+```
+class CustomClass:
+    discord_client_secret = '8dyfuiRyq=vVc3RRr_edRk-fK__JItpZ'  #gitleaks:allow
+
+```
+
+#### .gitleaksignore
+
+You can ignore specific findings by creating a `.gitleaksignore` file at the root of your repo. In release v8.10.0 Gitleaks added a `Fingerprint` value to the Gitleaks report. Each leak, or finding, has a Fingerprint that uniquely identifies a secret. Add this fingerprint to the `.gitleaksignore` file to ignore that specific secret. See Gitleaks' [.gitleaksignore](https://github.com/zricethezav/gitleaks/blob/master/.gitleaksignore) for an example. Note: this feature is experimental and is subject to change in the future.
+
+## Sponsorships
+<p align="left">
+	<h3><a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">coderabbit.ai</h3>
+	  <a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">
+		  <img alt="CodeRabbit.ai Sponsorship" src="https://github.com/gitleaks/gitleaks/assets/15034943/76c30a85-887b-47ca-9956-17a8e55c6c41" width=200>
+	  </a>
+</p>
+<p align="left">
+	  <a href="https://www.tines.com/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">
+		  <img alt="Tines Sponsorship" src="https://user-images.githubusercontent.com/15034943/146411864-4878f936-b4f7-49a0-b625-f9f40c704bfa.png" width=200>
+	  </a>
+  </p>
+
+
+## Exit Codes
+
+You can always set the exit code when leaks are encountered with the --exit-code flag. Default exit codes below:
+
+```
+0 - no leaks present
+1 - leaks or error encountered
+126 - unknown flag
+```

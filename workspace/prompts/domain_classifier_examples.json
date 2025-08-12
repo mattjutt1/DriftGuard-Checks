@@ -1,0 +1,534 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Domain Classifier Training Examples",
+  "description": "Comprehensive examples for training and testing the PromptEvolver 3.0 domain classification system",
+  "version": "1.0",
+  "examples": {
+    "analytics_domain": {
+      "high_confidence": [
+        {
+          "prompt": "Analyze our quarterly sales performance and identify key trends in customer acquisition costs",
+          "classification": {
+            "primaryDomain": "Analytics",
+            "primaryConfidence": 0.95,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.95
+          },
+          "analysis": {
+            "keyIndicators": ["analyze", "quarterly", "performance", "trends", "customer acquisition costs"],
+            "domainSignals": {
+              "Analytics": 0.95,
+              "Coding": 0.05,
+              "Content": 0.10,
+              "CrossDomain": 0.15
+            },
+            "reasoning": "Strong analytics vocabulary with clear data analysis intent. Keywords 'analyze', 'performance', 'trends' are definitive analytics indicators.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "analytics_specialist",
+            "additionalContext": []
+          }
+        },
+        {
+          "prompt": "Create a dashboard showing KPI metrics for our marketing campaigns with drill-down capabilities",
+          "classification": {
+            "primaryDomain": "Analytics",
+            "primaryConfidence": 0.92,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.92
+          },
+          "analysis": {
+            "keyIndicators": ["dashboard", "KPI", "metrics", "campaigns", "drill-down"],
+            "domainSignals": {
+              "Analytics": 0.92,
+              "Coding": 0.20,
+              "Content": 0.15,
+              "CrossDomain": 0.25
+            },
+            "reasoning": "Clear analytics focus with visualization requirements. 'Dashboard', 'KPI', and 'metrics' are strong analytics signals.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "analytics_visualization",
+            "additionalContext": []
+          }
+        }
+      ],
+      "medium_confidence": [
+        {
+          "prompt": "Show me the performance of our website over the last quarter",
+          "classification": {
+            "primaryDomain": "Analytics",
+            "primaryConfidence": 0.78,
+            "secondaryDomain": "Coding",
+            "secondaryConfidence": 0.35,
+            "overallConfidence": 0.72
+          },
+          "analysis": {
+            "keyIndicators": ["performance", "website", "quarter"],
+            "domainSignals": {
+              "Analytics": 0.78,
+              "Coding": 0.35,
+              "Content": 0.20,
+              "CrossDomain": 0.30
+            },
+            "reasoning": "Performance analysis indicates Analytics domain, but 'website' could involve technical aspects. Medium confidence due to potential technical component.",
+            "ambiguityFlags": ["technical_context_possible"],
+            "contextRequirements": ["specify_metrics_of_interest"]
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "analytics_web_performance",
+            "additionalContext": ["clarify_technical_vs_business_metrics"]
+          }
+        }
+      ]
+    },
+    "coding_domain": {
+      "high_confidence": [
+        {
+          "prompt": "Write a Python function to sort a list of dictionaries by multiple keys with custom comparison logic",
+          "classification": {
+            "primaryDomain": "Coding",
+            "primaryConfidence": 0.98,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.98
+          },
+          "analysis": {
+            "keyIndicators": ["Python", "function", "sort", "dictionaries", "comparison logic"],
+            "domainSignals": {
+              "Analytics": 0.10,
+              "Coding": 0.98,
+              "Content": 0.05,
+              "CrossDomain": 0.10
+            },
+            "reasoning": "Definitive coding request with specific programming language, data structures, and algorithmic requirements. No ambiguity present.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "coding_algorithm",
+            "additionalContext": []
+          }
+        },
+        {
+          "prompt": "Implement a REST API endpoint for user authentication using JWT tokens and rate limiting",
+          "classification": {
+            "primaryDomain": "Coding",
+            "primaryConfidence": 0.96,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.96
+          },
+          "analysis": {
+            "keyIndicators": ["REST API", "endpoint", "authentication", "JWT tokens", "rate limiting"],
+            "domainSignals": {
+              "Analytics": 0.05,
+              "Coding": 0.96,
+              "Content": 0.05,
+              "CrossDomain": 0.15
+            },
+            "reasoning": "Clear backend development task with specific technical requirements. Strong coding vocabulary and implementation focus.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "coding_backend",
+            "additionalContext": []
+          }
+        }
+      ],
+      "medium_confidence": [
+        {
+          "prompt": "Help me optimize the performance of my database queries",
+          "classification": {
+            "primaryDomain": "Coding",
+            "primaryConfidence": 0.75,
+            "secondaryDomain": "Analytics",
+            "secondaryConfidence": 0.40,
+            "overallConfidence": 0.68
+          },
+          "analysis": {
+            "keyIndicators": ["optimize", "performance", "database", "queries"],
+            "domainSignals": {
+              "Analytics": 0.40,
+              "Coding": 0.75,
+              "Content": 0.05,
+              "CrossDomain": 0.30
+            },
+            "reasoning": "Technical optimization task suggests Coding, but 'performance' could indicate Analytics. Database context leans toward technical implementation.",
+            "ambiguityFlags": ["performance_context_ambiguous"],
+            "contextRequirements": ["specify_optimization_goals"]
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "coding_database_performance",
+            "additionalContext": ["clarify_performance_metrics_vs_code_optimization"]
+          }
+        }
+      ]
+    },
+    "content_domain": {
+      "high_confidence": [
+        {
+          "prompt": "Write compelling marketing copy for our new SaaS product launch targeting small business owners",
+          "classification": {
+            "primaryDomain": "Content",
+            "primaryConfidence": 0.94,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.94
+          },
+          "analysis": {
+            "keyIndicators": ["write", "marketing copy", "product launch", "targeting", "small business owners"],
+            "domainSignals": {
+              "Analytics": 0.10,
+              "Coding": 0.05,
+              "Content": 0.94,
+              "CrossDomain": 0.20
+            },
+            "reasoning": "Clear content creation request with audience targeting and marketing focus. Strong content domain vocabulary throughout.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "content_marketing",
+            "additionalContext": []
+          }
+        },
+        {
+          "prompt": "Create a blog post about sustainable technology trends for our company website",
+          "classification": {
+            "primaryDomain": "Content",
+            "primaryConfidence": 0.91,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.91
+          },
+          "analysis": {
+            "keyIndicators": ["create", "blog post", "trends", "company website"],
+            "domainSignals": {
+              "Analytics": 0.15,
+              "Coding": 0.10,
+              "Content": 0.91,
+              "CrossDomain": 0.15
+            },
+            "reasoning": "Content creation task with clear writing and publishing intent. 'Blog post' and 'company website' are strong content indicators.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "standard",
+            "optimizationStrategy": "content_editorial",
+            "additionalContext": []
+          }
+        }
+      ],
+      "medium_confidence": [
+        {
+          "prompt": "Improve the messaging in our user onboarding flow",
+          "classification": {
+            "primaryDomain": "Content",
+            "primaryConfidence": 0.72,
+            "secondaryDomain": "Cross-Domain",
+            "secondaryConfidence": 0.45,
+            "overallConfidence": 0.66
+          },
+          "analysis": {
+            "keyIndicators": ["improve", "messaging", "user onboarding", "flow"],
+            "domainSignals": {
+              "Analytics": 0.25,
+              "Coding": 0.30,
+              "Content": 0.72,
+              "CrossDomain": 0.45
+            },
+            "reasoning": "Messaging improvement suggests Content, but 'onboarding flow' implies UX/technical considerations. Cross-domain potential due to user experience aspects.",
+            "ambiguityFlags": ["ux_technical_overlap"],
+            "contextRequirements": ["specify_messaging_vs_flow_focus"]
+          },
+          "recommendations": {
+            "processingRoute": "hybrid",
+            "optimizationStrategy": "content_ux_messaging",
+            "additionalContext": ["clarify_technical_vs_content_requirements"]
+          }
+        }
+      ]
+    },
+    "cross_domain": {
+      "high_confidence": [
+        {
+          "prompt": "Create a comprehensive project plan for implementing a new analytics dashboard with integrated marketing content and API development",
+          "classification": {
+            "primaryDomain": "Cross-Domain",
+            "primaryConfidence": 0.89,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.89
+          },
+          "analysis": {
+            "keyIndicators": ["project plan", "analytics dashboard", "marketing content", "API development"],
+            "domainSignals": {
+              "Analytics": 0.60,
+              "Coding": 0.55,
+              "Content": 0.50,
+              "CrossDomain": 0.89
+            },
+            "reasoning": "Clear multi-domain task combining Analytics (dashboard), Coding (API), and Content (marketing). Project management focus confirms Cross-Domain classification.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "hybrid",
+            "optimizationStrategy": "cross_domain_project_management",
+            "additionalContext": []
+          }
+        },
+        {
+          "prompt": "Develop a strategy to optimize our development workflow while improving team communication and content delivery processes",
+          "classification": {
+            "primaryDomain": "Cross-Domain",
+            "primaryConfidence": 0.87,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.87
+          },
+          "analysis": {
+            "keyIndicators": ["strategy", "optimize", "development workflow", "team communication", "content delivery"],
+            "domainSignals": {
+              "Analytics": 0.30,
+              "Coding": 0.55,
+              "Content": 0.45,
+              "CrossDomain": 0.87
+            },
+            "reasoning": "Strategic optimization spanning multiple domains: development (Coding), communication processes, and content delivery. Cross-domain integration required.",
+            "ambiguityFlags": [],
+            "contextRequirements": []
+          },
+          "recommendations": {
+            "processingRoute": "hybrid",
+            "optimizationStrategy": "cross_domain_process_optimization",
+            "additionalContext": []
+          }
+        }
+      ],
+      "medium_confidence": [
+        {
+          "prompt": "Help me create a solution for customer onboarding that includes technical setup and educational content",
+          "classification": {
+            "primaryDomain": "Cross-Domain",
+            "primaryConfidence": 0.74,
+            "secondaryDomain": "Content",
+            "secondaryConfidence": 0.55,
+            "overallConfidence": 0.69
+          },
+          "analysis": {
+            "keyIndicators": ["solution", "customer onboarding", "technical setup", "educational content"],
+            "domainSignals": {
+              "Analytics": 0.20,
+              "Coding": 0.50,
+              "Content": 0.55,
+              "CrossDomain": 0.74
+            },
+            "reasoning": "Multi-faceted solution combining technical (Coding) and content creation elements. Cross-domain due to integration requirements, but Content is strong secondary.",
+            "ambiguityFlags": ["content_technical_balance"],
+            "contextRequirements": ["specify_technical_complexity_level"]
+          },
+          "recommendations": {
+            "processingRoute": "hybrid",
+            "optimizationStrategy": "cross_domain_customer_onboarding",
+            "additionalContext": ["clarify_technical_vs_content_emphasis"]
+          }
+        }
+      ]
+    },
+    "edge_cases": {
+      "ambiguous_multi_domain": [
+        {
+          "prompt": "Create a report on our website's performance",
+          "classification": {
+            "primaryDomain": "Analytics",
+            "primaryConfidence": 0.65,
+            "secondaryDomain": "Content",
+            "secondaryConfidence": 0.55,
+            "overallConfidence": 0.62
+          },
+          "analysis": {
+            "keyIndicators": ["create", "report", "website", "performance"],
+            "domainSignals": {
+              "Analytics": 0.65,
+              "Coding": 0.35,
+              "Content": 0.55,
+              "CrossDomain": 0.40
+            },
+            "reasoning": "Ambiguous between Analytics (performance measurement) and Content (report creation). Context suggests data analysis as primary intent.",
+            "ambiguityFlags": ["multi_domain_overlap", "intent_ambiguous"],
+            "contextRequirements": ["specify_report_format", "clarify_performance_metrics"]
+          },
+          "recommendations": {
+            "processingRoute": "hybrid",
+            "optimizationStrategy": "analytics_reporting",
+            "additionalContext": ["request_specific_metrics", "clarify_audience"]
+          }
+        }
+      ],
+      "vague_incomplete": [
+        {
+          "prompt": "Help me with my project",
+          "classification": {
+            "primaryDomain": "Cross-Domain",
+            "primaryConfidence": 0.35,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.35
+          },
+          "analysis": {
+            "keyIndicators": ["help", "project"],
+            "domainSignals": {
+              "Analytics": 0.25,
+              "Coding": 0.25,
+              "Content": 0.25,
+              "CrossDomain": 0.35
+            },
+            "reasoning": "Extremely vague prompt with insufficient context for confident classification. Requires significant additional information.",
+            "ambiguityFlags": ["insufficient_context", "vague_intent"],
+            "contextRequirements": ["specify_project_type", "define_help_needed", "provide_domain_context"]
+          },
+          "recommendations": {
+            "processingRoute": "manual_review",
+            "optimizationStrategy": "context_gathering",
+            "additionalContext": ["request_project_details", "clarify_specific_needs"]
+          }
+        },
+        {
+          "prompt": "Need analysis of",
+          "classification": {
+            "primaryDomain": "Analytics",
+            "primaryConfidence": 0.45,
+            "secondaryDomain": null,
+            "secondaryConfidence": 0.0,
+            "overallConfidence": 0.25
+          },
+          "analysis": {
+            "keyIndicators": ["analysis"],
+            "domainSignals": {
+              "Analytics": 0.45,
+              "Coding": 0.20,
+              "Content": 0.20,
+              "CrossDomain": 0.25
+            },
+            "reasoning": "Incomplete prompt with 'analysis' suggesting Analytics domain, but missing critical context and object of analysis.",
+            "ambiguityFlags": ["incomplete_prompt", "missing_context"],
+            "contextRequirements": ["complete_the_request", "specify_analysis_target"]
+          },
+          "recommendations": {
+            "processingRoute": "manual_review",
+            "optimizationStrategy": "request_completion",
+            "additionalContext": ["ask_for_complete_prompt"]
+          }
+        }
+      ],
+      "technical_content_hybrid": [
+        {
+          "prompt": "Write comprehensive API documentation for our new REST endpoints",
+          "classification": {
+            "primaryDomain": "Content",
+            "primaryConfidence": 0.68,
+            "secondaryDomain": "Coding",
+            "secondaryConfidence": 0.75,
+            "overallConfidence": 0.71
+          },
+          "analysis": {
+            "keyIndicators": ["write", "documentation", "API", "REST endpoints"],
+            "domainSignals": {
+              "Analytics": 0.15,
+              "Coding": 0.75,
+              "Content": 0.68,
+              "CrossDomain": 0.45
+            },
+            "reasoning": "Hybrid task requiring both technical knowledge (Coding) and documentation writing skills (Content). Content slightly higher due to 'write documentation' intent.",
+            "ambiguityFlags": ["technical_content_hybrid"],
+            "contextRequirements": ["specify_audience_technical_level"]
+          },
+          "recommendations": {
+            "processingRoute": "hybrid",
+            "optimizationStrategy": "content_technical_documentation",
+            "additionalContext": ["clarify_audience_expertise", "specify_documentation_depth"]
+          }
+        }
+      ]
+    }
+  },
+  "performance_benchmarks": {
+    "accuracy_targets": {
+      "high_confidence_prompts": 0.95,
+      "medium_confidence_prompts": 0.88,
+      "edge_case_handling": 0.82,
+      "overall_accuracy": 0.92
+    },
+    "processing_targets": {
+      "classification_time_ms": 800,
+      "confidence_calibration_accuracy": 0.93,
+      "consistency_across_similar": 0.95
+    },
+    "quality_metrics": {
+      "false_positive_rate": 0.05,
+      "false_negative_rate": 0.06,
+      "confidence_correlation": 0.89
+    }
+  },
+  "validation_scenarios": {
+    "consistency_tests": [
+      {
+        "prompt_variations": [
+          "Analyze our quarterly sales data",
+          "Please analyze the quarterly sales data",
+          "I need an analysis of our Q3 sales data"
+        ],
+        "expected_domain": "Analytics",
+        "confidence_threshold": 0.85,
+        "variance_tolerance": 0.05
+      }
+    ],
+    "confidence_calibration": [
+      {
+        "confidence_range": "0.9-1.0",
+        "expected_accuracy": 0.95,
+        "sample_size": 100
+      },
+      {
+        "confidence_range": "0.7-0.89",
+        "expected_accuracy": 0.82,
+        "sample_size": 150
+      }
+    ]
+  },
+  "metadata": {
+    "created": "2025-01-08",
+    "version": "1.0",
+    "total_examples": 42,
+    "domain_distribution": {
+      "Analytics": 12,
+      "Coding": 10,
+      "Content": 10,
+      "Cross-Domain": 10
+    },
+    "confidence_distribution": {
+      "high": 24,
+      "medium": 12,
+      "low": 6
+    },
+    "copyright": "Copyright (c) 2025 Matthew J. Utt",
+    "license": "MIT License - Compatible with Microsoft PromptWizard Framework"
+  }
+}

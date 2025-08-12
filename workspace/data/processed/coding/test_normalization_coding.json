@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "domain": "Coding",
+    "record_count": 1,
+    "generation_timestamp": 1754586655,
+    "schema_version": "1.0",
+    "source": "test_normalization"
+  },
+  "records": [
+    {
+      "originalPrompt": "Create a Python function to sort a list",
+      "enhancedPrompt": "As an experienced Python developer, create a comprehensive sorting function that handles multiple data types and sorting criteria. Requirements: 1) Function signature: def advanced_sort(data, key=None, reverse=False, algorithm='quicksort'), 2) Support for lists, tuples, and custom objects, 3) Multiple sorting algorithms (quicksort, mergesort, heapsort), 4) Custom comparison functions via key parameter, 5) Error handling for invalid inputs, 6) Type hints and comprehensive docstring, 7) Unit tests demonstrating functionality, 8) Time complexity analysis in comments. Include examples for sorting dictionaries by values, custom objects by attributes, and mixed data types with appropriate error handling.",
+      "domain": "Coding",
+      "metadata": {
+        "qualityScore": {
+          "overall": 0.75,
+          "clarity": 0.73,
+          "specificity": 0.72,
+          "engagement": 0.76,
+          "structure": 0.74,
+          "completeness": 0.71,
+          "errorPrevention": 0.7
+        },
+        "improvementAreas": [
+          "Added comprehensive detail and specificity",
+          "Added professional role context"
+        ],
+        "processingTimestamp": 1754586655,
+        "expertIdentity": "Coding Specialist",
+        "optimizationConfig": {
+          "iterations": 3,
+          "rounds": 3,
+          "temperature": 0.7,
+          "generateReasoning": true,
+          "generateExpertIdentity": true
+        },
+        "reasoning": "Prompt enhanced for coding domain with improved clarity, specificity, and structure."
+      },
+      "followUpQuestions": [],
+      "tags": [
+        "coding",
+        "normalized",
+        "training-data"
+      ],
+      "version": "1.0"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+You are my DevOps pair. We’re deploying the Probot app at apps/driftguard-checks-app/ to Render as an always-on web service. Do the following EXACTLY and stop after verification steps.
+
+CONTEXT
+- Repo: mattjutt1/prompt-wizard
+- App path: apps/driftguard-checks-app
+- Local works on PORT=3001 with Smee. Prod will not use smee.
+- The app already works locally and creates “prompt-check” check runs.
+- We’ll make production start: `npx probot run ./dist/index.js`
+
+GOALS
+- Production build (TypeScript -> JS).
+- Render blueprint via render.yaml.
+- Use env secrets: APP_ID, WEBHOOK_SECRET, PRIVATE_KEY (PEM contents), APP_URL (service URL).
+- Expose HTTP on $PORT (Render injects PORT).
+- Update GitHub App’s Webhook URL to the Render URL.
+- Verify check runs on PR #12 (pass) and PR #13 (fail).
+
+STEP 1 — Prep package scripts & build output (in apps/driftguard-checks-app)
+1. Open package.json and ensure scripts contain:
+   {
+     "scripts": {
+       "build": "tsc -p tsconfig.json",
+       "start": "probot run ./dist/index.js",
+       "start:dev": "PROBOT_LOG_LEVEL=debug PORT=3001 NODE_OPTIONS='-r ts-node/register' probot run ./src/index.ts",
+       "smoke": "node scripts/smoke-test.js"
+     }
+   }
+   - If “build” or “start” differ, update them.
+   - Do not remove start:dev.
+2. Ensure tsconfig.json outputs to ./dist (compilerOptions.outDir = "dist").
+3. Create or update a minimal health endpoint if needed (Probot serves /probot; okay to skip).
+
+STEP 2 — Add render.yaml at repo root (~/prompt-wizard/render.yaml)
+Create this EXACT file:
+
+---
+services:
+  - type: web
+    name: driftguard-checks
+    rootDir: apps/driftguard-checks-app
+    env: node
+    plan: starter
+    autoDeploy: true
+    buildCommand: |
+      npm ci
+      npm run build
+    startCommand: |
+      npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_ID
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+    healthCheckPath: /probot
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+
+NOTES:
+- We’ll paste secrets in the Render UI later.
+- PRIVATE_KEY will be the full PEM content (BEGIN/END … included).
+- Probot supports PRIVATE_KEY directly via env; no file path needed.
+
+STEP 3 — Commit to a new branch
+In repo root:
+- git checkout -b deploy/render-probot
+- git add apps/driftguard-checks-app/package.json render.yaml
+- git commit -m "chore(app): production build & render blueprint for Probot"
+- git push -u origin HEAD
+
+STEP 4 — Render deployment (STOP HERE AND PRINT INSTRUCTIONS)
+Do not attempt Render login. Just print these exact operator instructions for me:
+
+  1) Go to https://dashboard.render.com -> “New +” -> “Blueprint” -> select my repo
+  2) Confirm it detects render.yaml; choose the service “driftguard-checks”
+  3) Set Environment vars (Add Secret for each):
+     - APP_ID = 1750194   (my app id)
+     - WEBHOOK_SECRET = (paste the secret from my GitHub App page)
+     - PRIVATE_KEY = (paste full PEM including BEGIN/END lines)
+     - APP_URL = leave blank for now; we’ll set after first deploy
+  4) Click “Apply” to deploy. Wait until service is “Live”.
+  5) Copy the Render service URL (looks like https://driftguard-checks.onrender.com). 
+     Then set APP_URL in Render env to that full URL, save & redeploy once.
+
+  6) In GitHub App settings (DriftGuard Checks (Matt)):
+     - Webhook URL = https://driftguard-checks.onrender.com/ (exact domain you got)
+     - Remove WEBHOOK_PROXY_URL from .env (no smee in prod).
+     - Save changes.
+
+STEP 5 — Verification commands (print for me to run locally)
+After deploy is live and webhook URL updated, give me this exact block to run:
+
+# Verify prod webhooks & checks
+OWNER="mattjutt1"; REPO="prompt-wizard"
+for PR in 12 13; do
+  cd ~/prompt-wizard && gh pr checkout $PR >/dev/null
+  git commit --allow-empty -m "ci: prod webhook smoke on PR #$PR" && git push
+done
+
+# Show latest runs on each PR
+for PR in 12 13; do
+  SHA=$(gh pr view $PR --json headRefOid -q .headRefOid)
+  echo "--- PR #$PR (SHA: ${SHA:0:8})"
+  gh api "repos/$OWNER/$REPO/commits/$SHA/check-runs" \
+    --jq '.check_runs[] | {name, app: .app.slug, status, conclusion, details_url}' \
+  | jq -c .
+done
+
+# Confirm branch protection still keys off ONLY 'prompt-check'
+gh api -X GET \
+  "repos/$OWNER/$REPO/branches/main/protection/required_status_checks" \
+  --jq '{strict, contexts}'
+
+EXPECTED:
+- PR #12: prompt-check (app: driftguard-checks-matt) => success
+- PR #13: prompt-check (app: driftguard-checks-matt) => failure
+- GitHub Actions renamed context (e.g., prompt-gate-ci) can be anything; not required.
+- Branch protection shows contexts: ["prompt-check"] and strict: true
+
+OUTPUT
+When you finish, show:
+- The git diff (short) you made
+- The exact files you changed
+- The operator instructions verbatim
+- The verification block verbatim (as code)
+Then STOP and wait for me to complete the Render clicks.

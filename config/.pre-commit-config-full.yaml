@@ -1,0 +1,103 @@
+# Full pre-commit configuration with all checks
+# Use this after the codebase is cleaned up with the minimal config
+
+default_language_version:
+  python: python3
+
+repos:
+  # General file checks
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-json
+  - id: check-toml
+  - id: check-added-large-files
+    args: [--maxkb=5000]
+  - id: check-merge-conflict
+  - id: check-ast
+  - id: debug-statements
+  - id: detect-private-key
+  - id: mixed-line-ending
+    args: [--fix=lf]
+  - id: requirements-txt-fixer
+
+  # Python formatting with Black
+- repo: https://github.com/psf/black
+  rev: 25.1.0
+  hooks:
+  - id: black
+    args: [--line-length=100]
+    files: ^(cli/|nextjs-app/scripts/|\.claude/scripts/)
+
+  # Import sorting with isort
+- repo: https://github.com/pycqa/isort
+  rev: 6.0.1
+  hooks:
+  - id: isort
+    args: [--profile=black, --line-length=100]
+    files: ^(cli/|nextjs-app/scripts/|\.claude/scripts/)
+
+  # Linting with flake8 (only on our code)
+- repo: https://github.com/pycqa/flake8
+  rev: 7.3.0
+  hooks:
+  - id: flake8
+    args: [--max-line-length=100, '--extend-ignore=E203,W503', --max-complexity=10]
+    files: ^(cli/|nextjs-app/scripts/|\.claude/scripts/|[^/]+\.py$)
+
+  # Type checking with mypy (only on our code)
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.17.1
+  hooks:
+  - id: mypy
+    args: [--ignore-missing-imports, --no-implicit-optional, --warn-redundant-casts, --warn-unused-ignores]
+    files: ^(cli/|nextjs-app/scripts/|\.claude/scripts/)
+
+  # Security checks with bandit (only on our code)
+- repo: https://github.com/PyCQA/bandit
+  rev: 1.8.6
+  hooks:
+  - id: bandit
+    args: [-ll, -i]
+    files: ^(cli/|nextjs-app/scripts/|\.claude/scripts/|[^/]+\.py$)
+    exclude: ^tests/
+
+  # YAML formatting
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.15.0
+  hooks:
+  - id: pretty-format-yaml
+    args: [--autofix, --indent=2]
+    files: \.(yaml|yml)$
+    exclude: ^(microsoft-promptwizard/|hf-deployment/|nextjs-app/\.next/)
+
+  # Markdown linting
+- repo: https://github.com/igorshubovych/markdownlint-cli
+  rev: v0.45.0
+  hooks:
+  - id: markdownlint
+    args: [--fix]
+    files: \.md$
+    exclude: ^(microsoft-promptwizard/|hf-deployment/|node_modules/)
+
+# Global exclusions
+exclude: |
+  (?x)^(
+    microsoft-promptwizard/.*|
+    hf-deployment/.*|
+    venv/.*|
+    \.venv/.*|
+    node_modules/.*|
+    nextjs-app/node_modules/.*|
+    nextjs-app/\.next/.*|
+    \.git/.*|
+    __pycache__/.*|
+    \.pytest_cache/.*|
+    \.mypy_cache/.*|
+    build/.*|
+    dist/.*|
+    .*\.egg-info/.*
+  )$
