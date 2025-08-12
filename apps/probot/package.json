@@ -1,0 +1,21 @@
+{
+  "name": "driftguard-probot-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal Probot app that responds to /driftguard run <dataset> and posts a Check Run.",
+  "main": "index.js",
+  "scripts": {
+    "start": "probot run ./index.js",
+    "dev": "nodemon --exec probot run ./index.js"
+  },
+  "dependencies": {
+    "probot": "^13.3.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+
