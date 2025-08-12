@@ -1,7 +1,0 @@
-# Ignore Next.js app to prevent Railway from detecting it as Node.js
-nextjs-app/
-node_modules/
-*.json
-!railway.json
-.next/
-.git/
