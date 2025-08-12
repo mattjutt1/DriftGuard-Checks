@@ -89,29 +89,29 @@ class LicenseReport:
 
 class LicenseVerifier:
     """Main class for verifying data licenses"""
-    
+
     def __init__(self):
         self.data_sources = []
         self.attributions = []
         self.issues = []
         self.output_dir = Path(__file__).parent.parent / "licenses"
         self.output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     def scan_data_sources(self) -> List[DataSource]:
         """Scan all data directories for sources"""
         sources = []
-        
+
         # Known source locations
         data_dirs = [
             Path(__file__).parent.parent / "data" / "raw",
             Path(__file__).parent.parent / "data" / "processed",
             Path(__file__).parent.parent / "microsoft-promptwizard"
         ]
-        
+
         for data_dir in data_dirs:
             if not data_dir.exists():
                 continue
-            
+
             # Look for data files
             for pattern in ["*.json", "*.jsonl", "*.csv", "*.txt", "*.parquet"]:
                 for file_path in data_dir.rglob(pattern):
@@ -119,41 +119,41 @@ class LicenseVerifier:
                     if source:
                         sources.append(source)
                         logger.info(f"Found source: {source.name} ({source.license})")
-        
+
         # Check PromptWizard specifically
         promptwizard_source = self.verify_promptwizard()
         if promptwizard_source:
             sources.append(promptwizard_source)
-        
+
         self.data_sources = sources
         return sources
-    
+
     def identify_source(self, file_path: Path) -> Optional[DataSource]:
         """Identify and verify a data source"""
         # Skip our generated files
         if any(skip in str(file_path) for skip in ["seed_pairs", "synthesized_pairs", "splits"]):
             return None
-        
+
         # Check for LICENSE file in directory
         license_file = file_path.parent / "LICENSE"
         if not license_file.exists():
             license_file = file_path.parent / "LICENSE.txt"
         if not license_file.exists():
             license_file = file_path.parent / "LICENSE.md"
-        
+
         license_text = None
         if license_file.exists():
             with open(license_file, 'r') as f:
                 license_text = f.read()
-        
+
         # Identify license type
         license_type = self.identify_license(license_text) if license_text else None
-        
+
         # Check for attribution requirements
         attribution = None
         if license_type in LICENSE_CONFIG["attribution_required"]:
             attribution = self.extract_attribution(file_path, license_text)
-        
+
         # Create source record
         source = DataSource(
             name=file_path.name,
@@ -164,23 +164,23 @@ class LicenseVerifier:
             verified=license_type is not None,
             issues=[]
         )
-        
+
         # Check for issues
         if not license_type:
             source.issues.append("No license found")
         elif license_type in LICENSE_CONFIG["incompatible_licenses"]:
             source.issues.append(f"Incompatible license: {license_type}")
-        
+
         return source
-    
+
     def verify_promptwizard(self) -> Optional[DataSource]:
         """Specifically verify PromptWizard license"""
         promptwizard_dir = Path(__file__).parent.parent / "microsoft-promptwizard"
-        
+
         if not promptwizard_dir.exists():
             logger.warning("PromptWizard directory not found")
             return None
-        
+
         license_file = promptwizard_dir / "LICENSE"
         if not license_file.exists():
             logger.error("PromptWizard LICENSE file not found!")
@@ -193,10 +193,10 @@ class LicenseVerifier:
                 verified=False,
                 issues=["LICENSE file missing"]
             )
-        
+
         with open(license_file, 'r') as f:
             license_text = f.read()
-        
+
         # Verify it's MIT
         if "MIT License" in license_text or "MIT" in license_text:
             logger.info("✅ PromptWizard MIT License verified")
@@ -220,11 +220,11 @@ class LicenseVerifier:
                 verified=False,
                 issues=["License type unknown"]
             )
-    
+
     def identify_license(self, license_text: str) -> Optional[str]:
         """Identify license type from text"""
         license_text_lower = license_text.lower()
-        
+
         # Check for known licenses
         license_patterns = {
             "MIT": r"mit license|permission is hereby granted.*free of charge",
@@ -237,24 +237,24 @@ class LicenseVerifier:
             "CC-BY": r"creative commons attribution|cc-by",
             "Unlicense": r"unlicense|public domain"
         }
-        
+
         for license_name, pattern in license_patterns.items():
             if re.search(pattern, license_text_lower):
                 return license_name
-        
+
         return None
-    
+
     def extract_attribution(self, file_path: Path, license_text: Optional[str]) -> Optional[str]:
         """Extract attribution information"""
         attribution_parts = []
-        
+
         # Try to extract from license text
         if license_text:
             # Look for copyright line
             copyright_match = re.search(r"Copyright .*? \d{4} (.*?)(?:\n|$)", license_text)
             if copyright_match:
                 attribution_parts.append(copyright_match.group(0).strip())
-        
+
         # Try to extract from README
         readme_file = file_path.parent / "README.md"
         if readme_file.exists():
@@ -270,9 +270,9 @@ class LicenseVerifier:
                             for j in range(i+1, min(i+5, len(lines))):
                                 if lines[j].strip():
                                     attribution_parts.append(lines[j].strip())
-        
+
         return " | ".join(attribution_parts) if attribution_parts else None
-    
+
     def extract_url(self, file_path: Path) -> Optional[str]:
         """Extract source URL if available"""
         # Check for URL in parent README
@@ -284,13 +284,13 @@ class LicenseVerifier:
                 url_match = re.search(r"https://github\.com/[^\s]+", readme_text)
                 if url_match:
                     return url_match.group(0)
-        
+
         return None
-    
+
     def verify_compatibility(self) -> bool:
         """Verify all sources are compatible"""
         all_compatible = True
-        
+
         for source in self.data_sources:
             if not source.verified:
                 logger.warning(f"⚠️ Unverified source: {source.name}")
@@ -300,7 +300,7 @@ class LicenseVerifier:
                     "issue": "Unverified license",
                     "path": str(source.path)
                 })
-            
+
             elif source.license in LICENSE_CONFIG["incompatible_licenses"]:
                 logger.error(f"❌ Incompatible license: {source.name} ({source.license})")
                 all_compatible = False
@@ -309,7 +309,7 @@ class LicenseVerifier:
                     "issue": f"Incompatible license: {source.license}",
                     "path": str(source.path)
                 })
-            
+
             elif source.license not in LICENSE_CONFIG["compatible_licenses"]:
                 logger.warning(f"⚠️ Unknown license: {source.name} ({source.license})")
                 self.issues.append({
@@ -317,13 +317,13 @@ class LicenseVerifier:
                     "issue": f"Unknown license: {source.license}",
                     "path": str(source.path)
                 })
-        
+
         return all_compatible
-    
+
     def generate_attributions(self):
         """Generate attribution file"""
         attributions = []
-        
+
         for source in self.data_sources:
             if source.license in LICENSE_CONFIG["attribution_required"] and source.attribution:
                 attributions.append({
@@ -332,15 +332,15 @@ class LicenseVerifier:
                     "attribution": source.attribution,
                     "url": source.url
                 })
-        
+
         self.attributions = attributions
-        
+
         # Write ATTRIBUTIONS.md
         attributions_file = self.output_dir / "ATTRIBUTIONS.md"
         with open(attributions_file, 'w') as f:
             f.write("# Attributions\n\n")
             f.write("This project uses the following open source components:\n\n")
-            
+
             for attr in attributions:
                 f.write(f"## {attr['source']}\n")
                 f.write(f"- **License**: {attr['license']}\n")
@@ -348,23 +348,23 @@ class LicenseVerifier:
                 if attr['url']:
                     f.write(f"- **URL**: {attr['url']}\n")
                 f.write("\n")
-            
+
             f.write("---\n\n")
             f.write("All other components are proprietary:\n")
             f.write(f"- **License**: {LICENSE_CONFIG['our_license']}\n")
-        
+
         logger.info(f"Generated attributions file: {attributions_file}")
-    
+
     def generate_report(self) -> LicenseReport:
         """Generate license verification report"""
-        compatible_count = sum(1 for s in self.data_sources 
+        compatible_count = sum(1 for s in self.data_sources
                               if s.license in LICENSE_CONFIG["compatible_licenses"])
-        incompatible_count = sum(1 for s in self.data_sources 
+        incompatible_count = sum(1 for s in self.data_sources
                                 if s.license in LICENSE_CONFIG["incompatible_licenses"])
-        unknown_count = sum(1 for s in self.data_sources 
-                           if s.license and s.license not in LICENSE_CONFIG["compatible_licenses"] 
+        unknown_count = sum(1 for s in self.data_sources
+                           if s.license and s.license not in LICENSE_CONFIG["compatible_licenses"]
                            and s.license not in LICENSE_CONFIG["incompatible_licenses"])
-        
+
         report = LicenseReport(
             timestamp=datetime.now().isoformat(),
             total_sources=len(self.data_sources),
@@ -375,13 +375,13 @@ class LicenseVerifier:
             issues=self.issues,
             attributions=self.attributions
         )
-        
+
         return report
-    
+
     def save_report(self, report: LicenseReport):
         """Save license report"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # Save JSON report
         report_file = self.output_dir / f"license_report_{timestamp}.json"
         with open(report_file, 'w') as f:
@@ -407,42 +407,42 @@ class LicenseVerifier:
                     for s in self.data_sources
                 ]
             }, f, indent=2)
-        
+
         logger.info(f"Saved license report: {report_file}")
-        
+
         # Save markdown report
         md_report_file = self.output_dir / f"LICENSE_REPORT_{timestamp}.md"
         with open(md_report_file, 'w') as f:
             f.write("# License Verification Report\n\n")
             f.write(f"Generated: {report.timestamp}\n\n")
-            
+
             f.write("## Summary\n\n")
             f.write(f"- Total Sources: {report.total_sources}\n")
             f.write(f"- Verified: {report.verified_sources}\n")
             f.write(f"- Compatible: {report.compatible_sources}\n")
             f.write(f"- Incompatible: {report.incompatible_sources}\n")
             f.write(f"- Unknown: {report.unknown_sources}\n\n")
-            
+
             if report.issues:
                 f.write("## Issues\n\n")
                 for issue in report.issues:
                     f.write(f"- **{issue['source']}**: {issue['issue']}\n")
                 f.write("\n")
-            
+
             f.write("## Sources\n\n")
             for source in self.data_sources:
                 status = "✅" if source.verified and source.license in LICENSE_CONFIG["compatible_licenses"] else "❌"
                 f.write(f"- {status} **{source.name}**: {source.license or 'No license'}\n")
-        
+
         logger.info(f"Saved markdown report: {md_report_file}")
-    
+
     def create_license_hash_registry(self):
         """Create hash registry of all data files for integrity verification"""
         registry = {
             "created": datetime.now().isoformat(),
             "files": {}
         }
-        
+
         for source in self.data_sources:
             if source.path.is_file():
                 with open(source.path, 'rb') as f:
@@ -452,40 +452,40 @@ class LicenseVerifier:
                         "license": source.license,
                         "verified": source.verified
                     }
-        
+
         registry_file = self.output_dir / "data_hash_registry.json"
         with open(registry_file, 'w') as f:
             json.dump(registry, f, indent=2)
-        
+
         logger.info(f"Created hash registry: {registry_file}")
-    
+
     def run(self) -> bool:
         """Main execution method"""
         logger.info("="*80)
         logger.info("LICENSE VERIFICATION SYSTEM")
         logger.info("="*80)
-        
+
         # Scan data sources
         logger.info("\nScanning data sources...")
         self.scan_data_sources()
-        
+
         # Verify compatibility
         logger.info("\nVerifying license compatibility...")
         is_compatible = self.verify_compatibility()
-        
+
         # Generate attributions
         logger.info("\nGenerating attributions...")
         self.generate_attributions()
-        
+
         # Generate report
         logger.info("\nGenerating report...")
         report = self.generate_report()
         self.save_report(report)
-        
+
         # Create hash registry
         logger.info("\nCreating hash registry...")
         self.create_license_hash_registry()
-        
+
         # Summary
         logger.info("\n" + "="*80)
         if is_compatible:
@@ -493,44 +493,44 @@ class LicenseVerifier:
         else:
             logger.error("❌ LICENSE VERIFICATION FAILED")
         logger.info("="*80)
-        
+
         return is_compatible
 
 def main():
     """Main execution function"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Verify data licenses and compliance")
     parser.add_argument("--strict", action="store_true",
                        help="Fail on any unverified source")
     parser.add_argument("--update-attributions", action="store_true",
                        help="Update ATTRIBUTIONS.md file")
-    
+
     args = parser.parse_args()
-    
+
     # Run verifier
     verifier = LicenseVerifier()
     success = verifier.run()
-    
+
     # Print summary
     print("\n" + "="*80)
     print("LICENSE VERIFICATION SUMMARY")
     print("="*80)
-    
+
     report = verifier.generate_report()
     print(f"Total Sources:    {report.total_sources}")
     print(f"Verified:         {report.verified_sources}")
     print(f"Compatible:       {report.compatible_sources}")
     print(f"Incompatible:     {report.incompatible_sources}")
     print(f"Unknown:          {report.unknown_sources}")
-    
+
     if report.issues:
         print(f"\n⚠️ Issues Found:  {len(report.issues)}")
         for issue in report.issues[:5]:  # Show first 5 issues
             print(f"  - {issue['source']}: {issue['issue']}")
-    
+
     print("="*80)
-    
+
     # Exit code
     if args.strict and report.verified_sources < report.total_sources:
         return 1
