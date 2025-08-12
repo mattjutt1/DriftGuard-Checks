@@ -1,6 +1,0 @@
-# Placeholder for merge-block.png
-# Real screenshot should show:
-# - PR page with merge button disabled/grayed out
-# - "All checks have not passed" or similar message  
-# - Red X next to "Prompt Gate" check showing failure
-# - Clear indication that PR cannot be merged until checks pass
