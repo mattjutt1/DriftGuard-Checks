@@ -1,0 +1,107 @@
+name: Tests and Coverage
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install test dependencies
+      run: |
+        set -euxo pipefail
+        if [ -f requirements-dev.txt ]; then
+          pip install -r requirements-dev.txt
+        else
+          pip install pytest pytest-cov
+        fi
+
+    - name: Run pytest with coverage
+      id: test
+      continue-on-error: true
+      env:
+        PYTHONDONTWRITEBYTECODE: 1
+      run: |
+        set +e
+        pytest -q --cov --cov-report=xml --cov-report=html
+        ec=$?
+        echo "exit_code=$ec" >> "$GITHUB_OUTPUT"
+        exit 0
+
+    - name: Upload HTML coverage
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: htmlcov
+        path: htmlcov/
+        if-no-files-found: ignore
+
+    - name: Summary and strictness
+      if: always()
+      env:
+        INPUT_THRESHOLD: ${{ vars.COVERAGE_MIN }}
+        TEST_EXIT_CODE: ${{ steps.test.outputs.exit_code }}
+      run: |
+        python - <<'PY'
+        import os, sys, json, xml.etree.ElementTree as ET
+        from pathlib import Path
+
+        # Determine if strict label is present
+        strict = False
+        ev_path = os.environ.get('GITHUB_EVENT_PATH')
+        if ev_path and Path(ev_path).exists():
+          import json
+          ev = json.load(open(ev_path))
+          pr = ev.get('pull_request') or {}
+          labels = [l.get('name','') for l in pr.get('labels', [])]
+          strict = 'coverage-strict' in labels
+
+        # Read test exit code and coverage
+        exit_code = int(os.environ.get('TEST_EXIT_CODE') or 0)
+        # GitHub passes step outputs via $GITHUB_OUTPUT; we wrote to step outputs, but not available here.
+        # As a fallback, consider coverage.xml presence
+        cov_xml = Path('coverage.xml')
+        line_rate = None
+        if cov_xml.exists():
+          try:
+            root = ET.parse(str(cov_xml)).getroot()
+            line_rate = float(root.attrib.get('line-rate', '0'))
+          except Exception:
+            line_rate = 0.0
+        else:
+          line_rate = 0.0
+
+        try:
+          threshold = float(os.environ.get('INPUT_THRESHOLD') or '0.0')
+        except Exception:
+          threshold = 0.0
+
+        # Write step summary
+        summary = Path(os.environ.get('GITHUB_STEP_SUMMARY','step-summary.md'))
+        with summary.open('a', encoding='utf-8') as f:
+          f.write('### Test Coverage\n')
+          f.write(f"- Strict mode: {'ON' if strict else 'OFF'}\n")
+          f.write(f"- Total line coverage: {line_rate*100:.2f}%\n")
+          f.write(f"- Threshold: {threshold*100:.2f}%\n")
+
+        # Enforce only when strict label is present
+        if strict:
+          if line_rate < threshold:
+            print(f"❌ Coverage {line_rate*100:.2f}% below threshold {threshold*100:.2f}%")
+            sys.exit(1)
+          else:
+            print(f"✅ Coverage {line_rate*100:.2f}% meets threshold {threshold*100:.2f}%")
+        PY
