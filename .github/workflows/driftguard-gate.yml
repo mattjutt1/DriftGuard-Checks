@@ -1,0 +1,13 @@
+name: DriftGuard Gate (example)
+on:
+  pull_request:
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo '{"status":"pass","summary":"demo"}' > driftguard-capsule.json
+      - uses: actions/upload-artifact@v4
+        with: 
+          name: driftguard-capsule
+          path: driftguard-capsule.json

@@ -1,0 +1,12 @@
+{
+  "name": "DriftGuard",
+  "description": "One check-run for PRs",
+  "default_events": ["workflow_run", "check_suite", "check_run"],
+  "default_permissions": {
+    "checks": "write",
+    "actions": "read",
+    "contents": "read",
+    "pull_requests": "read",
+    "metadata": "read"
+  }
+}
