@@ -43,12 +43,27 @@ jobs:
       run: |
         promptops ci --config examples/.promptops.yml --out results.json
 
+    - name: Emit evaluation capsule
+      if: always()
+      run: |
+        python tools/capsule.py \
+          --config examples/.promptops.yml \
+          --metrics results.json \
+          --out capsule.json
+
     - name: Upload results
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: prompt-evaluation-results
         path: results.json
+
+    - name: Upload capsule
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: prompt-evaluation-capsule
+        path: capsule.json
 
     - name: Write Prompt Gate summary
       if: always()

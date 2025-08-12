@@ -198,6 +198,14 @@ docker-up: ## Start Docker containers
 docker-down: ## Stop Docker containers
 	@echo "$(YELLOW)Stopping Docker containers...$(NC)"
 	@$(DOCKER_COMPOSE) down
+
+# ==================== UTILITIES ====================
+
+.PHONY: capsule
+capsule: ## Emit evaluation capsule.json (CONFIG=, METRICS=, OUT=)
+	@echo "$(BLUE)Emitting capsule...$(NC)"
+	@$(PYTHON) tools/capsule.py --config "$(CONFIG)" --metrics "$(METRICS)" --out "$(OUT)"
+	@echo "$(GREEN)✓ capsule written to $(OUT)$(NC)"
 	@echo "$(GREEN)✓ Docker containers stopped$(NC)"
 
 docker-logs: ## View Docker logs
