@@ -1,0 +1,80 @@
+name: Validate Datasets
+
+on:
+  pull_request:
+    paths:
+      - 'datasets/**.json'
+      - 'schemas/dataset.schema.json'
+      - '.github/workflows/validate-datasets.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'datasets/**.json'
+      - 'schemas/dataset.schema.json'
+  workflow_dispatch: {}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect dataset files
+        id: detect
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(datasets/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "found=0" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s\n' "${files[@]}" > dataset-files.txt
+            echo "found=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate with AJV (JSON Schema)
+        if: steps.detect.outputs.found == '1'
+        run: |
+          set -e
+          # Try AJV via npx; if the tool/network fails, mark a special status and continue
+          if npx --yes ajv-cli@5.0.0 validate -s schemas/dataset.schema.json -d 'datasets/*.json' --spec=draft2020; then
+            echo "AJV validation passed"
+          else
+            echo "AJV validation failed or unavailable; will attempt Python fallback"
+            echo "AJV_FAILED=1" >> $GITHUB_ENV
+          fi
+
+      - name: Fallback validation with python jsonschema
+        if: steps.detect.outputs.found == '1' && env.AJV_FAILED == '1'
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip jsonschema
+          python - <<'PY'
+          import json, sys, glob
+          from jsonschema import Draft202012Validator
+
+          with open('schemas/dataset.schema.json', 'r', encoding='utf-8') as f:
+              schema = json.load(f)
+          validator = Draft202012Validator(schema)
+          failed = False
+          for path in glob.glob('datasets/*.json'):
+              with open(path, 'r', encoding='utf-8') as f:
+                  data = json.load(f)
+              errs = sorted(validator.iter_errors(data), key=lambda e: e.path)
+              if errs:
+                  failed = True
+                  print(f"❌ Validation errors in {path}:")
+                  for e in errs:
+                      loc = "/".join([str(x) for x in e.path])
+                      print(f" - {loc or '<root>'}: {e.message}")
+          if failed:
+              sys.exit(1)
+          else:
+              print('✅ All datasets valid')
+          PY
+
+      - name: No datasets found
+        if: steps.detect.outputs.found != '1'
+        run: echo "No dataset files found; skipping validation."
+
