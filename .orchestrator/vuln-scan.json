@@ -1,0 +1,4633 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2025-08-12T23:56:24.527159078-04:00",
+  "ArtifactName": ".",
+  "ArtifactType": "filesystem",
+  "Metadata": {
+    "RepoURL": "https://github.com/mattjutt1/DriftGuard-Checks.git",
+    "Branch": "main",
+    "Commit": "96d1b5a4f7d0ad725105be7b0f26b0ab93dfbf70",
+    "CommitMsg": "security: pin all actions by SHA and add least-privilege permissions\n\n- Pin actions/checkout@v4 -\u003e @08eba0b27e820071cde6df949e0beb9ba4906955\n- Pin actions/setup-node@v4 -\u003e @49933ea5288caeca8642d1e84afbd3f7d6820020\n- Pin actions/upload-artifact@v4 -\u003e @ea165f8d65b6e75b540449e92b4886f43607fa02\n- Pin github/codeql-action/*@v3 -\u003e @07b33e6629a05469b63a9d89ceb37a47942645c9\n- Add permissions: { contents: read } to all workflows\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude \u003cnoreply@anthropic.com\u003e",
+    "Author": "mattjutt \u003cmattutt84@gmail.com\u003e",
+    "Committer": "mattjutt \u003cmattutt84@gmail.com\u003e"
+  },
+  "Results": [
+    {
+      "Target": "package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": ".orchestrator/secrets-scan.json",
+      "Class": "secret",
+      "Secrets": [
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 51,
+          "EndLine": 51,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 49,
+                "Content": "  \"StartColumn\": 27,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 27,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 50,
+                "Content": "  \"EndColumn\": 46,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 46,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 51,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 52,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 52,
+          "EndLine": 52,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 50,
+                "Content": "  \"EndColumn\": 46,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 46,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 51,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 52,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 53,
+                "Content": "  \"File\": \"README.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"README.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 72,
+          "EndLine": 72,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 70,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 71,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 72,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 73,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 73,
+          "EndLine": 73,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 71,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 72,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 73,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 74,
+                "Content": "  \"File\": \"README.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"README.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 204,
+          "EndLine": 204,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 202,
+                "Content": "  \"StartColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 203,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 204,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 205,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 205,
+          "EndLine": 205,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 203,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 204,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 205,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 206,
+                "Content": "  \"File\": \"README.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"README.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 405,
+          "EndLine": 405,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 403,
+                "Content": "  \"StartColumn\": 14,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 14,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 404,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 405,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 406,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 406,
+          "EndLine": 406,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 404,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 405,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 406,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 407,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 426,
+          "EndLine": 426,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 424,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 425,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 426,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 427,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 427,
+          "EndLine": 427,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 425,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 426,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 427,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 428,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 447,
+          "EndLine": 447,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 445,
+                "Content": "  \"StartColumn\": 14,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 14,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 446,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 447,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 448,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 448,
+          "EndLine": 448,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 446,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 447,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 448,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 449,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 468,
+          "EndLine": 468,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 466,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 467,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 468,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 469,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 469,
+          "EndLine": 469,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 467,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 468,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 469,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 470,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 489,
+          "EndLine": 489,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 487,
+                "Content": "  \"StartColumn\": 14,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 14,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 488,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 489,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 490,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 490,
+          "EndLine": 490,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 488,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 489,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 490,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 491,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 510,
+          "EndLine": 510,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 508,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 509,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 510,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 511,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 511,
+          "EndLine": 511,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 509,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 510,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 511,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 512,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1584,
+          "EndLine": 1584,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1582,
+                "Content": "  \"StartColumn\": 27,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 27,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1583,
+                "Content": "  \"EndColumn\": 46,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 46,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1584,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1585,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1585,
+          "EndLine": 1585,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1583,
+                "Content": "  \"EndColumn\": 46,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 46,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1584,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1585,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1586,
+                "Content": "  \"File\": \"README.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"README.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1605,
+          "EndLine": 1605,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1603,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1604,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1605,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1606,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1606,
+          "EndLine": 1606,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1604,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1605,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1606,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1607,
+                "Content": "  \"File\": \"README.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"README.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1626,
+          "EndLine": 1626,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1624,
+                "Content": "  \"StartColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1625,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1626,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1627,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1627,
+          "EndLine": 1627,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1625,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1626,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1627,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1628,
+                "Content": "  \"File\": \"README.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"README.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1827,
+          "EndLine": 1827,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1825,
+                "Content": "  \"StartColumn\": 14,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 14,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1826,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1827,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1828,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1828,
+          "EndLine": 1828,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1826,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1827,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1828,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1829,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1848,
+          "EndLine": 1848,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1846,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1847,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1848,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1849,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1849,
+          "EndLine": 1849,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1847,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1848,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1849,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1850,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1869,
+          "EndLine": 1869,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1867,
+                "Content": "  \"StartColumn\": 14,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 14,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1868,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1869,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1870,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1870,
+          "EndLine": 1870,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1868,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1869,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1870,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1871,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1890,
+          "EndLine": 1890,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1888,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1889,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1890,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1891,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1891,
+          "EndLine": 1891,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1889,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1890,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1891,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1892,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1911,
+          "EndLine": 1911,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1909,
+                "Content": "  \"StartColumn\": 14,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 14,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1910,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1911,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1912,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1912,
+          "EndLine": 1912,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1910,
+                "Content": "  \"EndColumn\": 33,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 33,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1911,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1912,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1913,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1932,
+          "EndLine": 1932,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1930,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1931,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1932,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1933,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 1933,
+          "EndLine": 1933,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1931,
+                "Content": "  \"EndColumn\": 34,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 34,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1932,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1933,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1934,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3816,
+          "EndLine": 3816,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3814,
+                "Content": "  \"StartColumn\": 323,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 323,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3815,
+                "Content": "  \"EndColumn\": 342,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 342,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3816,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3817,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3817,
+          "EndLine": 3817,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3815,
+                "Content": "  \"EndColumn\": 342,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 342,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3816,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3817,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3818,
+                "Content": "  \"File\": \"claude-code-evaluator-prd.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"claude-code-evaluator-prd.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3837,
+          "EndLine": 3837,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3835,
+                "Content": "  \"StartColumn\": 339,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 339,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3836,
+                "Content": "  \"EndColumn\": 358,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 358,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3837,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3838,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3838,
+          "EndLine": 3838,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3836,
+                "Content": "  \"EndColumn\": 358,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 358,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3837,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3838,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3839,
+                "Content": "  \"File\": \"PromptEvolver-3.0-HuggingFace-PRD.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"PromptEvolver-3.0-HuggingFace-PRD.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3858,
+          "EndLine": 3858,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3856,
+                "Content": "  \"StartColumn\": 333,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 333,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3857,
+                "Content": "  \"EndColumn\": 352,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 352,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3858,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3859,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3859,
+          "EndLine": 3859,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3857,
+                "Content": "  \"EndColumn\": 352,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 352,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3858,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3859,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3860,
+                "Content": "  \"File\": \"PromptEvolver-3.0-Complete-PRD.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"PromptEvolver-3.0-Complete-PRD.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3879,
+          "EndLine": 3879,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3877,
+                "Content": "  \"StartColumn\": 325,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 325,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3878,
+                "Content": "  \"EndColumn\": 344,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 344,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3879,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3880,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3880,
+          "EndLine": 3880,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3878,
+                "Content": "  \"EndColumn\": 344,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 344,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3879,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3880,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3881,
+                "Content": "  \"File\": \"promptevolver-complete-prd.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"promptevolver-complete-prd.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3900,
+          "EndLine": 3900,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3898,
+                "Content": "  \"StartColumn\": 325,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 325,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3899,
+                "Content": "  \"EndColumn\": 344,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 344,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3900,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3901,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3901,
+          "EndLine": 3901,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3899,
+                "Content": "  \"EndColumn\": 344,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 344,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3900,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3901,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3902,
+                "Content": "  \"File\": \"optimized-claude-framework.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"optimized-claude-framework.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3921,
+          "EndLine": 3921,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3919,
+                "Content": "  \"StartColumn\": 285,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 285,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3920,
+                "Content": "  \"EndColumn\": 304,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 304,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3921,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3922,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3922,
+          "EndLine": 3922,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3920,
+                "Content": "  \"EndColumn\": 304,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 304,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3921,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3922,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3923,
+                "Content": "  \"File\": \"claude.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"claude.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3942,
+          "EndLine": 3942,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3940,
+                "Content": "  \"StartColumn\": 303,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 303,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3941,
+                "Content": "  \"EndColumn\": 322,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 322,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3942,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3943,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3943,
+          "EndLine": 3943,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3941,
+                "Content": "  \"EndColumn\": 322,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 322,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3942,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3943,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3944,
+                "Content": "  \"File\": \"agent-worksheet.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"agent-worksheet.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3963,
+          "EndLine": 3963,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3961,
+                "Content": "  \"StartColumn\": 325,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 325,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3962,
+                "Content": "  \"EndColumn\": 344,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 344,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3963,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3964,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"********************\","
+        },
+        {
+          "RuleID": "aws-access-key-id",
+          "Category": "AWS",
+          "Severity": "CRITICAL",
+          "Title": "AWS Access Key ID",
+          "StartLine": 3964,
+          "EndLine": 3964,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 3962,
+                "Content": "  \"EndColumn\": 344,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 344,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3963,
+                "Content": "  \"Match\": \"********************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"********************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 3964,
+                "Content": "  \"Secret\": \"********************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"********************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 3965,
+                "Content": "  \"File\": \"promptevolver-enhanced-prd.md:Zone.Identifier\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"promptevolver-enhanced-prd.md:Zone.Identifier\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"********************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 225,
+          "EndLine": 225,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 223,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 224,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 225,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 226,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************`\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 226,
+          "EndLine": 226,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 224,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 225,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 226,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 227,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 246,
+          "EndLine": 246,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 244,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 245,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 246,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 247,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************\\\"\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 247,
+          "EndLine": 247,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 245,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 246,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 247,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 248,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 267,
+          "EndLine": 267,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 265,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 266,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 267,
+                "Content": "  \"Match\": \"*************************************'\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************'\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 268,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************'\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 268,
+          "EndLine": 268,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 266,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 267,
+                "Content": "  \"Match\": \"*************************************'\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************'\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 268,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 269,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 288,
+          "EndLine": 288,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 286,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 287,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 288,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 289,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************\\\"\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 289,
+          "EndLine": 289,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 287,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 288,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 289,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 290,
+                "Content": "  \"File\": \"temp/gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"temp/gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1647,
+          "EndLine": 1647,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1645,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1646,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1647,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1648,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************`\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1648,
+          "EndLine": 1648,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1646,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1647,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1648,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1649,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1668,
+          "EndLine": 1668,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1666,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1667,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1668,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1669,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************\\\"\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1669,
+          "EndLine": 1669,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1667,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1668,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1669,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1670,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1689,
+          "EndLine": 1689,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1687,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1688,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1689,
+                "Content": "  \"Match\": \"*************************************'\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************'\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1690,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************'\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1690,
+          "EndLine": 1690,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1688,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1689,
+                "Content": "  \"Match\": \"*************************************'\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************'\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1690,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1691,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1710,
+          "EndLine": 1710,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1708,
+                "Content": "  \"StartColumn\": 15,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 15,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1709,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1710,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1711,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************\\\"\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 1711,
+          "EndLine": 1711,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1709,
+                "Content": "  \"EndColumn\": 52,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 52,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1710,
+                "Content": "  \"Match\": \"*************************************\\\"\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\\"\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 1711,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 1712,
+                "Content": "  \"File\": \"gitleaks-report.json\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"gitleaks-report.json\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2829,
+          "EndLine": 2829,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2827,
+                "Content": "  \"StartColumn\": 11,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 11,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2828,
+                "Content": "  \"EndColumn\": 47,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 47,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2829,
+                "Content": "  \"Match\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2830,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2830,
+          "EndLine": 2830,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2828,
+                "Content": "  \"EndColumn\": 47,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 47,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2829,
+                "Content": "  \"Match\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2830,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2831,
+                "Content": "  \"File\": \".env.hf\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \".env.hf\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2850,
+          "EndLine": 2850,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2848,
+                "Content": "  \"StartColumn\": 12,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 12,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2849,
+                "Content": "  \"EndColumn\": 49,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 49,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2850,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2851,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************`\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2851,
+          "EndLine": 2851,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2849,
+                "Content": "  \"EndColumn\": 49,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 49,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2850,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2851,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2852,
+                "Content": "  \"File\": \"DEPLOYMENT_GUIDE.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"DEPLOYMENT_GUIDE.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2955,
+          "EndLine": 2955,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2953,
+                "Content": "  \"StartColumn\": 11,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 11,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2954,
+                "Content": "  \"EndColumn\": 48,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 48,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2955,
+                "Content": "  \"Match\": \"*************************************\\r\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\r\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2956,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************\\r\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2956,
+          "EndLine": 2956,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2954,
+                "Content": "  \"EndColumn\": 48,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 48,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2955,
+                "Content": "  \"Match\": \"*************************************\\r\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************\\r\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2956,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2957,
+                "Content": "  \"File\": \".env.hf\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \".env.hf\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2976,
+          "EndLine": 2976,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2974,
+                "Content": "  \"StartColumn\": 12,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"StartColumn\": 12,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2975,
+                "Content": "  \"EndColumn\": 49,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 49,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2976,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2977,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Match\": \"*************************************`\","
+        },
+        {
+          "RuleID": "hugging-face-access-token",
+          "Category": "HuggingFace",
+          "Severity": "CRITICAL",
+          "Title": "Hugging Face Access Token",
+          "StartLine": 2977,
+          "EndLine": 2977,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 2975,
+                "Content": "  \"EndColumn\": 49,",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"EndColumn\": 49,",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2976,
+                "Content": "  \"Match\": \"*************************************`\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Match\": \"*************************************`\",",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2977,
+                "Content": "  \"Secret\": \"*************************************\",",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"Secret\": \"*************************************\",",
+                "FirstCause": true,
+                "LastCause": true
+              },
+              {
+                "Number": 2978,
+                "Content": "  \"File\": \"DEPLOYMENT_GUIDE.md\",",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "  \"File\": \"DEPLOYMENT_GUIDE.md\",",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "  \"Secret\": \"*************************************\","
+        }
+      ]
+    },
+    {
+      "Target": "driftguard-checks-matt.2025-08-12.private-key.pem",
+      "Class": "secret",
+      "Secrets": [
+        {
+          "RuleID": "private-key",
+          "Category": "AsymmetricPrivateKey",
+          "Severity": "HIGH",
+          "Title": "Asymmetric Private Key",
+          "StartLine": 2,
+          "EndLine": 26,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1,
+                "Content": "-----BEGIN RSA PRIVATE KEY-----",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "-----BEGIN RSA PRIVATE KEY-----",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": true,
+                "LastCause": false
+              },
+              {
+                "Number": 3,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 4,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 5,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 6,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 7,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 8,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 9,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 10,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 11,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 12,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 13,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 14,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 15,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 16,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 17,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 18,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 19,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 20,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 21,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 22,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 23,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 24,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 25,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 26,
+                "Content": "********************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "********************************************************",
+                "FirstCause": false,
+                "LastCause": true
+              },
+              {
+                "Number": 27,
+                "Content": "-----END RSA PRIVATE KEY-----",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "-----END RSA PRIVATE KEY-----",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "****************************************************************"
+        }
+      ]
+    },
+    {
+      "Target": "private-key.pem",
+      "Class": "secret",
+      "Secrets": [
+        {
+          "RuleID": "private-key",
+          "Category": "AsymmetricPrivateKey",
+          "Severity": "HIGH",
+          "Title": "Asymmetric Private Key",
+          "StartLine": 2,
+          "EndLine": 26,
+          "Code": {
+            "Lines": [
+              {
+                "Number": 1,
+                "Content": "-----BEGIN RSA PRIVATE KEY-----",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "-----BEGIN RSA PRIVATE KEY-----",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 2,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": true,
+                "LastCause": false
+              },
+              {
+                "Number": 3,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 4,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 5,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 6,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 7,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 8,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 9,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 10,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 11,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 12,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 13,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 14,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 15,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 16,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 17,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 18,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 19,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 20,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 21,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 22,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 23,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 24,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 25,
+                "Content": "****************************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "****************************************************************",
+                "FirstCause": false,
+                "LastCause": false
+              },
+              {
+                "Number": 26,
+                "Content": "********************************************************",
+                "IsCause": true,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "********************************************************",
+                "FirstCause": false,
+                "LastCause": true
+              },
+              {
+                "Number": 27,
+                "Content": "-----END RSA PRIVATE KEY-----",
+                "IsCause": false,
+                "Annotation": "",
+                "Truncated": false,
+                "Highlighted": "-----END RSA PRIVATE KEY-----",
+                "FirstCause": false,
+                "LastCause": false
+              }
+            ]
+          },
+          "Match": "****************************************************************"
+        }
+      ]
+    }
+  ]
+}

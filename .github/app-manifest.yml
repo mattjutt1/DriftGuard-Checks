@@ -1,0 +1,44 @@
+# GitHub App Manifest for DriftGuard
+# Used for marketplace submission and GitHub App configuration
+
+name: "DriftGuard"
+description: "Enterprise-grade automated pull request checks and intelligent code analysis"
+url: "https://github.com/mattjutt1/DriftGuard-Checks"
+setup_url: "https://github.com/mattjutt1/DriftGuard-Checks/blob/main/README.md#quick-start"
+
+# App configuration
+public: true
+default_permissions:
+  checks: write
+  pull_requests: read
+  contents: read
+  metadata: read
+  actions: read
+  
+default_events:
+  - pull_request
+  - check_run
+  - check_suite
+  - workflow_run
+
+# Webhook configuration
+webhook_active: true
+webhook_events:
+  - pull_request
+  - check_run
+  - check_suite
+  - workflow_run
+  - marketplace_purchase
+  - installation
+  - installation_repositories
+
+# Marketplace integration
+marketplace:
+  pricing_model: "free"
+  category: "code-quality"
+  state: "draft"
+  
+# Publisher information  
+publisher:
+  type: "user"  # Will need to be "organization" for paid apps
+  verified: false  # Will need verification for paid apps

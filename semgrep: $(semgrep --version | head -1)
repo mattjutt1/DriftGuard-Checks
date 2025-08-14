@@ -1,0 +1,1 @@
+delta: $(/home/matt/.local/bin/delta --version | head -1)

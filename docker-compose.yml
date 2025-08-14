@@ -1,27 +1,19 @@
+# DriftGuard Docker Compose Configuration
+# Production-ready setup with monitoring and scaling
+
 version: '3.8'
 
 services:
-  redis:
-    image: redis:7-alpine
-    container_name: driftguard-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    command: redis-server --appendonly yes
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-    networks:
-      - driftguard-network
-
-  app:
-    build: .
+  # Main DriftGuard application
+  driftguard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
     container_name: driftguard-app
-    ports:
-      - "3000:3000"
+    restart: unless-stopped
+    
+    # Environment configuration
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -32,25 +24,218 @@ services:
       - ENABLE_REPLAY_PROTECTION=true
       - ENABLE_ASYNC=true
       - LOG_LEVEL=info
+      - PROMETHEUS_ENABLED=true
+    
+    # Load environment from file
     env_file:
-      - .env.production
-    depends_on:
-      redis:
-        condition: service_healthy
-    networks:
-      - driftguard-network
-    restart: unless-stopped
+      - .env
+    
+    # Port mapping
+    ports:
+      - "3000:3000"
+    
+    # Health check
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    
+    # Dependencies
+    depends_on:
+      redis:
+        condition: service_healthy
+    
+    # Networks
+    networks:
+      - driftguard-network
+    
+    # Volumes for logs and cache
+    volumes:
+      - driftguard-logs:/app/logs
+      - driftguard-cache:/app/tmp
 
+  # Redis for caching and session storage
+  redis:
+    image: redis:7-alpine
+    container_name: driftguard-redis
+    restart: unless-stopped
+    
+    # Redis configuration
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru --appendonly yes
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+    
+    # Volumes for persistence
+    volumes:
+      - redis-data:/data
+    
+    # Networks
+    networks:
+      - driftguard-network
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: driftguard-nginx
+    restart: unless-stopped
+    
+    # Port mapping (uncomment for use)
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
+    
+    # Configuration
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./nginx/ssl:/etc/nginx/ssl:ro  # SSL certificates
+    
+    # Dependencies
+    depends_on:
+      - driftguard
+    
+    # Networks
+    networks:
+      - driftguard-network
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.1'
+    
+    # Only start if nginx config exists
+    profiles:
+      - nginx
+
+  # Prometheus monitoring (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: driftguard-prometheus
+    restart: unless-stopped
+    
+    # Configuration
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    
+    # Command
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    
+    # Port mapping
+    ports:
+      - "9090:9090"
+    
+    # Networks
+    networks:
+      - driftguard-network
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+    
+    # Only start with monitoring profile
+    profiles:
+      - monitoring
+
+  # Grafana dashboard (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: driftguard-grafana
+    restart: unless-stopped
+    
+    # Environment
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    
+    # Volumes
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    
+    # Port mapping
+    ports:
+      - "3001:3000"
+    
+    # Networks
+    networks:
+      - driftguard-network
+    
+    # Dependencies
+    depends_on:
+      - prometheus
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+    
+    # Only start with monitoring profile
+    profiles:
+      - monitoring
+
+# Named volumes for data persistence
 volumes:
+  driftguard-logs:
+    driver: local
+  driftguard-cache:
+    driver: local
   redis-data:
     driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
 
+# Custom network
 networks:
   driftguard-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

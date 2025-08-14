@@ -1,0 +1,124 @@
+# GitHub Marketplace Metadata for DriftGuard
+# Used for marketplace listing and categorization
+
+# Basic Information
+display_name: "DriftGuard"
+tagline: "Enterprise-grade automated pull request checks and intelligent code analysis"
+description: |
+  DriftGuard is an enterprise-grade GitHub App that automatically analyzes your pull requests 
+  and provides intelligent feedback through native GitHub check runs. It monitors your CI/CD 
+  pipeline and creates comprehensive quality gates without slowing down your development velocity.
+
+  Perfect for enterprise teams shipping mission-critical code, security-conscious organizations 
+  requiring audit trails, and high-velocity teams needing automated quality gates.
+
+# Categories (GitHub Marketplace categories)
+categories:
+  - "Code quality"
+  - "Continuous integration"
+  - "Security"
+  - "Monitoring"
+  - "Project management"
+
+# Pricing model
+pricing_model: "free"  # Will be updated when marketplace listing is created
+
+# Support information
+support_url: "https://github.com/mattjutt1/DriftGuard-Checks/issues"
+documentation_url: "https://github.com/mattjutt1/DriftGuard-Checks#readme"
+
+# GitHub App Information
+github_app:
+  name: "DriftGuard"
+  description: "Automated pull request analysis and quality gates"
+  homepage_url: "https://github.com/mattjutt1/DriftGuard-Checks"
+  
+  # Required permissions
+  permissions:
+    checks: "write"
+    pull_requests: "read"
+    contents: "read"
+    metadata: "read"
+    
+  # Webhook events
+  events:
+    - "pull_request"
+    - "check_run"
+    - "check_suite"
+
+# Features and benefits
+features:
+  - "Intelligent PR Analysis"
+  - "Zero Configuration Setup"
+  - "Enterprise Security Standards"
+  - "Fast & Lightweight"
+  - "Rich Reporting"
+  - "Native GitHub Integration"
+  - "Automated Quality Gates"
+  - "Comprehensive Audit Trails"
+
+# Target audience
+target_audience:
+  - "Enterprise development teams"
+  - "Security-conscious organizations"
+  - "High-velocity software teams"
+  - "Compliance-driven environments"
+  - "DevOps and platform teams"
+
+# Keywords for discoverability
+keywords:
+  - "pull-request"
+  - "code-analysis"
+  - "quality-gates"
+  - "ci-cd"
+  - "security"
+  - "enterprise"
+  - "automation"
+  - "compliance"
+  - "audit"
+  - "monitoring"
+
+# Technical requirements
+requirements:
+  minimum_github_plan: "free"
+  supported_hosting:
+    - "github.com"
+    - "github-enterprise-server"
+  
+# Installation notes
+installation:
+  complexity: "simple"
+  estimated_time: "5-10 minutes"
+  requires_configuration: true
+  
+# Compliance and certifications
+compliance:
+  - "SOC 2 Type II Ready"
+  - "GDPR Compliant"
+  - "Enterprise Security Standards"
+  - "Audit Trail Capabilities"
+
+# Screenshots (references to files in assets/screenshots/)
+screenshots:
+  - path: "assets/screenshots/driftguard-demo.png"
+    caption: "DriftGuard dashboard showing real-time analysis status"
+  - path: "assets/screenshots/health-endpoint.png"
+    caption: "Health monitoring endpoint with detailed system status"
+  - path: "assets/screenshots/metrics-endpoint.png"
+    caption: "Prometheus-compatible metrics for enterprise monitoring"
+  - path: "assets/screenshots/readiness-check.png"
+    caption: "Load balancer integration and readiness verification"
+
+# Logo
+logo: "assets/logo-main.svg"
+
+# Version information
+version: "1.0.0"
+release_notes: |
+  Initial marketplace release featuring:
+  - Enterprise-grade security hardening
+  - Automated PR analysis and quality gates
+  - Native GitHub integration with check runs
+  - Comprehensive monitoring and observability
+  - Zero-configuration setup with interactive wizard
+  - Production-ready Docker deployment

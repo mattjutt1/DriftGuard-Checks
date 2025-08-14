@@ -1,0 +1,386 @@
+{
+  "meta": {
+    "plan_version": "1.0",
+    "methodology": "Ultra Think AOP (Architected Orchestration Plan)",
+    "target_system": "DriftGuard-Checks Production Hardening",
+    "plan_timestamp": "2025-01-13T00:00:00Z",
+    "estimated_duration": "45-90 minutes",
+    "complexity_score": 0.87,
+    "verification_level": "machine_verifiable"
+  },
+  "objectives": {
+    "primary": "Complete production-ready hardening with zero-fabrication verification",
+    "secondary": [
+      "Establish comprehensive quality gates",
+      "Implement continuous monitoring", 
+      "Create repeatable verification processes",
+      "Generate machine-readable evidence"
+    ],
+    "success_criteria": [
+      "All tests passing (100% green)",
+      "Security audit clean (zero vulnerabilities)",
+      "Performance benchmarks met (response time < 200ms)",
+      "Deployment readiness confirmed (health checks pass)"
+    ]
+  },
+  "orchestration_strategy": {
+    "approach": "parallel_with_dependencies",
+    "atomic_task_limit": "10 minutes",
+    "verification_gates": "every_phase",
+    "evidence_collection": "continuous",
+    "fallback_enabled": true
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "name": "Foundation Verification",
+      "description": "Verify current state and establish baseline",
+      "duration_estimate": "8-12 minutes",
+      "parallel_eligible": true,
+      "tasks": [
+        {
+          "id": "task_1_1", 
+          "name": "System Health Validation",
+          "agent": "persona-qa",
+          "supporting_agents": ["mcp-playwright"],
+          "duration": "3-5 minutes",
+          "description": "Verify all health endpoints and system functionality",
+          "wywtem": "WHAT: Health endpoint validation, WHY: Baseline establishment, WHEN: First priority, THEM: QA specialist + Playwright automation",
+          "verification": {
+            "method": "automated_testing",
+            "evidence": [
+              "/health endpoint returns 200",
+              "/readyz endpoint returns 200", 
+              "/probot endpoint returns expected response",
+              "Response time < 200ms"
+            ],
+            "commands": [
+              "curl -s http://localhost:3001/health | jq '.status'",
+              "curl -s http://localhost:3001/readyz | jq '.status'",
+              "curl -s http://localhost:3001/probot | jq '.message'"
+            ]
+          },
+          "exit_criteria": ["All endpoints return 200", "Response times under threshold"]
+        },
+        {
+          "id": "task_1_2",
+          "name": "Security Posture Assessment", 
+          "agent": "persona-security",
+          "supporting_agents": ["mcp-sequential"],
+          "duration": "4-6 minutes",
+          "description": "Comprehensive security audit with automated scanning",
+          "wywtem": "WHAT: Security vulnerability scan, WHY: Baseline security posture, WHEN: Parallel with health check, THEM: Security specialist + Sequential analysis",
+          "verification": {
+            "method": "security_scan",
+            "evidence": [
+              "npm audit results (zero high/critical)",
+              "Webhook signature validation test pass",
+              "Rate limiting configuration verified",
+              "Environment variable validation pass"
+            ],
+            "commands": [
+              "npm audit --audit-level=high",
+              "npm run test:security",
+              "node -e \"console.log(process.env.WEBHOOK_SECRET?.length >= 32)\""
+            ]
+          },
+          "exit_criteria": ["Zero high/critical vulnerabilities", "All security tests pass"]
+        },
+        {
+          "id": "task_1_3",
+          "name": "Build and Test Validation",
+          "agent": "persona-backend", 
+          "supporting_agents": ["mcp-context7"],
+          "duration": "3-5 minutes",
+          "description": "Verify TypeScript compilation and comprehensive test suite",
+          "wywtem": "WHAT: Build verification and test execution, WHY: Code quality baseline, WHEN: Parallel with security, THEM: Backend specialist + Context7 patterns",
+          "verification": {
+            "method": "build_test",
+            "evidence": [
+              "TypeScript compilation success",
+              "All tests pass (100%)",
+              "Test coverage > 80%",
+              "No linting errors"
+            ],
+            "commands": [
+              "npm run build",
+              "npm test",
+              "npm run lint"
+            ]
+          },
+          "exit_criteria": ["Clean build", "All tests pass", "Lint clean"]
+        }
+      ],
+      "phase_verification": {
+        "all_tasks_complete": true,
+        "no_blocking_issues": true,
+        "baseline_established": true
+      }
+    },
+    {
+      "id": "phase_2", 
+      "name": "Advanced Testing and Hardening",
+      "description": "Comprehensive testing and security hardening verification",
+      "duration_estimate": "15-25 minutes",
+      "depends_on": ["phase_1"],
+      "parallel_eligible": true,
+      "tasks": [
+        {
+          "id": "task_2_1",
+          "name": "Comprehensive E2E Testing",
+          "agent": "mcp-playwright",
+          "supporting_agents": ["persona-qa"],
+          "duration": "6-10 minutes", 
+          "description": "End-to-end workflow testing with real scenarios",
+          "wywtem": "WHAT: E2E scenario testing, WHY: User workflow validation, WHEN: After baseline, THEM: Playwright automation + QA specialist",
+          "verification": {
+            "method": "e2e_testing",
+            "evidence": [
+              "E2E smoke test suite passes",
+              "Webhook processing workflow verified", 
+              "Error handling scenarios tested",
+              "Performance benchmarks met"
+            ],
+            "commands": [
+              "./e2e-smoke-test.sh",
+              "./test-scenarios.sh",
+              "./test-webhook-signature.sh"
+            ]
+          },
+          "exit_criteria": ["All E2E tests pass", "Performance within limits"]
+        },
+        {
+          "id": "task_2_2",
+          "name": "Negative Security Testing",
+          "agent": "persona-security",
+          "supporting_agents": ["mcp-sequential", "mcp-playwright"],
+          "duration": "5-8 minutes",
+          "description": "Comprehensive negative testing for security vulnerabilities",
+          "wywtem": "WHAT: Negative security testing, WHY: Edge case vulnerability detection, WHEN: Parallel with E2E, THEM: Security specialist + Sequential analysis + Playwright",
+          "verification": {
+            "method": "negative_testing",
+            "evidence": [
+              "Webhook negative tests pass (22 test cases)",
+              "Content-type edge cases handled",
+              "Invalid signature rejection verified",
+              "Rate limiting enforcement tested"
+            ],
+            "commands": [
+              "npm run test test/webhook-negative.test.ts",
+              "./test-webhook-negative.sh"
+            ]
+          },
+          "exit_criteria": ["All negative tests pass", "No security bypasses found"]
+        },
+        {
+          "id": "task_2_3",
+          "name": "Branch Protection Validation", 
+          "agent": "persona-devops",
+          "supporting_agents": ["mcp-context7"],
+          "duration": "3-5 minutes",
+          "description": "Verify branch protection configuration and helpers",
+          "wywtem": "WHAT: Branch protection testing, WHY: Git workflow security, WHEN: Parallel with testing, THEM: DevOps specialist + Context7 patterns",
+          "verification": {
+            "method": "configuration_test",
+            "evidence": [
+              "Branch protection script functional",
+              "Makefile targets working",
+              "Configuration backup/restore tested",
+              "Status reporting accurate"
+            ],
+            "commands": [
+              "make bp-status",
+              "./scripts/branch-protection.sh status",
+              "make help"
+            ]
+          },
+          "exit_criteria": ["All BP commands work", "Configuration validated"]
+        },
+        {
+          "id": "task_2_4",
+          "name": "Performance and Monitoring",
+          "agent": "persona-backend",
+          "supporting_agents": ["mcp-sequential"],
+          "duration": "4-7 minutes",
+          "description": "Performance benchmarking and monitoring validation",
+          "wywtem": "WHAT: Performance monitoring setup, WHY: Production observability, WHEN: Parallel with security, THEM: Backend specialist + Sequential analysis",
+          "verification": {
+            "method": "performance_test",
+            "evidence": [
+              "Rate limit monitoring functional",
+              "Winston JSON logging verified",
+              "Error tracking operational", 
+              "Health metrics accurate"
+            ],
+            "commands": [
+              "node -e \"require('./dist/octokit-throttled').monitorRateLimit({headers:{}}, 'test')\"",
+              "node -e \"console.log(require('./dist/index').appState.errors.size)\"",
+              "curl -w '%{time_total}' http://localhost:3001/health"
+            ]
+          },
+          "exit_criteria": ["Monitoring active", "Performance within thresholds"]
+        }
+      ],
+      "phase_verification": {
+        "comprehensive_testing_complete": true,
+        "security_hardening_verified": true,
+        "performance_benchmarked": true
+      }
+    },
+    {
+      "id": "phase_3",
+      "name": "Production Readiness Validation",
+      "description": "Final validation and production deployment preparation",
+      "duration_estimate": "12-18 minutes", 
+      "depends_on": ["phase_2"],
+      "parallel_eligible": false,
+      "tasks": [
+        {
+          "id": "task_3_1",
+          "name": "Integration Testing",
+          "agent": "task-tool",
+          "supporting_agents": ["persona-qa", "mcp-playwright"],
+          "duration": "5-8 minutes",
+          "description": "Complete integration testing with external services",
+          "wywtem": "WHAT: Integration testing, WHY: External service compatibility, WHEN: Final validation, THEM: Task delegation + QA + Playwright",
+          "verification": {
+            "method": "integration_test",
+            "evidence": [
+              "GitHub API integration tested",
+              "Webhook delivery simulation passed",
+              "Octokit throttling verified",
+              "External service mocking validated"
+            ],
+            "commands": [
+              "./test-integration-complete.sh",
+              "npm run test:integration"
+            ]
+          },
+          "exit_criteria": ["All integrations pass", "External services verified"]
+        },
+        {
+          "id": "task_3_2", 
+          "name": "Security Compliance Audit",
+          "agent": "persona-security",
+          "supporting_agents": ["mcp-sequential"],
+          "duration": "4-6 minutes",
+          "description": "Final security compliance verification",
+          "wywtem": "WHAT: Security compliance audit, WHY: Production security standards, WHEN: Before deployment, THEM: Security specialist + Sequential analysis",
+          "verification": {
+            "method": "compliance_audit",
+            "evidence": [
+              "OWASP security headers implemented",
+              "Input validation comprehensive",
+              "Error sanitization verified",
+              "Audit logging functional"
+            ],
+            "commands": [
+              "curl -I http://localhost:3001/health | grep -E '(X-Content-Type-Options|X-Frame-Options)'",
+              "node -e \"console.log(require('./dist/security').sanitizeError(new Error('test')))\"",
+              "node -e \"console.log(require('./dist/security').securityAuditLogger.getEvents().length)\""
+            ]
+          },
+          "exit_criteria": ["Security compliance 100%", "Audit trail complete"]
+        },
+        {
+          "id": "task_3_3",
+          "name": "Deployment Readiness Check",
+          "agent": "persona-devops", 
+          "supporting_agents": ["mcp-context7"],
+          "duration": "3-5 minutes",
+          "description": "Final deployment readiness verification",
+          "wywtem": "WHAT: Deployment readiness, WHY: Production deployment confidence, WHEN: Final gate, THEM: DevOps specialist + Context7 patterns",
+          "verification": {
+            "method": "deployment_check",
+            "evidence": [
+              "Environment variables validated",
+              "GitHub App configuration verified",
+              "Permissions and secrets confirmed",
+              "Health checks operational"
+            ],
+            "commands": [
+              "node -e \"require('./dist/security').validateEnvConfig(process.env)\"",
+              "echo $GITHUB_APP_ID | wc -c",
+              "make health-check"
+            ]
+          },
+          "exit_criteria": ["Environment ready", "Configuration validated", "Health verified"]
+        }
+      ],
+      "phase_verification": {
+        "production_ready": true,
+        "security_compliant": true,
+        "deployment_validated": true
+      }
+    }
+  ],
+  "evidence_collection": {
+    "format": "json_structured",
+    "storage": ".orchestrator/evidence/",
+    "real_time": true,
+    "categories": [
+      "test_results",
+      "security_scans", 
+      "performance_metrics",
+      "compliance_checks",
+      "deployment_validation"
+    ],
+    "verification_commands": [
+      "npm test 2>&1 | tee .orchestrator/evidence/test_results.log",
+      "npm audit --json > .orchestrator/evidence/security_audit.json",
+      "curl -w '@curl-format.txt' http://localhost:3001/health > .orchestrator/evidence/performance.log",
+      "make bp-status > .orchestrator/evidence/branch_protection.log"
+    ]
+  },
+  "quality_gates": {
+    "gate_1": {
+      "name": "Foundation Gate",
+      "criteria": ["All health checks pass", "Security baseline clean", "Build successful"],
+      "blocking": true
+    },
+    "gate_2": {
+      "name": "Hardening Gate", 
+      "criteria": ["E2E tests pass", "Negative tests complete", "Performance verified"],
+      "blocking": true
+    },
+    "gate_3": {
+      "name": "Production Gate",
+      "criteria": ["Integration verified", "Compliance complete", "Deployment ready"],
+      "blocking": true
+    }
+  },
+  "risk_mitigation": {
+    "high_risk_items": [
+      {
+        "risk": "Test failures blocking deployment",
+        "mitigation": "Comprehensive testing in phases",
+        "fallback": "Rollback to last known good state"
+      },
+      {
+        "risk": "Security vulnerabilities discovered",
+        "mitigation": "Multi-layer security testing",
+        "fallback": "Security patch deployment"
+      },
+      {
+        "risk": "Performance degradation",
+        "mitigation": "Continuous performance monitoring", 
+        "fallback": "Performance optimization sprint"
+      }
+    ]
+  },
+  "success_metrics": {
+    "technical": {
+      "test_pass_rate": "100%",
+      "security_score": "A+",
+      "performance_score": "> 95%",
+      "availability": "99.9%"
+    },
+    "operational": {
+      "deployment_confidence": "High",
+      "monitoring_coverage": "100%",
+      "incident_response": "Automated",
+      "rollback_capability": "< 5 minutes"
+    }
+  },
+  "next_phase": "Sonnet 4 Execution → implement plan with verification"
+}

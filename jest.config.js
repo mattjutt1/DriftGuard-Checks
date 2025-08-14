@@ -8,7 +8,7 @@ module.exports = {
     '**/?(*.)+(spec|test).ts'
   ],
   testPathIgnorePatterns: [
-    'test/security.test.ts'
+    'node_modules'
   ],
   transform: {
     '^.+\\.ts$': 'ts-jest'

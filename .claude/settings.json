@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(./**)", "LS(./**)", "Glob(./**)", "Grep(./**)",
+      "WebSearch", "WebFetch",
+      "Edit", "Write", "MultiEdit",
+      "Bash(git:*)", "Bash(gh:*)", "Bash(node:*)", "Bash(npm:*)",
+      "Bash(rg:*)", "Bash(jq:*)", "Bash(yq:*)",
+      "Bash(actionlint:*)", "Bash(gitleaks:*)", "Bash(semgrep:*)",
+      "Bash(trivy:*)", "Bash(shellcheck:*)", "Bash(shfmt:*)",
+      "Bash(make:*)", "Bash(tsc:*)", "Bash(jest:*)"
+    ],
+    "deny": [
+      "Bash(curl:*)", "Bash(wget:*)", "Bash(sudo:*)",
+      "Read(./.env)", "Read(./.env.*)", "Read(./secrets/**)"
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "BASH_DEFAULT_TIMEOUT_MS": "180000",
+    "BASH_MAX_OUTPUT_LENGTH": "200000"
+  }
+}

@@ -47,17 +47,32 @@ export function verifyWebhookSignature(
 
 /**
  * Express middleware for webhook signature validation
+ * Handles both parsed and raw payloads properly
  */
 export function webhookSignatureMiddleware(secret: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     const signature = req.headers['x-hub-signature-256'] as string;
-    const payload = JSON.stringify(req.body);
+    
+    // Handle the payload correctly - GitHub sends raw JSON, need to use raw body for signature verification
+    let payload: string;
+    if (req.body && typeof req.body === 'object') {
+      // Body was parsed by Express, convert back to JSON string
+      payload = JSON.stringify(req.body);
+    } else if (typeof req.body === 'string') {
+      // Body is already a string
+      payload = req.body;
+    } else {
+      // Fallback - try to get raw body if available
+      payload = (req as any).rawBody || JSON.stringify(req.body || {});
+    }
     
     if (!verifyWebhookSignature(payload, signature, secret)) {
       console.error('Invalid webhook signature attempted', {
         ip: req.ip,
         timestamp: new Date().toISOString(),
-        userAgent: req.headers['user-agent']
+        userAgent: req.headers['user-agent'],
+        payloadLength: payload.length,
+        contentType: req.headers['content-type']
       });
       return res.status(401).json({ 
         error: 'Unauthorized',
@@ -131,7 +146,7 @@ export function sanitizeError(error: any): { message: string; code?: string } {
       'RateLimitError': 'Too many requests'
     };
     
-    const errorType = error.constructor?.name || 'Error';
+    const errorType = error.name || error.constructor?.name || 'Error';
     return {
       message: errorMap[errorType] || 'An error occurred processing your request',
       code: error.code
@@ -289,7 +304,7 @@ export class SecurityAuditLogger {
   }
   
   getEvents() {
-    return this.events;
+    return [...this.events]; // Return a copy
   }
 }
 

@@ -1,0 +1,30 @@
+{
+  "name": "DriftGuard",
+  "description": "Enterprise-grade automated pull request checks and intelligent code analysis",
+  "url": "https://github.com/mattjutt1/DriftGuard-Checks",
+  "setup_url": "https://github.com/mattjutt1/DriftGuard-Checks/blob/main/README.md#quick-start",
+  "public": true,
+  "default_permissions": {
+    "checks": "write",
+    "pull_requests": "read", 
+    "contents": "read",
+    "metadata": "read",
+    "actions": "read"
+  },
+  "default_events": [
+    "pull_request",
+    "check_run", 
+    "check_suite",
+    "workflow_run"
+  ],
+  "webhook_active": true,
+  "webhook_events": [
+    "pull_request",
+    "check_run",
+    "check_suite", 
+    "workflow_run",
+    "marketplace_purchase",
+    "installation",
+    "installation_repositories"
+  ]
+}
