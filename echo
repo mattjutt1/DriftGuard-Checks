@@ -1,0 +1,4 @@
+Task 1: Package manager tools installed
+delta: $(/home/matt/.local/bin/delta --version | head -1)
+delta: $(/home/matt/.local/bin/delta --version | head -1)
+delta: $(/home/matt/.local/bin/delta --version | head -1)

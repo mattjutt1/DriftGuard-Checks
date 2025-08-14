@@ -1,0 +1,17 @@
+{
+  "action": "opened",
+  "pull_request": {
+    "number": 1,
+    "head": {
+      "sha": "test-sha-123456789abcdef"
+    },
+    "base": {
+      "repo": {
+        "name": "DriftGuard-Checks",
+        "owner": {
+          "login": "mattjutt1"
+        }
+      }
+    }
+  }
+}

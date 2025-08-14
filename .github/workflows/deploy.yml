@@ -1,0 +1,67 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@eef61447b9e4c22c5c9d16cb6b9b4b93ea4a9b8a # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@0a44ba7841725637a19e28fa30b79a866c81b0a6 # v4.0.4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run tests before deploy
+        run: |
+          npm test
+          npm run smoke
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@84480863f228bb9747b473957fcc9e309aa96097 # v4.4.2
+        with:
+          name: dist
+          path: dist/
+          retention-days: 30
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@eef61447b9e4c22c5c9d16cb6b9b4b93ea4a9b8a # v4.2.2
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Build Docker image
+        run: |
+          docker build -t driftguard-checks:${{ github.sha }} .
+          docker tag driftguard-checks:${{ github.sha }} driftguard-checks:latest
+
+      - name: Save Docker image
+        run: docker save driftguard-checks:latest | gzip > driftguard-checks.tar.gz
+
+      - name: Upload Docker image
+        uses: actions/upload-artifact@84480863f228bb9747b473957fcc9e309aa96097 # v4.4.2
+        with:
+          name: docker-image
+          path: driftguard-checks.tar.gz
+          retention-days: 7

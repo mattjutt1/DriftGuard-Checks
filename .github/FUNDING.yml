@@ -1,0 +1,18 @@
+# GitHub Sponsors and funding configuration for DriftGuard
+
+# GitHub Sponsors
+github: [mattjutt1]  # GitHub username for sponsorship
+
+# Open Collective (for organizational backing)
+# open_collective: driftguard
+
+# Other funding platforms
+# patreon: driftguard
+# ko_fi: driftguard
+
+# Custom funding URLs
+custom: ["https://github.com/mattjutt1/DriftGuard-Checks#-support--community"]
+
+# Enterprise support options
+# For enterprise support, consulting, or custom development:
+# Contact: enterprise@driftguard.dev

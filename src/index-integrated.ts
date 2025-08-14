@@ -384,8 +384,48 @@ async function handleSha(context: any, sha: string, runId?: string): Promise<voi
 }
 
 // Main Probot app function
-export default async function app(app: Probot) {
+export default async function app(app: Probot, options: any = {}) {
+  const { getRouter } = options;
   logger.info('DriftGuard Security App starting...');
+  
+  // Add health endpoints using Probot's getRouter
+  if (getRouter) {
+    const router = getRouter();
+    
+    router.get('/health', (_req: any, res: any) => {
+      res.status(200).json({
+        status: 'healthy',
+        message: 'DriftGuard Checks is running',
+        timestamp: new Date().toISOString(),
+        uptime: Date.now() - appState.startTime.getTime(),
+        eventCount: appState.eventCount,
+        lastEventAt: appState.lastEventAt?.toISOString() || null,
+        security: {
+          validatedWebhooks: appState.security.validatedWebhooks,
+          blockedRequests: appState.security.blockedRequests
+        }
+      });
+    });
+    
+    router.get('/readyz', (_req: any, res: any) => {
+      res.status(200).json({
+        status: 'ready',
+        message: 'DriftGuard Checks is ready',
+        timestamp: new Date().toISOString(),
+        version: '1.0.0'
+      });
+    });
+    
+    router.get('/probot', (_req: any, res: any) => {
+      res.status(200).json({
+        status: 'ok',
+        message: 'DriftGuard Checks is running',
+        timestamp: new Date().toISOString()
+      });
+    });
+    
+    logger.info('✅ Health endpoints registered: /health, /readyz, /probot');
+  }
   
   // Initialize IP whitelist
   if (process.env.ENABLE_IP_WHITELIST === 'true') {

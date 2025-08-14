@@ -1,0 +1,8 @@
+{
+  "metrics": {
+    "win_rate": 0.75
+  },
+  "threshold": 0.80,
+  "scenario": "neutral",
+  "timestamp": "2025-08-13T01:31:11Z"
+}

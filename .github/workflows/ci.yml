@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@eef61447b9e4c22c5c9d16cb6b9b4b93ea4a9b8a # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@0a44ba7841725637a19e28fa30b79a866c81b0a6 # v4.0.4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint || echo "Lint command not configured"
+
+      - name: Run type check
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run security tests
+        run: npm run test:security
+
+      - name: Run integration tests
+        run: npm run test:integration
+
+      - name: Security audit
+        run: npm run security:check
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4.6.0
+        if: always()
+        with:
+          file: ./coverage/lcov.info
+          fail_ci_if_error: false

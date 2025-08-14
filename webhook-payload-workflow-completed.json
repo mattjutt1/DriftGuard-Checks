@@ -1,0 +1,10 @@
+{
+  "action": "completed",
+  "workflow_run": {
+    "id": 12345678,
+    "head_sha": "test-sha-123456789abcdef",
+    "head_branch": "feature/test-branch",
+    "conclusion": "success",
+    "html_url": "https://github.com/mattjutt1/DriftGuard-Checks/actions/runs/12345678"
+  }
+}

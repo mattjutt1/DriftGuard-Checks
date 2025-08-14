@@ -5,7 +5,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
-import { Queue } from 'bull';
+import Queue from 'bull';
 import rawBody from 'raw-body';
 
 /**
@@ -62,9 +62,14 @@ export class GitHubIPWhitelist {
   }
   
   private ipInRange(ip: string, range: string): boolean {
-    // Simplified check - in production use proper CIDR checking
-    // This would require a library like 'ip-range-check' or 'ipaddr.js'
-    return range.includes(ip.split('.').slice(0, 2).join('.'));
+    // Proper CIDR range checking using ip-range-check library (already in dependencies)
+    const ipRangeCheck = require('ip-range-check');
+    try {
+      return ipRangeCheck(ip, range);
+    } catch (error) {
+      console.error('IP range check error:', error);
+      return false; // Fail secure
+    }
   }
 }
 
@@ -99,7 +104,7 @@ export function ipWhitelistMiddleware(whitelist: GitHubIPWhitelist) {
  * Best Practice 2025: Process webhooks asynchronously to meet 30-second timeout
  */
 export class WebhookQueue {
-  private queue: Queue;
+  private queue: Queue.Queue;
   
   constructor(redisUrl?: string) {
     this.queue = new Queue('webhook-processing', redisUrl || 'redis://127.0.0.1:6379', {
@@ -215,6 +220,10 @@ export class ReplayProtection {
     this.processedDeliveries.add(deliveryId);
     this.deliveryTimestamps.set(deliveryId, Date.now());
     return false;
+  }
+  
+  cleanExpired(): void {
+    this.cleanup();
   }
   
   private cleanup(): void {

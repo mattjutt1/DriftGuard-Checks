@@ -1,0 +1,158 @@
+# GitHub App Manifest for DriftGuard
+# This file defines the GitHub App configuration for marketplace submission
+# Reference: https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app-from-a-manifest
+
+name: "DriftGuard"
+description: "Enterprise-grade automated pull request checks and intelligent code analysis for teams that ship fast and secure."
+
+# App URLs
+url: "https://github.com/mattjutt1/DriftGuard-Checks"
+hook_attributes:
+  url: "https://your-domain.com/webhooks/github"
+  active: true
+
+# Redirect URL for OAuth (if needed)
+redirect_url: "https://your-domain.com/auth/callback"
+
+# App visibility
+public: true
+
+# Default permissions for all installations
+default_permissions:
+  # Required for creating and updating check runs
+  checks: "write"
+  
+  # Required for reading PR information
+  pull_requests: "read"
+  
+  # Required for accessing repository content
+  contents: "read"
+  
+  # Required for basic repository metadata
+  metadata: "read"
+
+# Default events the app subscribes to
+default_events:
+  - "pull_request"
+  - "check_run"
+  - "check_suite"
+
+# Installation settings
+request_oauth_on_install: false
+
+# App configuration
+setup_on_update: true
+
+# GitHub App specific settings
+github_app:
+  # App identification
+  identifier: "driftguard"
+  
+  # Configuration
+  setup_url: "https://your-domain.com/setup"
+  
+  # Webhook configuration
+  webhook_secret: "generated-during-installation"
+  
+  # Installation target
+  installations:
+    type: "selected"  # Can be "all" or "selected"
+    
+# Permissions explained
+permissions_explanation:
+  checks: "Create and update check runs to provide analysis feedback"
+  pull_requests: "Read pull request information for analysis context"
+  contents: "Access repository files for code analysis"
+  metadata: "Read basic repository information"
+
+# Events explained
+events_explanation:
+  pull_request: "Trigger analysis when PRs are opened, updated, or synchronized"
+  check_run: "Handle check run lifecycle events"
+  check_suite: "Coordinate with other checks in the suite"
+
+# Features provided by this app
+features:
+  - name: "Automated Analysis"
+    description: "Intelligent analysis of pull requests with customizable quality gates"
+    
+  - name: "Security Scanning"
+    description: "Built-in security scanning with enterprise compliance standards"
+    
+  - name: "Performance Monitoring"
+    description: "Real-time performance metrics and bottleneck detection"
+    
+  - name: "Quality Gates"
+    description: "Configurable quality gates that integrate with your CI/CD pipeline"
+    
+  - name: "Audit Trails"
+    description: "Comprehensive logging and audit trails for compliance requirements"
+    
+  - name: "Native Integration"
+    description: "Seamless integration with GitHub's check run system"
+
+# Installation requirements
+requirements:
+  minimum_permissions:
+    - "checks:write"
+    - "pull_requests:read"
+    - "contents:read"
+    - "metadata:read"
+  
+  webhook_events:
+    - "pull_request"
+    - "check_run"
+    - "check_suite"
+  
+  hosting_requirements:
+    - "Public HTTPS endpoint for webhooks"
+    - "Node.js 18+ runtime environment"
+    - "Persistent storage for configuration"
+
+# Compliance and security
+security:
+  webhook_signature_verification: true
+  token_permissions: "minimal"
+  data_retention: "30_days"
+  encryption: "tls_1_2_minimum"
+  
+compliance:
+  gdpr_compliant: true
+  soc2_ready: true
+  audit_logging: true
+  data_minimization: true
+
+# Support information
+support:
+  documentation: "https://github.com/mattjutt1/DriftGuard-Checks#readme"
+  issues: "https://github.com/mattjutt1/DriftGuard-Checks/issues"
+  discussions: "https://github.com/mattjutt1/DriftGuard-Checks/discussions"
+  security: "security@driftguard.dev"
+  
+# Marketplace specific
+marketplace:
+  category: "Code Quality"
+  subcategories:
+    - "Continuous Integration"
+    - "Security"
+    - "Monitoring"
+  
+  pricing_model: "free"
+  target_audience: "enterprise"
+  
+  keywords:
+    - "pull-request-analysis"
+    - "code-quality"
+    - "security-scanning"
+    - "ci-cd-integration"
+    - "enterprise-compliance"
+
+# Version and release information
+version: "1.0.0"
+release_date: "2024-01-15"
+changelog_url: "https://github.com/mattjutt1/DriftGuard-Checks/releases"
+
+# Legal
+license: "MIT"
+privacy_policy_url: "https://github.com/mattjutt1/DriftGuard-Checks/blob/main/PRIVACY.md"
+terms_of_service_url: "https://github.com/mattjutt1/DriftGuard-Checks/blob/main/TERMS.md"
